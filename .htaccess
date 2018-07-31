@@ -1,4 +1,4 @@
-Options -Indexes
+Options +FollowSymLinks -Indexes
 <IfModule php5_module>
    php_value date.timezone "Asia/Jakarta"
 </IfModule>
