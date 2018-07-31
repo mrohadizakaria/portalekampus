@@ -1,7 +1,4 @@
 Options +FollowSymLinks -Indexes
-<IfModule php5_module>
-   php_value date.timezone "Asia/Jakarta"
-</IfModule>
 # Prevent direct access to certain files
 <FilesMatch ^(composer\.(json|lock)$)$>
     Deny from all
