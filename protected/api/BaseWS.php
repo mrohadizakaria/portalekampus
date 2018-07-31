@@ -40,13 +40,61 @@ class BaseWS extends TJsonResponse {
 	*/
 	protected $DB;
 	/**
+	* Object Variable "Tanggal"	
+	*/
+	public $TGL;	      
+    /**
+	* Object Variable "User"	
+	*/
+	public $Pengguna;  
+    /**
+	* Object Variable "Logic_DMaster"	
+	*/
+	public $DMaster;          
+    /**
+	* Object Variable "Logic_AkaDemik"	
+	*/
+	public $Demik; 
+    /**
+	* Object Variable "Logic_KRS"	
+	*/
+	public $KRS; 
+    /**
+	* Object Variable "Logic_Kuesioner"	
+	*/
+	public $Kuesioner;
+    /**
+	* Object Variable "Logic_Nilai"	
+	*/
+	public $Nilai; 
+    /**
+	* Object Variable "Logic_Finance"	
+	*/
+	public $Finance;
+    /**
+	* Object Variable "Logic_Forum"	
+	*/
+	public $Forum;
+    /**
+	* Object Variable "Logic_Log"	
+	*/
+	public $Log;	
+	/**
+     * daftar semester
+     * @var array
+     */
+    protected $semester = array('none'=>' ',1=>'GANJIL',2=>'GENAP',3=>'PENDEK');
+	/**
 	* Object Payload JSON
 	*/
 	protected $payload = array('connection'=>-1,'message'=>'INVALID REQUEST');
 	public function init($config) {
 		parent::init($config);
 		//open connection to database	
-		$this->linkOpen();			}
+		$this->linkOpen();	
+		//declaring User
+		$this->createObj('Pengguna');
+	}
 	/**
 	* digunakan untuk membuka koneksi ke server, dan memilih database
 	*
@@ -92,10 +140,46 @@ class BaseWS extends TJsonResponse {
 		$this->DbPort=$db['db_port'];			
 	}
 	/**
+     * digunakan untuk membuat berbagai macam object
+     */
+    public function createObj ($nama_object) {
+        switch (strtolower($nama_object)) {
+            case 'dmaster' :
+            	prado::using('Application.logic.Logic_DMaster');
+                $this->DMaster = new Logic_DMaster($this->DB);
+            break;                        
+            case 'akademik' :
+            	prado::using('Application.logic.Logic_Akademik');
+                $this->Demik = new Logic_Akademik($this->DB);
+            break;    
+            case 'krs' :
+            	prado::using('Application.logic.Logic_KRS');
+                $this->KRS = new Logic_KRS($this->DB);
+            break;                        
+            case 'kuesioner' :
+            	prado::using('Application.logic.Logic_Kuesioner');
+                $this->Kuesioner = new Logic_Kuesioner($this->DB);
+            break;
+            case 'nilai' :
+            	prado::using('Application.logic.Logic_Nilai');
+                $this->Nilai = new Logic_Nilai($this->DB);
+            break;                        
+            case 'finance' :
+				prado::using('Application.logic.Logic_Finance');
+                $this->Finance = new Logic_Finance($this->DB);
+            break;  
+            case 'pengguna' :
+				prado::using('Application.logic.Logic_Users');
+                $this->Pengguna = new Logic_Users($this->DB);
+            break;
+        }
+    }  
+	/**
 	* digunakan	untuk memvalidasi request api
 	*/
 	public function validate () {
 		$headers = getallheaders();
+		$data=array();
 		if (isset($headers['Username']) && isset($headers['Token'])) {
 			$username = addslashes($headers['Username']);
 			$token = addslashes($headers['Token']);			
@@ -120,15 +204,32 @@ class BaseWS extends TJsonResponse {
 					}
 				}
 				$this->payload['connection'] = $bool;
-				$this->payload['message'] = $bool > 0 ?"Username ($username) dan Token ($token) Valid !!!" : "Akses dari Alamat IP ($alamat_ip) tidak di ijinkan";					
+				if ($bool) {
+					$this->payload['message']="Username ($username) dan Token ($token) Valid !!!";
+				}else{
+					throw new Exception ("Akses dari Alamat IP ($alamat_ip) tidak di ijinkan");						
+				}
+				
 				
 			}else{
-				$this->payload['message'] = "Tidak bisa mengeksekusi perintah, karena Username ($username) atau Token ($token) Salah !!!";
+				throw new Exception ("Tidak bisa mengeksekusi perintah, karena Username ($username) atau Token ($token) Salah !!!");
 			}			
 		}else{
-			$this->payload['message'] = "Username atau Token tidak tersedia di header HTTP !!!";
+			throw new Exception ("Username atau Token tidak tersedia di header HTTP !!!");			
 		}
+		$this->Pengguna->setDataUser($data);
 	}	
+	/**
+     * digunakan untuk inputkan aktivitas user ke tabel log
+     * @param type $page
+     * @param type $activity
+     */
+    public function insertNewActivity ($page,$activity) {
+        $userid=$this->getUserid ();
+        $username=$this->getUsername ();
+        $str = "INSERT INTO log_aktivitas_user SET userid=$userid,username='$username',halaman='$page',aktivitas='$activity',date_activity=NOW()";
+        $this->db->insertRecord($str);        
+    } 
 	/**
 	* generate json content	
 	*/

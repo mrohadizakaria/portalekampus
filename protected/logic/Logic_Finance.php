@@ -101,6 +101,13 @@ class Logic_Finance extends Logic_Mahasiswa {
         
 		return $r[1]['jumlah'];
 	}
+	/**
+	* digunakan untuk memperoleh jumlah tagihan berdasarkan no_transaksi
+	* @return jumlah pembayaran per no_transaksi
+	*/
+	public function getTotalTagihanByNoTransaksi ($no_transaksi) {
+		return $this->db->getSumRowsOfTable('dibayarkan',"transaksi_detail WHERE no_transaksi='$no_transaksi'");
+	}
     /**
      * digunakan untuk mendapatkan total pembayaran yang telah dilakukan oleh mahasiswa     
      * @return jumlah pembayaran mahasiswa

@@ -31,6 +31,12 @@ class Logic_Users extends Logic_Global {
 		}				
 	}
 	/**
+	* set data user from custom source
+	*/
+	public function setDataUser ($datauser=array()) {
+		$this->DataUser = $datauser;
+	}
+	/**
 	* digunakan untuk membuat hash password
 	* @return array
 	*/
@@ -117,4 +123,17 @@ class Logic_Users extends Logic_Global {
 			exit();
 		}
 	}
+	/**
+     * digunakan untuk inputkan aktivitas user ke tabel log
+     * @param type $page
+     * @param type $activity
+     */
+    public function insertNewActivity ($page,$activity) {
+    	$userid=$this->getUserid ();
+    	if ($userid > 0) {    		
+		    $username=$this->getUsername ();
+		    $str = "INSERT INTO log_aktivitas_user SET userid=$userid,username='$username',halaman='$page',aktivitas='$activity',date_activity=NOW()";
+		    $this->db->insertRecord($str);        
+    	}
+    } 
 }
