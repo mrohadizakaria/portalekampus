@@ -144,7 +144,7 @@ class CDetailPembayaranCutiSemesterGanjil Extends MainPageK {
                 $tasmt=$ta.$idsmt;
                 
                 $str = "SELECT tanggal FROM transaksi_cuti WHERE no_transaksi=$no_transaksi";
-                $this->DB->setFieldTable(array('no_transaksi','no_faktur','tanggal','date_added','dibayarkan','commited'));
+                $this->DB->setFieldTable(array('tanggal'));
                 $result=$this->DB->getRecord($str);	
                 $tanggal=$result[1]['tanggal'];
                 

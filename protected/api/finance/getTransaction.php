@@ -60,7 +60,7 @@ class getTransaction extends BaseWS {
 					}		
 				break;
 				default :
-					throw new Exception ("Proses Login telah berhasil, namun ada error yaitu tipe_transaksi tidak dikenal. hanya tersedia opsi (biasa | cuti) !!!");
+					throw new Exception ("Proses Login telah berhasil, namun ada error yaitu tipe_transaksi tidak dikenal. hanya tersedia opsi (common | cuti) !!!");
 			}
 		}catch (Exception $e) {
 			$this->payload['message'] = $e->getMessage();

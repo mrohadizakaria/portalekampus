@@ -1,6 +1,6 @@
 <?php
 prado::using('Application.api.BaseWS');
-class getTransaction extends BaseWS {	
+class commitTransaction extends BaseWS {	
 	public function getJsonContent() {		
 		try {
 			$this->validate ();
@@ -8,31 +8,101 @@ class getTransaction extends BaseWS {
 			if (!isset($data['no_transaksi']) && !isset($data['tipe_transaksi'])) {
 				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data POST no_transaksi atau POST tipe_transaksi tidak ada !!!");
 			}
-
 			$no_transaksi=addslashes($data['no_transaksi']);
-			$str = "SELECT t.no_transaksi,t.kjur,t.no_formulir,fp.nama_mhs,t.nim,t.tahun,t.idsmt,t.commited FROM transaksi t LEFT JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) WHERE t.no_transaksi='$no_transaksi'";
-			$this->DB->setFieldTable(array('no_transaksi','kjur','no_formulir','nama_mhs','nim','tahun','idsmt','commited'));		
-			$r=$this->DB->getRecord($str);
-			if (!isset($r[1])) {
-				throw new Exception ("Proses Login telah berhasil, namun transaksi dengan nomor ($no_transaksi) tidak ada di database !!!");				
-			}
-			
-			$result=$r[1];
-			if ($result['commited']) {
-				$this->payload['message']="Proses Login telah berhasil, namun data transaksi dengan nomor ($no_transaksi) telah Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)";
-			}
+			switch (addslashes($data['tipe_transaksi'])) {
+				case 'common':
+					$str = "SELECT t.no_transaksi,t.kjur,t.no_formulir,fp.nama_mhs,t.nim,t.tahun,t.idsmt,t.idkelas,rm.k_status,rm.perpanjang,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.commited FROM transaksi t LEFT JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN register_mahasiswa rm ON (t.no_formulir=rm.no_formulir) WHERE t.no_transaksi='$no_transaksi'";
+					$this->DB->setFieldTable(array('no_transaksi','kjur','no_formulir','nama_mhs','nim','tahun','idsmt','idkelas','k_status','perpanjang','commited','tahun_masuk','semester_masuk'));		
+					$r=$this->DB->getRecord($str);
+					if (!isset($r[1])) {
+						throw new Exception ("Proses Login telah berhasil, namun transaksi dengan nomor ($no_transaksi) tidak ada di database !!!");				
+					}
 
-			$this->DB->query('BEGIN');
-			$this->DB->updateRecord("UPDATE transaksi SET commited=1,date_modified=NOW() WHERE no_transaksi='$no_transaksi'");
-			if ($result['nama_mhs'] == '' && $result['nim'] == '' && || $result['kjur'] == 0) {
-				$this->DB->query('COMMIT'); //biaya pendaftaran
-			}elseif ($result['nim'] == '') { 
-				$this->DB->query('COMMIT'); //pembayaran mahasiswa baru
-			}else{
+					$result=$r[1];
+					if ($result['commited']) {
+						throw new Exception ("Proses Login telah berhasil, namun data transaksi dengan nomor ($no_transaksi) telah di Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)");
+					}
 
+					$this->DB->query('BEGIN');
+					$this->DB->updateRecord("UPDATE transaksi SET commited=1,date_modified=NOW() WHERE no_transaksi='$no_transaksi'");
+					if ($result['nama_mhs'] == '' && $result['nim'] == '' && $result['kjur'] == 0) {
+						$this->DB->query('COMMIT'); //biaya pendaftaran
+					}elseif ($result['nim'] == '') { 
+						$this->DB->query('COMMIT'); //pembayaran mahasiswa baru
+					}else{
+						$this->createObj('Finance');
+						$no_formulir=$result['no_formulir'];
+						$nim=$result['nim'];
+						$kjur=$result['kjur'];
+						$ta=$result['tahun'];
+						$idsmt=$result['idsmt'];
+						$tahun_masuk=$result['tahun_masuk'];
+						$semester_masuk=$result['semester_masuk'];
+						$idkelas=$result['idkelas'];
+						$k_status=$result['k_status'];
+						$datamhs=array('no_formulir'=>$no_formulir,'nim'=>$nim,'kjur'=>$kjur,'tahun_masuk'=>$result['tahun_masuk'],'semester_masuk'=>$semester_masuk,'idkelas'=>$idkelas,'ta'=>$ta,'idsmt'=>$idsmt,'k_status'=>$k_status,'perpanjang'=>$result['perpanjang']);
+						$this->Finance->setDataMHS($datamhs);
+						$datadulang=$this->Finance->getDataDulang($ta,$idsmt);
+			            if (!isset($datadulang['iddulang'])) {	                
+			                $bool=$this->Finance->getTresholdPembayaran($ta,$idsmt);						                                
+			                if ($bool) {
+			                    $tasmt=$ta.$idsmt;	                    
+			                    $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$idsmt','$tasmt',NOW(),'$idkelas','$k_status','A')";
+			                    $this->DB->insertRecord($str);
+			                    
+			                    $str = "UPDATE register_mahasiswa SET k_status='A' WHERE nim='$nim'";
+			                    $this->DB->updateRecord($str);
+			                }
+			                               
+			            }
+			            $this->DB->query('COMMIT'); 
+					}
+					$this->payload['message']="Proses Login telah berhasil, data transaksi dengan nomor ($no_transaksi) berhasil di Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)";		
+				break;
+				case 'cuti' :
+					$str = "SELECT t.no_transaksi,rm.kjur,rm.no_formulir,fp.nama_mhs,t.nim,t.tahun,t.idsmt,rm.idkelas,rm.k_status,rm.perpanjang,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.commited FROM transaksi_cuti t LEFT JOIN register_mahasiswa rm ON (t.nim=rm.nim) LEFT JOIN formulir_pendaftaran fp ON (fp.no_formulir=rm.no_formulir) WHERE t.no_transaksi='$no_transaksi'";
+					$this->DB->setFieldTable(array('no_transaksi','kjur','no_formulir','nama_mhs','nim','tahun','idsmt','idkelas','k_status','perpanjang','commited','tahun_masuk','semester_masuk'));		
+					$r=$this->DB->getRecord($str);
+					if (!isset($r[1])) {
+						throw new Exception ("Proses Login telah berhasil, namun transaksi dengan nomor ($no_transaksi) tidak ada di database !!!");				
+					}
+
+					$result=$r[1];
+					if ($result['commited']) {
+						throw new Exception ("Proses Login telah berhasil, namun data transaksi dengan nomor ($no_transaksi) telah di Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)");
+					}
+
+					$this->DB->query('BEGIN');
+		            $str = "UPDATE transaksi_cuti SET commited=1,date_modified=NOW() WHERE no_transaksi=$no_transaksi";
+		            $this->DB->updateRecord($str);
+
+		            $this->createObj('Finance');
+		            $no_formulir=$result['no_formulir'];
+					$nim=$result['nim'];
+					$kjur=$result['kjur'];
+					$ta=$result['tahun'];
+					$idsmt=$result['idsmt'];
+					$tahun_masuk=$result['tahun_masuk'];
+					$semester_masuk=$result['semester_masuk'];
+					$idkelas=$result['idkelas'];
+					$k_status=$result['k_status'];
+					$datamhs=array('no_formulir'=>$no_formulir,'nim'=>$nim,'kjur'=>$kjur,'tahun_masuk'=>$result['tahun_masuk'],'semester_masuk'=>$semester_masuk,'idkelas'=>$idkelas,'ta'=>$ta,'idsmt'=>$idsmt,'k_status'=>$k_status,'perpanjang'=>$result['perpanjang']);
+					$this->Finance->setDataMHS($datamhs);
+		            $datadulang=$this->Finance->getDataDulang($datamhs['ta'],$datamhs['idsmt']);		            
+		            if (!isset($datadulang['iddulang'])) {		                
+		                $tasmt=$ta.$idsmt;		                
+		                $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$idsmt','$tasmt','NOW()','$idkelas','$k_status','C')";
+		                $this->DB->insertRecord($str);
+
+		                $str = "UPDATE register_mahasiswa SET k_status='C' WHERE nim='$nim'";
+		                $this->DB->updateRecord($str);
+		            }
+		            $this->DB->query('COMMIT');
+
+				break;
+				default :
+					throw new Exception ("Proses Login telah berhasil, namun ada error yaitu tipe_transaksi tidak dikenal. hanya tersedia opsi (common | cuti) !!!");
 			}
-			$this->payload['message']="Proses Login telah berhasil, data transaksi dengan nomor ($no_transaksi) berhasil di Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)";
-		
 		}catch (Exception $e) {
 			$this->payload['message'] = $e->getMessage();
 		}	
