@@ -31,7 +31,15 @@ class CPembayaranSemesterGanjil Extends MainPageK {
             
             $this->txtNIM->Enabled=$bool;
             $this->btnGo->Enabled=$bool;
-            $this->linkDetailPembayaran->Visible=!$bool;
+            if ($bool){
+                $this->linkDetailPembayaran->Visible=false;
+                $this->linkDetailPembayaran->NavigateUrl='#';                
+            } else {
+                $this->txtNIM->Visible=false;
+                $this->btnGo->Visible=false;
+                $this->linkDetailPembayaran->Visible=true;
+                $this->linkDetailPembayaran->NavigateUrl=$this->constructUrl('pembayaran.DetailPembayaranSemesterGanjil',true,array('id'=>$_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS']['nim']));
+            }        
             $this->populateData();
             $this->setInfoToolbar();
 		}	

@@ -28,11 +28,16 @@ class CPembayaranSemesterGenap Extends MainPageK {
             $kelas['none']='All';
 			$this->tbCmbKelas->DataSource=$kelas;
 			$this->tbCmbKelas->Text=$_SESSION['currentPagePembayaranSemesterGenap']['kelas'];			
-			$this->tbCmbKelas->dataBind();	
-            
-            $this->linkDetailPembayaran->Visible=!$bool;
-            $this->txtNIM->Enabled=$bool;
-            $this->btnGo->Enabled=$bool;
+			$this->tbCmbKelas->dataBind();	            
+            if ($bool){
+                $this->linkDetailPembayaran->Visible=false;
+                $this->linkDetailPembayaran->NavigateUrl='#';  
+            } else {                
+                $this->txtNIM->Visible=false;
+                $this->btnGo->Visible=false;
+                $this->linkDetailPembayaran->Visible=true;
+                $this->linkDetailPembayaran->NavigateUrl=$this->constructUrl('pembayaran.currentPagePembayaranSemesterGenap',true,array('id'=>$_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']['nim']));
+            }                
             $this->populateData();
             $this->setInfoToolbar();
 		}	
