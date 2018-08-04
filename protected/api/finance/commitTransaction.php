@@ -12,6 +12,7 @@ class commitTransaction extends BaseWS {
 				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data no_transaksi kosong !!!");
 			}
 			$no_transaksi=addslashes($data['no_transaksi']);
+			$userid=$this->DB->getDataUser('userid');
 			$tipe_transaksi=substr($no_transaksi, 0,2);
 			switch ($tipe_transaksi) {
 				case 10: //bayar biasa
@@ -26,12 +27,17 @@ class commitTransaction extends BaseWS {
 					if ($result['commited']) {
 						throw new Exception ("Proses Login telah berhasil, namun data transaksi dengan nomor ($no_transaksi) telah di Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)");
 					}
-
+					$this->createObj('Finance');
+					$total_tagihan=$this->Finance->getTotalTagihanByNoTransaksi($no_transaksi);
 					$this->DB->query('BEGIN');
 					$this->DB->updateRecord("UPDATE transaksi SET commited=1,date_modified=NOW() WHERE no_transaksi='$no_transaksi'");
 					if ($result['nama_mhs'] == '' && $result['nim'] == '' && $result['kjur'] == 0) {
+						$str = "INSERT INTO transaksi_api (no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,commited,tanggal,userid,total,date_added,date_modified) SELECT no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,commited,tanggal,$userid,$total_tagihan,NOW(),NOW() FROM transaksi WHERE no_transaksi='$no_transaksi'";
+						$this->DB->insertRecord($str);
 						$this->DB->query('COMMIT'); //biaya pendaftaran
 					}elseif ($result['nim'] == '') { 
+						$str = "INSERT INTO transaksi_api (no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,commited,tanggal,userid,total,date_added,date_modified) SELECT no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,commited,tanggal,$userid,$total_tagihan,NOW(),NOW() FROM transaksi WHERE no_transaksi='$no_transaksi'";
+						$this->DB->insertRecord($str);
 						$this->DB->query('COMMIT'); //pembayaran mahasiswa baru
 					}else{
 						$this->createObj('Finance');
@@ -59,6 +65,9 @@ class commitTransaction extends BaseWS {
 			                }
 			                               
 			            }
+			            $str = "INSERT INTO transaksi_api (no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,commited,tanggal,userid,total,date_added,date_modified) SELECT no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,commited,tanggal,$userid,$total_tagihan,NOW(),NOW() FROM transaksi WHERE no_transaksi='$no_transaksi'";
+						$this->DB->insertRecord($str);
+
 			            $this->DB->query('COMMIT'); 
 					}
 					$this->payload['message']="Proses Login telah berhasil, data transaksi dengan nomor ($no_transaksi) berhasil di Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)";		
@@ -101,6 +110,8 @@ class commitTransaction extends BaseWS {
 		                $str = "UPDATE register_mahasiswa SET k_status='C' WHERE nim='$nim'";
 		                $this->DB->updateRecord($str);
 		            }
+		            $str = "INSERT INTO transaksi_api (no_transaksi,no_faktur,tahun,idsmt,nim,commited,tanggal,userid,total,date_added,date_modified) SELECT no_transaksi,no_faktur,tahun,idsmt,nim,commited,tanggal,$userid,dibayarkan,date_added,date_modified FROM transaksi_cuti WHERE no_transaksi='$no_transaksi'";
+					$this->DB->insertRecord($str);	
 		            $this->DB->query('COMMIT');
 
 				break;

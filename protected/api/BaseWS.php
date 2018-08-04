@@ -218,18 +218,7 @@ class BaseWS extends TJsonResponse {
 			throw new Exception ("Username atau Token tidak tersedia di header HTTP !!!");			
 		}
 		$this->Pengguna->setDataUser($data);
-	}	
-	/**
-     * digunakan untuk inputkan aktivitas user ke tabel log
-     * @param type $page
-     * @param type $activity
-     */
-    public function insertNewActivity ($page,$activity) {
-        $userid=$this->getUserid ();
-        $username=$this->getUsername ();
-        $str = "INSERT INTO log_aktivitas_user SET userid=$userid,username='$username',halaman='$page',aktivitas='$activity',date_activity=NOW()";
-        $this->db->insertRecord($str);        
-    } 
+	}
 	/**
 	* generate json content	
 	*/

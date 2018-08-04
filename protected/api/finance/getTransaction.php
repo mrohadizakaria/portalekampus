@@ -70,6 +70,7 @@ class getTransaction extends BaseWS {
 		}catch (Exception $e) {
 			$this->payload['message'] = $e->getMessage();
 		}
+		$this->Pengguna->insertNewActivity ('json=get_transaction',"melakukan request api terhadap method get_transaction, outputnya: ".$this->payload['message']);
 		return $this->payload;
 	
 	}
