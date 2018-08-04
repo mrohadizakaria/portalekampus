@@ -1601,6 +1601,27 @@ CREATE TABLE `transaksi` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Table structure for table `transaksi_api`
+--
+
+CREATE TABLE `transaksi_api` (
+  `no_transaksi` bigint(20) NOT NULL,
+  `no_faktur` char(15) NOT NULL,
+  `kjur` tinyint(4) NOT NULL,
+  `tahun` year(4) NOT NULL,
+  `idsmt` tinyint(4) NOT NULL,
+  `idkelas` char(1) NOT NULL,
+  `no_formulir` int(11) NOT NULL,
+  `nim` char(20) NOT NULL,
+  `commited` tinyint(1) NOT NULL DEFAULT '0',
+  `tanggal` date NOT NULL,
+  `userid` smallint(6) NOT NULL,
+  `total` bigint(20) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- --------------------------------------------------------
 
 --
@@ -3257,6 +3278,28 @@ ALTER TABLE `tempat_spmb`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
+  MODIFY `no_transaksi` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `transaksi_api`
+--
+ALTER TABLE `transaksi_api`
+  ADD PRIMARY KEY (`no_transaksi`),
+  ADD UNIQUE KEY `no_faktur` (`no_faktur`),
+  ADD KEY `no_formulir` (`no_formulir`),
+  ADD KEY `nim` (`nim`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `transaksi_api`
+--
+ALTER TABLE `transaksi_api`
   MODIFY `no_transaksi` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
