@@ -64,8 +64,10 @@ class CDetailPembayaranCutiSemesterGanjil Extends MainPageK {
             
 		}	
 	}
-    public function getDataMHS($idx) {		        
-        return $this->Finance->getDataMHS($idx);
+    public function getDataMHS($idx) {              
+        if (isset($_SESSION['currentPagePembayaranCutiSemesterGanjil']['DataMHS']['nim'])) {
+            return $_SESSION['currentPagePembayaranCutiSemesterGanjil']['DataMHS'][$idx];
+        }        
     }
     public function populateTransaksi() {
         $datamhs=$_SESSION['currentPagePembayaranCutiSemesterGanjil']['DataMHS'];
@@ -113,13 +115,14 @@ class CDetailPembayaranCutiSemesterGanjil Extends MainPageK {
             $tahun=$datamhs['ta'];
             $nim=$datamhs['nim'];
             
+            $no_transaksi='11'.$tahun.mt_rand(100000,999999);            
             $no_faktur=addslashes($this->txtAddNomorFaktur->Text);            
             $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
             
             $this->Finance->setDataMHS($datamhs);
             $dibayarkan=$this->Finance->getBiayaCuti($datamhs['tahun_masuk'],$datamhs['semester_masuk'],$datamhs['idkelas']);
-                
-            $str = "INSERT INTO transaksi_cuti SET no_faktur='$no_faktur',tahun=$tahun,idsmt=1,nim='$nim',dibayarkan=$dibayarkan,tanggal='$tanggal',date_added=NOW(),date_modified=NOW(),userid=$userid";
+            
+            $str = "INSERT INTO transaksi_cuti SET no_transaksi='$no_transaksi',no_faktur='$no_faktur',tahun=$tahun,idsmt=1,nim='$nim',dibayarkan=$dibayarkan,tanggal='$tanggal',date_added=NOW(),date_modified=NOW(),userid=$userid";
             $this->DB->insertRecord($str);
             
             $this->redirect('pembayaran.DetailPembayaranCutiSemesterGanjil',true,array('id'=>$nim));

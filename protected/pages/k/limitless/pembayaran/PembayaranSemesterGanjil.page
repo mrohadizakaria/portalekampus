@@ -3,12 +3,12 @@
     <i class="icon-calculator3 position-left"></i> <span class="text-semibold">Pembayaran Semester Ganjil</span>
 </com:TContent>
 <com:TContent ID="moduleheaderelement"> 
-    <div class="heading-elements">        
-        <com:THyperLink ID="linkDetailPembayaran" Attributes.Title="Detail Pembayaran" Text="Detail Pembayaran" />
+    <div class="heading-elements">                
         <div class="heading-form">
-            <div class="form-group">
+            <div class="form-group text-right">
+                <com:THyperLink ID="linkDetailPembayaran" Attributes.Title="Detail Pembayaran" Text="Detail Pembayaran" />
                 <div class="input-group">                    
-                    <com:TTextBox CssClass="form-control" ID="txtNIM" MaxLength="8" Attributes.PlaceHolder="NIM" />                    
+                    <com:TTextBox CssClass="form-control" ID="txtNIM" Attributes.PlaceHolder="NIM" />                    
                     <div class="input-group-btn">                        
                         <com:TActiveCustomButton ID="btnGo" CssClass="btn bg-slate btn-icon" OnClick="Go" Attributes.Title="Go" ValidationGroup="filterForm" >
                             <prop:Text>                                        
@@ -115,7 +115,7 @@
                             <thead>
                                 <tr class="bg-teal-700">
                                     <th scope="col">NO</th>							
-                                    <th scope="col">FAKTUR</th>
+                                    <th scope="col">NO. TRANS</th>
                                     <th scope="col">TANGGAL</th>
                                     <th scope="col">NIM</th>                                    
                                     <th scope="col">NAMA MAHASISWA</th>																												
@@ -129,7 +129,7 @@
                     <prop:ItemTemplate>
                         <tr>
                             <td><%#$this->DataItem['no']%></td>					
-                            <td><%#$this->DataItem['no_faktur']%></td>
+                            <td><%#$this->DataItem['no_transaksi']%></td>
                             <td><%#$this->DataItem['tanggal']%></td>
                             <td><%# $this->Data['nim']%></td>																	                            												
                             <td><%#$this->DataItem['nama_mhs']%></td>					

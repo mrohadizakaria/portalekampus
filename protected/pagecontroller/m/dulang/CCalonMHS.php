@@ -72,7 +72,7 @@ class CCalonMHS Extends MainPageM {
         $tahun_masuk=$_SESSION['tahun_masuk'];
         $semester_masuk=$_SESSION['currentPageCalonMHS']['semester_masuk'];
         if ($search) {
-            $str = "SELECT DISTINCT(fp.no_formulir),fp.nama_mhs,fp.jk,t.idkelas,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.kjur FROM transaksi t JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=t.no_formulir) WHERE t.kjur=$kjur AND fp.ta=$tahun_masuk AND fp.idsmt=$semester_masuk AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk AND rm.no_formulir IS NULL";
+            $str = "SELECT DISTINCT(fp.no_formulir),fp.nama_mhs,fp.jk,t.idkelas,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.kjur,rm.perpanjang FROM transaksi t JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=t.no_formulir) WHERE t.kjur=$kjur AND fp.ta=$tahun_masuk AND fp.idsmt=$semester_masuk AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk AND rm.no_formulir IS NULL";
             $txtsearch=addslashes($this->txtKriteria->Text);
             switch ($this->cmbKriteria->Text) {                
                 case 'no_formulir' :
@@ -87,7 +87,7 @@ class CCalonMHS Extends MainPageM {
                 break;
             }
         }else{            
-            $str = "SELECT DISTINCT(fp.no_formulir),fp.nama_mhs,fp.jk,t.idkelas,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.kjur FROM transaksi t JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=t.no_formulir) WHERE t.kjur=$kjur AND fp.ta=$tahun_masuk AND fp.idsmt=$semester_masuk AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk AND rm.no_formulir IS NULL";
+            $str = "SELECT DISTINCT(fp.no_formulir),fp.nama_mhs,fp.jk,t.idkelas,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.kjur,rm.perpanjang FROM transaksi t JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=t.no_formulir) WHERE t.kjur=$kjur AND fp.ta=$tahun_masuk AND fp.idsmt=$semester_masuk AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk AND rm.no_formulir IS NULL";
             $jumlah_baris=$this->DB->getCountRowsOfTable ("transaksi t JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=t.no_formulir) WHERE t.kjur=$kjur AND fp.ta=$tahun_masuk AND fp.idsmt=$semester_masuk AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk AND rm.no_formulir IS NULL",'DISTINCT(fp.no_formulir)');
         }
 		
@@ -100,7 +100,7 @@ class CCalonMHS Extends MainPageM {
 		}
 		if ($limit < 0) {$offset=0;$limit=10;$_SESSION['currentPageCalonMHS']['page_num']=0;}
 		$str = "$str ORDER BY t.idkelas ASC,fp.nama_mhs ASC LIMIT $offset,$limit";				        
-		$this->DB->setFieldTable(array('no_formulir','nama_mhs','jk','idkelas','tahun_masuk','semester_masuk','kjur'));
+		$this->DB->setFieldTable(array('no_formulir','nama_mhs','jk','idkelas','tahun_masuk','semester_masuk','kjur','perpanjang'));
 		$r=$this->DB->getRecord($str,$offset+1);
         $result=array();
         while (list($k,$v)=each($r)) {            
@@ -117,70 +117,51 @@ class CCalonMHS Extends MainPageM {
                 
         $this->paginationInfo->Text=$this->getInfoPaging($this->RepeaterS);
 	}
-	public function cekNomorFormulir ($sender,$param) {		
-        $no_formulir=addslashes($param->Value);		
-        if ($no_formulir != '') {
-            try {
-                if (!isset($_SESSION['currentPageCalonMHS']['DataMHS']['no_formulir'])) {
-                    $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.tempat_lahir,fp.tanggal_lahir,fp.jk,fp.alamat_rumah,fp.telp_rumah,fp.telp_kantor,fp.telp_hp,pm.email,fp.kjur1,fp.kjur2,idkelas,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk FROM formulir_pendaftaran fp,profiles_mahasiswa pm WHERE fp.no_formulir=pm.no_formulir AND fp.no_formulir='$no_formulir'";
-                    $this->DB->setFieldTable(array('no_formulir','nama_mhs','tempat_lahir','tanggal_lahir','jk','alamat_rumah','telp_rumah','telp_kantor','telp_hp','email','kjur1','kjur2','idkelas','tahun_masuk','semester_masuk'));
-                    $r=$this->DB->getRecord($str);
-                    if (!isset($r[1])) {                                
-                        throw new Exception ("Calon Mahasiswa dengan Nomor Formulir ($no_formulir) tidak terdaftar di Database, silahkan ganti dengan yang lain.");		
-                    }
-                    $datamhs=$r[1];     
-                    $this->Finance->setDataMHS($datamhs);
-                    if (!$spmb=$this->Finance->isLulusSPMB(true)) {
-                        throw new Exception ("Calon Mahasiswa dengan Nomor Formulir ($no_formulir) tidak lulus dalam SPMB.");		
-                    }       
-                    $datamhs['nama_ps1']=$_SESSION['daftar_jurusan'][$datamhs['kjur1']];
-                    $datamhs['nama_ps2']=$datamhs['kjur2'] == '' ?'N.A' : $_SESSION['daftar_jurusan'][$datamhs['kjur2']];
-                    if ($spmb['kjur']==$datamhs['kjur1']) {
-                        $datamhs['diterima_ps1']='<span class="label label-info">DITERIMA</span>';
-                    }else{
-                        $datamhs['diterima_ps2']='<span class="label label-info">DITERIMA</span>';
-                    }
-                    $datamhs['kjur']=$spmb['kjur'];
-                    $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
-                    $this->Finance->setDataMHS($datamhs);                               
-                    if ($this->Finance->isMhsRegistered()){
-                        throw new Exception ("Calon Mahasiswa a.n ".$datamhs['nama_mhs']." dengan no formulir $no_formulir sudah terdaftar di P.S ".$_SESSION['daftar_jurusan'][$datamhs['kjur']]);
-                    }
-                    $data=$this->Finance->getTresholdPembayaran($datamhs['tahun_masuk'],$datamhs['semester_masuk'],true);						                                
-                    if (!$data['bool']) {
-                        throw new Exception ("Calon Mahasiswa a.n ".$this->Finance->dataMhs['nama_mhs']."($no_formulir) tidak bisa daftar ulang karena baru membayar(".$this->Finance->toRupiah($data['total_bayar'])."), harus minimal setengahnya sebesar (".$this->Finance->toRupiah($data['ambang_pembayaran']).") dari total (".$this->Finance->toRupiah($data['total_biaya']).")");
-                    }
-                    $_SESSION['currentPageCalonMHS']['DataMHS']=$datamhs;
+
+    public function Go($sender,$param) {       
+        $no_formulir=$this->getDataKeyField($sender,$this->RepeaterS);
+         try {
+            if (!isset($_SESSION['currentPageDulangMHSBaru']['DataMHS']['no_formulir'])) {
+                $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.tempat_lahir,fp.tanggal_lahir,fp.jk,fp.alamat_rumah,fp.telp_rumah,fp.telp_kantor,fp.telp_hp,pm.email,fp.kjur1,fp.kjur2,idkelas,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,waktu_mendaftar FROM formulir_pendaftaran fp,profiles_mahasiswa pm WHERE fp.no_formulir=pm.no_formulir AND fp.no_formulir='$no_formulir'";
+                $this->DB->setFieldTable(array('no_formulir','nama_mhs','tempat_lahir','tanggal_lahir','jk','alamat_rumah','telp_rumah','telp_kantor','telp_hp','email','kjur1','kjur2','idkelas','tahun_masuk','semester_masuk','waktu_mendaftar'));
+                $r=$this->DB->getRecord($str);
+                if (!isset($r[1])) {                                
+                    throw new Exception ("Calon Mahasiswa dengan Nomor Formulir ($no_formulir) tidak terdaftar di Database, silahkan ganti dengan yang lain.");     
                 }
-            }catch (Exception $e) {
-                $param->IsValid=false;
-                $sender->ErrorMessage=$e->getMessage();
-            }	
-        }	
-    }
-    public function Go($sender,$param) {	
-        if ($this->Page->isValid) {            
-            $no_formulir=$this->getDataKeyField($sender,$this->RepeaterS);
-            $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.tempat_lahir,fp.tanggal_lahir,fp.jk,fp.alamat_rumah,fp.telp_rumah,fp.telp_kantor,fp.telp_hp,pm.email,fp.kjur1,fp.kjur2,idkelas,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk FROM formulir_pendaftaran fp,profiles_mahasiswa pm WHERE fp.no_formulir=pm.no_formulir AND fp.no_formulir='$no_formulir'";
-            $this->DB->setFieldTable(array('no_formulir','nama_mhs','tempat_lahir','tanggal_lahir','jk','alamat_rumah','telp_rumah','telp_kantor','telp_hp','email','kjur1','kjur2','idkelas','tahun_masuk','semester_masuk'));
-            $r=$this->DB->getRecord($str);
-            
-            $datamhs=$r[1];
-            $datamhs['idsmt']=$_SESSION['currentPageCalonMHS']['semester_masuk'];
-            $this->Finance->setDataMHS($datamhs);
-            $spmb=$this->Finance->isLulusSPMB(true);
-            $datamhs['nama_ps1']=$_SESSION['daftar_jurusan'][$datamhs['kjur1']];
-            $datamhs['nama_ps2']=$datamhs['kjur2'] == '' ?'N.A' : $_SESSION['daftar_jurusan'][$datamhs['kjur2']];
-            if ($spmb['kjur']==$datamhs['kjur1'])
-                $datamhs['diterima_ps1']='<span class="label label-info">DITERIMA</span>';
-            else
-                $datamhs['diterima_ps2']='<span class="label label-info">DITERIMA</span>'; 
-            
-            $datamhs['kjur']=$spmb['kjur'];
-            $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
-            $_SESSION['currentPageDulangMHSBaru']['DataMHS']=$datamhs;
+                $datamhs=$r[1];     
+                $datamhs['idsmt']=$datamhs['semester_masuk'];
+                $this->Finance->setDataMHS($datamhs);
+                if (!$spmb=$this->Finance->isLulusSPMB(true)) {
+                    throw new Exception ("Calon Mahasiswa dengan Nomor Formulir ($no_formulir) tidak lulus dalam SPMB.");       
+                }       
+                $datamhs['nama_ps1']=$_SESSION['daftar_jurusan'][$datamhs['kjur1']];                    
+                $datamhs['nama_ps2']=$datamhs['kjur2'] == 0 ?'N.A' : $_SESSION['daftar_jurusan'][$datamhs['kjur2']];                    
+                if ($spmb['kjur']==$datamhs['kjur1']) {
+                    $datamhs['diterima_ps1']='<span class="label label-info">DITERIMA</span>';
+                    $datamhs['diterima_ps2']='<span class="label label-warning">TIDAK DITERIMA</span>';
+                }else{
+                    $datamhs['diterima_ps2']='<span class="label label-info">DITERIMA</span>';
+                    $datamhs['diterima_ps1']='<span class="label label-warning">TIDAK DITERIMA</span>';
+                }
+                $datamhs['kjur']=$spmb['kjur'];
+                $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
+                $datamhs['perpanjang']=false;
+                $datamhs['waktu_mendaftar']=$this->TGL->tanggal('d F Y H:m:s',$datamhs['waktu_mendaftar']);
+                $this->Finance->setDataMHS($datamhs);                               
+                if ($this->Finance->isMhsRegistered()){
+                    throw new Exception ("Calon Mahasiswa a.n ".$datamhs['nama_mhs']." dengan no formulir $no_formulir sudah terdaftar di P.S ".$_SESSION['daftar_jurusan'][$datamhs['kjur']]);
+                }
+                $data=$this->Finance->getTresholdPembayaran($datamhs['tahun_masuk'],$datamhs['semester_masuk'],true);                                                       
+                if (!$data['bool']) {
+                    throw new Exception ("Calon Mahasiswa a.n ".$this->Finance->dataMhs['nama_mhs']."($no_formulir) tidak bisa daftar ulang karena baru membayar(".$this->Finance->toRupiah($data['total_bayar'])."), harus minimal setengahnya sebesar (".$this->Finance->toRupiah($data['ambang_pembayaran']).") dari total (".$this->Finance->toRupiah($data['total_biaya']).")");
+                }
+                $_SESSION['currentPageDulangMHSBaru']['DataMHS']=$datamhs;                        
+            }
             $this->redirect('dulang.DetailDulangMHSBaru',true,array('id'=>$no_formulir));
-        }
+        }catch (Exception $e) {
+            $this->lblContentMessageError->Text=$e->getMessage();
+            $this->modalMessageError->show();
+        }   
 	}
     public function printOut ($sender,$param) {
         

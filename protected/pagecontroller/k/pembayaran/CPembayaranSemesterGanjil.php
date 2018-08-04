@@ -149,15 +149,15 @@ class CPembayaranSemesterGanjil Extends MainPageK {
             try {
                 $str = "SELECT vdm.tahun_masuk,vdm.semester_masuk FROM v_datamhs vdm WHERE vdm.nim='$nim'";
                 $this->DB->setFieldTable(array('tahun_masuk','semester_masuk'));
-                $r=$this->DB->getRecord($str);
-                $datamhs=$r[1];
+                $r=$this->DB->getRecord($str);                
                 if (!isset($r[1])) {                                   
                     throw new Exception ("NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
                 }
+                $datamhs=$r[1];
                 $ta=$_SESSION['currentPagePembayaranSemesterGanjil']['ta'];
-                if ($datamhs['tahun_masuk'] == $datamhs['ta'] && $datamhs['semester_masuk']==1) {						
-                    $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS']=array();
-                    throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
+                if ($datamhs['tahun_masuk'] == $ta && $datamhs['semester_masuk']==1) {						
+                     $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS']=array();
+                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
                 }
             }catch (Exception $e) {
                 $param->IsValid=false;

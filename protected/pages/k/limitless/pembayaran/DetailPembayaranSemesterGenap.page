@@ -53,7 +53,7 @@
         <div class="col-md-12">
             <div class="panel panel-flat">
                 <div class="panel-heading">
-                    <h5 class="panel-title"><i class="icon-calculator position-left"></i>  DAFTAR TRANSAKSI T.A <%=$this->DMaster->getNamaTA($_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']['ta'])%> SEMESTER <%=$this->setup->getSemester($_SESSION['currentPagePembayaranSemesterGenap']['semester'])%></h5>                
+                    <h5 class="panel-title"><i class="icon-calculator position-left"></i>  DAFTAR TRANSAKSI T.A <%=isset($_SESSION['currentPagePembayaranSemesterGenap']['DataMHS'])?$this->DMaster->getNamaTA($_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']['ta']). ' SEMESTER ' .$this->setup->getSemester($_SESSION['currentPagePembayaranSemesterGenap']['semester']):''%></h5>                
                     <div class="heading-elements">
                         <div class="heading-btn">       
                             <com:TActiveLinkButton ID="btnAddTransaction" OnClick="addTransaction" ClientSide.PostState="false" CssClass="btn btn-info btn-icon" Attributes.Title="Tambah Transaksi">

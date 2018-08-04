@@ -194,6 +194,11 @@
                                                         Dosen                                                
                                                     </a>
                                                 </li>
+                                                <li<%=$this->Page->showDosenWali==true ? ' class="active" ':''%>>                                            
+                                                    <a href="<%=$this->Page->constructUrl('dmaster.DosenWali',true)%>">                                                        
+                                                        Dosen Wali                                                
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <a href="<%=$this->Page->constructUrl('dmaster.Prodi',true)%>"<%=$this->Page->showProdi==true?' class="active"':''%>>                                                        
                                                         Program Studi                                         
@@ -326,6 +331,20 @@
                                             <a href="https://github.com/mrizkir/portalekampus/commits/" target="_blank">
                                                 <i class="fa fa-file-o"></i>
                                                 <span>Change Log</span>											
+                                            </a>                                        
+                                        </li>
+                                    </com:TLiteral>
+                                    <com:TLiteral Visible="<%=$this->Page->Pengguna->getTipeUser()=='api' && $this->Page->showSideBarMenu==true%>">
+                                        <li<%=$this->Page->showDashboard==true?' class="active"':''%>>
+                                            <a href="<%=$this->Page->constructUrl('Home',true)%>">
+                                                <i class="fa fa-dashboard"></i>
+                                                <span>Dashboard</span>                                          
+                                            </a>                                        
+                                        </li>                                                                                  
+                                        <li>
+                                            <a href="https://github.com/mrizkir/portalekampus/commits/" target="_blank">
+                                                <i class="fa fa-file-o"></i>
+                                                <span>Change Log</span>                                         
                                             </a>                                        
                                         </li>
                                     </com:TLiteral>

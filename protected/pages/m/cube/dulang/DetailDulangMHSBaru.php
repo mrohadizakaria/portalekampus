@@ -26,7 +26,9 @@ class DetailDulangMHSBaru Extends CDetailDulangMHSBaru {
                 break;
                 case 3 :
                     $kode=203;
-                break;            
+                break;    
+                default :
+                    $kode='';        
             }
 			$data['nim']=$tahun.'10'.$kjur.'001';			
 			$data['nirm']=$tahun.'103035'.$kode.'001';

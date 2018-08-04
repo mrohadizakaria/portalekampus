@@ -5,12 +5,16 @@ class commitTransaction extends BaseWS {
 		try {
 			$this->validate ();
 			$data=$_POST;
-			if (!isset($data['no_transaksi']) && !isset($data['tipe_transaksi'])) {
-				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data POST no_transaksi atau POST tipe_transaksi tidak ada !!!");
+			if (!isset($data['no_transaksi'])) {
+				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data POST no_transaksi tidak ada !!!");
+			}
+			if (empty($data['no_transaksi'])) {
+				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data no_transaksi kosong !!!");
 			}
 			$no_transaksi=addslashes($data['no_transaksi']);
-			switch (addslashes($data['tipe_transaksi'])) {
-				case 'common':
+			$tipe_transaksi=substr($no_transaksi, 0,2);
+			switch ($tipe_transaksi) {
+				case 10: //bayar biasa
 					$str = "SELECT t.no_transaksi,t.kjur,t.no_formulir,fp.nama_mhs,t.nim,t.tahun,t.idsmt,t.idkelas,rm.k_status,rm.perpanjang,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.commited FROM transaksi t LEFT JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN register_mahasiswa rm ON (t.no_formulir=rm.no_formulir) WHERE t.no_transaksi='$no_transaksi'";
 					$this->DB->setFieldTable(array('no_transaksi','kjur','no_formulir','nama_mhs','nim','tahun','idsmt','idkelas','k_status','perpanjang','commited','tahun_masuk','semester_masuk'));		
 					$r=$this->DB->getRecord($str);
@@ -59,7 +63,7 @@ class commitTransaction extends BaseWS {
 					}
 					$this->payload['message']="Proses Login telah berhasil, data transaksi dengan nomor ($no_transaksi) berhasil di Commit !!!. Bisa di rollback, beritahu ke bagian keuangan dengan menyebutkan nomor Transaksi ini ($no_transaksi)";		
 				break;
-				case 'cuti' :
+				case 11: //bayar cuti
 					$str = "SELECT t.no_transaksi,rm.kjur,rm.no_formulir,fp.nama_mhs,t.nim,t.tahun,t.idsmt,rm.idkelas,rm.k_status,rm.perpanjang,fp.ta AS tahun_masuk,fp.idsmt AS semester_masuk,t.commited FROM transaksi_cuti t LEFT JOIN register_mahasiswa rm ON (t.nim=rm.nim) LEFT JOIN formulir_pendaftaran fp ON (fp.no_formulir=rm.no_formulir) WHERE t.no_transaksi='$no_transaksi'";
 					$this->DB->setFieldTable(array('no_transaksi','kjur','no_formulir','nama_mhs','nim','tahun','idsmt','idkelas','k_status','perpanjang','commited','tahun_masuk','semester_masuk'));		
 					$r=$this->DB->getRecord($str);
@@ -101,7 +105,7 @@ class commitTransaction extends BaseWS {
 
 				break;
 				default :
-					throw new Exception ("Proses Login telah berhasil, namun ada error yaitu tipe_transaksi tidak dikenal. hanya tersedia opsi (common | cuti) !!!");
+					throw new Exception ("Proses Login telah berhasil, namun ada error yaitu tipe_transaksi tidak dikenal. !!!");
 			}
 		}catch (Exception $e) {
 			$this->payload['message'] = $e->getMessage();

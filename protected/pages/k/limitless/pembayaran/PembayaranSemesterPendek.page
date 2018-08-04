@@ -115,7 +115,7 @@
                             <thead>
                                 <tr class="bg-teal-700">
                                     <th scope="col">NO</th>							
-                                    <th scope="col">NO. FAKTUR</th>
+                                    <th scope="col">NO. TRANS</th>
                                     <th scope="col">TANGGAL</th>
                                     <th scope="col">NIM</th>                                    
                                     <th scope="col">NAMA MAHASISWA</th>																												
@@ -130,7 +130,7 @@
                     <prop:ItemTemplate>
                         <tr>
                             <td><%#$this->DataItem['no']%></td>					
-                            <td><%#$this->DataItem['no_faktur']%></td>
+                            <td><%#$this->DataItem['no_transaksi']%></td>
                             <td><%#$this->DataItem['tanggal']%></td>
                             <td><%# $this->Data['nim']%></td>																	                            												
                             <td><%#$this->DataItem['nama_mhs']%></td>					

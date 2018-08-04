@@ -9,6 +9,9 @@
 <com:TContent ID="configtools">    
     <%include Application.layouts.cube.FilterMode13%>
 </com:TContent>
+<com:TContent ID="csscontent">
+<link rel="stylesheet" type="text/css" href="<%=$this->Theme->baseUrl%>/css/libs/nifty-component.css"/>
+</com:TContent>
 <com:TContent ID="maincontent">
 <com:TPanel Visible="<%= $this->getViewProcess(false) %>">
     <com:THiddenField ID="hiddentahunmasuk" />
@@ -199,4 +202,5 @@
         </div>
     </div>
 </com:TPanel>
+<%include Application.layouts.cube.ModalPrintOut%>
 </com:TContent>

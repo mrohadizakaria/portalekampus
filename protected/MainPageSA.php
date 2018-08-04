@@ -8,6 +8,10 @@ class MainPageSA extends MainPage {
      * show page dosen [datamaster lembaga]
      */
     public $showDosen=false;
+    /**
+     * show page dosen wali [datamaster lembaga]
+     */
+    public $showDosenWali=false;
     /**     
      * show page program studi [dmaster lembaga]
      */

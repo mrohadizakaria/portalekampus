@@ -147,13 +147,13 @@ class CPembayaranSemesterGenap Extends MainPageK {
             try {
                 $str = "SELECT vdm.tahun_masuk,vdm.semester_masuk FROM v_datamhs vdm WHERE vdm.nim='$nim'";
                 $this->DB->setFieldTable(array('tahun_masuk','semester_masuk'));
-                $r=$this->DB->getRecord($str);
-                $datamhs=$r[1];
+                $r=$this->DB->getRecord($str);                
                 if (!isset($r[1])) {                                   
                     throw new Exception ("NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
                 }
+                $datamhs=$r[1];
                 $ta=$_SESSION['currentPagePembayaranSemesterGenap']['ta'];                
-                if ($datamhs['tahun_masuk'] == $datamhs['ta'] && $datamhs['semester_masuk']==2) {						
+                if ($datamhs['tahun_masuk'] == $ta && $datamhs['semester_masuk']==2) {						
                     $_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']=array();
                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
                 }

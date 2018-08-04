@@ -50,9 +50,10 @@ class CDetailPembayaranMahasiswaBaru Extends MainPageK {
             }      
 		}	
 	}
-    public function getDataMHS($idx) {		  
-        $datamhs=$_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS']; 
-        return $datamhs[$idx];
+    public function getDataMHS($idx) {              
+        if (isset($_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS']['nim'])) {
+            return $_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'][$idx];
+        }        
     }
     public function populateTransaksi() {
         $datamhs=$_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'];
@@ -102,7 +103,7 @@ class CDetailPembayaranMahasiswaBaru Extends MainPageK {
                 $this->lblContentMessageError->Text='Tidak bisa menambah Transaksi baru karena ada transaksi yang belum di Commit.';
                 $this->modalMessageError->show();
             }else{
-                $no_transaksi=$this->DB->getMaxOfRecord('no_transaksi','transaksi')+1;
+                $no_transaksi='10'.$ta.mt_rand(100000,999999);
                 $no_faktur=$ta.$no_transaksi;
                 $ps=$datamhs['kjur'];                
                 $idkelas=$datamhs['idkelas'];

@@ -154,7 +154,7 @@ class CPembayaranSemesterPendek Extends MainPageK {
                     throw new Exception ("NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
                 }
                 $ta=$_SESSION['currentPagePembayaranSemesterPendek']['ta'];                
-                if ($datamhs['tahun_masuk'] == $datamhs['ta'] && $datamhs['semester_masuk']==2) {						
+                if ($datamhs['tahun_masuk'] == $ta) {						
                     $_SESSION['currentPagePembayaranSemesterPendek']['DataMHS']=array();
                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
                 }

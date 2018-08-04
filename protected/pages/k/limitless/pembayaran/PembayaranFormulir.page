@@ -114,7 +114,7 @@
                             <thead>
                                 <tr class="bg-teal-700">
                                     <th scope="col" width="20">NO</th>							
-                                    <th scope="col" width="120">FAKTUR</th>
+                                    <th scope="col" width="120">NO.TRANS</th>
                                     <th scope="col" width="120">TANGGAL</i></th>
                                     <th scope="col" width="130">FORMULIR</i></th> 
 									<th scope="col" width="130">NO. REGISTRASI</i></th> 									
@@ -130,7 +130,7 @@
                     <prop:ItemTemplate>
                         <tr>
                             <td><%#$this->DataItem['no']%></td>					
-                            <td><%#$this->DataItem['no_faktur']%></td>
+                            <td><%#$this->DataItem['no_transaksi']%></td>
                             <td><%#$this->DataItem['tanggal']%></td>
                             <td><%# $this->Data['no_formulir']%></td>
 							<td><%# $this->Data['no_pendaftaran']%></td>							
