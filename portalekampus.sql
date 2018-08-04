@@ -1819,7 +1819,7 @@ CREATE TABLE `log_aktivitas_user` (
   `userid` int(11) NOT NULL,
   `username` varchar(40) NOT NULL,
   `halaman` varchar(100) NOT NULL,
-  `aktivitas` varchar(255) NOT NULL,
+  `aktivitas` text NOT NULL,
   `date_activity` datetime NOT NULL
 ) ENGINE=MyISAM;
 
