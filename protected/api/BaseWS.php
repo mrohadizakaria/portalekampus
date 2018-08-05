@@ -199,12 +199,12 @@ class BaseWS extends TJsonResponse {
 				$jumlah_ip=count($_ip);
 				$bool=-1;
 				for ($i=0;$i<=$jumlah_ip;$i+=1) {
-					if ($data['ipaddress'] == $alamat_ip) {
+					if ($_ip[$i] == $alamat_ip) {
 						$bool=1;
 					}
 				}
 				$this->payload['connection'] = $bool;
-				if ($bool) {
+				if ($bool>0) {
 					$this->payload['message']="Username ($username) dan Token ($token) Valid !!!";
 				}else{
 					throw new Exception ("Akses dari Alamat IP ($alamat_ip) tidak di ijinkan");						
