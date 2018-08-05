@@ -219,7 +219,6 @@ class Logic_Akademik extends Logic_Mahasiswa {
      * @return type array
      */
     public function getKetuaPRODI ($kjur) {
-		$str = "SELECT k.kjur,d.nidn,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen,d.nipy,ja.nama_jabatan FROM program_studi k,dosen d,jabatan_akademik ja WHERE d.idjabatan=ja.idjabatan AND k.iddosen=d.iddosen AND k.kjur='$kjur'";
 		$str = "SELECT d.nidn,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen,d.nipy,ja.nama_jabatan FROM program_studi k,dosen d,jabatan_akademik ja WHERE d.idjabatan=ja.idjabatan AND k.iddosen=d.iddosen AND k.kjur='$kjur'";
 		$this->db->setFieldTable(array('nidn','nama_dosen','nipy','nama_jabatan')); 
 		$r=$this->db->getRecord($str);	
