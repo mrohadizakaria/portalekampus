@@ -86,8 +86,9 @@ class Logic_KRS extends Logic_Akademik {
         $str = "SELECT idkrs,nim,tgl_krs,no_krs,sah,tgl_disahkan,tahun,idsmt,tasmt FROM krs WHERE idsmt=$idsmt AND tahun=$tahun AND nim='$nim'";
         $this->db->setFieldTable(array('idkrs','nim','tgl_krs','no_krs','sah','tgl_disahkan','tahun','idsmt','tasmt'));
         $r=$this->db->getRecord($str);		      
-        
-        $this->DataKRS=$r[1];
+        if (isset($r[1])) {
+            $this->DataKRS=$r[1];
+        }
         return $this->DataKRS;
 	}    
     /**

@@ -28,8 +28,10 @@ class CDetailPKRS extends MainPageDW {
             $this->populateData();	
 		}	
 	}
-    public function getDataMHS($idx) {		        
-        return $this->KRS->getDataMHS($idx);
+    public function getDataMHS($idx) {  
+        if (isset($_SESSION['currentPagePKRS']['DataMHS'][$idx])) {
+            return $_SESSION['currentPagePKRS']['DataMHS'][$idx];
+        }
     }
 	public function setInfoToolbar() {   
         $ta=$this->DMaster->getNamaTA($_SESSION['ta']);		

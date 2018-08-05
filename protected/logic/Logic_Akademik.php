@@ -216,13 +216,19 @@ class Logic_Akademik extends Logic_Mahasiswa {
     /**
      * digunakan untuk mendapatkan ketua program studi
      * @param type $kjur
-     * @return type
+     * @return type array
      */
     public function getKetuaPRODI ($kjur) {
 		$str = "SELECT k.kjur,d.nidn,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen,d.nipy,ja.nama_jabatan FROM program_studi k,dosen d,jabatan_akademik ja WHERE d.idjabatan=ja.idjabatan AND k.iddosen=d.iddosen AND k.kjur='$kjur'";
-		$this->db->setFieldTable(array('idkjur','nidn','nama_dosen','nipy','nama_jabatan')); 
-		$result=$this->db->getRecord($str);		
-		return $result[1];
+		$str = "SELECT d.nidn,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen,d.nipy,ja.nama_jabatan FROM program_studi k,dosen d,jabatan_akademik ja WHERE d.idjabatan=ja.idjabatan AND k.iddosen=d.iddosen AND k.kjur='$kjur'";
+		$this->db->setFieldTable(array('nidn','nama_dosen','nipy','nama_jabatan')); 
+		$r=$this->db->getRecord($str);	
+        if (isset($r[1])) {
+            return $r[1];    
+        }else {
+            return array('nidn'=>'N.A','nama_dosen'=>'N.A','nipy'=>'N.A','nama_jabatan'=>'N.A');
+        }
+		
 	}
     /**
      * digunakan untuk mendapatkan daftar dosen pada penyelenggaraan

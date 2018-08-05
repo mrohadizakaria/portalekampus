@@ -60,7 +60,7 @@ class Logic_Nilai extends Logic_Akademik {
      * @param type $n_kual
      */
     public function getAngkaMutu ($n_kual) {
-        return $this->AngkaMutu[$n_kual];
+        return isset($this->AngkaMutu[$n_kual])?$this->AngkaMutu[$n_kual]:0;
     }   
     /**
      * Digunakan untuk mendapatkan jumlah sks untuk semester selanjutnya	

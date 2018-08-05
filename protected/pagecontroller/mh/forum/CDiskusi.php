@@ -7,7 +7,7 @@ class CDiskusi extends MainPageMHS {
         $this->createObj('forum');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {              
             if (!isset($_SESSION['currentPageDiskusi'])||$_SESSION['currentPageDiskusi']['page_name']!='mh.forum.Diskusi') {                                                                                
-                $_SESSION['currentPageDiskusi']=array('page_name'=>'mh.forum.Diskusi','page_num'=>0,'search'=>false);
+                $_SESSION['currentPageDiskusi']=array('page_name'=>'mh.forum.Diskusi','page_num'=>0,'page_num_unread'=>0,'search'=>false,'activeviewindex'=>0);
             }
             $this->MVMenuForum->ActiveViewIndex=$_SESSION['currentPageDiskusi']['activeviewindex'];
 		}                

@@ -157,7 +157,8 @@ class CPKRS extends MainPageDW {
 
                 $nama_dosen=$this->DMaster->getNamaDosenWaliByID($datamhs['iddosen_wali']);				                    
                 $datamhs['nama_dosen']=$nama_dosen;
-                
+                $datamhs['iddata_konversi']=$this->KRS->isMhsPindahan($nim,true);
+
                 $_SESSION['currentPagePKRS']['DataMHS']=$datamhs;
 
                 $_SESSION['currentPagePKRS']['DataKRS']=$this->KRS->DataKRS;

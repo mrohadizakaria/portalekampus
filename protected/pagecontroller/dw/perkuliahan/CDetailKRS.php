@@ -32,8 +32,10 @@ class CDetailKRS extends MainPageDW {
 				
 		}				
 	}
-    public function getDataMHS($idx) {		        
-        return $this->KRS->getDataMHS($idx);
+    public function getDataMHS($idx) {	
+        if (isset($_SESSION['currentPageKRS']['DataMHS'][$idx])) {
+            return $_SESSION['currentPageKRS']['DataMHS'][$idx];
+        }
     }
     public function getInfoToolbar() {                
 		$ta=$this->DMaster->getNamaTA($this->Page->KRS->DataKRS['krs']['tahun']);

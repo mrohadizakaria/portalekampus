@@ -119,7 +119,21 @@
                             </li>
                             <li class="active">
                                 <a href="#tab-new-discussion" data-toggle="tab">Diskusi Baru</a>
-                            </li>             
+                            </li>         
+                            <li>
+                                <com:TActiveLinkButton ID="btnViewDiskusiBelumDibaca" Text="Belum Dibaca" CommandName="SwitchViewIndex" CommandParameter="2" ClientSide.PostState="false">
+                                    <prop:ClientSide.OnPreDispatch>                                                                   
+                                        $('loading').show(); 
+                                        $('<%=$this->btnViewDiskusiBelumDibaca->ClientId%>').disabled='disabled';                      
+                                    </prop:ClientSide.OnPreDispatch>
+                                    <prop:ClientSide.OnLoading>
+                                        $('<%=$this->btnViewDiskusiBelumDibaca->ClientId%>').disabled='disabled';                      
+                                    </prop:ClientSide.OnLoading>
+                                    <prop:ClientSide.OnComplete>                                        
+                                        $('loading').hide(); 
+                                    </prop:ClientSide.OnComplete>
+                                </com:TActiveLinkButton>                                    
+                            </li>    
                         </ul>
                         <div class="tab-content">                            
                             <div class="tab-pane fade in active" id="tab-new-discussion">                                

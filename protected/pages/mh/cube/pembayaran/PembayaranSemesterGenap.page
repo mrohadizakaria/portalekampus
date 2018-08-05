@@ -22,7 +22,7 @@
                 </div>
             </div>                
             <div class="table-responsive">                
-                <com:TActiveRepeater ID="RepeaterS" DataKeyField="nim" AllowPaging="true" PageSize="10" AllowCustomPaging="true" OnItemDataBound="setDataBound">
+                <com:TActiveRepeater ID="RepeaterS" DataKeyField="no_transaksi" AllowPaging="true" PageSize="10" AllowCustomPaging="true" OnItemDataBound="setDataBound">
                     <prop:HeaderTemplate>				
                         <table class="table table-striped table-hover">
                             <thead>

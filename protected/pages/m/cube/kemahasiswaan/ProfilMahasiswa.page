@@ -185,7 +185,7 @@
                         <com:TView ID="dulangmahasiswa">
                             <ul class="nav nav-tabs">
                                 <li>
-                                    <com:TActiveLinkButton ID="btnViewDMIPSdanIPK" Text="Aktivitas Mahasiswa" CommandName="SwitchViewIndex" CommandParameter="0" ClientSide.PostState="false">
+                                    <com:TActiveLinkButton ID="btnViewDMIPSdanIPK" Text="IPS dan IPK" CommandName="SwitchViewIndex" CommandParameter="0" ClientSide.PostState="false">
                                         <prop:ClientSide.OnPreDispatch>                                                                   
                                             $('loading').show(); 
                                             $('<%=$this->btnViewDMIPSdanIPK->ClientId%>').disabled='disabled';						
@@ -286,7 +286,7 @@
                         <com:TView ID="krsmahasiswa">
                             <ul class="nav nav-tabs">
                                 <li>
-                                    <com:TActiveLinkButton ID="btnViewKRSIPSdanIPK" Text="Aktivitas Mahasiswa" CommandName="SwitchViewIndex" CommandParameter="0" ClientSide.PostState="false">
+                                    <com:TActiveLinkButton ID="btnViewKRSIPSdanIPK" Text="IPS dan IPK" CommandName="SwitchViewIndex" CommandParameter="0" ClientSide.PostState="false">
                                         <prop:ClientSide.OnPreDispatch>                                                                   
                                             $('loading').show(); 
                                             $('<%=$this->btnViewKRSIPSdanIPK->ClientId%>').disabled='disabled';						
@@ -405,7 +405,7 @@
                         <com:TView ID="gantinimnirm">
                             <ul class="nav nav-tabs">
                                 <li>
-                                    <com:TActiveLinkButton ID="btnViewGantiNIMNIRMIPSdanIPK" Text="Aktivitas Mahasiswa" CommandName="SwitchViewIndex" CommandParameter="0" ClientSide.PostState="false">
+                                    <com:TActiveLinkButton ID="btnViewGantiNIMNIRMIPSdanIPK" Text="IPS dan IPK" CommandName="SwitchViewIndex" CommandParameter="0" ClientSide.PostState="false">
                                         <prop:ClientSide.OnPreDispatch>                                                                   
                                             $('loading').show(); 
                                             $('<%=$this->btnViewGantiNIMNIRMIPSdanIPK->ClientId%>').disabled='disabled';						
@@ -462,7 +462,7 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade in active" id="tab-krsmahasiswa">
+                                <div class="tab-pane fade in active" id="tab-gantinimdannirm">
                                     <div class="form-horizontal">
                                          <div class="form-group">
                                             <label class="col-lg-2 control-label"><strong>NIM Lama: </strong></label>

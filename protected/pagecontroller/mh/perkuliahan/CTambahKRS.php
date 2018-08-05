@@ -57,10 +57,11 @@ class CTambahKRS extends MainPageMHS {
                 $status=$datamhs['k_status'];
                 if ($status== 'K'||$status== 'L'||$status== 'D') throw new Exception ("Status Anda tidak aktif, sehingga tidak bisa mengisi KRS.");						
                 if ($datadulang['k_status'] != 'A')throw new Exception ("Anda pada tahun akademik dan semester sekarang tidak aktif.");									
-                if ($this->KRS->DataKRS['krs']['sah'])throw new Exception ('Tidak bisa tambah KRS, karena sudah disahkan oleh Dosen Wali.');
-                
+                                               
                 #Membuat KRS BARU
-                if (!isset($this->KRS->DataKRS['krs']['idkrs'])) {
+                if (isset($this->KRS->DataKRS['krs']['idkrs'])) {
+                	if ($this->KRS->DataKRS['krs']['sah'])throw new Exception ('Tidak bisa tambah KRS, karena sudah disahkan oleh Dosen Wali.');
+                }else{
                     $tanggal=date('Y-m-d');
                     $no_krs=mt_rand();                    
                     $tasmt=$tahun.$idsmt;
@@ -69,6 +70,7 @@ class CTambahKRS extends MainPageMHS {
                     $this->KRS->DataKRS['krs'] = array('idkrs'=>$this->DB->getLastInsertID(),
                                      'tgl_krs'=>$tanggal,
                                      'no_krs'=>$no_krs,
+                                     'sah'=>0,
                                      'nim'=>$nim,
                                      'idsmt'=>$idsmt,
                                      'tahun'=>$tahun,
@@ -117,6 +119,7 @@ class CTambahKRS extends MainPageMHS {
 		try {		
             $datakrs=$_SESSION['currentPageKRS']['DataKRS']['krs'];
             $datakrs['iddata_konversi']=$this->Pengguna->getDataUser('iddata_konversi');
+            $datakrs['idkelas']=$this->Pengguna->getDataUser('idkelas');
             $this->KRS->setDataMHS($datakrs);
 			$idkrs=$datakrs['idkrs'];
 			$str = "SELECT SUM(sks) AS jumlah FROM v_krsmhs WHERE idkrs='$idkrs'";

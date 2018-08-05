@@ -108,11 +108,11 @@ class CKRS extends MainPageMHS {
             $datamhs=$this->Pengguna->getDataUser();  
             $this->KRS->setDataMHS($datamhs);
             $datakrs=$this->KRS->getKRS($_SESSION['ta'],$_SESSION['semester']);           
-            
-            $datadulang=$this->KRS->getDataDulang($datakrs['krs']['idsmt'],$datakrs['krs']['tahun']);
-            $datakrs['krs']['kelas_dulang']=$datadulang['idkelas'];
+            if (isset($datakrs['krs']['idkrs'])) {
+                $datadulang=$this->KRS->getDataDulang($datakrs['krs']['idsmt'],$datakrs['krs']['tahun']);
+                $datakrs['krs']['kelas_dulang']=$datadulang['idkelas'];               
+            }                        
             $_SESSION['currentPageKRS']['DataKRS']=$datakrs;
-            
             $this->RepeaterS->DataSource=$this->KRS->DataKRS['matakuliah'];
             $this->RepeaterS->dataBind();
         }catch (Exception $e) {

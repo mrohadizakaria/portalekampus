@@ -113,7 +113,7 @@ class CDulangMHSLama Extends MainPageDW {
                 break;
             }
         }else{                            
-            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND vdm.iddosen_wali=$iddosen_wali AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' $str_dw $str_tahun_masuk";
+            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND vdm.iddosen_wali=$iddosen_wali AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' $str_tahun_masuk";
             $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND vdm.iddosen_wali=$iddosen_wali AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' $str_tahun_masuk",'vdm.nim');
         }
 		
