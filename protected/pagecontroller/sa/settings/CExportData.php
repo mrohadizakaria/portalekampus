@@ -111,6 +111,11 @@ class CExportData extends MainPageSA {
                     $sql =$sql.$this->buildSqlInsert('bipend'," WHERE no_formulir='$no_formulir'");  
 
                     $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: peserta_ujian_pmb\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('peserta_ujian_pmb'," WHERE no_formulir='$no_formulir'");
+
+                    $sql = $sql."--\n";
                     $sql =$sql. "-- Table: kartu_ujian\n";
                     $sql =$sql. "--\n";
                     $sql =$sql.$this->buildSqlInsert('kartu_ujian'," WHERE no_formulir='$no_formulir'"); 
@@ -119,6 +124,11 @@ class CExportData extends MainPageSA {
                     $sql =$sql. "-- Table: jawaban_ujian\n";
                     $sql =$sql. "--\n";
                     $sql =$sql.$this->buildSqlInsert('jawaban_ujian'," WHERE no_formulir='$no_formulir'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: nilai_ujian_masuk\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('nilai_ujian_masuk'," WHERE no_formulir='$no_formulir'");
 
                     $sql =$sql."--\n";
                     $sql =$sql. "-- Table: register_mahasiswa\n";
@@ -134,6 +144,16 @@ class CExportData extends MainPageSA {
                     $sql =$sql. "-- Table: data_konversi\n";
                     $sql =$sql. "--\n";
                     $sql=$sql.$this->buildSqlInsert('data_konversi'," WHERE nim='$nim'");  
+
+                    $sql =$sql."--\n";
+                    $sql =$sql. "-- Table: nilai_konversi\n";
+                    $sql =$sql. "--\n";
+
+                    $str = "SELECT iddata_konversi FROM data_konversi WHERE nim='$nim'";
+                    $r=$this->DB->query($str);
+                    $row=$r->fetch_assoc();
+                    $iddata_konversi=isset($row['iddata_konversi'])?$row['iddata_konversi']:'';
+                    $sql =$sql.$this->buildSqlInsert('nilai_konversi2'," WHERE iddata_konversi='$iddata_konversi'");
 
                     $sql =$sql."--\n";
                     $sql =$sql. "-- Table: dulang\n";
@@ -158,11 +178,31 @@ class CExportData extends MainPageSA {
                     $sql = $sql."--\n";
                     $sql =$sql. "-- Table: kbmdetail\n";
                     $sql =$sql. "--\n";
-                    $str = "SELECT idkrsmatkul FROM krs k, krsmatkul km,kbm_detail WHERE k.nim=km.nim AND km.idkrsmatkul=kbm.idkrsmatkul AND km.nim='$nim'";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,kbm_detail kbm WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=kbm.idkrsmatkul AND k.nim='$nim'";
                     $r=$this->DB->query($str);
                     while ($row=$r->fetch_assoc()) {           
-                        $idkrs=$row['idkrs'];
-                        $sql =$sql.$this->buildSqlInsert('krsmatkul'," WHERE idkrs='$idkrs'");
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('kbm_detail'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: kelas_mhs_detail\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,kelas_mhs_detail kmd WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=kmd.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('kelas_mhs_detail'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: kuesioner_jawaban\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,kuesioner_jawaban kj WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=kj.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('kuesioner_jawaban'," WHERE idkrsmatkul='$idkrsmatkul'");
                     }   
 
                     $sql =$sql."--\n";
@@ -179,7 +219,152 @@ class CExportData extends MainPageSA {
                     $sql =$sql. "-- Table: jadwalsidang\n";
                     $sql =$sql. "--\n";
                     $sql=$sql.$this->buildSqlInsert('jadwalsidang'," WHERE nim='$nim'"); 
-                   
+                    
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: nilai_absensi\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,nilai_absensi na WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=na.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('nilai_absensi'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: nilai_imported\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,nilai_imported ni WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=ni.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('nilai_imported'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: nilai_matakuliah\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,nilai_matakuliah nm WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=nm.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('nilai_matakuliah'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: nilai_quiz\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,nilai_quiz nq WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=nq.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('nilai_quiz'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: nilai_uas\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,nilai_uas nu WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=nu.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('nilai_uas'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: nilai_uts\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT km.idkrsmatkul FROM krs k, krsmatkul km,nilai_uts nu WHERE k.idkrs=km.idkrs AND km.idkrsmatkul=nu.idkrsmatkul AND k.nim='$nim'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $idkrsmatkul=$row['idkrsmatkul'];
+                        $sql =$sql.$this->buildSqlInsert('nilai_uts'," WHERE idkrsmatkul='$idkrsmatkul'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: pendaftaran_konsentrasi\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('pendaftaran_konsentrasi'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: perpanjangan_studi\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('perpanjangan_studi'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: pindahkelas\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('pindahkelas'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: pkrs\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('pkrs'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: profiles_ortu\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('profiles_ortu'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: rekap_laporan_pembayaran_per_semester\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('rekap_laporan_pembayaran_per_semester'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: rekap_status_mahasiswa\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('rekap_status_mahasiswa'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: transaksi\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('transaksi'," WHERE no_formulir='$no_formulir'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: transaksi_detail\n";
+                    $sql =$sql. "--\n";
+                    $str = "SELECT no_transaksi FROM transaksi WHERE no_formulir='$no_formulir'";
+                    $r=$this->DB->query($str);
+                    while ($row=$r->fetch_assoc()) {           
+                        $no_transaksi=$row['no_transaksi'];
+                        $sql =$sql.$this->buildSqlInsert('transaksi_detail'," WHERE no_transaksi='$no_transaksi'");
+                    }
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: transaksi_api\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('transaksi_api'," WHERE no_formulir='$no_formulir'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: transaksi_sp\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('transaksi_sp'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: transaksi_cuti\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('transaksi_cuti'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: transkrip_asli\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('transkrip_asli'," WHERE nim='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: transkrip_asli_detail\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('transkrip_asli_detail'," WHERE nim='$nim'");
+                    
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: tweets\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('tweets'," WHERE userid='$nim'");
+
+                    $sql = $sql."--\n";
+                    $sql =$sql. "-- Table: tweetscomment\n";
+                    $sql =$sql. "--\n";
+                    $sql =$sql.$this->buildSqlInsert('tweetscomment'," WHERE userid='$nim'");
+
                     fwrite($fp,$str);
                     $this->txtOutput->Text=$sql;
                     fclose($fp);
