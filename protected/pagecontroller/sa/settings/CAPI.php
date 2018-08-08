@@ -157,11 +157,19 @@ class CAPI extends MainPageSA {
                 $data=$this->Pengguna->createHashPassword($this->txtEditPassword1->Text);
                 $salt=$data['salt'];
                 $password=$data['password'];                              
-                $str = "UPDATE user SET username='$username',userpassword='$password',salt='$salt',token='$password',ipaddress='$ipaddress',nama='$nama',email='$email',active='$status' WHERE userid=$id";
+                $str = "UPDATE user SET username='$username',userpassword='$password',salt='$salt',ipaddress='$ipaddress',nama='$nama',email='$email',active='$status' WHERE userid=$id";
             }
             $this->DB->updateRecord($str); 
             $this->redirect('settings.API',true);
         }
+    }
+    public function resetToken ($sender,$param) { 
+        $id=$this->getDataKeyField($sender,$this->RepeaterS);
+        $data=$this->Pengguna->createHashPassword(mt_rand(1,1000));        
+        $password=$data['password'];
+        $str = "UPDATE user SET token='$password' WHERE userid=$id";
+        $this->DB->updateRecord($str); 
+        $this->redirect('settings.API',true);
     }
     public function deleteRecord ($sender,$param) {        
         $id=$this->getDataKeyField($sender,$this->RepeaterS);        
