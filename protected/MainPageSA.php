@@ -72,8 +72,8 @@ class MainPageSA extends MainPage {
      * show page user operator nilai [setting sistem]
      */
     public $showUserON=false;
-        /**     
-     * show page user operator nilai [setting api]
+    /**     
+     * show page user API [setting sistem]
      */
     public $showAPI=false;
     /**     

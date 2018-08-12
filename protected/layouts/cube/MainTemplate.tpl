@@ -334,13 +334,19 @@
                                             </a>                                        
                                         </li>
                                     </com:TLiteral>
-                                    <com:TLiteral Visible="<%=$this->Page->Pengguna->getTipeUser()=='api' && $this->Page->showSideBarMenu==true%>">
+                                    <com:TLiteral Visible="<%=$this->Page->Pengguna->getTipeUser()=='api' && $this->Page->showSideBarMenu==true%>">                                        
                                         <li<%=$this->Page->showDashboard==true?' class="active"':''%>>
                                             <a href="<%=$this->Page->constructUrl('Home',true)%>">
                                                 <i class="fa fa-dashboard"></i>
                                                 <span>Dashboard</span>                                          
                                             </a>                                        
-                                        </li>                                                                                  
+                                        </li>                                                                                 
+                                        <li<%=$this->Page->showLogAktivitasUser==true?' class="active"':''%>>
+                                            <a href="<%=$this->Page->constructUrl('LogAktivitasUser',true)%>">
+                                                <i class="fa fa-file"></i>
+                                                <span>Log Aktivitas User</span>                                          
+                                            </a>                                        
+                                        </li>  
                                         <li>
                                             <a href="https://github.com/mrizkir/portalekampus/commits/" target="_blank">
                                                 <i class="fa fa-file-o"></i>
