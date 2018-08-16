@@ -25,7 +25,7 @@ class Logic_KRS extends Logic_Akademik {
 	public function checkMatkulSyaratIDPenyelenggaraan ($idpenyelenggaraan) {        
 		$nim=$this->DataMHS['nim'];
 		$idkelas=$this->DataMHS['idkelas'];
-		$matkul_syarat=$idkelas['idkelas'] == 'C'?array():$this->getSyaratKMatkulIDPenyelenggaraan($idpenyelenggaraan);		
+		$matkul_syarat=$idkelas == 'C'?array():$this->getSyaratKMatkulIDPenyelenggaraan($idpenyelenggaraan);		
 		if (isset($matkul_syarat[1])) {			            
 			$iddata_konversi=$this->DataMHS['iddata_konversi'];
             $str_krs = "SELECT kmatkul FROM v_krsmhs WHERE batal=0 AND sah=1 AND nim='$nim' AND kmatkul ";
