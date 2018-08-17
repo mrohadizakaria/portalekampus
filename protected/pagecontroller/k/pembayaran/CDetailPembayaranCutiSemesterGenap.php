@@ -117,7 +117,7 @@ class CDetailPembayaranCutiSemesterGenap Extends MainPageK {
             $tahun=$datamhs['ta'];
             $nim=$datamhs['nim'];
             
-            $no_transaksi='11'.$tahun.mt_rand(100000,999999);
+            $no_transaksi='11'.$tahun.mt_rand(10000,99999);
             $no_faktur=addslashes($this->txtAddNomorFaktur->Text);            
             $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
             

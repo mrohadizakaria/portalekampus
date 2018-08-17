@@ -30,8 +30,10 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageK {
             }      
 		}	
 	}
-    public function getDataMHS($idx) {		        
-        return $this->Finance->getDataMHS($idx);
+    public function getDataMHS($idx) {              
+        if (isset($_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS'])) {
+            return $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS'][$idx];
+        }        
     }
     public function populateData () {
         $datamhs=$_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS'];        

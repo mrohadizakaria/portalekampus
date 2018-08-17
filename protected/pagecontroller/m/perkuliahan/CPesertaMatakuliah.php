@@ -77,7 +77,8 @@ class CPesertaMatakuliah extends MainPageM {
                 $this->lblModulHeader->Text=$this->getInfoToolbar();
                 $ex->getMessage();
             }
-		}		
+		}	
+        $this->Demik->setInfoMatkul($_SESSION['currentPagePesertaMatakuliah']['InfoMatkul']);	
 	}	
     public function getInfoToolbar() {        
         $kjur=$_SESSION['kjur'];        

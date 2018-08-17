@@ -29,7 +29,19 @@ class Logic_Akademik extends Logic_Mahasiswa {
 	public function __construct ($db) {
 		parent::__construct ($db);				
 	}
-    /**
+    /** 
+     * setter informasik matakuliah
+     */
+    public function setInfoMatkul ($infoMatkul) {
+        $this->InfoMatkul=$infoMatkul;
+    }
+    /** 
+     * setter informasi kelas
+     */
+    public function setInfoKelas ($infoKelas) {
+        $this->InfoKelas=$infoKelas;
+    }
+    /** 
      * digunakan untuk mendapatkan daftar semester matakuliah dalam bentuk romawi
      */
     public function getSemesterMatakuliahRomawi () {

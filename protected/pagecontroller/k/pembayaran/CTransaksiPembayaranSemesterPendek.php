@@ -16,7 +16,7 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageK {
                 $no_transaksi=$datamhs['no_transaksi'];
                 $str = "SELECT no_faktur,tanggal FROM transaksi WHERE no_transaksi=$no_transaksi";
                 $this->DB->setFieldTable(array('no_faktur','tanggal'));
-                $d=$this->DB->getRecord($str);
+                $d=$this->DB->getRecord($str);                
                 $this->hiddennofaktur->Value=$d[1]['no_faktur'];
                 $this->txtAddNomorFaktur->Text=$d[1]['no_faktur'];
                 $this->cmbAddTanggalFaktur->Text=$this->TGL->tanggal('d-m-Y',$d[1]['tanggal']);
@@ -27,16 +27,17 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageK {
             }      
 		}	
 	}
-    public function getDataMHS($idx) {			
-        return $this->Finance->getDataMHS($idx);
+    public function getDataMHS($idx) {
+        if (isset($_SESSION['currentPagePembayaranSemesterPendek']['DataMHS'])){
+            return $_SESSION['currentPagePembayaranSemesterPendek']['DataMHS'][$idx];
+        }
     }
     public function populateData () {
         $datamhs=$_SESSION['currentPagePembayaranSemesterPendek']['DataMHS'];        
         $no_transaksi=$datamhs['no_transaksi'];
         $tahun_masuk=$datamhs['tahun_masuk'];   
         $kelas=$datamhs['idkelas'];                
-        
-        
+                
         $str = "SELECT td.idkombi,td.dibayarkan,td.jumlah_sks,t.commited FROM transaksi t,transaksi_detail td WHERE t.no_transaksi=td.no_transaksi AND td.no_transaksi=$no_transaksi ORDER BY td.idkombi+1 ASC";
         $this->DB->setFieldTable(array('idkombi','dibayarkan','jumlah_sks','commited'));
         $k=$this->DB->getRecord($str);
@@ -58,7 +59,8 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageK {
             $v['jumlah_sks']=$transaksi[$idkombi]['jumlah_sks'];
             $jumlah_bayar=$biaya*$v['jumlah_sks'];
             $v['jumlah_bayar']=$this->Finance->toRupiah($jumlah_bayar);
-            $v['dibayarkan']=$v['commited'] == true ? $this->Finance->toRupiah($transaksi[$idkombi]['dibayarkan']) :0;
+            $v['dibayarkan']=$this->Finance->toRupiah($transaksi[$idkombi]['dibayarkan']);
+            $v['sudah_dibayar']=$transaksi[$idkombi]['dibayarkan'];
             $result[$k]=$v;
         }		
         $this->GridS->DataSource=$result;
@@ -158,9 +160,9 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageK {
             $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',commited=1,date_modified=NOW() WHERE no_transaksi=$no_transaksi";
             $this->DB->updateRecord($str);
             
+            $this->Finance->setDataMHS($datamhs);
             $datadulang=$this->Finance->getDataDulang($ta,$idsmt);
             if (!isset($datadulang['iddulang'])) {
-                $this->Finance->setDataMHS($datamhs);
                 $bool=$this->Finance->getTresholdPembayaran($ta,$idsmt);						                                
                 if ($bool) {
                     $tasmt=$ta.$idsmt;

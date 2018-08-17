@@ -30,8 +30,10 @@ class CTransaksiPembayaranMahasiswaBaru Extends MainPageK {
             }      
 		}	
 	}
-    public function getDataMHS($idx) {		        
-        return $this->Finance->getDataMHS($idx);
+    public function getDataMHS($idx) {
+        if (isset($_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'])){
+            return $_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'][$idx];
+        }
     }
     public function populateData () {
         $datamhs=$_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'];        

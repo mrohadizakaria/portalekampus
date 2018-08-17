@@ -19,7 +19,7 @@
         <h4 style="font-size:12px"><strong>Output Report:</strong></h4>
         <ul id="skin-colors" class="clearfix">
             <li style="font-size:10px">
-               <com:TActiveDropDownList ID="tbCmbOutputReport" OnSelectedIndexChanged="Page.changeOutputReport" CssClass="form-control">
+               <com:TActiveDropDownList ID="tbCmbOutputReport" OnCallback="Page.changeOutputReport" CssClass="form-control">
 					<prop:ClientSide.OnPreDispatch>
 						$('loading').show();
 					</prop:ClientSide.OnPreDispatch>
@@ -177,7 +177,7 @@
                 <header class="main-box-header clearfix">
                      <h2 class="pull-left"><i class="fa fa-user"></i> Daftar Peserta Kelas</h2> 
                      <div class="filter-block pull-right">  
-                        <com:TActiveLinkButton ID="btnPrintOut" OnClick="printOut" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out Daftar Hadir Mahasiswa">
+                        <com:TActiveLinkButton ID="btnPrintOut" OnCallback="printOut" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out Daftar Hadir Mahasiswa">
                             <prop:Text><i class="fa fa-print fa-lg"></i></prop:Text>
                             <prop:ClientSide.OnPreDispatch>
                                 $('loading').show();

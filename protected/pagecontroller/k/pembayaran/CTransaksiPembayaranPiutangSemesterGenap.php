@@ -30,8 +30,10 @@ class CTransaksiPembayaranPiutangSemesterGenap Extends MainPageK {
             }      
 		}	
 	}
-    public function getDataMHS($idx) {		        
-        return $this->Finance->getDataMHS($idx);
+    public function getDataMHS($idx) {
+        if (isset($_SESSION['currentPagePembayaranPiutangSemesterGenap']['DataMHS'])){
+            return $_SESSION['currentPagePembayaranPiutangSemesterGenap']['DataMHS'][$idx];
+        }
     }
     public function populateData () {
         $datamhs=$_SESSION['currentPagePembayaranPiutangSemesterGenap']['DataMHS'];        

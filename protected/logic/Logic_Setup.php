@@ -10,7 +10,7 @@ class Logic_Setup extends Logic_Global {
      * daftar semester
      * @var array
      */
-    private $semester = array('none'=>' ',1=>'GANJIL',2=>'GENAP',3=>'PENDEK');
+    private $semester = array('none'=>'Daftar Semester',1=>'GANJIL',2=>'GENAP',3=>'PENDEK');
     /**
      *
      * setting application

@@ -20,7 +20,7 @@
         <div class="heading-elements">
             <ul class="icons-list">                
                 <li>
-                    <a href="<%=$this->Page->constructUrl('pembayaran.DetailPembayaranFormulir',true,array('id'=>$_SESSION['currentPagePembayaranFormulir']['DataMHS']['no_formulir']));%>" data-action="closeredirect"></a>
+                    <a href="<%=$this->Page->constructUrl('pembayaran.DetailPembayaranFormulir',true,array('id'=>$this->getDataMHS('no_formulir')));%>" data-action="closeredirect"></a>
                 </li>
             </ul>
         </div>        
@@ -73,7 +73,7 @@
     </div> 
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"><i class="icon-pencil7 position-left"></i> TAMBAH TRANSAKSI #<%=$_SESSION['currentPagePembayaranFormulir']['DataMHS']['no_transaksi']%></h5>
+            <h5 class="panel-title"><i class="icon-pencil7 position-left"></i> TAMBAH TRANSAKSI #<%=$this->getDataMHS('no_transaksi')%></h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>

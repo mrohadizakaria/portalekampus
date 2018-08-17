@@ -36,8 +36,10 @@ class CTransaksiPembayaranFormulir Extends MainPageK {
             }      
 		}	
 	}
-    public function getDataMHS($idx) {		        
-        return $this->Finance->getDataMHS($idx);
+    public function getDataMHS($idx) {
+        if (isset($_SESSION['currentPagePembayaranFormulir']['DataMHS'])){
+            return $_SESSION['currentPagePembayaranFormulir']['DataMHS'][$idx];
+        }
     }
     public function populateData () {
         $datamhs=$_SESSION['currentPagePembayaranFormulir']['DataMHS'];        

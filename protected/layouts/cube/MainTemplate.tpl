@@ -797,6 +797,12 @@
                                                 <span>Semester Genap</span>
                                             </a>
                                         </li>
+                                        <li<%=$this->Page->showPembayaranSemesterPendek==true?' class="active"':''%>>
+                                            <a href="<%=$this->Page->constructUrl('pembayaran.PembayaranSemesterPendek',true)%>">
+                                                <i class="fa fa-usd"></i> 
+                                                <span>Semester Pendek</span>
+                                            </a>
+                                        </li>
                                         <li class="nav-header nav-header-first hidden-sm hidden-xs">
                                             SETTING
                                         </li>                                                                             

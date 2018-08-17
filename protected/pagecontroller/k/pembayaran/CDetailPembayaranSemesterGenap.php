@@ -102,7 +102,7 @@ class CDetailPembayaranSemesterGenap Extends MainPageK {
                 $this->lblContentMessageError->Text='Tidak bisa menambah Transaksi baru karena ada transaksi yang belum di Commit.';
                 $this->modalMessageError->show();
             }else{
-                $no_transaksi='10'.$ta.mt_rand(100000,999999);
+                $no_transaksi='10'.$ta.mt_rand(10000,99999);
                 $no_faktur=$ta.$no_transaksi;
                 $ps=$datamhs['kjur'];                
                 $idkelas=$datamhs['idkelas'];
