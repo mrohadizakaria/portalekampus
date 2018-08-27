@@ -51,7 +51,7 @@ class CDetailPembayaranMahasiswaBaru Extends MainPageK {
 		}	
 	}
     public function getDataMHS($idx) {              
-        if (isset($_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS']['nim'])) {
+        if (isset($_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS']['no_formulir'])) {
             return $_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'][$idx];
         }        
     }

@@ -132,6 +132,7 @@ class CPembayaranFormulir Extends MainPageK {
                 if (!isset($r[1])) {                                
                     throw new Exception ("Nomor Formulir ($noformulir) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
                 }
+                
             }catch (Exception $e) {
                 $param->IsValid=false;
                 $sender->ErrorMessage=$e->getMessage();

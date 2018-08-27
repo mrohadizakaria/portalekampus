@@ -38,7 +38,7 @@ class CDetailPembayaranFormulir Extends MainPageK {
 		}	
 	}
     public function getDataMHS($idx) {              
-        if (isset($_SESSION['currentPagePembayaranFormulir']['DataMHS']['nim'])) {
+        if (isset($_SESSION['currentPagePembayaranFormulir']['DataMHS']['no_formulir'])) {
             return $_SESSION['currentPagePembayaranFormulir']['DataMHS'][$idx];
         }        
     }

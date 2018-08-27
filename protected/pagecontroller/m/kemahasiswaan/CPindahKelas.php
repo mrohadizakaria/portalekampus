@@ -48,20 +48,20 @@ class CPindahKelas Extends MainPageM {
 		$this->RepeaterS->render($param->NewWriter);	
 	}
 	public function Page_Changed ($sender,$param) {
-		$_SESSION['currentPage']['page_num']=$param->NewPageIndex;
+		$_SESSION['currentPagePindahKelas']['page_num']=$param->NewPageIndex;
 		$this->populateData();
 	}
 	public function populateData() {
 		$ta=$_SESSION['ta'];
 		$idsmt=$_SESSION['semester'];
-		$this->RepeaterS->CurrentPageIndex=$_SESSION['currentPage']['page_num'];
+		$this->RepeaterS->CurrentPageIndex=$_SESSION['currentPagePindahKelas']['page_num'];
 		$this->RepeaterS->VirtualItemCount=$this->DB->getCountRowsOfTable("v_datamhs vdm,pindahkelas pk WHERE vdm.nim=pk.nim AND pk.tahun='$ta' AND pk.idsmt='$idsmt'");	
 		$offset=$this->RepeaterS->CurrentPageIndex*$this->RepeaterS->PageSize;
 		$limit=$this->RepeaterS->PageSize;
 		if ($offset+$limit>$this->RepeaterS->VirtualItemCount) {
 			$limit=$this->RepeaterS->VirtualItemCount-$offset;
 		}
-		if ($limit < 0) {$offset=0;$limit=10;$_SESSION['currentPage']['page_num']=0;}
+		if ($limit < 0) {$offset=0;$limit=10;$_SESSION['currentPagePindahKelas']['page_num']=0;}
 		$str = "SELECT pk.idpindahkelas,pk.no_surat,pk.tanggal,pk.nim,vdm.nama_mhs,vdm.tahun_masuk,pk.idkelas_lama,pk.idkelas_baru FROM v_datamhs vdm,pindahkelas pk WHERE vdm.nim=pk.nim AND pk.tahun='$ta' AND pk.idsmt='$idsmt' ORDER BY vdm.nama_mhs ASC LIMIT $offset,$limit";
 		$this->DB->setFieldTable(array('idpindahkelas','no_surat','tanggal','nim','nama_mhs','tahun_masuk','idkelas_lama','idkelas_baru'));
 		$r=$this->DB->getRecord($str,$offset+1);
@@ -89,7 +89,7 @@ class CPindahKelas Extends MainPageM {
 			$ta=$_SESSION['ta'];
 			$idsmt=$_SESSION['semester'];					
 			if ($this->DB->checkRecordIsExist('nim','pindahkelas',$nim," AND idsmt='$idsmt' AND tahun='$ta'")){
-                throw new Exception ("Nim ($nim) pada T.A dan Semester ini, telah melakukan pindah kelas !!!");
+                throw new Exception ("NIM ($nim) pada T.A dan Semester ini, telah melakukan pindah kelas !!!");
             }
             $this->Demik->setDataMHS(array('nim'=>$nim));
 			$datadulang=$this->Demik->getDataDulang($_SESSION['semester'],$_SESSION['ta']);
@@ -98,11 +98,11 @@ class CPindahKelas Extends MainPageM {
             }
             if ($idsmt == 3) {
                 if ($this->DB->checkRecordIsExist('nim','transaksi_sp',$nim," AND idsmt='$idsmt' AND tahun='$ta' LIMIT 1")){
-                    throw new Exception ("Nim ($nim) pada T.A dan Semester ini, telah melakukan transaksi keuangan");
+                    throw new Exception ("NIM ($nim) pada T.A dan Semester ini, telah melakukan transaksi keuangan");
                 }
             }else{
                 if ($this->DB->checkRecordIsExist('nim','transaksi',$nim," AND idsmt='$idsmt' AND tahun='$ta' LIMIT 1")){
-                    throw new Exception ("Nim ($nim) pada T.A dan Semester ini, telah melakukan transaksi keuangan");
+                    throw new Exception ("NIM ($nim) pada T.A dan Semester ini, telah melakukan transaksi keuangan");
                 }
             }
 		}catch (Exception $e) {
