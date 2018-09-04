@@ -33,7 +33,7 @@ class CTransaksiPembayaranMahasiswaBaru Extends MainPageK {
     public function getDataMHS($idx) {
         if (isset($_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'])){
             return $_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'][$idx];
-        }
+        }   
     }
     public function populateData () {
         $datamhs=$_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS'];        
@@ -113,11 +113,11 @@ class CTransaksiPembayaranMahasiswaBaru Extends MainPageK {
         
         $str = "SELECT SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE no_formulir=$no_formulir AND tahun=$ta AND idsmt=$idsmt AND idkombi=$id AND commited=1";
         $this->DB->setFieldTable(array('sudah_dibayar'));
-        $d=$this->DB->getRecord($str);
+        $d=$this->DB->getRecord($str);        
         $sudah_dibayar=$d[1]['sudah_dibayar'];
         
         
-        $str = "SELECT biaya FROM kombi_per_ta kpt,kombi k WHERE  k.idkombi=kpt.idkombi AND tahun=$ta AND kpt.idkelas='$kelas' AND kpt.idkombi=$id";
+        $str = "SELECT biaya FROM kombi_per_ta kpt,kombi k WHERE  k.idkombi=kpt.idkombi AND tahun=$ta AND kpt.idkelas='$kelas' AND kpt.idkombi=$id AND kpt.idsmt=$idsmt";
         $this->DB->setFieldTable(array('biaya'));
         $r=$this->DB->getRecord($str);
         $biaya=$r[1]['biaya'];
