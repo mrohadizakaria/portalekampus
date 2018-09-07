@@ -28,9 +28,10 @@ class CDetailKRS extends MainPageSA {
             $this->tbCmbOutputReport->DataBind();
 				
             $this->populateData();				
-            $this->lblModulHeader->Text=$this->getInfoToolbar();            
+            $this->lblModulHeader->Text=$this->getInfoToolbar();          
 				
 		}				
+        $this->KRS->setDataMHS($_SESSION['currentPageKRS']['DataMHS']);
 	}
     public function getDataMHS($idx) {		        
         return $this->KRS->getDataMHS($idx);
@@ -172,6 +173,18 @@ class CDetailKRS extends MainPageSA {
         $datakrs['krs']['maxSKS']=$maxSKS;     
         $_SESSION['currentPageKRS']['DataKRS']=$datakrs;
         $this->redirect ('perkuliahan.TambahKRS',true);
+    }
+    public function sahkanKRS($sender,$param) {
+        $datakrs=$_SESSION['currentPageKRS']['DataKRS'];
+        $idkrs = $datakrs['krs']['idkrs'];
+        $this->KRS->sahkanKRS($idkrs);
+        $this->redirect ('perkuliahan.DetailKRS',true,array('id'=>$idkrs));
+    }
+    public function batalkanKRS($sender,$param) {
+        $datakrs=$_SESSION['currentPageKRS']['DataKRS'];
+        $idkrs = $datakrs['krs']['idkrs'];
+        $this->KRS->batalkanKRS($idkrs);
+        $this->redirect ('perkuliahan.DetailKRS',true,array('id'=>$idkrs));
     }
     public function closeDetailKRS ($sender,$param) { 
         unset($_SESSION['currentPageKRS']);

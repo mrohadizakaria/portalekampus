@@ -145,8 +145,14 @@ class Logic_KRS extends Logic_Akademik {
 	public function sahkanKRS ($idkrs) {
 		$tgl=date('Y-m-d');
 		$str = "UPDATE krs SET sah=1,tgl_disahkan='$tgl' WHERE idkrs='$idkrs'";
-		$this->db->updateRecord ($str);		
-		$str = "UPDATE krsmatkul SET batal=0 WHERE idkrs='$idkrs'";
-		$this->db->updateRecord($str);	
+		$this->db->updateRecord ($str);
 	}
+    /**
+     * method untuk membatalkan krs mahasiswa
+     * @param type $idkrs
+     */
+    public function batalkanKRS ($idkrs) {
+        $str = "UPDATE krs SET sah=0 WHERE idkrs='$idkrs'";
+        $this->db->updateRecord ($str);             
+    }
 }

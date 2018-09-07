@@ -1,14 +1,14 @@
 <?php
-prado::using ('Application.MainPageK');
-class CPembayaranMahasiswaBaru Extends MainPageK {		
+prado::using ('Application.MainPageSA');
+class CPembayaranMahasiswaBaru Extends MainPageSA {		
 	public function onLoad($param) {
 		parent::onLoad($param);				
-        $this->showMenuPembayaran=true;
+        $this->showSubMenuPembayaran=true;
         $this->showPembayaranMahasiswaBaru=true;                
         $this->createObj('Finance');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {
-            if (!isset($_SESSION['currentPagePembayaranMahasiswaBaru'])||$_SESSION['currentPagePembayaranMahasiswaBaru']['page_name']!='k.pembayaran.PembayaranMahasiswaBaru') {
-				$_SESSION['currentPagePembayaranMahasiswaBaru']=array('page_name'=>'k.pembayaran.PembayaranMahasiswaBaru','page_num'=>0,'search'=>false,'semester_masuk'=>1,'DataMHS'=>array());												
+            if (!isset($_SESSION['currentPagePembayaranMahasiswaBaru'])||$_SESSION['currentPagePembayaranMahasiswaBaru']['page_name']!='sa.pembayaran.PembayaranMahasiswaBaru') {
+				$_SESSION['currentPagePembayaranMahasiswaBaru']=array('page_name'=>'sa.pembayaran.PembayaranMahasiswaBaru','page_num'=>0,'search'=>false,'semester_masuk'=>1,'DataMHS'=>array());												
 			}
             $_SESSION['currentPagePembayaranMahasiswaBaru']['search']=false; 
             
@@ -127,27 +127,10 @@ class CPembayaranMahasiswaBaru Extends MainPageK {
 		}		
 	}	
 	
-    public function cekNomorFormulir ($sender,$param) {		
-        $noformulir=addslashes($param->Value);		
-        if ($noformulir != '') {
-            try {               
-                $str = "SELECT fp.no_formulir FROM formulir_pendaftaran fp,profiles_mahasiswa pm WHERE fp.no_formulir=pm.no_formulir AND fp.no_formulir='$noformulir'";
-                $this->DB->setFieldTable(array('no_formulir'));
-                $r=$this->DB->getRecord($str);
-                if (!isset($r[1])) {                                
-                    throw new Exception ("Nomor Formulir ($noformulir) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
-                }
-            }catch (Exception $e) {
-                $param->IsValid=false;
-                $sender->ErrorMessage=$e->getMessage();
-            }	
-        }	
-    }
-	public function Go($param,$sender) {	
-        if ($this->IsValid) {            
-            $no_formulir=addslashes($this->txtNoFormulir->Text);
-            $this->redirect('pembayaran.DetailPembayaranMahasiswaBaru',true,array('id'=>$no_formulir));
-        }
-	}
-	
+    public function batalkanTransaksi ($sender,$param) {		
+        $no_transaksi=$this->getDataKeyField($sender,$this->RepeaterS);		
+        $str = "UPDATE transaksi SET commited=0 WHERE no_transaksi=$no_transaksi";
+        $this->DB->updateRecord($str);
+        $this->redirect ('pembayaran.PembayaranMahasiswaBaru',true);        	
+    }	
 }

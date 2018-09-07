@@ -77,6 +77,38 @@
                                 $('loading').hide();
                             </prop:ClientSide.OnComplete>
                         </com:TActiveLinkButton> 
+                        <com:TActiveLinkButton ID="btnSahkan" CssClass="btn btn-primary pull-left" OnClick="Page.sahkanKRS" Attributes.Title="Sahkan KRS" ClientSide.PostState="false" Visible="<%=!$this->KRS->DataKRS['krs']['sah']%>">
+                            <prop:Text>
+                                <i class="fa fa-check"></i>                                
+                            </prop:Text>
+                            <prop:ClientSide.OnPreDispatch>                                                                   
+                                $('loading').show(); 
+                                $('<%=$this->btnSahkan->ClientId%>').disabled='disabled';                       
+                            </prop:ClientSide.OnPreDispatch>
+                            <prop:ClientSide.OnLoading>
+                                $('<%=$this->btnSahkan->ClientId%>').disabled='disabled';                       
+                            </prop:ClientSide.OnLoading>
+                            <prop:ClientSide.OnComplete>                                                                                                                                                                                                            
+                                $('<%=$this->btnSahkan->ClientId%>').disabled='';
+                                $('loading').hide(); 
+                            </prop:ClientSide.OnComplete>
+                        </com:TActiveLinkButton>
+                        <com:TActiveLinkButton ID="btnBatalkan" CssClass="btn btn-primary pull-left" OnClick="Page.batalkanKRS" Attributes.Title="Batalkan KRS" ClientSide.PostState="false" Visible="<%=$this->KRS->DataKRS['krs']['sah']%>">
+                            <prop:Text>
+                                <i class="fa fa-window-close"></i>                                
+                            </prop:Text>
+                            <prop:ClientSide.OnPreDispatch>                                                                   
+                                $('loading').show(); 
+                                $('<%=$this->btnBatalkan->ClientId%>').disabled='disabled';                       
+                            </prop:ClientSide.OnPreDispatch>
+                            <prop:ClientSide.OnLoading>
+                                $('<%=$this->btnBatalkan->ClientId%>').disabled='disabled';                       
+                            </prop:ClientSide.OnLoading>
+                            <prop:ClientSide.OnComplete>                                                                                                                                                                                                            
+                                $('<%=$this->btnBatalkan->ClientId%>').disabled='';
+                                $('loading').hide(); 
+                            </prop:ClientSide.OnComplete>
+                        </com:TActiveLinkButton>
                         <com:TActiveLinkButton ID="btnPrintOut" OnClick="printKRS" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out KRS">
                             <prop:Text><i class="fa fa-print fa-lg"></i></prop:Text>
                             <prop:ClientSide.OnPreDispatch>
@@ -183,7 +215,7 @@
                                             <td><%# $this->DataItem['semester']%></td>							
                                             <td><%# $this->DataItem['nama_dosen']%> [<%# $this->DataItem['nidn']%>]</td>					
                                             <td>
-                                                <com:TActiveDropDownList ID="cmbKelas" Text="<%# $this->Data['iddosen']%>" OnCallBack="page.prosesKelas" CssClass="form-control">
+                                                <com:TActiveDropDownList ID="cmbKelas" OnCallBack="page.prosesKelas" CssClass="form-control">
                                                     <prop:ClientSide.OnPreDispatch>
                                                         $('loading').show();                                             
                                                         $('<%=$this->cmbKelas->ClientId%>').disabled='disabled';						

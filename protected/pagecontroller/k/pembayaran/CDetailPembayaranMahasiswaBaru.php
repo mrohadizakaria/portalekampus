@@ -10,7 +10,7 @@ class CDetailPembayaranMahasiswaBaru Extends MainPageK {
         $this->createObj('Finance');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {
             if (!isset($_SESSION['currentPagePembayaranMahasiswaBaru'])||$_SESSION['currentPagePembayaranMahasiswaBaru']['page_name']!='k.pembayaran.PembayaranMahasiswaBaru') {
-				$_SESSION['currentPagePembayaranMahasiswaBaru']=array('page_name'=>'k.pembayaran.PembayaranMahasiswaBaru','page_num'=>0,'search'=>false,'kelas'=>'none','semester_masuk'=>1,'DataMHS'=>array());												
+				$_SESSION['currentPagePembayaranMahasiswaBaru']=array('page_name'=>'k.pembayaran.PembayaranMahasiswaBaru','page_num'=>0,'search'=>false,'kelas'=>'none','tahun_masuk'=>1,'semester_masuk'=>1,'DataMHS'=>array());												
 			}        
             try {
                 $no_formulir=addslashes($this->request['id']);
@@ -21,7 +21,7 @@ class CDetailPembayaranMahasiswaBaru Extends MainPageK {
                     throw new Exception ("Calon Mahasiswa dengan Nomor Formulir ($no_formulir) tidak terdaftar di Database, silahkan ganti dengan yang lain.");		
                 }
                 $datamhs=$r[1];                
-                $datamhs['idsmt']=$datamhs['semester_masuk'];
+                $datamhs['idsmt']=$datamhs['semester_masuk'];                
                 $this->Finance->setDataMHS($datamhs);
                 if (!$spmb=$this->Finance->isLulusSPMB(true)) {
                     throw new Exception ("Calon Mahasiswa dengan Nomor Formulir ($no_formulir) tidak lulus dalam SPMB.");		
@@ -41,6 +41,8 @@ class CDetailPembayaranMahasiswaBaru Extends MainPageK {
                 $datamhs['perpanjang']=false;
                 $this->Finance->setDataMHS($datamhs);                
                 $datamhs['no_transaksi']=isset($_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS']['no_transaksi']) ? $_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS']['no_transaksi'] : 'none';                
+                $_SESSION['currentPagePembayaranMahasiswaBaru']['tahun_masuk']=$datamhs['tahun_masuk'];
+                $_SESSION['currentPagePembayaranMahasiswaBaru']['semester_masuk']=$datamhs['semester_masuk'];
                 $_SESSION['currentPagePembayaranMahasiswaBaru']['DataMHS']=$datamhs;                
                 CDetailPembayaranMahasiswaBaru::$KewajibanMahasiswa=$this->Finance->getTotalBiayaMhsPeriodePembayaran ();
                 $this->populateTransaksi();

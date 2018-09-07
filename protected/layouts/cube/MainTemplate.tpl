@@ -206,16 +206,19 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li<%=$this->Page->showSubMenuDMasterPerkuliahan==true?' class="active"':''%>>
+                                        <li class="nav-header nav-header-first hidden-sm hidden-xs">
+                                            KEUANGAN
+                                        </li>                                        
+                                        <li<%=$this->Page->showSubMenuPembayaran==true?' class="active"':''%>>
                                             <a href="#" class="dropdown-toggle">
-                                                <i class="fa fa-truck"></i>
-                                                <span>Perkuliahan</span>
+                                                <i class="fa fa-cab"></i>
+                                                <span>Pembayaran</span>
                                                 <i class="fa fa-angle-right drop-icon"></i>
                                             </a>
                                             <ul class="submenu">
                                                 <li>
-                                                    <a href="<%=$this->Page->constructUrl('dmaster.TA',true)%>"<%=$this->Page->showTA==true ? ' class="active" ':''%>>
-                                                        Tahun Akademik
+                                                    <a href="<%=$this->Page->constructUrl('pembayaran.PembayaranMahasiswaBaru',true)%>"<%=$this->Page->showPembayaranMahasiswaBaru==true ? ' class="active" ':''%>>
+                                                        Mahasiswa Baru
                                                     </a>
                                                 </li>
                                             </ul>

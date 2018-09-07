@@ -29,6 +29,14 @@ class MainPageSA extends MainPage {
      */
     public $showTA=false;
     /**
+     * show sub menu [pembayaran]
+     */
+    public $showSubMenuPembayaran=false;  
+    /**
+     * show page [pembayaran mahasiswa baru]
+     */
+    public $showPembayaranMahasiswaBaru=false;  
+    /**
      * show page penyelenggaraan [perkuliahan]
      */
     public $showPenyelenggaraan=false;
