@@ -1204,111 +1204,6 @@ CREATE TABLE `pkrs` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `portal_parameter`
---
-
-CREATE TABLE `portal_parameter` (
-  `CODE` varchar(3) NOT NULL,
-  `ID` varchar(3) NOT NULL,
-  `KET` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `portal_register`
---
-
-CREATE TABLE `portal_register` (
-  `DATA` varchar(5) DEFAULT '',
-  `TOKEN` varchar(100) DEFAULT NULL,
-  `IP` varchar(15) NOT NULL,
-  `DATEPOST` datetime DEFAULT NULL,
-  `STATUS` int(1) DEFAULT NULL,
-  `USERID` varchar(10) DEFAULT NULL,
-  `DATEPOST1` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `portal_register_log`
---
-
-CREATE TABLE `portal_register_log` (
-  `DATA` varchar(5) DEFAULT '',
-  `TOKEN` varchar(100) DEFAULT NULL,
-  `IP` varchar(15) DEFAULT '',
-  `DATEPOST` datetime DEFAULT NULL,
-  `STATUS` int(1) DEFAULT NULL,
-  `USERID` varchar(10) DEFAULT NULL,
-  `DATEPOST1` datetime DEFAULT NULL,
-  `KET` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `portal_settparam`
---
-
-CREATE TABLE `portal_settparam` (
-  `semester` int(1) DEFAULT NULL,
-  `tgl_awal` date DEFAULT NULL,
-  `tgl_akhir` date DEFAULT NULL,
-  `tahun` int(11) DEFAULT NULL,
-  `userid` varchar(255) DEFAULT NULL,
-  `datepost` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `portal_settparam_log`
---
-
-CREATE TABLE `portal_settparam_log` (
-  `semester` int(1) DEFAULT NULL,
-  `tgl_awal` date DEFAULT NULL,
-  `tgl_akhir` date DEFAULT NULL,
-  `tahun` int(11) DEFAULT NULL,
-  `userid` varchar(255) DEFAULT NULL,
-  `datepost` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `portal_user`
---
-
-CREATE TABLE `portal_user` (
-  `user_id` varchar(5) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `wewenang` varchar(400) NOT NULL DEFAULT '',
-  `userid` varchar(10) DEFAULT NULL,
-  `datepost` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `portal_user_log`
---
-
-CREATE TABLE `portal_user_log` (
-  `user_id` varchar(5) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `wewenang` varchar(400) NOT NULL DEFAULT '',
-  `userid` varchar(10) DEFAULT NULL,
-  `datepost` datetime DEFAULT NULL,
-  `ket` varchar(400) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `profiles_mahasiswa`
@@ -1513,7 +1408,7 @@ INSERT INTO `setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (61, 'krs', 'jumlah_sks_krs_mhs_baru', '21'),
 (56, 'spmb', 'default_tahun_pendaftaran', '2018'),
 (7, 'general', 'minimal_sks_daftar_konsentrasi', '60'),
-(8, 'general', 'jslogger', '0',
+(8, 'general', 'jslogger', '0'),
 (9, 'general', 'alamat_pt', 'Jl. Fisabilillah No. 8'),
 (11, 'general', 'kota_pt', 'Tanjungpinang'),
 (12, 'general', 'provinsi_pt', 'Kepulauan Riau');
@@ -2706,23 +2601,6 @@ ALTER TABLE `pkrs`
   ADD KEY `nim` (`nim`),
   ADD KEY `idpenyelenggaraan` (`idpenyelenggaraan`);
 
---
--- Indexes for table `portal_parameter`
---
-ALTER TABLE `portal_parameter`
-  ADD PRIMARY KEY (`CODE`,`ID`);
-
---
--- Indexes for table `portal_register`
---
-ALTER TABLE `portal_register`
-  ADD PRIMARY KEY (`IP`);
-
---
--- Indexes for table `portal_user`
---
-ALTER TABLE `portal_user`
-  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indexes for table `profiles_mahasiswa`
@@ -2810,14 +2688,6 @@ ALTER TABLE `soal`
 --
 ALTER TABLE `status_mhs`
   ADD PRIMARY KEY (`k_status`);
-
---
--- Indexes for table `system_log`
---
-ALTER TABLE `system_log`
-  ADD PRIMARY KEY (`log_id`),
-  ADD KEY `log_type` (`log_type`),
-  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `ta`
@@ -3264,12 +3134,6 @@ ALTER TABLE `ruangkelas`
 --
 ALTER TABLE `soal`
   MODIFY `idsoal` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `system_log`
---
-ALTER TABLE `system_log`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tempat_spmb`
