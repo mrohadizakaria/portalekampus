@@ -148,7 +148,7 @@ class Logic_ReportNilai extends Logic_Report {
                     $rpt->Cell(60, 5, 'Mengetahui',0,0,'C');				
 
                     $tanggal=$this->tgl->tanggal('l, j F Y');				
-                    $rpt->Cell(80, 5, "Tanjungpinang, $tanggal",0,0,'C');		
+                    $rpt->Cell(80, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'C');		
 
                     $row+=5;
                     $rpt->setXY(31,$row);			
@@ -338,7 +338,7 @@ class Logic_ReportNilai extends Logic_Report {
                             $rpt->Cell(60, 5, 'Mengetahui',0,0,'C');				
 
                             $tanggal=$this->tgl->tanggal('l, j F Y');				
-                            $rpt->Cell(80, 5, "Tanjungpinang, $tanggal",0,0,'C');		
+                            $rpt->Cell(80, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'C');		
 
                             $row+=5;
                             $rpt->setXY(31,$row);			
@@ -500,7 +500,7 @@ class Logic_ReportNilai extends Logic_Report {
                     
                     $sheet->mergeCells("F$row:I$row");       
                     $tanggal=$this->tgl->tanggal('l, j F Y');		
-                    $sheet->setCellValue("F$row","Tanjungpinang, $tanggal");				                    
+                    $sheet->setCellValue("F$row",$this->setup->getSettingValue('kota_pt').", $tanggal");				                    
                     
                     $row+=1;
                     $sheet->mergeCells("C$row:D$row");      
@@ -793,7 +793,7 @@ class Logic_ReportNilai extends Logic_Report {
                 if ($withsignature) {
                     $row+=8;
                     $rpt->setXY(105,$row);	
-                    $rpt->Cell(65,4,'Tanjungpinang, '.$this->tgl->tanggal('j F Y'),0,0,'L');
+                    $rpt->Cell(65,4,$this->setup->getSettingValue('kota_pt').', '.$this->tgl->tanggal('j F Y'),0,0,'L');
                     $row+=4;
                     $rpt->setXY(105,$row);	
                     $rpt->Cell(65,4,$this->dataReport['nama_jabatan_transkrip'],0,0,'L');                    
@@ -1062,7 +1062,7 @@ class Logic_ReportNilai extends Logic_Report {
                 if ($withsignature) {
                     $row+=8;
                     $rpt->setXY(105,$row);	
-                    $rpt->Cell(65,4,'Tanjungpinang, '.$this->tgl->tanggal('j F Y'),0,0,'L');
+                    $rpt->Cell(65,4,$this->setup->getSettingValue('kota_pt').', '.$this->tgl->tanggal('j F Y'),0,0,'L');
                     $row+=4;
                     $rpt->setXY(105,$row);	
                     $rpt->Cell(65,4,$this->dataReport['nama_jabatan_transkrip'],0,0,'L');                    
@@ -1383,7 +1383,7 @@ class Logic_ReportNilai extends Logic_Report {
                 if ($withsignature) {
                     $row+=4;
                     $rpt->setXY(105,$row);	
-                    $rpt->Cell(65,4,'Tanjungpinang, '.$this->tgl->tanggal('j F Y'),0,0,'L');
+                    $rpt->Cell(65,4,$this->setup->getSettingValue('kota_pt').', '.$this->tgl->tanggal('j F Y'),0,0,'L');
                     $row+=4;
                     $rpt->setXY(105,$row);	
                     $rpt->Cell(65,4,$this->dataReport['nama_jabatan_transkrip'],0,0,'L');                    
@@ -1629,7 +1629,7 @@ class Logic_ReportNilai extends Logic_Report {
 				$row+=2;
 				$rpt->setXY(40,$row);	
 				$rpt->Cell(65,4,'',0,0,'C');						
-				$rpt->Cell(90,4,'Tanjungpinang, '.$this->tgl->tanggal('j F Y',$biodata['tanggalterbit']),0,0,'C');
+				$rpt->Cell(90,4,$this->setup->getSettingValue('kota_pt').', '.$this->tgl->tanggal('j F Y',$biodata['tanggalterbit']),0,0,'C');
 				$row+=4;
 				$rpt->setXY(40,$row);	
 				$rpt->Cell(65,4,$biodata['nama_jabatan_transkrip'].',',0,0,'C');				
@@ -1827,7 +1827,7 @@ class Logic_ReportNilai extends Logic_Report {
                 $row_awal=$row;                
                 
                 $tanggal=$this->tgl->tanggal('l, j F Y');	
-                $sheet->setCellValue("H$row","Tanjungpinang, $tanggal");			
+                $sheet->setCellValue("H$row",$this->setup->getSettingValue('kota_pt').", $tanggal");			
                 
                 $row+=2;                
                 $sheet->setCellValue("C$row",'A.n. Ketua '.$this->dataReport['nama_pt_alias']);			
@@ -2030,7 +2030,7 @@ class Logic_ReportNilai extends Logic_Report {
                     $rpt->SetFont ('helvetica','B',8);
                     $rpt->setXY(40,$row);													
                     $tanggal=$this->tgl->tanggal('l, j F Y');				
-                    $rpt->Cell(250, 5, "Tanjungpinang, $tanggal",0,0,'C');		
+                    $rpt->Cell(250, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'C');		
 
                     $row+=5;
                     $rpt->setXY(40,$row);			
@@ -2462,7 +2462,7 @@ class Logic_ReportNilai extends Logic_Report {
                 $sheet->setCellValue("B$row",'Nilai Angka (NA)');
                 $sheet->setCellValue("D$row",'Huruf Mutu (HM)');
                 $sheet->setCellValue("F$row",'Angka Mutu (AM)');
-                $sheet->setCellValue("N$row",'Tanjungpinang, '.$this->tgl->tanggal('d F Y'));
+                $sheet->setCellValue("N$row",$this->setup->getSettingValue('kota_pt').', '.$this->tgl->tanggal('d F Y'));
                 $row+=1;
                 $sheet->setCellValue("B$row",'85-100');
                 $sheet->setCellValue("D$row",'A');

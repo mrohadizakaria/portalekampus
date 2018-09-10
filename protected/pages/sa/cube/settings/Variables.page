@@ -7,7 +7,113 @@
     <li class="active">VARIABLES</li>
 </com:TContent>
 <com:TContent ID="maincontent">
-<com:TPanel Visible="<%= $this->getDefaultProcess() %>">   
+<com:TPanel Visible="<%= $this->getDefaultProcess() %>"> 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-box">
+                <header class="main-box-header clearfix">
+                    <h2 class="pull-left"><i class="fa fa-cogs"></i> Data Perguruan Tinggi</h2>                 
+                </header>
+                <div class="main-box-body clearfix">
+                    <div class="form-horizontal">
+                        <div class="form-group" id="divDefaultNamaPT">
+                            <label class="col-md-2 control-label">Nama P.T :</label>
+                            <div class="col-md-10">                                
+                                <com:TTextBox ID="txtNamaPT" CssClass="form-control" />   
+                                <com:TRequiredFieldValidator ID="FieldNamaPTValidator" ValidationGroup="settingdatapt" Display="Dynamic" ControlToValidate="txtNamaPT" ErrorMessage="Isi Nama Perguruan Tinggi" CssClass="has-error help-block">   
+                                    <prop:ClientSide.OnValidationError>
+                                        $('divDefaultNamaPT').addClassName('has-error');
+                                        jQuery('#<%=$this->FieldNamaPTValidator->ClientID%>').removeAttr('style');
+                                    </prop:ClientSide.OnValidationError>
+                                    <prop:ClientSide.OnValidationSuccess>
+                                        $('divDefaultNamaPT').removeClassName('has-error');
+                                    </prop:ClientSide.OnValidationSuccess>
+                                </com:TRequiredFieldValidator>                              
+                            </div>
+                        </div>
+                        <div class="form-group" id="divDefaultNamaPTAlias">
+                            <label class="col-md-2 control-label">Nama P.T Alias:</label>
+                            <div class="col-md-10">                                
+                                <com:TTextBox ID="txtNamaPTAlias" CssClass="form-control" />   
+                                <com:TRequiredFieldValidator ID="FieldNamaPTAliasValidator" ValidationGroup="settingdatapt" Display="Dynamic" ControlToValidate="txtNamaPTAlias" ErrorMessage="Isi Nama Perguruan Tinggi Alias (Singkatan/Panggilan)" CssClass="has-error help-block">   
+                                    <prop:ClientSide.OnValidationError>
+                                        $('divDefaultNamaPTAlias').addClassName('has-error');
+                                        jQuery('#<%=$this->FieldNamaPTAliasValidator->ClientID%>').removeAttr('style');
+                                    </prop:ClientSide.OnValidationError>
+                                    <prop:ClientSide.OnValidationSuccess>
+                                        $('divDefaultNamaPTAlias').removeClassName('has-error');
+                                    </prop:ClientSide.OnValidationSuccess>
+                                </com:TRequiredFieldValidator>                              
+                            </div>
+                        </div>
+                        <div class="form-group" id="divDefaultAlamatPT">
+                            <label class="col-md-2 control-label">Alamat P.T:</label>
+                            <div class="col-md-10">                                
+                                <com:TTextBox ID="txtAlamatPT" CssClass="form-control" />   
+                                <com:TRequiredFieldValidator ID="FieldAlamatPTValidator" ValidationGroup="settingdatapt" Display="Dynamic" ControlToValidate="txtAlamatPT" ErrorMessage="Isi Alamat Perguruan Tinggi" CssClass="has-error help-block">   
+                                    <prop:ClientSide.OnValidationError>
+                                        $('divDefaultAlamatPT').addClassName('has-error');
+                                        jQuery('#<%=$this->FieldAlamatPTValidator->ClientID%>').removeAttr('style');
+                                    </prop:ClientSide.OnValidationError>
+                                    <prop:ClientSide.OnValidationSuccess>
+                                        $('divDefaultAlamatPT').removeClassName('has-error');
+                                    </prop:ClientSide.OnValidationSuccess>
+                                </com:TRequiredFieldValidator>                              
+                            </div>
+                        </div>
+                        <div class="form-group" id="divDefaultKotaPT">
+                            <label class="col-md-2 control-label">Kota P.T:</label>
+                            <div class="col-md-10">                                
+                                <com:TTextBox ID="txtKotaPT" CssClass="form-control" />   
+                                <com:TRequiredFieldValidator ID="FieldKotaPTValidator" ValidationGroup="settingdatapt" Display="Dynamic" ControlToValidate="txtKotaPT" ErrorMessage="Isi Kota Perguruan Tinggi" CssClass="has-error help-block">   
+                                    <prop:ClientSide.OnValidationError>
+                                        $('divDefaultKotaPT').addClassName('has-error');
+                                        jQuery('#<%=$this->FieldKotaPTValidator->ClientID%>').removeAttr('style');
+                                    </prop:ClientSide.OnValidationError>
+                                    <prop:ClientSide.OnValidationSuccess>
+                                        $('divDefaultKotaPT').removeClassName('has-error');
+                                    </prop:ClientSide.OnValidationSuccess>
+                                </com:TRequiredFieldValidator>                              
+                            </div>
+                        </div>
+                        <div class="form-group" id="divDefaultProvinsiPT">
+                            <label class="col-md-2 control-label">Provinsi P.T:</label>
+                            <div class="col-md-10">                                
+                                <com:TTextBox ID="txtProvinsiPT" CssClass="form-control" />   
+                                <com:TRequiredFieldValidator ID="FieldProvinsiPTValidator" ValidationGroup="settingdatapt" Display="Dynamic" ControlToValidate="txtProvinsiPT" ErrorMessage="Isi Provinsi Perguruan Tinggi" CssClass="has-error help-block">   
+                                    <prop:ClientSide.OnValidationError>
+                                        $('divDefaultProvinsiPT').addClassName('has-error');
+                                        jQuery('#<%=$this->FieldProvinsiPTValidator->ClientID%>').removeAttr('style');
+                                    </prop:ClientSide.OnValidationError>
+                                    <prop:ClientSide.OnValidationSuccess>
+                                        $('divDefaultProvinsiPT').removeClassName('has-error');
+                                    </prop:ClientSide.OnValidationSuccess>
+                                </com:TRequiredFieldValidator>                              
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <com:TActiveCustomButton ID="btnSaveDataPT" CssClass="btn btn-primary" OnClick="saveData" ValidationGroup="settingdatapt">
+                                    <prop:Text><i class="fa fa-save"></i> Simpan</span></prop:Text>
+                                    <prop:ClientSide.OnPreDispatch>                                                                   
+                                        $('loading').show(); 
+                                        $('<%=$this->btnSaveDataPT->ClientId%>').disabled='disabled';                      
+                                    </prop:ClientSide.OnPreDispatch>
+                                    <prop:ClientSide.OnLoading>
+                                        $('<%=$this->btnSaveDataPT->ClientId%>').disabled='disabled';                      
+                                    </prop:ClientSide.OnLoading>
+                                    <prop:ClientSide.OnComplete>                                                                                                                                                                                                            
+                                        $('<%=$this->btnSaveDataPT->ClientId%>').disabled='';
+                                        $('loading').hide(); 
+                                    </prop:ClientSide.OnComplete>
+                                </com:TActiveCustomButton>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>  
+        </div>  
+    </div>  
     <div class="row">
         <div class="col-md-12">
             <div class="main-box">

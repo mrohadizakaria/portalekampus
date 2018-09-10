@@ -12,6 +12,13 @@ class CVariables extends MainPageSA {
 		}
 	}    
     public function populateData () { 
+        //Data Perguruan Tinggi
+        $this->txtNamaPT->Text=$this->setup->getSettingValue('nama_pt');
+        $this->txtNamaPTAlias->Text=$this->setup->getSettingValue('nama_pt_alias');
+        $this->txtAlamatPT->Text=$this->setup->getSettingValue('alamat_pt');
+        $this->txtKotaPT->Text=$this->setup->getSettingValue('kota_pt');
+        $this->txtProvinsiPT->Text=$this->setup->getSettingValue('provinsi_pt');
+        //Setting Umum
         $ta=$this->DMaster->getListTA();  
         $this->cmbDefaultTahunPendaftaran->DataSource=$ta;        
         $this->cmbDefaultTahunPendaftaran->Text=$this->setup->getSettingValue('default_tahun_pendaftaran');
@@ -64,6 +71,28 @@ class CVariables extends MainPageSA {
     public function saveData ($sender,$param) {
         if ($this->IsValid) {
             switch ($sender->getId()) {
+                case 'btnSaveDataPT' :
+                    $nama_pt=addslashes($this->txtNamaPT->Text);
+                    $str = "UPDATE setting SET value='$nama_pt' WHERE setting_id=4";            
+                    $this->DB->updateRecord($str);
+
+                    $nama_pt_alias=addslashes($this->txtNamaPTAlias->Text);
+                    $str = "UPDATE setting SET value='$nama_pt_alias' WHERE setting_id=5";            
+                    $this->DB->updateRecord($str);
+
+                    $alamat_pt=addslashes($this->txtAlamatPT->Text);
+                    $str = "UPDATE setting SET value='$alamat_pt' WHERE setting_id=9";            
+                    $this->DB->updateRecord($str);
+
+                    $kota_pt=addslashes($this->txtKotaPT->Text);
+                    $str = "UPDATE setting SET value='$kota_pt' WHERE setting_id=11";            
+                    $this->DB->updateRecord($str);
+
+                    $provinsi_pt=addslashes($this->txtProvinsiPT->Text);
+                    $str = "UPDATE setting SET value='$provinsi_pt' WHERE setting_id=12";            
+                    $this->DB->updateRecord($str);
+
+                break;
                 case 'btnSaveSettingUmum' :
                     $ta= $this->cmbDefaultTahunAkademik->Text;
                     $str = "UPDATE setting SET value='$ta' WHERE setting_id=1";            

@@ -111,7 +111,7 @@ class Logic_ReportKRS extends Logic_Report {
                 $rpt->Cell(60, 10, 'Penasehat Akademik',0,0,'C');				
 
                 $tanggal=$this->tgl->tanggal('l, j F Y');				
-                $rpt->Cell(80, 5, "Tanjungpinang, $tanggal",0,0,'C');
+                $rpt->Cell(80, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'C');
 
 
                 $row+=5;				
@@ -261,7 +261,7 @@ class Logic_ReportKRS extends Logic_Report {
                     $rpt->Cell(60, 10, 'Penasehat Akademik',0,0,'C');				
 
                     $tanggal=$this->tgl->tanggal('l, j F Y');				
-                    $rpt->Cell(80, 5, "Tanjungpinang, $tanggal",0,0,'C');
+                    $rpt->Cell(80, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'C');
 
 
                     $row+=5;				
@@ -433,7 +433,7 @@ class Logic_ReportKRS extends Logic_Report {
                     $row+=5;
                     $rpt->setXY(120,$row);			
                     $tanggal=$this->tgl->tanggal('j F Y');				
-                    $rpt->Cell(80, 5, "Tanjungpinang, $tanggal",0,0,'L');
+                    $rpt->Cell(80, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'L');
 
                     $row+=5;				
                     $rpt->setXY(120,$row);			
@@ -569,7 +569,7 @@ class Logic_ReportKRS extends Logic_Report {
 				$row+=5;
 				$rpt->setXY(120,$row);			
 				$tanggal=$this->tgl->tanggal('j F Y');				
-				$rpt->Cell(80, 5, "Tanjungpinang, $tanggal",0,0,'L');
+				$rpt->Cell(80, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'L');
 				
 				$row+=5;				
 				$rpt->setXY(120,$row);			

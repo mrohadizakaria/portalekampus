@@ -765,7 +765,7 @@ class Logic_ReportSPMB extends Logic_Report {
                 
                 $rpt->SetFont ('helvetica','B',8);
                 $rpt->setXY(105,$row);               				
-                $rpt->Cell(105, 5, "Tanjungpinang, ................................................",0,0,'L');		
+                $rpt->Cell(105, 5, $this->setup->getSettingValue('kota_pt').", ................................................",0,0,'L');		
 
                 $row+=5;
                 $rpt->setXY(105,$row);			

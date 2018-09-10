@@ -638,7 +638,7 @@ class Logic_ReportAkademik extends Logic_Report {
 
                         $row+=2;
                         $sheet->setCellValue("A$row",'Catatan :');
-                        $sheet->setCellValue("S$row",'Tanjungpinang, '.$this->tgl->tanggal('d F Y'));
+                        $sheet->setCellValue("S$row",$this->setup->getSettingValue('kota_pt').', '.$this->tgl->tanggal('d F Y'));
                         $row+=1;
                         $sheet->setCellValue("A$row",'1');
                         $sheet->setCellValue("B$row",'Mahasiswa tidak diperkenankan menambah daftar hadir yang telah dikeluarkan.');

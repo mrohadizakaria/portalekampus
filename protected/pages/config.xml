@@ -17,8 +17,7 @@
 		<allow roles="OrangtuaWali" pages="ot.*" />
 		<allow roles="Library" pages="l.*" />
 		<allow roles="Api" pages="api.*" />
-		<allow pages="Home,Pendaftaran,KonfirmasiPembayaran,PendaftaranSuccess,DataLulusan,Login,LoginAPI,Logout,ResetPassword"
-			users="*" />
+		<allow pages="Home,Pendaftaran,KonfirmasiPembayaran,PendaftaranSuccess,DataLulusan,Login,LoginAPI,Logout,ResetPassword" users="*" />
 		<deny users="*" />
 	</authorization>
 	<parameters>

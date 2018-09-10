@@ -1513,7 +1513,10 @@ INSERT INTO `setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (61, 'krs', 'jumlah_sks_krs_mhs_baru', '21'),
 (56, 'spmb', 'default_tahun_pendaftaran', '2018'),
 (7, 'general', 'minimal_sks_daftar_konsentrasi', '60'),
-(8, 'general', 'jslogger', '');
+(8, 'general', 'jslogger', '0',
+(9, 'general', 'alamat_pt', 'Jl. Fisabilillah No. 8'),
+(11, 'general', 'kota_pt', 'Tanjungpinang'),
+(12, 'general', 'provinsi_pt', 'Kepulauan Riau');
 
 --
 -- Table structure for table `soal`
