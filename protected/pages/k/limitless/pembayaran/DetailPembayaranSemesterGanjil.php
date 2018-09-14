@@ -21,13 +21,13 @@ class DetailPembayaranSemesterGanjil Extends CDetailPembayaranSemesterGanjil {
 				$ta=($ta == $tahun_masuk)?$tahun_masuk:$ta;	
 			}
 			$idkelas=$this->Finance->getKelasFromTransaksi($ta,$semester);
-			$datamhs['idkelas']=$idkelas===false?$datamhs['idkelas']:$idkelas;
-            $this->Finance->setDataMHS($datamhs);
+			$datamhs['idkelas']=$idkelas===false?$datamhs['idkelas']:$idkelas;            
 			if ($idkelas!='C') {
-				$totalbiaya=($tahun_masuk==$ta&&$semester_masuk==$semester)?$this->Finance->getTotalBiayaMhs ():$this->Finance->getTotalBiayaMhs ('lama');
-				$totalbayar=$this->Finance->getTotalBayarMhs($ta,$semester);
-                $sisa=$totalbiaya-$totalbayar;
-                
+				$this->Finance->setDataMHS(array('idkelas'=>$idkelas,'tahun_masuk'=>$ta,'idsmt'=>$semester));
+				$totalbiaya=($tahun_masuk==$ta&&$semester_masuk==$semester)?$this->Finance->getTotalBiayaMhsPeriodePembayaran ():$this->Finance->getTotalBiayaMhsPeriodePembayaran ('lama');
+				$this->Finance->setDataMHS($datamhs);
+				$totalbayar=$this->Finance->getTotalBayarMhs($ta,$semester);				
+                $sisa=$totalbiaya-$totalbayar;                
                 $datadulang=$this->Finance->getDataDulang($semester,$ta);
                 if ($sisa>0 && $datadulang['k_status'] != 'C') {
 					$sisa=$this->Finance->toRupiah($sisa);

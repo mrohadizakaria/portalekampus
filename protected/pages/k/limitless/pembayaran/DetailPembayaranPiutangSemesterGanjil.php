@@ -22,10 +22,11 @@ class DetailPembayaranPiutangSemesterGanjil Extends CDetailPembayaranPiutangSeme
 				$ta=($ta == $tahun_masuk)?$tahun_masuk:$ta;	
 			}
 			$idkelas=$this->Finance->getKelasFromTransaksi($ta,$semester);
-			$datamhs['idkelas']=$idkelas===false?$datamhs['idkelas']:$idkelas;
-            $this->Finance->setDataMHS($datamhs);
+			$datamhs['idkelas']=$idkelas===false?$datamhs['idkelas']:$idkelas;            
 			if ($idkelas!='C') {
+				$this->Finance->setDataMHS(array('idkelas'=>$idkelas,'tahun_masuk'=>$ta,'idsmt'=>$semester));
 				$totalbiaya=($tahun_masuk==$ta&&$semester_masuk==$semester)?$this->Finance->getTotalBiayaMhs ():$this->Finance->getTotalBiayaMhs ('lama');
+				$this->Finance->setDataMHS($datamhs);
 				$totalbayar=$this->Finance->getTotalBayarMhs($ta,$semester);
                 $sisa=$totalbiaya-$totalbayar;
                 if ($sisa>0) {
