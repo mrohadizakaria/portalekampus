@@ -89,7 +89,7 @@ class CKUM extends MainPageK {
 		$tahun_masuk=$_SESSION['tahun_masuk'];
         $str_tahun_masuk=" AND vdm.tahun_masuk=$tahun_masuk";
         if ($search) {
-            $str = "SELECT vdm.no_formulir,k.idkrs,k.nim,vdm.nama_mhs,tahun_masuk,semester_masuk FROM krs k,v_datamhs vdm WHERE vdm.nim=k.nim AND k.sah=1 AND k.tahun=$ta AND k.idsmt=$semester";
+            $str = "SELECT vdm.no_formulir,k.idkrs,k.nim,vdm.nama_mhs,tahun_masuk,semester_masuk,perpanjang FROM krs k,v_datamhs vdm WHERE vdm.nim=k.nim AND k.sah=1 AND k.tahun=$ta AND k.idsmt=$semester";
             $txtsearch=addslashes($this->txtKriteria->Text);
             switch ($this->cmbKriteria->Text) {                
                 case 'nim' :
@@ -109,7 +109,7 @@ class CKUM extends MainPageK {
                 break;
             }
         }else{
-            $str = "SELECT vdm.no_formulir,k.idkrs,k.nim,vdm.nama_mhs,tahun_masuk,semester_masuk FROM krs k,v_datamhs vdm WHERE vdm.nim=k.nim AND k.sah=1 AND k.tahun=$ta AND k.idsmt=$semester AND vdm.kjur=$kjur $str_tahun_masuk";
+            $str = "SELECT vdm.no_formulir,k.idkrs,k.nim,vdm.nama_mhs,tahun_masuk,semester_masuk,perpanjang FROM krs k,v_datamhs vdm WHERE vdm.nim=k.nim AND k.sah=1 AND k.tahun=$ta AND k.idsmt=$semester AND vdm.kjur=$kjur $str_tahun_masuk";
             $jumlah_baris=$this->DB->getCountRowsOfTable("krs k,v_datamhs vdm WHERE vdm.nim=k.nim AND k.sah=1 AND k.tahun=$ta AND k.idsmt=$semester AND vdm.kjur=$kjur $str_tahun_masuk",'k.nim');		
             
         }
@@ -124,32 +124,32 @@ class CKUM extends MainPageK {
 		}
 		if ($limit < 0) {$offset=0;$limit=$this->setup->getSettingValue('default_pagesize');$_SESSION['currentPageKUM']['page_num']=0;}
         $str = "$str LIMIT $offset,$limit";	
-        $this->DB->setFieldTable(array('no_formulir','idkrs','nim','nama_mhs','jk','idkelas','nkelas','semester_masuk'));
+        $this->DB->setFieldTable(array('no_formulir','idkrs','nim','nama_mhs','jk','idkelas','nkelas','semester_masuk','perpanjang'));
         $r = $this->DB->getRecord($str,$offset+1);	        
         
         $komponen_biaya=array();
         if ($semester == 3) {
-            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'A'));
+            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'A','perpanjang'=>false));
             $komponen_biaya['A']['baru']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('sp');
             $komponen_biaya['A']['lama']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('sp');         
 
-            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'B'));
+            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'B','perpanjang'=>false));
             $komponen_biaya['B']['baru']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('sp');            
             $komponen_biaya['B']['lama']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('sp');       
 
-            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'C'));
+            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'C','perpanjang'=>false));
             $komponen_biaya['C']['baru']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('sp');            
             $komponen_biaya['C']['lama']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('sp');
         }else{
-            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'A'));
+            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'A','perpanjang'=>false));
             $komponen_biaya['A']['baru']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('baru');
             $komponen_biaya['A']['lama']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('lama');         
 
-            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'B'));
+            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'B','perpanjang'=>false));
             $komponen_biaya['B']['baru']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('baru');            
             $komponen_biaya['B']['lama']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('lama');       
 
-            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'C'));
+            $this->Finance->setDataMHS(array('tahun_masuk'=>$tahun_masuk,'idsmt'=>$semester,'idkelas'=>'C','perpanjang'=>false));
             $komponen_biaya['C']['baru']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('baru');            
             $komponen_biaya['C']['lama']=$this->Finance->getTotalBiayaMhsPeriodePembayaran('lama');
         }

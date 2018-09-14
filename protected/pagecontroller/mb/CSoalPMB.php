@@ -92,15 +92,19 @@ class CSoalPMB extends MainPageMB {
     public function startUjian ($sender,$param) {        
         if ($this->IsValid) {
             $no_formulir=$this->Pengguna->getDataUser('no_formulir');
-            $str = "INSERT INTO kartu_ujian (no_formulir,no_ujian,tgl_ujian,idtempat_spmb) VALUES ($no_formulir,'$no_formulir',NOW(),1)";			
-            $this->DB->query('BEGIN');
-            if ($this->DB->insertRecord($str)) {              
-                $str = "INSERT INTO jawaban_ujian (idsoal,idjawaban,no_formulir) SELECT s.idsoal,0,$no_formulir FROM soal s ORDER BY RAND() LIMIT 80";
-                $this->DB->insertRecord($str);        
-                $this->DB->query('COMMIT');			
-            }else {
-                $this->DB->query('ROLLBACK');
-            }        
+            $pin = addslashes($this->txtAddPIN->Text);
+            if ($this->DB->checkRecordIsExist ('no_pin','pin',$pin," AND no_formulir='$no_formulir'")) {
+                $str = "INSERT INTO kartu_ujian (no_formulir,no_ujian,tgl_ujian,idtempat_spmb) VALUES ($no_formulir,'$no_formulir',NOW(),1)";            
+                $this->DB->query('BEGIN');
+                if ($this->DB->insertRecord($str)) {              
+                    $str = "INSERT INTO jawaban_ujian (idsoal,idjawaban,no_formulir) SELECT s.idsoal,0,$no_formulir FROM soal s ORDER BY RAND() LIMIT 80";
+                    $this->DB->insertRecord($str);        
+                    $this->DB->query('COMMIT');          
+                }else {
+                    $this->DB->query('ROLLBACK');
+                }        
+                   
+            }
             $this->redirect('SoalPMB',true);
         }
     }    
