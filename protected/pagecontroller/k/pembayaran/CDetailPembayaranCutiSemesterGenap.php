@@ -139,9 +139,9 @@ class CDetailPembayaranCutiSemesterGenap Extends MainPageK {
             $str = "UPDATE transaksi_cuti SET commited=1,date_modified=NOW() WHERE no_transaksi=$no_transaksi";
             $this->DB->updateRecord($str);
             
+            $this->Finance->setDataMHS($datamhs);
             $datadulang=$this->Finance->getDataDulang($datamhs['ta'],$datamhs['idsmt']);
-            if (!isset($datadulang['iddulang'])) {
-                $this->Finance->setDataMHS($datamhs);	
+            if (!isset($datadulang['iddulang'])) {                	
                 $kelas=$datamhs['idkelas'];
                 $k_status=$datamhs['k_status'];
                 $ta=$datamhs['ta'];
