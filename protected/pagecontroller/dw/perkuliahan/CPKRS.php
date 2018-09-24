@@ -202,5 +202,8 @@ class CPKRS extends MainPageDW {
             $_SESSION['currentPagePKRS']['DataKRS']['krs']=$krs;
             $this->redirect ('perkuliahan.DetailPKRS',true,array('id'=>$idkrs));
         }		
-	}	
+    }	
+    public function printOut($sender,$param) {
+        
+    }
 }
