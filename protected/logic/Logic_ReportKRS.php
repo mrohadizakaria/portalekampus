@@ -105,7 +105,8 @@ class Logic_ReportKRS extends Logic_Report {
                 $rpt->Cell(8, 5, $totalSks,0,0,'C');
 
                 $row+=5;				
-                $rpt->setXY(3,$row);			
+                $rpt->setXY(3,$row);	
+
                 $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?'Ketua Program Studi':'',0,0,'C');
                 $rpt->Cell(60, 10, $this->dataReport['krs']['sah']==true?'Penasehat Akademik':'',0,0,'C');	
 
@@ -255,10 +256,10 @@ class Logic_ReportKRS extends Logic_Report {
                     $rpt->Cell(8, 5, $totalSks,0,0,'C');
 
                     $row+=5;				
-                    $rpt->setXY(3,$row);			
+                    $rpt->setXY(3,$row);
 
-                    $rpt->Cell(60, 5, 'Ketua Program Studi',0,0,'C');
-                    $rpt->Cell(60, 10, 'Penasehat Akademik',0,0,'C');				
+                    $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?'Ketua Program Studi':'',0,0,'C');
+                    $rpt->Cell(60, 10, $this->dataReport['krs']['sah']==true?'Penasehat Akademik':'',0,0,'C');	
 
                     $tanggal=$this->tgl->tanggal('l, j F Y');				
                     $rpt->Cell(80, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'C');
@@ -266,18 +267,18 @@ class Logic_ReportKRS extends Logic_Report {
 
                     $row+=5;				
                     $rpt->setXY(3,$row);			
-                    $rpt->Cell(60, 5, $this->dataReport['nama_ps'],0,0,'C');
+                    $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?$this->dataReport['nama_ps']:'',0,0,'C');
                     $rpt->Cell(60, 5, '',0,0,'C');												
                     $rpt->Cell(80, 5, 'Mahasiswa',0,0,'C');												
 
                     $row+=20;
                     $rpt->setXY(3,$row);			
-                    $rpt->Cell(60, 5, $this->dataReport['nama_kaprodi'],0,0,'C');				
-                    $rpt->Cell(60, 5, $this->dataReport['nama_dosen'],0,0,'C');				
+                    $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?$this->dataReport['nama_kaprodi']:'',0,0,'C');				
+                    $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?$this->dataReport['nama_dosen']:'',0,0,'C');				
                     $rpt->Cell(80, 5, $this->dataReport['nama_mhs'],0,0,'C');
                     $row+=5;
                     $rpt->setXY(3,$row);			
-                    $rpt->Cell(60, 5, $this->dataReport['jabfung_kaprodi']. ' NIPY : '.$this->dataReport['nipy_kaprodi'],0,0,'C');
+                    $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?$this->dataReport['jabfung_kaprodi']. ' NIPY : '.$this->dataReport['nipy_kaprodi']:'',0,0,'C');
 
 
                 }
