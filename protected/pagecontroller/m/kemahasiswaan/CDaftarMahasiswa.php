@@ -168,27 +168,27 @@ class CDaftarMahasiswa extends MainPageM {
 	public function populateData ($search=false) {			
         $kjur=$_SESSION['kjur'];        
         if ($search) {
-            $str = "SELECT no_formulir,nim,nirm,nama_mhs,jk,tempat_lahir,tanggal_lahir,alamat_rumah,kjur,idkonsentrasi,iddosen_wali,tahun_masuk,k_status,idkelas FROM v_datamhs";			
+            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.alamat_rumah,vdm.kjur,vdm.idkonsentrasi,vdm.iddosen_wali,vdm.tahun_masuk,vdm.k_status,vdm.idkelas,dk.iddata_konversi FROM v_datamhs vdm LEFT JOIN data_konversi dk ON (dk.nim=vdm.nim)";			
             $txtsearch=addslashes($this->txtKriteria->Text);
             switch ($this->cmbKriteria->Text) {                
                 case 'nim' :
-                    $clausa="WHERE nim='$txtsearch'";
-                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs $clausa",'nim');
+                    $clausa="WHERE vdm.nim='$txtsearch'";
+                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs vdm $clausa",'vdm.nim');
                     $str = "$str $clausa";
                 break;
                 case 'nirm' :
-                    $clausa="WHERE nirm='$txtsearch'";
-                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs $clausa",'nim');
+                    $clausa="WHERE vdm.nirm='$txtsearch'";
+                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs vdm $clausa",'vdm.nim');
                     $str = "$str $clausa";
                 break;
                 case 'no_formulir' :
-                    $clausa="WHERE no_formulir='$txtsearch'";
-                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs $clausa",'no_formulir');
+                    $clausa="WHERE vdm.no_formulir='$txtsearch'";
+                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs vdm $clausa",'vdm.no_formulir');
                     $str = "$str $clausa";
                     break;
                 case 'nama' :
-                    $clausa="WHERE nama_mhs LIKE '%$txtsearch%'";
-                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs $clausa",'nim');
+                    $clausa="WHERE vdm.nama_mhs LIKE '%$txtsearch%'";
+                    $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs vdm $clausa",'vdm.nim');
                     $str = "$str $clausa";
                 break;
             }
