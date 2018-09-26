@@ -131,7 +131,7 @@
                             <td><%#$this->DataItem['no']%></td>					
                             <td><%#$this->DataItem['no_transaksi']%></td>
                             <td><%#$this->DataItem['tanggal']%></td>
-                            <td><%# $this->Data['nim']%></td>																	                            												
+                            <td><%#$this->DataItem['nim']%></td>																	                            												
                             <td><%#$this->DataItem['nama_mhs']%></td>					
                             <td><%#$this->DataItem['dibayarkan']%></td>
                             <td>

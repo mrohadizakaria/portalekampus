@@ -221,6 +221,16 @@
                                                         Mahasiswa Baru
                                                     </a>
                                                 </li>
+                                                <li>
+                                                    <a href="<%=$this->Page->constructUrl('pembayaran.PembayaranSemesterGanjil',true)%>"<%=$this->Page->showPembayaranSemesterGanjil==true ? ' class="active" ':''%>>
+                                                        Semester Ganjil
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="<%=$this->Page->constructUrl('pembayaran.PembayaranSemesterGenap',true)%>"<%=$this->Page->showPembayaranSemesterGenap==true ? ' class="active" ':''%>>
+                                                        Semester Genap
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </li>
                                         <li class="nav-header nav-header-first hidden-sm hidden-xs">

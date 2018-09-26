@@ -33,9 +33,17 @@ class MainPageSA extends MainPage {
      */
     public $showSubMenuPembayaran=false;  
     /**
-     * show page [pembayaran mahasiswa baru]
+     * show page pembayaran mahasiswa baru
      */
     public $showPembayaranMahasiswaBaru=false;  
+    /**     
+     * show page pembayaran semester Ganjil [pembayaran]
+     */
+    public $showPembayaranSemesterGanjil=false;
+    /**     
+     * show page pembayaran semester Genap [pembayaran]
+     */
+    public $showPembayaranSemesterGenap=false;
     /**
      * show page penyelenggaraan [perkuliahan]
      */
