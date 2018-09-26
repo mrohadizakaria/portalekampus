@@ -131,7 +131,7 @@ class Logic_ReportKRS extends Logic_Report {
                 $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?$this->dataReport['jabfung_kaprodi']. ' NIPY : '.$this->dataReport['nipy_kaprodi']:'',0,0,'C');
                 
                 $row+=10;
-                if ($this->dataReport['krs']['sah']) {
+                if (!$this->dataReport['krs']['sah']) {
                     $rpt->SetFont ('helvetica','I',8);
                     $rpt->setXY(3,$row);
                     $rpt->Cell(200, 5, 'KRS INI BELUM DISAHKAN OLEH DOSEN WALI',1,0,'C');
@@ -280,7 +280,12 @@ class Logic_ReportKRS extends Logic_Report {
                     $rpt->setXY(3,$row);			
                     $rpt->Cell(60, 5, $this->dataReport['krs']['sah']==true?$this->dataReport['jabfung_kaprodi']. ' NIPY : '.$this->dataReport['nipy_kaprodi']:'',0,0,'C');
 
-
+                    $row+=10;
+                    if (!$this->dataReport['krs']['sah']) {
+                        $rpt->SetFont ('helvetica','I',8);
+                        $rpt->setXY(3,$row);
+                        $rpt->Cell(200, 5, 'KRS INI BELUM DISAHKAN OLEH DOSEN WALI',1,0,'C');
+                    }
                 }
                 $this->printOut('seluruh_khs_dari_'.$awal.'_'.$akhir);
             break;
