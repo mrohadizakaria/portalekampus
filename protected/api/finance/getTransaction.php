@@ -6,9 +6,11 @@ class getTransaction extends BaseWS {
 			$this->validate ();
 			$data=$_POST;
 			if (!isset($data['no_transaksi'])) {
+				$this->payload['status']='30';
 				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data POST no_transaksi tidak ada !!!");
 			}
 			if (empty($data['no_transaksi'])) {
+				$this->payload['status']='30';
 				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data no_transaksi kosong !!!");
 			}
 			$no_transaksi=addslashes($data['no_transaksi']);
@@ -47,9 +49,12 @@ class getTransaction extends BaseWS {
 						$payload['totaltagihan']=$this->Finance->getTotalTagihanByNoTransaksi($no_transaksi);
 						$payload['commited']=$result['commited'];
 						$payload['keterangan']=$keterangan;
+						
+						$this->payload['status']='00';
 						$this->payload['payload']=$payload;							
 						$this->payload['message']="Proses Login telah berhasil, data transaksi dengan nomor ($no_transaksi) berhasil diperoleh !!!";
 					}else{
+						$this->payload['status']='04';
 						throw new Exception ("Proses Login telah berhasil, namun data transaksi dengan nomor ($no_transaksi) tidak ada di database !!!");
 					}			
 				break;
@@ -58,13 +63,16 @@ class getTransaction extends BaseWS {
 					$this->DB->setFieldTable(array('no_transaksi','no_faktur','tahun','idsmt','nim','totaltagihan','commited','tanggal','date_added'));		
 					$r=$this->DB->getRecord($str);						
 					if (isset($r[1])) {
+						$this->payload['status']='00';
 						$this->payload['payload']=$r[1];							
 						$this->payload['message']="Proses Login telah berhasil, data transaksi cuti dengan nomor ($no_transaksi) berhasil diperoleh !!!";
 					}else{
+						$this->payload['status']='04';
 						throw new Exception ("Proses Login telah berhasil, namun data transaksi cuti dengan nomor ($no_transaksi) tidak ada di database !!!");
 					}		
 				break;
 				default :
+					$this->payload['status']='30';
 					throw new Exception ("Proses Login telah berhasil, namun ada error yaitu tipe_transaksi tidak dikenal.");
 			}
 		}catch (Exception $e) {

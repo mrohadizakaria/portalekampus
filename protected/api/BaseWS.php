@@ -207,14 +207,17 @@ class BaseWS extends TJsonResponse {
 				if ($bool>0) {
 					$this->payload['message']="Username ($username) dan Token ($token) Valid !!!";
 				}else{
+					$this->payload['status']='11';
 					throw new Exception ("Akses dari Alamat IP ($alamat_ip) tidak di ijinkan");						
 				}
 				
 				
 			}else{
+				$this->payload['status']='11';
 				throw new Exception ("Tidak bisa mengeksekusi perintah, karena Username ($username) atau Token ($token) Salah !!!");
 			}			
 		}else{
+			$this->payload['status']='11';
 			throw new Exception ("Username atau Token tidak tersedia di header HTTP !!!");			
 		}
 		$this->Pengguna->setDataUser($data);
