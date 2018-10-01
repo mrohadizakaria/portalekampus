@@ -12,7 +12,7 @@ class rollbackTransaction extends BaseWS {
 				throw new Exception ("Proses Login telah berhasil, namun ada error yaitu data no_transaksi kosong !!!");
 			}
 			$no_transaksi=addslashes($data['no_transaksi']);
-			$userid=$this->DB->getDataUser('userid');
+			$userid=$this->Pengguna->getDataUser('userid');
 			$tipe_transaksi=substr($no_transaksi, 0,2);
 			switch ($tipe_transaksi) {
 				case 10: //bayar biasa
