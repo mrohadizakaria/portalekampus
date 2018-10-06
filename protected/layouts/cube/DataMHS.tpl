@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <a href="<%=$this->Page->constructUrl('kemahasiswaan.ProfilMahasiswa',true,array('id'=>$this->getDataMHS('nim')))%>">
-                            <img src="<%=$this->setup->getAddress($this->getDataMHS('nim'))%>" alt="" onerror="no_photo(this,'resources/userimages/no_photo.png')" />
+                            <img src="<%=$this->getDataMHS('photo_profile')%>" alt="" onerror="no_photo(this,'resources/userimages/no_photo.png')" width="150" height="150" class="img-rounded img-responsive" />
                         </a>                        
                     </div>                   
                     <div class="col-sm-5">

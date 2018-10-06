@@ -113,7 +113,7 @@ class CDaftarMahasiswa extends MainPageDW {
         $iddosen_wali=$this->iddosen_wali;
         $kjur=$_SESSION['kjur'];        
         if ($search) {
-            $str = "SELECT no_formulir,nim,nirm,nama_mhs,jk,tempat_lahir,tanggal_lahir,alamat_rumah,kjur,idkonsentrasi,iddosen_wali,tahun_masuk,k_status,idkelas FROM v_datamhs";			
+            $str = "SELECT no_formulir,nim,nirm,nama_mhs,jk,tempat_lahir,tanggal_lahir,alamat_rumah,kjur,idkonsentrasi,iddosen_wali,tahun_masuk,k_status,idkelas,photo_profile FROM v_datamhs";			
             $txtsearch=addslashes($this->txtKriteria->Text);
             switch ($this->cmbKriteria->Text) {                
                 case 'nim' :
@@ -142,7 +142,7 @@ class CDaftarMahasiswa extends MainPageDW {
             $status=$_SESSION['currentPageDaftarMahasiswa']['k_status'];
             $str_status = $status == 'none'?'':" AND k_status='$status'";
             $jumlah_baris=$this->DB->getCountRowsOfTable("v_datamhs  WHERE iddosen_wali=$iddosen_wali AND kjur=$kjur $str_tahun_masuk $str_konsentrasi $str_kelas $str_status",'nim');		
-            $str = "SELECT no_formulir,nim,nirm,nama_mhs,jk,tempat_lahir,tanggal_lahir,alamat_rumah,kjur,idkonsentrasi,iddosen_wali,tahun_masuk,k_status,idkelas FROM v_datamhs WHERE iddosen_wali=$iddosen_wali AND kjur='$kjur' $str_tahun_masuk $str_konsentrasi $str_kelas $str_status";			
+            $str = "SELECT no_formulir,nim,nirm,nama_mhs,jk,tempat_lahir,tanggal_lahir,alamat_rumah,kjur,idkonsentrasi,iddosen_wali,tahun_masuk,k_status,idkelas,photo_profile FROM v_datamhs WHERE iddosen_wali=$iddosen_wali AND kjur='$kjur' $str_tahun_masuk $str_konsentrasi $str_kelas $str_status";			
         }		
         $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageDaftarMahasiswa']['page_num'];
 		$this->RepeaterS->VirtualItemCount=$jumlah_baris;
@@ -155,7 +155,7 @@ class CDaftarMahasiswa extends MainPageDW {
 		}
 		if ($limit < 0) {$offset=0;$limit=6;$_SESSION['currentPageDaftarMahasiswa']['page_num']=0;}
         $str = "$str ORDER BY nim DESC,nama_mhs ASC LIMIT $offset,$limit";				
-        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','alamat_rumah','kjur','idkonsentrasi','iddosen_wali','tahun_masuk','k_status','idkelas'));
+        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','alamat_rumah','kjur','idkonsentrasi','iddosen_wali','tahun_masuk','k_status','idkelas','photo_profile'));
 		$r = $this->DB->getRecord($str,$offset+1);	
         $result = array();
         while (list($k,$v)=each($r)) {

@@ -168,7 +168,7 @@ class CDaftarMahasiswa extends MainPageM {
 	public function populateData ($search=false) {			
         $kjur=$_SESSION['kjur'];        
         if ($search) {
-            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.alamat_rumah,vdm.kjur,vdm.idkonsentrasi,vdm.iddosen_wali,vdm.tahun_masuk,vdm.k_status,vdm.idkelas,dk.iddata_konversi FROM v_datamhs vdm LEFT JOIN data_konversi dk ON (dk.nim=vdm.nim)";			
+            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.alamat_rumah,vdm.kjur,vdm.idkonsentrasi,vdm.iddosen_wali,vdm.tahun_masuk,vdm.k_status,vdm.idkelas,dk.iddata_konversi,vdm.photo_profile FROM v_datamhs vdm LEFT JOIN data_konversi dk ON (dk.nim=vdm.nim)";			
             $txtsearch=addslashes($this->txtKriteria->Text);
             switch ($this->cmbKriteria->Text) {                
                 case 'nim' :
@@ -209,7 +209,7 @@ class CDaftarMahasiswa extends MainPageM {
                 $str_jenismhs = $jenismhs == 'normal'?" AND dk.iddata_konversi IS NULL":" AND dk.iddata_konversi IS NOT NULL";    
             }
             $jumlah_baris=$this->DB->getCountRowsOfTable("v_datamhs vdm LEFT JOIN data_konversi dk ON (dk.nim=vdm.nim) WHERE vdm.kjur=$kjur $str_tahun_masuk $str_konsentrasi $str_kelas $str_status $str_jenismhs",'vdm.nim');		
-            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.alamat_rumah,vdm.kjur,vdm.idkonsentrasi,vdm.iddosen_wali,vdm.tahun_masuk,vdm.k_status,vdm.idkelas,dk.iddata_konversi FROM v_datamhs vdm LEFT JOIN data_konversi dk ON (dk.nim=vdm.nim) WHERE vdm.kjur='$kjur' $str_tahun_masuk $str_konsentrasi $str_kelas $str_status $str_jenismhs";			
+            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.alamat_rumah,vdm.kjur,vdm.idkonsentrasi,vdm.iddosen_wali,vdm.tahun_masuk,vdm.k_status,vdm.idkelas,dk.iddata_konversi,vdm.photo_profile FROM v_datamhs vdm LEFT JOIN data_konversi dk ON (dk.nim=vdm.nim) WHERE vdm.kjur='$kjur' $str_tahun_masuk $str_konsentrasi $str_kelas $str_status $str_jenismhs";			
         }		
         $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageDaftarMahasiswa']['page_num'];
 		$this->RepeaterS->VirtualItemCount=$jumlah_baris;
@@ -222,7 +222,7 @@ class CDaftarMahasiswa extends MainPageM {
 		}
 		if ($limit < 0) {$offset=0;$limit=6;$_SESSION['currentPageDaftarMahasiswa']['page_num']=0;}
         $str = "$str ORDER BY nim DESC,nama_mhs ASC LIMIT $offset,$limit";				
-        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','alamat_rumah','kjur','idkonsentrasi','iddosen_wali','tahun_masuk','k_status','idkelas','iddata_konversi'));
+        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','alamat_rumah','kjur','idkonsentrasi','iddosen_wali','tahun_masuk','k_status','idkelas','iddata_konversi','photo_profile'));
 		$r = $this->DB->getRecord($str,$offset+1);	
         $result = array();
         while (list($k,$v)=each($r)) {
