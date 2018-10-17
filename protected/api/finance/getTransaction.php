@@ -50,7 +50,7 @@ class getTransaction extends BaseWS {
 						$payload['commited']=$result['commited'];
 						$payload['keterangan']=$keterangan;
 						
-						$this->payload['status']='88';
+						$this->payload['status']='00';
 						$this->payload['payload']=$payload;							
 						$this->payload['message']="Proses Login telah berhasil, data transaksi dengan nomor ($no_transaksi) berhasil diperoleh !!!";
 					}else{

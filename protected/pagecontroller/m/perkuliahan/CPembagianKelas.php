@@ -196,7 +196,7 @@ class CPembagianKelas extends MainPageM {
                 $this->report->printDaftarHadirMahasiswa();
             break;
             case  'pdf' :
-                $messageprintout="Mohon maaf Print out pada mode excel pdf belum kami support.";
+                $messageprintout="Mohon maaf Print out pada mode pdf belum kami support.";
             break;
         }                
         $this->lblMessagePrintout->Text=$messageprintout;

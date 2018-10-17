@@ -465,7 +465,7 @@ class Logic_ReportAkademik extends Logic_Report {
                         $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                         $sheet->setTitle('Halaman ke '.($currentSheet+1));
                         
-                        $sheet->mergeCells("A7:V7");
+                        $sheet->mergeCells("A7:X7");
                         $sheet->getRowDimension(7)->setRowHeight(20);
                         $sheet->setCellValue("A7","DAFTAR HADIR MAHASISWA");
 
