@@ -56,7 +56,7 @@ class commitTransaction extends BaseWS {
 						$k_status=$result['k_status'];
 						$datamhs=array('no_formulir'=>$no_formulir,'nim'=>$nim,'kjur'=>$kjur,'tahun_masuk'=>$result['tahun_masuk'],'semester_masuk'=>$semester_masuk,'idkelas'=>$idkelas,'ta'=>$ta,'idsmt'=>$idsmt,'k_status'=>$k_status,'perpanjang'=>$result['perpanjang']);
 						$this->Finance->setDataMHS($datamhs);
-						$datadulang=$this->Finance->getDataDulang($ta,$idsmt);
+						$datadulang=$this->Finance->getDataDulang($idsmt,$ta);  
 			            if (!isset($datadulang['iddulang'])) {	                
 			                $bool=$this->Finance->getTresholdPembayaran($ta,$idsmt);						                                
 			                if ($bool) {

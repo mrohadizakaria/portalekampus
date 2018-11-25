@@ -8,7 +8,7 @@ class CDaftarMahasiswa extends MainPageK {
         $this->createObj('Nilai');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {	
             if (!isset($_SESSION['currentPageDaftarMahasiswa'])||$_SESSION['currentPageDaftarMahasiswa']['page_name']!='k.kemahasiswaan.DaftarMahasiswa') {
-				$_SESSION['currentPageDaftarMahasiswa']=array('page_name'=>'k.kemahasiswaan.DaftarMahasiswa','page_num'=>0,'search'=>false,'idkonsentrasi'=>'none','k_status'=>'none');												
+				$_SESSION['currentPageDaftarMahasiswa']=array('page_name'=>'k.kemahasiswaan.DaftarMahasiswa','page_num'=>0,'search'=>false,'tahun_masuk'=>$_SESSION['tahun_masuk'],'idkonsentrasi'=>'none','k_status'=>'none');												
 			}
             $_SESSION['currentPageDaftarMahasiswa']['search']=false;
             
@@ -19,8 +19,8 @@ class CDaftarMahasiswa extends MainPageK {
 			
 			$tahun_masuk=$this->DMaster->getListTA();
 			$tahun_masuk['none']='All';
-			$this->tbCmbTahunMasuk->DataSource=$tahun_masuk	;					
-			$this->tbCmbTahunMasuk->Text=$_SESSION['tahun_masuk'];						
+			$this->tbCmbTahunMasuk->DataSource=$tahun_masuk;					
+			$this->tbCmbTahunMasuk->Text=$_SESSION['currentPageDaftarMahasiswa']['tahun_masuk'];						
 			$this->tbCmbTahunMasuk->dataBind();
 			
             $kelas=$this->DMaster->getListKelas();
@@ -42,7 +42,7 @@ class CDaftarMahasiswa extends MainPageK {
 		$this->populateData();
 	}
 	public function changeTbTahunMasuk($sender,$param) {    				
-		$_SESSION['tahun_masuk']=$this->tbCmbTahunMasuk->Text;
+		$_SESSION['currentPageDaftarMahasiswa']['tahun_masuk']=$this->tbCmbTahunMasuk->Text;
 		$this->populateData();
 	}
 	public function changeTbKelas ($sender,$param) {				
@@ -92,7 +92,7 @@ class CDaftarMahasiswa extends MainPageK {
                 break;
             }
         }else{
-            $tahun_masuk=$_SESSION['tahun_masuk'];        
+            $tahun_masuk=$_SESSION['currentPageDaftarMahasiswa']['tahun_masuk'];        
             $str_tahun_masuk=$tahun_masuk == 'none' ?'':"AND tahun_masuk=$tahun_masuk";
             $idkonsentrasi=$_SESSION['currentPageDaftarMahasiswa']['idkonsentrasi'];
             $str_konsentrasi = ($idkonsentrasi == 'none' || $idkonsentrasi == '') ?'':" AND idkonsentrasi=$idkonsentrasi";
@@ -154,7 +154,7 @@ class CDaftarMahasiswa extends MainPageK {
                 $dataReport['kjur']=$_SESSION['kjur'];
                 $dataReport['nama_ps']=$_SESSION['daftar_jurusan'][$_SESSION['kjur']];                
                 
-                $dataReport['tahun_masuk']=$_SESSION['tahun_masuk'];                 
+                $dataReport['tahun_masuk']=$_SESSION['currentPageDaftarMahasiswa']['tahun_masuk'];                 
                 $dataReport['nama_tahun']=$this->DMaster->getNamaTA($_SESSION['tahun_masuk']);     
                 
                 $dataReport['linkoutput']=$this->linkOutput;

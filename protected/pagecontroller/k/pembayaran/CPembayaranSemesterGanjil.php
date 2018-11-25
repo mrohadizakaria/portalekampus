@@ -147,8 +147,8 @@ class CPembayaranSemesterGanjil Extends MainPageK {
         $nim=addslashes($param->Value);		
         if ($nim != '') {
             try {
-                $str = "SELECT vdm.tahun_masuk,vdm.semester_masuk FROM v_datamhs vdm WHERE vdm.nim='$nim'";
-                $this->DB->setFieldTable(array('tahun_masuk','semester_masuk'));
+                $str = "SELECT vdm.nim,vdm.tahun_masuk,vdm.semester_masuk FROM v_datamhs vdm WHERE vdm.nim='$nim'";
+                $this->DB->setFieldTable(array('nim','tahun_masuk','semester_masuk'));
                 $r=$this->DB->getRecord($str);                
                 if (!isset($r[1])) {                                   
                     throw new Exception ("NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
@@ -156,8 +156,17 @@ class CPembayaranSemesterGanjil Extends MainPageK {
                 $datamhs=$r[1];
                 $ta=$_SESSION['currentPagePembayaranSemesterGanjil']['ta'];
                 if ($datamhs['tahun_masuk'] == $ta && $datamhs['semester_masuk']==1) {						
-                     $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS']=array();
-                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
+                    $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS']=array();
+                    throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
+                }
+                //cek status bila DO dan NON-AKTIF jangan di inputkan disini tetapi pembayaran piutang
+                $ta=$_SESSION['currentPagePembayaranSemesterGanjil']['ta'];
+		        $semester=$_SESSION['currentPagePembayaranSemesterGanjil']['semester'];
+                $this->Finance->setDataMHS($datamhs);                              
+                $datadulang=$this->Finance->getDataDulang($semester,$ta);
+                if ($datadulang['k_status']=='D' || $datadulang['k_status']=='C') {
+                    $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS']=array();
+                    throw new Exception ("Status NIM ($nim) NON-AKTIF atau DROP-OUT silahkan lakuakn pembayaran melalui Pembayaran Piutang.");
                 }
             }catch (Exception $e) {
                 $param->IsValid=false;

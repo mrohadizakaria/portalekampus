@@ -160,8 +160,8 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageK {
             $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',commited=1,date_modified=NOW() WHERE no_transaksi=$no_transaksi";
             $this->DB->updateRecord($str);
             
-            $this->Finance->setDataMHS($datamhs);
-            $datadulang=$this->Finance->getDataDulang($ta,$idsmt);
+            $this->Finance->setDataMHS($datamhs);            
+            $datadulang=$this->Finance->getDataDulang($idsmt,$ta);  
             if (!isset($datadulang['iddulang'])) {
                 $bool=$this->Finance->getTresholdPembayaran($ta,$idsmt);						                                
                 if ($bool) {

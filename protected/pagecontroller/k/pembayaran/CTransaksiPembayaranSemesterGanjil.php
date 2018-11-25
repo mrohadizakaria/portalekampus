@@ -182,8 +182,8 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageK {
             $this->DB->updateRecord($str);
 
             $this->Finance->setDataMHS($datamhs);
-            $datadulang=$this->Finance->getDataDulang($ta,$idsmt);
-            if (!isset($datadulang['iddulang'])) {            
+            $datadulang=$this->Finance->getDataDulang($idsmt,$ta);            
+            if (!isset($datadulang['iddulang'])) {                            
                 $bool=$this->Finance->getTresholdPembayaran($ta,$idsmt);						                                
                 if ($bool) {
                     $tasmt=$ta.$idsmt;

@@ -87,7 +87,7 @@ class CKUM extends MainPageK {
 		$semester=$_SESSION['semester'];
 		$kjur=$_SESSION['kjur'];
 		$tahun_masuk=$_SESSION['tahun_masuk'];
-        $str_tahun_masuk=" AND vdm.tahun_masuk=$tahun_masuk";
+        $str_tahun_masuk=($tahun_masuk == 'none' || $tahun_masuk == 'none') ?'':" AND vdm.tahun_masuk=$tahun_masuk";
         if ($search) {
             $str = "SELECT vdm.no_formulir,k.idkrs,k.nim,vdm.nama_mhs,tahun_masuk,semester_masuk,perpanjang FROM krs k,v_datamhs vdm WHERE vdm.nim=k.nim AND k.sah=1 AND k.tahun=$ta AND k.idsmt=$semester";
             $txtsearch=addslashes($this->txtKriteria->Text);
