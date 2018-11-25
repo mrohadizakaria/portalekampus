@@ -20,7 +20,7 @@ class CDetailDulangMHSBaru Extends MainPageM {
                     $this->txtAddNIM->Text=$nim_nirm['nim'];
                     $this->txtAddNIRM->Text=$nim_nirm['nirm'];
                 }else{
-                    throw new Exception("No. Formulir belum ada di session.");
+                    throw new Exception("Data Mahasiswa belum ada di session.");
                 }
             } catch (Exception $ex) {
                 $this->idProcess='view';	

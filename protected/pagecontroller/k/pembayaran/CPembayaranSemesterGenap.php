@@ -36,7 +36,7 @@ class CPembayaranSemesterGenap Extends MainPageK {
                 $this->txtNIM->Visible=false;
                 $this->btnGo->Visible=false;
                 $this->linkDetailPembayaran->Visible=true;
-                $this->linkDetailPembayaran->NavigateUrl=$this->constructUrl('pembayaran.currentPagePembayaranSemesterGenap',true,array('id'=>$_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']['nim']));
+                $this->linkDetailPembayaran->NavigateUrl=$this->constructUrl('pembayaran.DetailPembayaranSemesterGenap',true,array('id'=>$_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']['nim']));
             }                
             $this->populateData();
             $this->setInfoToolbar();
@@ -145,8 +145,8 @@ class CPembayaranSemesterGenap Extends MainPageK {
         $nim=addslashes($param->Value);		
         if ($nim != '') {
             try {
-                $str = "SELECT vdm.tahun_masuk,vdm.semester_masuk FROM v_datamhs vdm WHERE vdm.nim='$nim'";
-                $this->DB->setFieldTable(array('tahun_masuk','semester_masuk'));
+                $str = "SELECT vdm.nim,vdm.tahun_masuk,vdm.semester_masuk FROM v_datamhs vdm WHERE vdm.nim='$nim'";
+                $this->DB->setFieldTable(array('nim','tahun_masuk','semester_masuk'));
                 $r=$this->DB->getRecord($str);                
                 if (!isset($r[1])) {                                   
                     throw new Exception ("NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
@@ -157,6 +157,16 @@ class CPembayaranSemesterGenap Extends MainPageK {
                     $_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']=array();
                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
                 }
+
+                //cek status bila DO dan NON-AKTIF jangan di inputkan disini tetapi pembayaran piutang
+                $ta=$_SESSION['currentPagePembayaranSemesterGenap']['ta'];
+		        $semester=$_SESSION['currentPagePembayaranSemesterGenap']['semester'];
+                $this->Finance->setDataMHS($datamhs);                              
+                $datadulang=$this->Finance->getDataDulang($semester,$ta);
+                if ($datadulang['k_status']=='N' || $datadulang['k_status']=='D') {
+                    $_SESSION['currentPagePembayaranSemesterGenap']['DataMHS']=array();
+                    throw new Exception ("Status NIM ($nim) NON-AKTIF atau DROP-OUT silahkan melakukan pembayaran melalui Pembayaran Piutang.");
+                }
             }catch (Exception $e) {
                 $param->IsValid=false;
                 $sender->ErrorMessage=$e->getMessage();
@@ -165,8 +175,8 @@ class CPembayaranSemesterGenap Extends MainPageK {
     }
 	public function Go($param,$sender) {	
         if ($this->IsValid) {            
-            $nim=addslashes($this->txtNIM->Text);
-            $this->redirect('pembayaran.DetailPembayaranSemesterGenap',true,array('id'=>$nim));
+            // $nim=addslashes($this->txtNIM->Text);
+            // $this->redirect('pembayaran.DetailPembayaranSemesterGenap',true,array('id'=>$nim));
         }
 	}
 	

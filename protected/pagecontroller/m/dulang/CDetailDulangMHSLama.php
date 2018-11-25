@@ -21,7 +21,7 @@ class CDetailDulangMHSLama Extends MainPageM {
                     
                     $this->lblModulHeader->Text="T.A $ta Semester $semester";
                 }else{
-                    throw new Exception("No. Formulir belum ada di session.");
+                    throw new Exception("Data Mahasiswa belum ada di session.");
                 }
             } catch (Exception $ex) {
                 $this->idProcess='view';	

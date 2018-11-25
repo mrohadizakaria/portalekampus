@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
             <label><strong>Tahun Masuk :</strong></label>
-            <com:TActiveDropDownList ID="tbCmbTahunMasuk" OnCallback="Page.changeTbTahunMasuk" CssClass="form-control" Width="120px">
+            <com:TActiveDropDownList ID="tbCmbTahunMasuk" OnCallback="Page.changeTbTahunMasuk" CssClass="form-control">
                 <prop:ClientSide.OnPreDispatch>
                     $('<%=$this->tbCmbTahunMasuk->ClientId%>').disabled='disabled';
                     Pace.stop();
@@ -40,7 +40,7 @@
         </div> 
         <div class="form-group">
             <label><strong>Tahun Akademik :</strong></label>
-            <com:TActiveDropDownList ID="tbCmbTA" OnCallback="Page.changeTbTA" CssClass="form-control" Width="120px">
+            <com:TActiveDropDownList ID="tbCmbTA" OnCallback="Page.changeTbTA" CssClass="form-control">
                 <prop:ClientSide.OnPreDispatch>
                     $('<%=$this->tbCmbTA->ClientId%>').disabled='disabled';
                     Pace.stop();

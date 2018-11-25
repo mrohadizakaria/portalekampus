@@ -8,7 +8,7 @@
     <div class="category-content">
         <div class="form-group">
             <label><strong>Tahun Masuk :</strong></label>
-            <com:TActiveDropDownList ID="tbCmbTahunMasuk" OnCallback="Page.changeTbTahunMasuk" CssClass="form-control" Width="120px">
+            <com:TActiveDropDownList ID="tbCmbTahunMasuk" OnCallback="Page.changeTbTahunMasuk" CssClass="form-control">
                 <prop:ClientSide.OnPreDispatch>
                     $('<%=$this->tbCmbTahunMasuk->ClientId%>').disabled='disabled';
                     Pace.stop();

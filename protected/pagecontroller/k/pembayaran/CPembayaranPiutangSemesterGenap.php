@@ -80,11 +80,12 @@ class CPembayaranPiutangSemesterGenap Extends MainPageK {
 	}		
 	public function populateData($search=false) {	
         $tahun_masuk=$_SESSION['currentPagePembayaranPiutangSemesterGenap']['tahun_masuk'];
+        $str_tahun_masuk=($tahun_masuk=='none'||$tahun_masuk=='')?'':" AND vdm.tahun_masuk=$tahun_masuk";
 		$ta=$_SESSION['currentPagePembayaranPiutangSemesterGenap']['ta'];
 		$semester=$_SESSION['currentPagePembayaranPiutangSemesterGenap']['semester'];
 		$kjur=$_SESSION['kjur'];	
         
-        $str = "SELECT vdm.no_formulir,vdm.nirm,vdm.nim,vdm.nama_mhs,vdm.telp_hp,vdm.kjur,vdm.tahun_masuk,vdm.semester_masuk,vdm.idkelas AS idkelas_terakhir,d.idkelas AS idkelas_dulang,vdm.k_status AS k_status_terakhir,d.k_status AS k_status_dulang FROM v_datamhs vdm LEFT JOIN (SELECT nim,idkelas,k_status FROM dulang WHERE tahun=$ta AND idsmt=$semester) AS d ON (d.nim=vdm.nim) WHERE vdm.tahun_masuk=$tahun_masuk AND vdm.kjur=$kjur AND d.k_status IS NULL ORDER BY vdm.idkelas DESC,vdm.nama_mhs ASC";        
+        $str = "SELECT vdm.no_formulir,vdm.nirm,vdm.nim,vdm.nama_mhs,vdm.telp_hp,vdm.kjur,vdm.tahun_masuk,vdm.semester_masuk,vdm.idkelas AS idkelas_terakhir,d.idkelas AS idkelas_dulang,vdm.k_status AS k_status_terakhir,d.k_status AS k_status_dulang FROM v_datamhs vdm LEFT JOIN (SELECT nim,idkelas,k_status FROM dulang WHERE tahun=$ta AND idsmt=$semester) AS d ON (d.nim=vdm.nim) WHERE vdm.kjur=$kjur AND d.k_status IS NULL$str_tahun_masuk ORDER BY vdm.idkelas DESC,vdm.nama_mhs ASC";        
         $this->DB->setFieldTable(array('no_formulir','nirm','nim','nama_mhs','idkelas_terakhir','telp_hp','kjur','tahun_masuk','semester_masuk','idkelas_terakhir','idkelas_dulang','k_status_terakhir','k_status_dulang'));
         $r = $this->DB->getRecord($str);
         $result=array();
@@ -136,7 +137,8 @@ class CPembayaranPiutangSemesterGenap Extends MainPageK {
                 if (!isset($r[1])) {                                   
                     throw new Exception ("NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
                 }                
-                if ($datamhs['tahun_masuk'] == $datamhs['ta'] && $datamhs['semester_masuk']==2) {	
+                $ta=$_SESSION['currentPagePembayaranPiutangSemesterGenap']['ta']; 
+                if ($datamhs['tahun_masuk'] == $ta && $datamhs['semester_masuk']==2) {	
                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
                 }
             }catch (Exception $e) {

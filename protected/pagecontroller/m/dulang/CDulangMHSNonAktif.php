@@ -40,9 +40,10 @@ class CDulangMHSNonAktif Extends MainPageM {
 
             $this->populateData();
             $this->setInfoToolbar();
-		}	
+        }	        
 	}
     public function getDataMHS($idx) {		        
+
         return $this->Demik->getDataMHS($idx);
     }
     public function setInfoToolbar() {        
@@ -149,8 +150,8 @@ class CDulangMHSNonAktif Extends MainPageM {
             try {
                 if (!isset($_SESSION['currentPageDulangMHSNonAktif']['DataMHS']['no_formulir'])) {
                     
-                    $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,vdm.semester_masuk,iddosen_wali,vdm.k_status,sm.n_status AS status,vdm.idkelas,ke.nkelas FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) LEFT JOIN status_mhs sm ON (vdm.k_status=sm.k_status) LEFT JOIN kelas ke ON (vdm.idkelas=ke.idkelas) WHERE vdm.nim='$nim'";
-                    $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','semester_masuk','iddosen_wali','k_status','status','idkelas','nkelas'));
+                    $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,vdm.semester_masuk,iddosen_wali,vdm.k_status,sm.n_status AS status,vdm.idkelas,ke.nkelas,vdm.photo_profile FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) LEFT JOIN status_mhs sm ON (vdm.k_status=sm.k_status) LEFT JOIN kelas ke ON (vdm.idkelas=ke.idkelas) WHERE vdm.nim='$nim'";
+                    $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','semester_masuk','iddosen_wali','k_status','status','idkelas','nkelas','photo_profile'));
                     $r=$this->DB->getRecord($str);	           
                     if (!isset($r[1])) {
                         throw new Exception ("Mahasiswa Dengan NIM ($nim) tidak terdaftar di Portal.");
@@ -167,7 +168,7 @@ class CDulangMHSNonAktif Extends MainPageM {
                     }                    
                     $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
                     $datamhs['nama_dosen']=$this->DMaster->getNamaDosenWaliByID ($datamhs['iddosen_wali']);
-                    $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
+                    $datamhs['iddata_konversi']=$this->Demik->isMhsPindahan($datamhs['nim'],true);
                     $datamhs['nama_konsentrasi']=($datamhs['idkonsentrasi']==0) ? '-':$datamhs['nama_konsentrasi'];                    
                     $datamhs['status']=$this->DMaster->getNamaStatusMHSByID($datamhs['k_status']);
                     $_SESSION['currentPageDulangMHSNonAktif']['DataMHS']=$datamhs;
@@ -189,12 +190,13 @@ class CDulangMHSNonAktif Extends MainPageM {
 		$iddulang=$this->getDataKeyField($sender,$this->RepeaterS);
         $this->hiddeniddulang->Value=$iddulang;
         $this->hiddenstatussebelumnya->Value=
-        $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,semester_masuk,iddosen_wali,d.idkelas,d.status_sebelumnya,d.k_status,d.idsmt,d.tahun FROM v_datamhs vdm JOIN dulang d ON (d.nim=vdm.nim) LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE d.iddulang='$iddulang'";
-        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','semester_masuk','iddosen_wali','idkelas','status_sebelumnya','k_status','idsmt','tahun'));
+        $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,semester_masuk,iddosen_wali,d.idkelas,d.status_sebelumnya,d.k_status,d.idsmt,d.tahun,vdm.photo_profile FROM v_datamhs vdm JOIN dulang d ON (d.nim=vdm.nim) LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE d.iddulang='$iddulang'";
+        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','semester_masuk','iddosen_wali','idkelas','status_sebelumnya','k_status','idsmt','tahun','photo_profile'));
         $r=$this->DB->getRecord($str);	           
         $datamhs=$r[1];
         $datamhs['nama_dosen']=$this->DMaster->getNamaDosenWaliByID ($datamhs['iddosen_wali']);
         $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
+        $datamhs['iddata_konversi']=$this->Demik->isMhsPindahan($datamhs['nim'],true);
         $datamhs['nama_konsentrasi']=($datamhs['idkonsentrasi']==0) ? '-':$datamhs['nama_konsentrasi'];                    
         $datamhs['status']=$this->DMaster->getNamaStatusMHSByID($datamhs['k_status']);        
         $this->hiddenstatussebelumnya->Value=$datamhs['status_sebelumnya'];

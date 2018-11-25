@@ -164,9 +164,9 @@ class CPembayaranSemesterGanjil Extends MainPageK {
 		        $semester=$_SESSION['currentPagePembayaranSemesterGanjil']['semester'];
                 $this->Finance->setDataMHS($datamhs);                              
                 $datadulang=$this->Finance->getDataDulang($semester,$ta);
-                if ($datadulang['k_status']=='D' || $datadulang['k_status']=='C') {
+                if ($datadulang['k_status']=='N' || $datadulang['k_status']=='D') {
                     $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS']=array();
-                    throw new Exception ("Status NIM ($nim) NON-AKTIF atau DROP-OUT silahkan lakuakn pembayaran melalui Pembayaran Piutang.");
+                    throw new Exception ("Status NIM ($nim) NON-AKTIF atau DROP-OUT silahkan melakukan pembayaran melalui Pembayaran Piutang.");
                 }
             }catch (Exception $e) {
                 $param->IsValid=false;

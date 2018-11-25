@@ -47,7 +47,7 @@ class CDetailDulangMHSKeluar Extends MainPageM {
 
                     $this->setInfoToolbar();
                 }else{
-                    throw new Exception("No. Formulir belum ada di session.");
+                    throw new Exception("Data Mahasiswa belum ada di session.");
                 }
             } catch (Exception $ex) {
                 $this->idProcess='view';	

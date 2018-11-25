@@ -136,7 +136,8 @@ class CPembayaranPiutangSemesterGanjil Extends MainPageK {
                 if (!isset($r[1])) {                                   
                     throw new Exception ("NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
                 }
-                if ($datamhs['tahun_masuk'] == $datamhs['ta'] && $datamhs['semester_masuk']==2) {
+                $ta=$_SESSION['currentPagePembayaranPiutangSemesterGanjil']['ta']; 
+                if ($datamhs['tahun_masuk'] == $ta && $datamhs['semester_masuk']==2) {
                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
                 }
             }catch (Exception $e) {

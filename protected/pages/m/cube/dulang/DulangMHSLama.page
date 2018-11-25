@@ -120,7 +120,7 @@
                     <div class="form-inline">                        
                         <div class="form-group">
                             <label class="sr-only">NIM :</label>
-                            <com:TTextBox CssClass="form-control" ID="txtNIM" MaxLength="8" Attributes.PlaceHolder="NIM" Width="150px" />                                                                                                        
+                            <com:TTextBox CssClass="form-control" ID="txtNIM" Attributes.PlaceHolder="NIM" Width="150px" />                                                                                                        
                         </div>
                         <com:TActiveCustomButton ID="btnGo" CssClass="btn btn-primary" OnClick="Go" ValidationGroup="dulangNIMMhsLama">
                             <prop:Text><i class="fa fa-location-arrow"></i> Go</prop:Text>

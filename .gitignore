@@ -2,7 +2,8 @@ assets/*
 exported/*
 protected/lib/*
 protected/runtime/*
-protected/application.xml-*
+protected/application.xml
 themes/*
 index.php
 .classpath
+

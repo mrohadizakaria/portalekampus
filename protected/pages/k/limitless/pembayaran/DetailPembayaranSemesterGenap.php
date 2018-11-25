@@ -23,7 +23,7 @@ class DetailPembayaranSemesterGenap Extends CDetailPembayaranSemesterGenap {
                 $datadulang=$this->Finance->getDataDulang(1,$ta);
                 if ($sisa>0 && $datadulang['k_status'] != 'C') {
 					$sisa=$this->Finance->toRupiah($sisa);
-					$tasmt="T.A ".$this->DMaster->getNamaTA($ta).' semester '.$this->setup->getSemester(2);
+					$tasmt="T.A ".$this->DMaster->getNamaTA($ta).' semester '.$this->setup->getSemester(1);
 					throw new Exception ('Mahasiswa a.n '.$datamhs['nama_mhs']." Memiliki tunggakan sebesar ($sisa) pada $tasmt, harap untuk dilunasi terlebih dahulu.");
 				}
 			}

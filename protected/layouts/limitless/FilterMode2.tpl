@@ -8,8 +8,8 @@
     <div class="category-content">
         <div class="form-group">
             <label><strong>Tahun Akademik :</strong></label>
-            <com:TActiveDropDownList ID="tbCmbTA" OnCallback="Page.changeTbTA" CssClass="form-control" Width="120px">
-                <prop:ClientSide.OnPreDispatch>
+            <com:TActiveDropDownList ID="tbCmbTA" OnCallback="Page.changeTbTA" CssClass="form-control">
+                <prop:ClientSide.OnPreDispatch>11
                     $('<%=$this->tbCmbTA->ClientId%>').disabled='disabled';
                     Pace.stop();
                     Pace.start();

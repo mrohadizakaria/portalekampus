@@ -59,7 +59,7 @@
                             <div class="col-lg-10">
                                 <div class="row">
                                     <div class="col-lg-2">                                
-                                        <com:TTextBox ID="txtAddNIM" MaxLength="8" CssClass="form-control" Width="100px" />
+                                        <com:TTextBox ID="txtAddNIM" CssClass="form-control" Width="100px" />
                                     </div>
                                     <div class="col-lg-10">                                
                                         <com:TRequiredFieldValidator ID="FieldAddNIMValidator" ControlToValidate="txtAddNIM" Display="Dynamic" ErrorMessage="Isi NIM Mahasiswa Baru" ValidationGroup="addDulangMhsBaru" CssClass="has-error help-block" FocusOnError="true">
