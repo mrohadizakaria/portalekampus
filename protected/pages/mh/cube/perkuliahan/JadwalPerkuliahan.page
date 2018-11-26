@@ -44,7 +44,7 @@
                                 <tbody>		
                             </prop:HeaderTemplate>
                             <prop:ItemTemplate>	
-                                <tr<%#$this->DataItem['trstyle']%>>
+                                <tr>
                                     <td><%# $this->Data['no']%></td>
                                     <td><%# $this->Data['kode_matkul']%></td>
                                     <td><%# $this->Data['nmatkul']%></td>   
@@ -108,7 +108,7 @@
                                 <tbody>		
                             </prop:HeaderTemplate>
                             <prop:ItemTemplate>	
-                                <tr<%#$this->DataItem['trstyle']%>>
+                                <tr>
                                     <td><%# $this->Data['no']%></td>
                                     <td><%# $this->Data['kode_matkul']%></td>
                                     <td><%# $this->Data['nmatkul']%></td>   

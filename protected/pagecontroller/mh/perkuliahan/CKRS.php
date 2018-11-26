@@ -157,46 +157,57 @@ class CKRS extends MainPageMHS {
     }
 	public function printKRS ($sender,$param) {
         $this->createObj('reportkrs');
+
+        $messageprintout='';   
+
         $this->linkOutput->Text='';
         $this->linkOutput->NavigateUrl='#';
-        switch ($_SESSION['outputreport']) {
-            case  'summarypdf' :
-                $messageprintout="Mohon maaf Print out pada mode summary pdf tidak kami support.";                
-            break;
-            case  'summaryexcel' :
-                $messageprintout="Mohon maaf Print out pada mode summary excel tidak kami support.";                
-            break;
-            case  'excel2007' :
-                $messageprintout="Mohon maaf Print out pada mode excel 2007 belum kami support.";                
-            break;
-            case  'pdf' :                
-                $messageprintout='';                
-                $tahun=$_SESSION['ta'];
-                $semester=$_SESSION['semester'];
-                $nama_tahun = $this->DMaster->getNamaTA($tahun);
-                $nama_semester = $this->setup->getSemester($semester);
 
-                $dataReport=$this->Pengguna->getDataUser();
-                $dataReport['krs']=$_SESSION['currentPageKRS']['DataKRS']['krs'];        
-                $dataReport['matakuliah']=$_SESSION['currentPageKRS']['DataKRS']['matakuliah'];        
-                $dataReport['nama_tahun']=$nama_tahun;
-                $dataReport['nama_semester']=$nama_semester;        
-                
-                $kaprodi=$this->KRS->getKetuaPRODI($dataReport['kjur']);                  
-                $dataReport['nama_kaprodi']=$kaprodi['nama_dosen'];
-                $dataReport['jabfung_kaprodi']=$kaprodi['nama_jabatan'];
-                $dataReport['nipy_kaprodi']=$kaprodi['nipy'];
-                
-                $dataReport['linkoutput']=$this->linkOutput;                 
-                $this->report->setDataReport($dataReport); 
-                $this->report->setMode($_SESSION['outputreport']);
-                $this->report->printKRS();				
+        $dataReport=$this->Pengguna->getDataUser();
+        $tahun=$_SESSION['ta'];
+        $semester=$_SESSION['semester'];
+        $nama_tahun = $this->DMaster->getNamaTA($tahun);
+        $nama_semester = $this->setup->getSemester($semester);
 
-                
-            break;
-        }
-        $this->lblMessagePrintout->Text=$messageprintout;
-        $this->lblPrintout->Text="Kartu Rencana Studi T.A $nama_tahun Semester $nama_semester";
-        $this->modalPrintOut->show();
+        $nim=$dataReport['nim'];
+        $str = "krsmatkul km, krs k,kelas_mhs_detail kmd,kelas_mhs vkm,v_pengampu_penyelenggaraan vpp, ruangkelas rk  WHERE km.idkrs=k.idkrs AND kmd.idkrsmatkul=km.idkrsmatkul AND vkm.idkelas_mhs=kmd.idkelas_mhs AND vkm.idpengampu_penyelenggaraan=vpp.idpengampu_penyelenggaraan AND rk.idruangkelas=vkm.idruangkelas AND k.nim='$nim' AND k.idsmt=$semester AND k.tahun=$tahun";
+        $jumlah_kelas=$this->DB->getCountRowsOfTable($str,'kmd.idkelas_mhs');
+        if ($jumlah_kelas > 0) {
+            switch ($_SESSION['outputreport']) {
+                case  'summarypdf' :
+                    $messageprintout="Mohon maaf Print out pada mode summary pdf tidak kami support.";                
+                break;
+                case  'summaryexcel' :
+                    $messageprintout="Mohon maaf Print out pada mode summary excel tidak kami support.";                
+                break;
+                case  'excel2007' :
+                    $messageprintout="Mohon maaf Print out pada mode excel 2007 belum kami support.";                
+                break;
+                case  'pdf' :                                
+                    $dataReport['krs']=$_SESSION['currentPageKRS']['DataKRS']['krs'];        
+                    $dataReport['matakuliah']=$_SESSION['currentPageKRS']['DataKRS']['matakuliah'];        
+                    $dataReport['nama_tahun']=$nama_tahun;
+                    $dataReport['nama_semester']=$nama_semester;        
+                    
+                    $kaprodi=$this->KRS->getKetuaPRODI($dataReport['kjur']);                  
+                    $dataReport['nama_kaprodi']=$kaprodi['nama_dosen'];
+                    $dataReport['jabfung_kaprodi']=$kaprodi['nama_jabatan'];
+                    $dataReport['nipy_kaprodi']=$kaprodi['nipy'];
+                    
+                    $dataReport['linkoutput']=$this->linkOutput;                 
+                    $this->report->setDataReport($dataReport); 
+                    $this->report->setMode($_SESSION['outputreport']);
+                    $this->report->printKRS();				
+                    
+                break;
+            }
+            $this->lblMessagePrintout->Text=$messageprintout;
+            $this->lblPrintout->Text="Kartu Rencana Studi T.A $nama_tahun Semester $nama_semester";
+            $this->modalPrintOut->show();
+        }else{
+            $this->modalMessageError->show();
+			$this->lblContentMessageError->Text="Mohon untuk mengisi seluruh kelas terlebih dahulu.";
+        }       
+       
 	}
 }
