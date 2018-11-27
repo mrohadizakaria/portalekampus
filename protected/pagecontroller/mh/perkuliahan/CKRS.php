@@ -156,8 +156,7 @@ class CKRS extends MainPageMHS {
         }
     }
 	public function printKRS ($sender,$param) {
-        $this->createObj('reportkrs');
-
+        $this->createObj('reportkrs');        
         $messageprintout='';   
 
         $this->linkOutput->Text='';
@@ -172,7 +171,8 @@ class CKRS extends MainPageMHS {
         $nim=$dataReport['nim'];
         $str = "krsmatkul km, krs k,kelas_mhs_detail kmd,kelas_mhs vkm,v_pengampu_penyelenggaraan vpp, ruangkelas rk  WHERE km.idkrs=k.idkrs AND kmd.idkrsmatkul=km.idkrsmatkul AND vkm.idkelas_mhs=kmd.idkelas_mhs AND vkm.idpengampu_penyelenggaraan=vpp.idpengampu_penyelenggaraan AND rk.idruangkelas=vkm.idruangkelas AND k.nim='$nim' AND k.idsmt=$semester AND k.tahun=$tahun";
         $jumlah_kelas=$this->DB->getCountRowsOfTable($str,'kmd.idkelas_mhs');
-        if ($jumlah_kelas > 0) {
+        $jumlah_matkul=$_SESSION['currentPageKRS']['DataKRS']['krs']['jumlah_sah'];	        
+        if ($jumlah_kelas >= $jumlah_matkul) {
             switch ($_SESSION['outputreport']) {
                 case  'summarypdf' :
                     $messageprintout="Mohon maaf Print out pada mode summary pdf tidak kami support.";                

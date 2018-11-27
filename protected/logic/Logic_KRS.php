@@ -97,25 +97,37 @@ class Logic_KRS extends Logic_Akademik {
      * @param type $idsmt
      * @return array data krs dan daftar matakuliah
      */
-	public function getKRS ($tahun,$idsmt) {	
+	public function getKRS ($tahun,$idsmt) {	        
         $nim=$this->DataMHS['nim'];        
         $str = "SELECT idkrs,nim,tgl_krs,no_krs,sah,tgl_disahkan,tahun,idsmt,tasmt FROM krs WHERE idsmt=$idsmt AND tahun=$tahun AND nim='$nim'";
         $this->db->setFieldTable(array('idkrs','nim','tgl_krs','no_krs','sah','tgl_disahkan','tahun','idsmt','tasmt'));
         $r=$this->db->getRecord($str);		
         $data=array('krs'=>array(),'matakuliah'=>array());
         if (isset($r[1])) {
+            $jumlah_matkul=0;
+            $jumlah_sah=0;
+            $jumlah_batal=0;
             $data['krs']=$r[1];						
             $str = "SELECT idpenyelenggaraan,idkrsmatkul,kmatkul,nmatkul,sks,semester,batal,nidn,nama_dosen FROM v_krsmhs WHERE idkrs='".$r[1]['idkrs']."' ORDER BY semester ASC,kmatkul ASC";
             $this->db->setFieldTable(array('idpenyelenggaraan','idkrsmatkul','kmatkul','nmatkul','sks','semester','batal','nidn','nama_dosen'));
             $r=$this->db->getRecord($str);
-            if (isset($r[1])) {					
+            if (isset($r[1])) {
                 while (list($k,$v)=each ($r)) {
                     $v['kmatkul']=$this->getKMatkul($v['kmatkul']);
+                    $jumlah_matkul+=1;
+                    if ($v['batal'] == 0) {
+                        $jumlah_sah+=1;
+                    }else{
+                        $jumlah_batal+=1;
+                    }
                     $result[$k]=$v;
                 }
                 $data['matakuliah']=$result;					
             }
-        }   
+            $data['krs']['jumlah_matkul']=$jumlah_matkul;
+            $data['krs']['jumlah_sah']=$jumlah_sah;
+            $data['krs']['jumlah_batal']=$jumlah_batal;
+        }          
         $this->DataKRS=$data;
         return $data;
 	}    
