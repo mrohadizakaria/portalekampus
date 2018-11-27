@@ -175,8 +175,8 @@ class CPembayaranSemesterGenap Extends MainPageK {
     }
 	public function Go($param,$sender) {	
         if ($this->IsValid) {            
-            // $nim=addslashes($this->txtNIM->Text);
-            // $this->redirect('pembayaran.DetailPembayaranSemesterGenap',true,array('id'=>$nim));
+            $nim=addslashes($this->txtNIM->Text);
+            $this->redirect('pembayaran.DetailPembayaranSemesterGenap',true,array('id'=>$nim));
         }
 	}
 	
