@@ -136,6 +136,7 @@ class CDetailDPNA extends MainPageM {
         $this->literalInfoKelas->Text=$infokelas;
     }
 	public function printOut ($sender,$param) {	
+        $this->Demik->InfoMatkul=$_SESSION['currentPageDPNA']['DataDPNA'];
         $this->createObj('reportnilai');
         $this->linkOutput->Text='';
         $this->linkOutput->NavigateUrl='#';
