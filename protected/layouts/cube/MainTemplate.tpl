@@ -181,7 +181,13 @@
                                         </li>
                                         <li class="nav-header nav-header-first hidden-sm hidden-xs">
                                             DATA MASTER
-                                        </li>                                        
+                                        </li>
+                                        <li<%=$this->Page->showTA==true?' class="active"':''%>>
+                                            <a href="<%=$this->Page->constructUrl('dmaster.TA',true)%>">
+                                                <i class="fa fa-calendar-o"></i>
+                                                <span>Tahun Akademik</span>											
+                                            </a>                                        
+                                        </li>                            
                                         <li<%=$this->Page->showSubMenuLembaga==true?' class="active"':''%>>
                                             <a href="#" class="dropdown-toggle">
                                                 <i class="fa fa-fax"></i>

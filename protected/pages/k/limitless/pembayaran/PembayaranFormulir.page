@@ -152,6 +152,7 @@
                         </tr>
                     </prop:ItemTemplate>							
                     <prop:FooterTemplate>
+                        </tbody>
                         </table>
                     </prop:FooterTemplate>	
                     <prop:EmptyTemplate>                       
