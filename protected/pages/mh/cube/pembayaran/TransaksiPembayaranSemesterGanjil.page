@@ -117,88 +117,90 @@
                         </div>
                     </div>                                     
                 </div>
-                <com:TActiveDataGrid
-                    CssClass="table table-striped table-hover"        
-                    ID="GridS"
-                    DataKeyField="idkombi"
-                    AutoGenerateColumns="false"        
-                    ShowFOoter="true" 
-                    OnItemCreated="itemCreated"
-                    OnEditCommand="editItem"
-                    OnUpdateCommand="saveItem"
-                    OnCancelCommand="cancelItem"
-                    OnDeleteCommand="deleteItem"
-                    HeaderStyle.CssClass="bg-teal-700"                    
-                    FooterStyle.CssClass="bg-orange-300"
-                    >                          
-                    <com:TActiveLiteralColumn                
-                        HeaderText="NO"            
-                        HeaderStyle.Width="30px"
-                        HeaderStyle.CssClass="text-left"
-                        ItemStyle.CssClass="text-left"
-                        DataField="no"                                    
-                        />  
-                    <com:TActiveLiteralColumn                
-                        HeaderText="KODE"            
-                        HeaderStyle.Width="30px"
-                        HeaderStyle.CssClass="text-left"
-                        ItemStyle.CssClass="left"
-                        DataField="idkombi"                                    
-                        />                                                 
-                    <com:TActiveLiteralColumn                
-                        HeaderText="REKENING"            
-                        HeaderStyle.Width="250px"
-                        HeaderStyle.CssClass="text-left"
-                        ItemStyle.CssClass="text-left"
-                        DataField="nama_kombi"   
-                        FooterText="<strong>TOTAL</strong>"
-                        />   
-                    <com:TActiveLiteralColumn
-                        ID="ColumnBiaya"
-                        HeaderText="BIAYA"            
-                        HeaderStyle.CssClass="text-right"
-                        ItemStyle.CssClass="text-right"
-                        DataField="biaya_alias"  
-                        FooterStyle.CssClass="text-right"
-                        FooterRenderer="TotalPrice"
-                        /> 
-                    <com:TActiveLiteralColumn
-                        ID="ColumnSudahBayar"
-                        HeaderText="SUDAH <br/>DIBAYAR (COMMITED)"            
-                        HeaderStyle.CssClass="text-right"
-                        ItemStyle.CssClass="text-right"
-                        DataField="sudah_dibayar_alias"  
-                        FooterStyle.CssClass="text-right"
-                        FooterRenderer="TotalSudahDibayarkan"
-                        /> 
-                    <com:TActiveBoundColumn
-                        ID="ColumnJumlahBayar"                                                           
-                        HeaderText="JUMLAH <br/>BAYAR (BELUM COMMITED)"            
-                        HeaderStyle.CssClass="text-right"
-                        ItemStyle.CssClass="text-right"
-                        DataField="jumlah_bayar_alias"  
-                        FooterStyle.CssClass="text-right"
-                        FooterRenderer="TotalJumlahBayar"
-                        />
-                    <com:TActiveEditCommandColumn
-                        ID="EditColumn"
-                        HeaderText=""            
-                        ItemStyle.CssClass="text-left"
-                        UpdateText="Save"                                                                                                                     
-                        EditText="<i class='fa fa-pencil'></i>"
-                        CancelText="Batal"
-                        HeaderStyle.Width="80px"                                    
-                        />
-                    <com:TActiveButtonColumn
-                        ID="DeleteColumn"
-                        HeaderText=""                                               
-                        Text="<i class='fa fa-undo'></i>"
-                        CommandName="delete"                                    
-                        HeaderStyle.CssClass="text-left"
-                        ItemStyle.CssClass="text-left"
-                        HeaderStyle.Width="30px"
-                        />       
-                </com:TActiveDataGrid>   
+                <div class="table-responsive">                
+                    <com:TActiveDataGrid
+                        CssClass="table table-striped table-hover"        
+                        ID="GridS"
+                        DataKeyField="idkombi"
+                        AutoGenerateColumns="false"        
+                        ShowFOoter="true" 
+                        OnItemCreated="itemCreated"
+                        OnEditCommand="editItem"
+                        OnUpdateCommand="saveItem"
+                        OnCancelCommand="cancelItem"
+                        OnDeleteCommand="deleteItem"
+                        HeaderStyle.CssClass="bg-teal-700"                    
+                        FooterStyle.CssClass="bg-orange-300"
+                        >                          
+                        <com:TActiveLiteralColumn                
+                            HeaderText="NO"            
+                            HeaderStyle.Width="30px"
+                            HeaderStyle.CssClass="text-left"
+                            ItemStyle.CssClass="text-left"
+                            DataField="no"                                    
+                            />  
+                        <com:TActiveLiteralColumn                
+                            HeaderText="KODE"            
+                            HeaderStyle.Width="30px"
+                            HeaderStyle.CssClass="text-left"
+                            ItemStyle.CssClass="left"
+                            DataField="idkombi"                                    
+                            />                                                 
+                        <com:TActiveLiteralColumn                
+                            HeaderText="REKENING"            
+                            HeaderStyle.Width="250px"
+                            HeaderStyle.CssClass="text-left"
+                            ItemStyle.CssClass="text-left"
+                            DataField="nama_kombi"   
+                            FooterText="<strong>TOTAL</strong>"
+                            />   
+                        <com:TActiveLiteralColumn
+                            ID="ColumnBiaya"
+                            HeaderText="BIAYA"            
+                            HeaderStyle.CssClass="text-right"
+                            ItemStyle.CssClass="text-right"
+                            DataField="biaya_alias"  
+                            FooterStyle.CssClass="text-right"
+                            FooterRenderer="TotalPrice"
+                            /> 
+                        <com:TActiveLiteralColumn
+                            ID="ColumnSudahBayar"
+                            HeaderText="SUDAH <br/>DIBAYAR (COMMITED)"            
+                            HeaderStyle.CssClass="text-right"
+                            ItemStyle.CssClass="text-right"
+                            DataField="sudah_dibayar_alias"  
+                            FooterStyle.CssClass="text-right"
+                            FooterRenderer="TotalSudahDibayarkan"
+                            /> 
+                        <com:TActiveBoundColumn
+                            ID="ColumnJumlahBayar"                                                           
+                            HeaderText="JUMLAH <br/>BAYAR (BELUM COMMITED)"            
+                            HeaderStyle.CssClass="text-right"
+                            ItemStyle.CssClass="text-right"
+                            DataField="jumlah_bayar_alias"  
+                            FooterStyle.CssClass="text-right"
+                            FooterRenderer="TotalJumlahBayar"
+                            />
+                        <com:TActiveEditCommandColumn
+                            ID="EditColumn"
+                            HeaderText=""            
+                            ItemStyle.CssClass="text-left"
+                            UpdateText="Save"                                                                                                                     
+                            EditText="<i class='fa fa-pencil'></i>"
+                            CancelText="Batal"
+                            HeaderStyle.Width="80px"                                    
+                            />
+                        <com:TActiveButtonColumn
+                            ID="DeleteColumn"
+                            HeaderText=""                                               
+                            Text="<i class='fa fa-undo'></i>"
+                            CommandName="delete"                                    
+                            HeaderStyle.CssClass="text-left"
+                            ItemStyle.CssClass="text-left"
+                            HeaderStyle.Width="30px"
+                            />       
+                    </com:TActiveDataGrid>   
+                </div>
             </div>   
         </div>        
     </div>     
