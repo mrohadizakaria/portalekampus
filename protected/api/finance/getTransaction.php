@@ -48,11 +48,17 @@ class getTransaction extends BaseWS {
 						$this->createObj('Finance');						
 						$payload['totaltagihan']=$this->Finance->getTotalTagihanByNoTransaksi($no_transaksi);
 						$payload['commited']=$result['commited'];
-						$payload['keterangan']=$keterangan;
-						
-						$this->payload['status']='00';
+                        $payload['keterangan']=$keterangan;
+                        if ($result['commited']==1) {
+                            $this->payload['status']='88';
+                            $message="Login=1, transaksi ($no_transaksi) sudah pernah dilakukan";
+                        }else{
+                            $this->payload['status']='00';
+                            $message="Login=1, data transaksi dengan nomor ($no_transaksi) berhasil diperoleh !!!";
+                        }
+                        
 						$this->payload['payload']=$payload;							
-						$this->payload['message']="Proses Login telah berhasil, data transaksi dengan nomor ($no_transaksi) berhasil diperoleh !!!";
+						$this->payload['message']=$message;
 					}else{
 						$this->payload['status']='04';
 						throw new Exception ("Proses Login telah berhasil, namun data transaksi dengan nomor ($no_transaksi) tidak ada di database !!!");
@@ -63,9 +69,15 @@ class getTransaction extends BaseWS {
 					$this->DB->setFieldTable(array('no_transaksi','no_faktur','tahun','idsmt','nim','totaltagihan','commited','tanggal','date_added'));		
 					$r=$this->DB->getRecord($str);						
 					if (isset($r[1])) {
-						$this->payload['status']='00';
+                        if ($r[1]['commited']==1) {
+                            $this->payload['status']='88';
+                            $message="Login=1, transaksi ($no_transaksi) sudah pernah dilakukan";
+                        }else{
+                            $this->payload['status']='00';
+                            $message="Login=1, data transaksi dengan nomor ($no_transaksi) berhasil diperoleh !!!";
+                        }
 						$this->payload['payload']=$r[1];							
-						$this->payload['message']="Proses Login telah berhasil, data transaksi cuti dengan nomor ($no_transaksi) berhasil diperoleh !!!";
+						$this->payload['message']=$message;
 					}else{
 						$this->payload['status']='04';
 						throw new Exception ("Proses Login telah berhasil, namun data transaksi cuti dengan nomor ($no_transaksi) tidak ada di database !!!");
