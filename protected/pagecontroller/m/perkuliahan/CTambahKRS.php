@@ -76,7 +76,7 @@ class CTambahKRS extends MainPageM {
 	public function tambahMatkul($sender,$param) {
 		try {		
             $datakrs=$_SESSION['currentPageKRS']['DataKRS']['krs'];
-            $datakrs['iddata_konversi']=$this->Pengguna->getDataUser('iddata_konversi');
+            $datakrs['iddata_konversi']=$_SESSION['currentPageKRS']['DataMHS']['iddata_konversi'];
             $this->KRS->setDataMHS($datakrs);
 			$idkrs=$datakrs['idkrs'];
 			$str = "SELECT SUM(sks) AS jumlah FROM v_krsmhs WHERE idkrs='$idkrs'";

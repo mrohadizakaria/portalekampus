@@ -19,6 +19,7 @@
             <pages StatePersisterClass="System.Web.UI.TCachePageStatePersister" StatePersister.CacheModuleID="cache" StatePersister.CacheTimeout="7200" />
 		</service>
         <service id="json" class="System.Web.Services.TJsonService">
+            <json id="check_login_mhs" class="Application.api.auth.checkLoginMahasiswa"/>
 			<json id="get_data_mhs" class="Application.api.mahasiswa.getDataMHS"/>          
             <json id="get_transaction" class="Application.api.finance.getTransaction"/> 
             <json id="get_list_transaction" class="Application.api.finance.getListTransaction"/>        
