@@ -114,7 +114,7 @@ class CPembayaranSemesterGenap Extends MainPageMHS {
                     $str = "SELECT k.idkombi,kpt.biaya FROM kombi_per_ta kpt,kombi k WHERE  k.idkombi=kpt.idkombi AND tahun=$tahun_masuk AND kpt.idkelas='$idkelas' AND idsmt=$idsmt AND periode_pembayaran='semesteran' ORDER BY periode_pembayaran,nama_kombi ASC";
                     $this->DB->setFieldTable(array('idkombi','biaya'));
                     $r=$this->DB->getRecord($str);
-                    print_R($r);
+                                        
                     while (list($k,$v)=each($r)) {
                         $biaya=$v['biaya'];
                         $idkombi=$v['idkombi'];
