@@ -1,6 +1,6 @@
 <%@ Title="Pembayaran - Semester Ganjil"%>
 <com:TContent ID="moduleheader">
-    <i class="fa fa-usd"></i> Pembayaran Semester Ganjil T.A <small><com:TActiveLabel ID="labelModuleHeader" /></small>
+    <i class="fa fa-usd"></i> Pembayaran Semester Ganjil<small><com:TActiveLabel ID="labelModuleHeader" /></small>
 </com:TContent>
 <com:TContent ID="modulebreadcrumb">    
     <li><a href="#">PEMBAYARAN</a></li>
@@ -54,7 +54,7 @@
                     <div class="form-group" id="divAddNomorFaktur">
                         <label class="col-md-2 control-label">Nomor Faktur Bank :</label>
                         <div class="col-md-10">                            
-                            <com:TTextBox ID="txtAddNomorFaktur" CssClass="form-control" />  
+                            <com:TTextBox ID="txtAddNomorFaktur" CssClass="form-control" Enabled="false" />  
                             <com:TRequiredFieldValidator ID="FieldAddNomorFaktur" ControlToValidate="txtAddNomorFaktur" Display="Dynamic" ErrorMessage="Isi dengan Nomor Faktur dari Bank" ValidationGroup="addtransaksi" FocusOnError="true" CssClass="has-error help-block">			
                                 <prop:ClientSide.OnValidationError>
                                     $('divAddNomorFaktur').addClassName('has-error');

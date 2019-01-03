@@ -8,7 +8,11 @@ class MainPageMHS extends MainPage {
      * show page konversi sementara [akademik nilai]
      */
     public $showKonversiMatakuliah=false;
-     /**     
+    /**     
+     * show page pembayaran semester Ganjil [pembayaran]
+     */
+    public $showPembayaranMahasiswaBaru=false;
+    /**     
      * show page pembayaran semester Ganjil [pembayaran]
      */
     public $showPembayaranSemesterGanjil=false;

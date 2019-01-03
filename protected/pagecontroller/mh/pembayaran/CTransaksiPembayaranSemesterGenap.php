@@ -14,6 +14,7 @@ class CTransaksiPembayaranSemesterGenap Extends MainPageMHS {
                 if (!isset($_SESSION['currentPagePembayaranSemesterGenap']['no_transaksi']) || $_SESSION['currentPagePembayaranSemesterGenap']['no_transaksi'] == 'none') {              
                     throw new Exception ("Tidak ada data No. Transaksi di Sesi ini");		
                 }  
+                $this->setInfoToolbar();
                 $this->Finance->setDataMHS($datamhs);
                 $no_transaksi=$_SESSION['currentPagePembayaranSemesterGenap']['no_transaksi'];
                 $str = "SELECT no_faktur,tanggal FROM transaksi WHERE no_transaksi=$no_transaksi";
@@ -28,19 +29,18 @@ class CTransaksiPembayaranSemesterGenap Extends MainPageMHS {
                 $this->errorMessage->Text=$ex->getMessage();
             }      
 		}	
-	}
-    public function getDataMHS($idx) {              
-        if (isset($_SESSION['currentPagePembayaranSemesterGenap']['DataMHS'])) {
-            return $_SESSION['currentPagePembayaranSemesterGenap']['DataMHS'][$idx];
-        }        
     }
+    public function setInfoToolbar() {        
+        $ta=$this->DMaster->getNamaTA($_SESSION['currentPagePembayaranSemesterGenap']['ta']);        		
+		$this->labelModuleHeader->Text="T.A $ta";        
+	}
     public function populateData () {
         $datamhs = $this->Pengguna->getDataUser();
         $no_transaksi=$_SESSION['currentPagePembayaranSemesterGenap']['no_transaksi'];
         $no_formulir=$datamhs['no_formulir'];
         $ta=$_SESSION['currentPagePembayaranSemesterGenap']['ta'];             
         $tahun_masuk=$datamhs['tahun_masuk'];
-        $idsmt=1;     
+        $idsmt=2;     
         $kelas=$datamhs['idkelas'];                
         
         $str = "SELECT idkombi,SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE no_formulir=$no_formulir AND tahun=$ta AND idsmt=$idsmt AND commited=1 GROUP BY idkombi ORDER BY idkombi+1 ASC";
@@ -109,7 +109,7 @@ class CTransaksiPembayaranSemesterGenap Extends MainPageMHS {
         $no_formulir=$datamhs['no_formulir'];
         $ta=$_SESSION['currentPagePembayaranSemesterGenap']['ta'];        
         $tahun_masuk=$datamhs['tahun_masuk'];
-        $idsmt=1;     
+        $idsmt=2;     
         $kelas=$datamhs['idkelas'];       
         
         

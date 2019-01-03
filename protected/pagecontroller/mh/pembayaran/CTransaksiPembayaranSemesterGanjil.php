@@ -14,6 +14,7 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageMHS {
                 if (!isset($_SESSION['currentPagePembayaranSemesterGanjil']['no_transaksi']) || $_SESSION['currentPagePembayaranSemesterGanjil']['no_transaksi'] == 'none') {              
                     throw new Exception ("Tidak ada data No. Transaksi di Sesi ini");		
                 }  
+                $this->setInfoToolbar();
                 $this->Finance->setDataMHS($datamhs);
                 $no_transaksi=$_SESSION['currentPagePembayaranSemesterGanjil']['no_transaksi'];
                 $str = "SELECT no_faktur,tanggal FROM transaksi WHERE no_transaksi=$no_transaksi";
@@ -28,12 +29,11 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageMHS {
                 $this->errorMessage->Text=$ex->getMessage();
             }      
 		}	
-	}
-    public function getDataMHS($idx) {              
-        if (isset($_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS'])) {
-            return $_SESSION['currentPagePembayaranSemesterGanjil']['DataMHS'][$idx];
-        }        
     }
+    public function setInfoToolbar() {        
+        $ta=$this->DMaster->getNamaTA($_SESSION['currentPagePembayaranSemesterGanjil']['ta']);        		
+		$this->labelModuleHeader->Text="T.A $ta";        
+	}    
     public function populateData () {
         $datamhs = $this->Pengguna->getDataUser();
         $no_transaksi=$_SESSION['currentPagePembayaranSemesterGanjil']['no_transaksi'];

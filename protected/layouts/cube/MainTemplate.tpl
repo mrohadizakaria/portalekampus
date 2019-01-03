@@ -48,7 +48,7 @@
                                 </prop:HeaderTemplate>
                                 <prop:ItemTemplate>
                                     <li class="item">
-                                    <com:TActiveLinkButton ID="btnChangeTheme" ClientSide.PostState="false" OnClick="SourceTemplateControl.changeTheme" Enabled="<%#$_SESSION['theme']!=$this->DataItem['idtheme']%>" CommandParameter="<%#$this->DataItem['idtheme']%>">
+                                        <com:TActiveLinkButton ID="btnChangeTheme" ClientSide.PostState="false" OnClick="SourceTemplateControl.changeTheme" Enabled="<%#$_SESSION['theme']!=$this->DataItem['idtheme']%>" CommandParameter="<%#$this->DataItem['idtheme']%>">
                                             <prop:Text>
                                                 <%#$_SESSION['theme']==$this->DataItem['idtheme'] ? '<i class="fa fa-check-square"></i>' :''%>
                                                 <%#$this->DataItem['namatheme']%>
@@ -804,6 +804,12 @@
                                         <li class="nav-header nav-header-first hidden-sm hidden-xs">
                                             PEMBAYARAN
                                         </li>
+                                        <li<%=$this->Page->showPembayaranMahasiswaBaru==true?' class="active"':''%>>
+                                            <a href="<%=$this->Page->constructUrl('pembayaran.PembayaranMahasiswaBaru',true)%>">
+                                                <i class="fa fa-usd"></i> 
+                                                <span>Mahasiswa Baru    </span>
+                                            </a>
+                                        </li> 
                                         <li<%=$this->Page->showPembayaranSemesterGanjil==true?' class="active"':''%>>
                                             <a href="<%=$this->Page->constructUrl('pembayaran.PembayaranSemesterGanjil',true)%>">
                                                 <i class="fa fa-usd"></i>

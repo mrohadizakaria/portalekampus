@@ -1,6 +1,6 @@
 <%@ Title="Pembayaran - Pembayaran Semester Genap"%>
 <com:TContent ID="moduleheader">
-    <i class="fa fa-usd"></i> Pembayaran Semester Genap T.A <small><com:TActiveLabel ID="labelModuleHeader" /></small>
+    <i class="fa fa-usd"></i> Pembayaran Semester Genap<small><com:TActiveLabel ID="labelModuleHeader" /></small>
 </com:TContent>
 <com:TContent ID="modulebreadcrumb">    
     <li><a href="#">PEMBAYARAN</a></li>
