@@ -1,4 +1,5 @@
 assets/*
+resources/*
 exported/*
 protected/lib/*
 protected/runtime/*
