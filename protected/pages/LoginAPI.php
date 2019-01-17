@@ -34,7 +34,7 @@ class LoginAPI extends MainPage {
         if ($username != '') {
             try {  
                 if (!preg_match('/^[a-z\d_]{1,20}$/i', $username)||filter_var($username,FILTER_VALIDATE_EMAIL)) {			                    
-                    throw new Exception ("Gagal. Silahkan masukan username dan password dengan benar.");
+                    throw new Exception ("Gagal. Format penulisan username tidak dikenali.");
                 }
             }catch (Exception $e) {		
                 $message='<br /><div class="alert alert-danger">
