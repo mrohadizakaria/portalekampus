@@ -47,7 +47,7 @@ class Login extends MainPage {
 		return $page;
 	}
 	public function checkUsernameAndPassword($sender,$param) {		
-        $username=$param->Value;
+        $username=addslashes($param->Value);
         if ($username != '') {
             try {  
                 $auth = $this->Application->getModule ('auth');	
@@ -65,7 +65,7 @@ class Login extends MainPage {
 		
 	}    
     public function checkUsernameFormat($sender,$param) {		
-        $username=$param->Value;
+        $username=addslashes($param->Value);
         if ($username != '') {
             try {  
                 if (!preg_match('/^[a-z\d_]{1,20}$/i', $username)||filter_var($username,FILTER_VALIDATE_EMAIL)) {			                    

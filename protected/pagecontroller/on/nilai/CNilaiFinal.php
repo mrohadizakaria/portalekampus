@@ -128,22 +128,22 @@ class CNilaiFinal extends MainPageON {
         $nim=addslashes($param->Value);		
         if ($nim != '') {
             try {
-                $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,iddosen_wali,idkelas,k_status FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
-                $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','iddosen_wali','idkelas','k_status'));
-                $r=$this->DB->getRecord($str);	   
+                $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,iddosen_wali,idkelas,k_status,photo_profile FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
+                $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','iddosen_wali','idkelas','k_status','photo_profile'));
+                $r=$this->DB->getRecord($str);	 
                 $datamhs=$r[1];
                 if (!isset($r[1])) {                                   
                     throw new Exception ("<br/><br/>NIM ($nim) tidak terdaftar di Portal, silahkan ganti dengan yang lain.");		
                 }
                 if ($r[1]['k_status'] != 'L') {
                     throw new Exception ("<br/><br/>NIM ($nim) belum dinyatakan telah LULUS, silahkan nyatakan terlebih dahulu.");		
-                }
+                }               
                 $str = "SELECT nim,tahun,idsmt FROM dulang WHERE nim='$nim' AND k_status='L' ORDER BY iddulang DESC LIMIT 1";			
                 $this->DB->setFieldTable(array('nim','tahun','idsmt'));
                 $r=$this->DB->getRecord($str);                
                 if (!isset($r[1])) {
                     throw new Exception ("<br/><br/>Data salah, tidak menemukan status LULUS di tabel daftar ulang.");		
-                }
+                }                
                 $datamhs['idsmt']=$r[1]['idsmt'];
                 $datamhs['ta']=$r[1]['tahun'];
                 
@@ -188,8 +188,8 @@ class CNilaiFinal extends MainPageON {
                     break;
                     case 'pdf' :
                         $messageprintout='Transkrip Final : ';
-                        $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.nama_ps,vdm.k_status,vdm.idkonsentrasi,k.nama_konsentrasi FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
-                        $this->DB->setFieldTable(array('nim','nirm','nama_mhs','tempat_lahir','tanggal_lahir','nama_ps','k_status','idkonsentrasi','nama_konsentrasi'));
+                        $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.nama_ps,vdm.k_status,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
+                        $this->DB->setFieldTable(array('nim','nirm','nama_mhs','tempat_lahir','tanggal_lahir','nama_ps','k_status','idkonsentrasi','nama_konsentrasi','tahun_masuk'));
                         $r=$this->DB->getRecord($str);				
                         
                         $dataReport = $r[1];                        

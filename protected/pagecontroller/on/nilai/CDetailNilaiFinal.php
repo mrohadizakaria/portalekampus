@@ -14,7 +14,7 @@ class CDetailNilaiFinal extends MainPageON {
 		}
 	}
     public function getDataMHS($idx) {		        
-        return $this->Nilai->getDataMHS($idx);
+        return $_SESSION['currentPageNilaiFinal']['DataMHS'][$idx];
     }
 	protected function populateData() {		
         try {
@@ -72,7 +72,7 @@ class CDetailNilaiFinal extends MainPageON {
 		try {			
 			if ($this->hiddennomortranskrip->Value!=$no_transkrip) {
 				if ($this->DB->checkRecordIsExist('nomor_transkrip','transkrip_asli',$no_transkrip)) {
-					throw new Exception ("Nomor Transkrip NiLAI ($no_transkrip) telah ada, silahkan ganti dengan yang lain");
+					throw new Exception ("Nomor Transkrip Nilai ($no_transkrip) telah ada, silahkan ganti dengan yang lain");
 				}
 			}
 		}catch (Exception $e) {

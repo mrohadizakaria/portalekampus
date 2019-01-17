@@ -115,13 +115,13 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Tanggal Lulus :</label>
                             <div class="col-md-4">
-                                <com:TCustomDatePicker ID="txtEditTanggalLulus" DateFormat="dd-MMMM-yyyy" Culture="id"  FromYear="<%=$_SESSION['currentPageDetailTranskripFinal']['DataTranskrip']['tahun']%>" UpToYear="<%= @date('Y') %>" InputMode="DropDownList" />
+                                <com:TCustomDatePicker ID="txtEditTanggalLulus" DateFormat="dd-MMMM-yyyy" Culture="id"  FromYear="<%=$_SESSION['currentPageNilaiFinal']['DataMHS']['tahun_masuk']%>" UpToYear="<%= @date('Y') %>" InputMode="DropDownList" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Tanggal Terbit :</label>
                             <div class="col-md-4">
-                                <com:TCustomDatePicker ID="txtViewTanggalTerbit" DateFormat="dd-MMMM-yyyy" Culture="id"  FromYear="<%=$_SESSION['currentPageDetailTranskripFinal']['DataTranskrip']['tahun']%>" UpToYear="<%= @date('Y') %>" InputMode="DropDownList" /> <span class="help-block">(hanya untuk keperluan laporan, tidak disimpan di Database)</span>
+                                <com:TCustomDatePicker ID="txtViewTanggalTerbit" DateFormat="dd-MMMM-yyyy" Culture="id"  FromYear="<%=$_SESSION['currentPageNilaiFinal']['DataMHS']['tahun_masuk']%>" UpToYear="<%= @date('Y') %>" InputMode="DropDownList" /> <span class="help-block">(hanya untuk keperluan laporan, tidak disimpan di Database)</span>
                             </div>
                         </div>
                         <div class="form-group" id="divEditPembimbingSkripsi">

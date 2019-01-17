@@ -102,7 +102,12 @@ class Logic_Nilai extends Logic_Akademik {
 			$matkul_nilai[$i]['kmatkul']=$v['kmatkul'];
 			$matkul_nilai[$i]['nmatkul']=$v['nmatkul'];
 			$matkul_nilai[$i]['sks']=$v['sks'];			
-			$matkul_nilai[$i]['semester']=$v['semester'];
+            $matkul_nilai[$i]['semester']=$v['semester'];
+            $kmatkul_asal='';
+			$matkul_asal='';
+			$sks_asal='';
+			$n_kual='';
+			$idnilai_konversi='';
 			foreach ($result as $m=>$n) {	
 				if ($n['kmatkul']==$kmatkul) {		
 					$kmatkul_asal=$n['kmatkul_asal'];			
@@ -117,12 +122,7 @@ class Logic_Nilai extends Logic_Akademik {
 			$matkul_nilai[$i]['matkul_asal']=$matkul_asal;
 			$matkul_nilai[$i]['sks_asal']=$sks_asal;
 			$matkul_nilai[$i]['idnilai_konversi']=$idnilai_konversi;
-			$matkul_nilai[$i]['n_kual']=$n_kual;
-			$kmatkul_asal='';
-			$matkul_asal='';
-			$sks_asal='';
-			$n_kual='';
-			$idnilai_konversi='';
+			$matkul_nilai[$i]['n_kual']=$n_kual;			
 			$i++;
 		}		
 		return $matkul_nilai;	
@@ -134,10 +134,10 @@ class Logic_Nilai extends Logic_Akademik {
     * @version 1.0
 	*/
 	public function getTranskrip ($temp=true,$cek_isikuesioner=false) {				
-		$nim=$this->DataMHS['nim'];
-        $idkonsentrasi=$this->DataMHS['idkonsentrasi'];
+		$nim=$this->DataMHS['nim'];        
         $result=array();
 		if ($temp) {			
+            $idkonsentrasi=$this->DataMHS['idkonsentrasi'];
 			$iddata_konversi=$this->DataMHS['iddata_konversi'];				
 			$idkur=$this->getIDKurikulum($this->DataMHS['kjur']);	            
 			$str="SELECT m.kmatkul,m.nmatkul,m.sks,m.semester,m.idkonsentrasi,k.nama_konsentrasi,m.ispilihan,m.islintas_prodi FROM matakuliah m LEFT JOIN konsentrasi k ON (m.idkonsentrasi=k.idkonsentrasi) WHERE idkur=$idkur AND aktif=1 ORDER BY (semester+0),kmatkul ASC";
