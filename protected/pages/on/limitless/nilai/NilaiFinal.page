@@ -59,7 +59,7 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label>
-                        <div class="col-md-2">
+                        <div class="col-md-10">
                             <com:TDropDownList ID="cmbKriteria" CssClass="form-control">
                                 <com:TListItem Text="NIM" Value="nim" />
                                 <com:TListItem Text="NIRM" Value="nirm" />
@@ -69,7 +69,7 @@
                     </div>
                     <div class="form-group" id="divtxtKriteria">
                         <label class="col-md-2 control-label">Isi Kriteria :</label>
-                        <div class="col-md-3">
+                        <div class="col-md-10">
                             <com:TActiveTextBox ID="txtKriteria" CssClass="form-control" />                                                                            
                             <com:TRequiredFieldValidator ID="spanKriteriaValidator" ValidationGroup="filterForm" Display="Dynamic" ControlToValidate="txtKriteria" ErrorMessage="Input apa yang Anda cari, sesuai dengan kriteria yang Anda tentukan." FocusOnError="true" CssClass="has-error help-block">	
                                 <prop:ClientSide.OnValidationError>
@@ -120,17 +120,16 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr class="bg-teal-700">
-                            <th scope="col">NO</th>					
+                            <th scope="col" width="70">NO</th>					
                             <th scope="col">NIM</th>
-                            <th scope="col">NIRM</th>
-                            <th scope="col">NAMA</th>
+                            <th scope="col" width="250">NAMA</th>
                             <th scope="col">NOMOR <br />TRANSKRIP</th>
                             <th scope="col">PREDIKAT<br/>KELULUSAN</th>					
                             <th scope="col">TANGGAL<br />LULUS</th>
                             <th scope="col">IPK</th>					
                             <th scope="col">STATUS</th>
                             <th scope="col">T.A/SMT<br/>LULUS</th>
-                            <th scope="col" width="90">AKSI</th>					
+                            <th scope="col" width="100">AKSI</th>					
                         </tr>			
                         </thead>
                         <tbody>
@@ -138,17 +137,34 @@
                     <prop:ItemTemplate>	
                         <tr>
                             <td><%# $this->Data['no']%></td>					
-                            <td><a href="<%=$this->Page->constructUrl('kemahasiswaan.ProfilMahasiswa',true,array('id'=>$this->DataItem['nim']))%>"><%#$this->DataItem['nim']%></a></td>
-                            <td><%# $this->Data['nirm']%></td>
+                            <td><a href="<%=$this->Page->constructUrl('kemahasiswaan.ProfilMahasiswa',true,array('id'=>$this->DataItem['nim']))%>"><%#$this->DataItem['nim']%></a></td>                            
                             <td><%# $this->Data['nama_mhs']%></td>
                             <td><%# $this->Data['nomor_transkrip']%></td>
                             <td><%# $this->Data['predikat_kelulusan']%></td>					
-                            <td><%# $this->page->TGL->tanggal('j F Y',$this->Data['tanggal_lulus'])%></td>					
+                            <td><%# $this->page->TGL->tanggal('d/m/Y',$this->Data['tanggal_lulus'])%></td>					
                             <td><com:TLiteral ID="lblIpk" /></td>
                             <td><%#$this->Page->DMaster->getNamaStatusMHSByID($this->DataItem['k_status'])%></td>
                             <td><%# $this->Data['tasmt']%></td>
                             <td>
-                                <ul class="icons-list">                                
+                                <ul class="icons-list">        
+                                    <li class="text-primary-600">                                        
+                                        <com:TActiveLinkButton ID="btnView" OnClick="Page.viewRecord" Attributes.Title="Detail Nilai Final" ClientSide.PostState="false">
+                                            <prop:Text>
+                                                    <i class="icon-eye"></i>
+                                            </prop:Text>
+                                            <prop:ClientSide.OnPreDispatch>                                                                   
+                                                Pace.stop();
+                                                Pace.start();
+                                                $('<%=$this->btnView->ClientId%>').disabled='disabled';						
+                                            </prop:ClientSide.OnPreDispatch>
+                                            <prop:ClientSide.OnLoading>
+                                                $('<%=$this->btnView->ClientId%>').disabled='disabled';						
+                                            </prop:ClientSide.OnLoading>
+                                            <prop:ClientSide.OnComplete>																	                                    						                                                                            
+                                                $('<%=$this->btnView->ClientId%>').disabled='';                                             
+                                            </prop:ClientSide.OnComplete>
+                                        </com:TActiveLinkButton>
+                                    </li>                          
                                     <li class="text-primary-600">
                                         <com:TActiveLinkButton ID="btnPrintOutR" OnClick="Page.printOut" Attributes.Title="Print Transkrip Final" ClientSide.PostState="false">
                                             <prop:Text>

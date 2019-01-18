@@ -13,8 +13,10 @@ class CDetailNilaiFinal extends MainPageON {
 			$this->populateData();	
 		}
 	}
-    public function getDataMHS($idx) {		        
-        return $_SESSION['currentPageNilaiFinal']['DataMHS'][$idx];
+    public function getDataMHS($idx) {	
+        if (isset($_SESSION['currentPageNilaiFinal']['DataMHS'][$idx])) {
+            return $_SESSION['currentPageNilaiFinal']['DataMHS'][$idx];
+        }	                
     }
 	protected function populateData() {		
         try {
@@ -248,11 +250,12 @@ class CDetailNilaiFinal extends MainPageON {
                     $dataReport['jabfung_penandatangan_transkrip']=$this->setup->getSettingValue('jabfung_penandatangan_transkrip');
                     $dataReport['nidn_penandatangan_transkrip']=$this->setup->getSettingValue('nidn_penandatangan_transkrip');
 
-                    //biasayanya sama sehingga menggunakan yang KHS
-                    $dataReport['nama_jabatan_khs']=$this->setup->getSettingValue('nama_jabatan_khs');
-                    $dataReport['nama_penandatangan_khs']=$this->setup->getSettingValue('nama_penandatangan_khs');
-                    $dataReport['jabfung_penandatangan_khs']=$this->setup->getSettingValue('jabfung_penandatangan_khs');
-                    $dataReport['nidn_penandatangan_khs']=$this->setup->getSettingValue('nidn_penandatangan_khs');
+                    //ketua program studi
+                    $kaprodi=$this->Nilai->getKetuaPRODI($dataReport['kjur']);
+                    $dataReport['nama_kaprodi']=$kaprodi['nama_dosen'];
+                    $dataReport['jabfung_kaprodi']=$kaprodi['nama_jabatan'];
+                    $dataReport['nidn_kaprodi']=$kaprodi['nidn'];
+                    
                     $dataReport['tanggalterbit']=date ('Y-m-d',$this->txtViewTanggalTerbit->TimeStamp);
                     $dataReport['dataTranskrip']=$_SESSION['currentPageNilaiFinal']['DataNilai'];
                     $dataReport['linkoutput']=$this->linkOutput; 

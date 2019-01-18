@@ -1415,8 +1415,8 @@ class Logic_ReportNilai extends Logic_Report {
             break;
             case 'pdf' :
                 $rpt=$this->rpt;
-                $rpt->setTitle('Transkriprip Nilai KRS');
-				$rpt->setSubject('Transkriprip Nilai KRS');
+                $rpt->setTitle('Transkrip Nilai Final');
+				$rpt->setSubject('Transkrip Nilai Final');
                 $rpt->AddPage('P','F4');
 				$row=48;				
                 $rpt->SetFont ('helvetica','BU',12);	
@@ -1603,7 +1603,7 @@ class Logic_ReportNilai extends Logic_Report {
 				$rpt->setXY(3,$row);	
 				$rpt->Cell(205,1,' ','T',0);
 				$row+=1;					
-				$rpt->SetFont ('helvetica','B',8);
+                $rpt->SetFont ('helvetica','B',8);
 				$rpt->setXY(7,$row);	
 				$rpt->Cell(65,4,'Jumlah SKS Kumulatif',0);
 				$rpt->SetFont ('helvetica','');
@@ -1633,17 +1633,21 @@ class Logic_ReportNilai extends Logic_Report {
 				$row+=4;
 				$rpt->setXY(40,$row);	
 				$rpt->Cell(65,4,$biodata['nama_jabatan_transkrip'].',',0,0,'C');				
-				$rpt->Cell(90,4,$biodata['nama_jabatan_khs'].',',0,0,'C');				
+                $rpt->Cell(90,4,'KETUA PROGRAM STUDI,',0,0,'C');
+                $row+=4;
+                $rpt->setXY(105,$row);	                
+                $rpt->Cell(90,4,$biodata['nama_ps'],0,0,'C');
+
 				$row+=17;				                
 				$rpt->setXY(40,$row);	
 				$rpt->SetFont ('helvetica','B');
 				$rpt->Cell(65,4,$biodata['nama_penandatangan_transkrip'],0,0,'C');								
-				$rpt->Cell(90,4,$biodata['nama_penandatangan_khs'],0,0,'C');
+				$rpt->Cell(90,4,$biodata['nama_kaprodi'],0,0,'C');
 				$row+=4;				
 				$rpt->setXY(40,$row);	
 				$rpt->SetFont ('helvetica','');
 				$rpt->Cell(65,4,strtoupper($biodata['jabfung_penandatangan_transkrip']). ' NIDN '.$biodata['nidn_penandatangan_transkrip'],0,0,'C');
-				$rpt->Cell(90,4,strtoupper($biodata['jabfung_penandatangan_khs']). ' NIDN '.$biodata['nidn_penandatangan_khs'],0,0,'C');
+				$rpt->Cell(90,4,strtoupper($biodata['jabfung_kaprodi']). ' NIDN '.$biodata['nidn_kaprodi'],0,0,'C');
                 
                 $this->printOut("transkripfinal_$nim");
             break;

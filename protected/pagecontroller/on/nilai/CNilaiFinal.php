@@ -167,7 +167,36 @@ class CNilaiFinal extends MainPageON {
         if ($this->IsValid) {
             $this->redirect('nilai.DetailNilaiFinal',true);
         }
-	}
+    }
+    public function viewRecord ($sender,$param) {		
+        $nim = $this->getDataKeyField($sender,$this->RepeaterS);	
+        $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,iddosen_wali,idkelas,k_status,photo_profile FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
+        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','iddosen_wali','idkelas','k_status','photo_profile'));
+        $r=$this->DB->getRecord($str);	 
+        $datamhs=$r[1];
+           
+        $str = "SELECT nim,tahun,idsmt FROM dulang WHERE nim='$nim' AND k_status='L' ORDER BY iddulang DESC LIMIT 1";			
+        $this->DB->setFieldTable(array('nim','tahun','idsmt'));
+        $r=$this->DB->getRecord($str);                
+        if (!isset($r[1])) {
+            throw new Exception ("<br/><br/>Data salah, tidak menemukan status LULUS di tabel daftar ulang.");		
+        }                
+        $datamhs['idsmt']=$r[1]['idsmt'];
+        $datamhs['ta']=$r[1]['tahun'];
+        
+        $datamhs['nama_dosen']=$this->DMaster->getNamaDosenWaliByID ($datamhs['iddosen_wali']);
+        $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
+        $datamhs['nama_konsentrasi']=($datamhs['idkonsentrasi']==0) ? '-':$datamhs['nama_konsentrasi'];                    
+        $datamhs['status']=$this->DMaster->getNamaStatusMHSByID($datamhs['k_status']);
+        $datamhs['iddata_konversi']=$this->Nilai->isMhsPindahan($nim,true);
+        
+        $_SESSION['semester']=$datamhs['idsmt'];
+        $_SESSION['ta']=$datamhs['ta'];
+        
+        $_SESSION['currentPageNilaiFinal']['DataMHS']=$datamhs;
+
+        $this->redirect('nilai.DetailNilaiFinal',true);
+    }                
 	public function printOut ($sender,$param) {		
         $this->createObj('reportnilai');
         $this->linkOutput->Text='';
@@ -188,8 +217,8 @@ class CNilaiFinal extends MainPageON {
                     break;
                     case 'pdf' :
                         $messageprintout='Transkrip Final : ';
-                        $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.nama_ps,vdm.k_status,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
-                        $this->DB->setFieldTable(array('nim','nirm','nama_mhs','tempat_lahir','tanggal_lahir','nama_ps','k_status','idkonsentrasi','nama_konsentrasi','tahun_masuk'));
+                        $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.nama_ps,vdm.k_status,vdm.kjur,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
+                        $this->DB->setFieldTable(array('nim','nirm','nama_mhs','tempat_lahir','tanggal_lahir','nama_ps','k_status','kjur','idkonsentrasi','nama_konsentrasi','tahun_masuk'));
                         $r=$this->DB->getRecord($str);				
                         
                         $dataReport = $r[1];                        
@@ -200,11 +229,11 @@ class CNilaiFinal extends MainPageON {
                             $dataReport['jabfung_penandatangan_transkrip']=$this->setup->getSettingValue('jabfung_penandatangan_transkrip');
                             $dataReport['nidn_penandatangan_transkrip']=$this->setup->getSettingValue('nidn_penandatangan_transkrip');
 
-                            //biasayanya sama sehingga menggunakan yang KHS
-                            $dataReport['nama_jabatan_khs']=$this->setup->getSettingValue('nama_jabatan_khs');
-                            $dataReport['nama_penandatangan_khs']=$this->setup->getSettingValue('nama_penandatangan_khs');
-                            $dataReport['jabfung_penandatangan_khs']=$this->setup->getSettingValue('jabfung_penandatangan_khs');
-                            $dataReport['nidn_penandatangan_khs']=$this->setup->getSettingValue('nidn_penandatangan_khs');
+                            //ketua program studi
+                            $kaprodi=$this->Nilai->getKetuaPRODI($dataReport['kjur']);
+                            $dataReport['nama_kaprodi']=$kaprodi['nama_dosen'];
+                            $dataReport['jabfung_kaprodi']=$kaprodi['nama_jabatan'];
+                            $dataReport['nidn_kaprodi']=$kaprodi['nidn'];
 
                             $str = "SELECT nomor_transkrip,predikat_kelulusan,tanggal_lulus,judul_skripsi,iddosen_pembimbing,iddosen_pembimbing2,iddosen_ketua,iddosen_pemket,tahun,idsmt FROM transkrip_asli WHERE nim='$nim'";
                             $this->DB->setFieldTable(array('nomor_transkrip','predikat_kelulusan','tanggal_lulus','judul_skripsi','iddosen_pembimbing','iddosen_pembimbing2','iddosen_ketua','iddosen_pemket','tahun','idsmt'));
@@ -212,7 +241,8 @@ class CNilaiFinal extends MainPageON {
 
                             $datatranskrip[1]['nama_pembimbing1']=$this->DMaster->getNamaDosenPembimbing($datatranskrip[1]['iddosen_pembimbing']);
                             $datatranskrip[1]['nama_pembimbing2']=$this->DMaster->getNamaDosenPembimbing($datatranskrip[1]['iddosen_pembimbing2']);            
-
+                            $dataReport['tanggalterbit']=$datatranskrip[1]['tanggal_lulus'];
+                            
                             $dataReport['dataTranskrip']=$datatranskrip[1];  
                             $dataReport['linkoutput']=$this->linkOutput; 
                             $this->report->setDataReport($dataReport); 
@@ -250,5 +280,5 @@ class CNilaiFinal extends MainPageON {
             $this->lblContentMessageError->Text=$errormessage;
             $this->modalMessageError->show();
         }
-	}
+    }
 }
