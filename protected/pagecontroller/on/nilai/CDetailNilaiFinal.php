@@ -40,7 +40,7 @@ class CDetailNilaiFinal extends MainPageON {
             $this->cmbEditDosenPembimbing2->dataBind();
             $this->cmbEditDosenPembimbing2->Text=$datatranskrip['iddosen_pembimbing2'];	
             if (isset($r[1])) {
-                $this->hiddennomorijazah->Value=$datatranskrip['nomor_transkrip'];
+                $this->hiddennomorijazah->Value=$datatranskrip['nomor_ijazah'];
                 $this->txtEditNomorIjazah->Text=$datatranskrip['nomor_ijazah'];
 
                 $this->hiddennomortranskrip->Value=$datatranskrip['nomor_transkrip'];
