@@ -132,6 +132,7 @@ class Login extends MainPage {
                     $foto=$pengguna->getDataUser('photo_profile');
                 break;                
                 case 'mh' :
+                    $_SESSION['daftar_jurusan']=$dmaster->getListProgramStudi(2);
                     $_SESSION['ta']=$setup->getSettingValue('default_ta') < $pengguna->getDataUser('tahun_masuk') ? $pengguna->getDataUser('tahun_masuk') :$setup->getSettingValue('default_ta');
                     $_SESSION['semester']=$setup->getSettingValue('default_semester');
                     $_SESSION['tahun_masuk']=$pengguna->getDataUser('tahun_masuk');

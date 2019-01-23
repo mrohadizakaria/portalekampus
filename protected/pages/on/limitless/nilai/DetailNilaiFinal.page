@@ -66,12 +66,37 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    <com:THiddenField ID="hiddennomorijazah" />
                     <com:THiddenField ID="hiddennomortranskrip" />
                     <div class="form-horizontal">
+                        <div class="form-group" id="divEditNomorIjazah">
+                            <label class="col-md-2 control-label">Nomor Ijazah :</label>
+                            <div class="col-md-10">
+                                <com:TTextBox ID="txtEditNomorIjazah" CssClass="form-control" />
+                                <com:TRequiredFieldValidator ID="FieldEditNomorIjazah" ControlToValidate="txtEditNomorIjazah" ValidationGroup="edittranskrip" ErrorMessage="Isi Nomor Ijazah" Display="Dynamic" CssClass="has-error help-block" FocusOnError="true">	
+                                    <prop:ClientSide.OnValidationError>
+                                        $('divEditNomorIjazah').addClassName('has-error');
+                                        jQuery('#<%=$this->FieldEditNomorIjazah->ClientID%>').removeAttr('style');
+                                    </prop:ClientSide.OnValidationError>
+                                    <prop:ClientSide.OnValidationSuccess>
+                                        $('divEditNomorIjazah').removeClassName('has-error');
+                                    </prop:ClientSide.OnValidationSuccess>
+                                </com:TRequiredFieldValidator>
+                                <com:TActiveCustomValidator ID="editNomorIjazah" ControlToValidate="txtEditNomorIjazah" Display="Dynamic" ValidationGroup="edittranskrip" OnServerValidate="checkNoIjazah" CssClass="has-error help-block" FocusOnError="true">
+                                    <prop:ClientSide.OnValidationError>
+                                        $('divEditNomorIjazah').addClassName('has-error');
+                                        jQuery('#<%=$this->editNomorIjazah->ClientID%>').removeAttr('style');
+                                    </prop:ClientSide.OnValidationError>
+                                    <prop:ClientSide.OnValidationSuccess>
+                                        $('divEditNomorIjazah').removeClassName('has-error');
+                                    </prop:ClientSide.OnValidationSuccess>
+                                </com:TActiveCustomValidator>                                
+                            </div>
+                        </div>                        
                         <div class="form-group" id="divEditNomorTranskrip">
                             <label class="col-md-2 control-label">Nomor Transkrip :</label>
                             <div class="col-md-10">
-                                <com:TTextBox ID="txtEditNomorTranskrip" MaxLength="20" CssClass="form-control" Width="200px" />
+                                <com:TTextBox ID="txtEditNomorTranskrip" CssClass="form-control" />
                                 <com:TRequiredFieldValidator ID="FieldEditNomorTranskrip" ControlToValidate="txtEditNomorTranskrip" ValidationGroup="edittranskrip" ErrorMessage="Isi Nomor Transkrip" Display="Dynamic" CssClass="has-error help-block" FocusOnError="true">	
                                     <prop:ClientSide.OnValidationError>
                                         $('divEditNomorTranskrip').addClassName('has-error');

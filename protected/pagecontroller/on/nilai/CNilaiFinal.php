@@ -76,7 +76,7 @@ class CNilaiFinal extends MainPageON {
         $ta=$_SESSION['ta'];
         $idsmt=$_SESSION['semester'];                
         if ($search) {
-            $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,nomor_transkrip,predikat_kelulusan,tanggal_lulus,vdm.k_status,CONCAT(ta.tahun,'',ta.idsmt) AS tasmt FROM v_datamhs vdm,transkrip_asli ta WHERE ta.nim=vdm.nim";
+            $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,nomor_ijazah,nomor_transkrip,predikat_kelulusan,tanggal_lulus,vdm.k_status,CONCAT(ta.tahun,'',ta.idsmt) AS tasmt FROM v_datamhs vdm,transkrip_asli ta WHERE ta.nim=vdm.nim";
             $txtsearch=addslashes($this->txtKriteria->Text);
             switch ($this->cmbKriteria->Text) {                
                 case 'nim' :
@@ -96,7 +96,7 @@ class CNilaiFinal extends MainPageON {
                 break;
             }
         }else{
-            $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,nomor_transkrip,predikat_kelulusan,tanggal_lulus,vdm.k_status,CONCAT(ta.tahun,'',ta.idsmt) AS tasmt FROM v_datamhs vdm,transkrip_asli ta WHERE ta.nim=vdm.nim AND vdm.kjur=$kjur AND ta.tahun=$ta AND ta.idsmt=$idsmt";
+            $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,nomor_ijazah,nomor_transkrip,predikat_kelulusan,tanggal_lulus,vdm.k_status,CONCAT(ta.tahun,'',ta.idsmt) AS tasmt FROM v_datamhs vdm,transkrip_asli ta WHERE ta.nim=vdm.nim AND vdm.kjur=$kjur AND ta.tahun=$ta AND ta.idsmt=$idsmt";
             $jumlah_baris=$this->DB->getCountRowsOfTable("v_datamhs vdm,transkrip_asli ta WHERE ta.nim=vdm.nim AND vdm.kjur=$kjur AND ta.tahun=$ta AND ta.idsmt=$idsmt",'ta.nim');				
         }        
 		$this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageNilaiFinal']['page_num'];		
@@ -108,7 +108,7 @@ class CNilaiFinal extends MainPageON {
 		}
 		if ($limit < 0) {$offset=0;$limit=10;$_SESSION['currentPageNilaiFinal']['page_num']=0;}
         $str = "$str ORDER BY vdm.nama_mhs ASC LIMIT $offset,$limit";
-		$this->DB->setFieldTable(array('nim','nirm','nama_mhs','nomor_transkrip','predikat_kelulusan','tanggal_lulus','k_status','tasmt'));
+		$this->DB->setFieldTable(array('nim','nirm','nama_mhs','nomor_ijazah','nomor_transkrip','predikat_kelulusan','tanggal_lulus','k_status','tasmt'));
 		$result=$this->DB->getRecord($str,$offset+1);
 		$this->RepeaterS->DataSource=$result;
 		$this->RepeaterS->dataBind();
@@ -169,33 +169,38 @@ class CNilaiFinal extends MainPageON {
         }
     }
     public function viewRecord ($sender,$param) {		
-        $nim = $this->getDataKeyField($sender,$this->RepeaterS);	
-        $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,iddosen_wali,idkelas,k_status,photo_profile FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
-        $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','iddosen_wali','idkelas','k_status','photo_profile'));
-        $r=$this->DB->getRecord($str);	 
-        $datamhs=$r[1];
-           
-        $str = "SELECT nim,tahun,idsmt FROM dulang WHERE nim='$nim' AND k_status='L' ORDER BY iddulang DESC LIMIT 1";			
-        $this->DB->setFieldTable(array('nim','tahun','idsmt'));
-        $r=$this->DB->getRecord($str);                
-        if (!isset($r[1])) {
-            throw new Exception ("<br/><br/>Data salah, tidak menemukan status LULUS di tabel daftar ulang.");		
-        }                
-        $datamhs['idsmt']=$r[1]['idsmt'];
-        $datamhs['ta']=$r[1]['tahun'];
-        
-        $datamhs['nama_dosen']=$this->DMaster->getNamaDosenWaliByID ($datamhs['iddosen_wali']);
-        $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
-        $datamhs['nama_konsentrasi']=($datamhs['idkonsentrasi']==0) ? '-':$datamhs['nama_konsentrasi'];                    
-        $datamhs['status']=$this->DMaster->getNamaStatusMHSByID($datamhs['k_status']);
-        $datamhs['iddata_konversi']=$this->Nilai->isMhsPindahan($nim,true);
-        
-        $_SESSION['semester']=$datamhs['idsmt'];
-        $_SESSION['ta']=$datamhs['ta'];
-        
-        $_SESSION['currentPageNilaiFinal']['DataMHS']=$datamhs;
+        $nim = $this->getDataKeyField($sender,$this->RepeaterS);
+        try {	
+            $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,iddosen_wali,idkelas,k_status,photo_profile FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) WHERE nim='$nim'";
+            $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','iddosen_wali','idkelas','k_status','photo_profile'));
+            $r=$this->DB->getRecord($str);	 
+            $datamhs=$r[1];
+            
+            $str = "SELECT nim,tahun,idsmt FROM dulang WHERE nim='$nim' AND k_status='L' ORDER BY iddulang DESC LIMIT 1";			
+            $this->DB->setFieldTable(array('nim','tahun','idsmt'));
+            $r=$this->DB->getRecord($str);                
+            if (!isset($r[1])) {
+                throw new Exception ("<br/><br/>Data salah, tidak menemukan status LULUS di tabel daftar ulang.");		
+            }                
+            $datamhs['idsmt']=$r[1]['idsmt'];
+            $datamhs['ta']=$r[1]['tahun'];
+            
+            $datamhs['nama_dosen']=$this->DMaster->getNamaDosenWaliByID ($datamhs['iddosen_wali']);
+            $datamhs['nkelas']=$this->DMaster->getNamaKelasByID($datamhs['idkelas']);
+            $datamhs['nama_konsentrasi']=($datamhs['idkonsentrasi']==0) ? '-':$datamhs['nama_konsentrasi'];                    
+            $datamhs['status']=$this->DMaster->getNamaStatusMHSByID($datamhs['k_status']);
+            $datamhs['iddata_konversi']=$this->Nilai->isMhsPindahan($nim,true);
+            
+            $_SESSION['semester']=$datamhs['idsmt'];
+            $_SESSION['ta']=$datamhs['ta'];
+            
+            $_SESSION['currentPageNilaiFinal']['DataMHS']=$datamhs;
 
-        $this->redirect('nilai.DetailNilaiFinal',true);
+            $this->redirect('nilai.DetailNilaiFinal',true);
+        }catch (Exception $e) {
+            $this->lblContentMessageError->Text=$e->getMessage();
+            $this->modalMessageError->show();
+        }	
     }                
 	public function printOut ($sender,$param) {		
         $this->createObj('reportnilai');
@@ -235,8 +240,8 @@ class CNilaiFinal extends MainPageON {
                             $dataReport['jabfung_kaprodi']=$kaprodi['nama_jabatan'];
                             $dataReport['nidn_kaprodi']=$kaprodi['nidn'];
 
-                            $str = "SELECT nomor_transkrip,predikat_kelulusan,tanggal_lulus,judul_skripsi,iddosen_pembimbing,iddosen_pembimbing2,iddosen_ketua,iddosen_pemket,tahun,idsmt FROM transkrip_asli WHERE nim='$nim'";
-                            $this->DB->setFieldTable(array('nomor_transkrip','predikat_kelulusan','tanggal_lulus','judul_skripsi','iddosen_pembimbing','iddosen_pembimbing2','iddosen_ketua','iddosen_pemket','tahun','idsmt'));
+                            $str = "SELECT nomor_ijazah,nomor_transkrip,predikat_kelulusan,tanggal_lulus,judul_skripsi,iddosen_pembimbing,iddosen_pembimbing2,iddosen_ketua,iddosen_pemket,tahun,idsmt FROM transkrip_asli WHERE nim='$nim'";
+                            $this->DB->setFieldTable(array('nomor_ijazah','nomor_transkrip','predikat_kelulusan','tanggal_lulus','judul_skripsi','iddosen_pembimbing','iddosen_pembimbing2','iddosen_ketua','iddosen_pemket','tahun','idsmt'));
                             $datatranskrip=$this->DB->getRecord($str);
 
                             $datatranskrip[1]['nama_pembimbing1']=$this->DMaster->getNamaDosenPembimbing($datatranskrip[1]['iddosen_pembimbing']);

@@ -26,8 +26,8 @@ class CDetailNilaiFinal extends MainPageON {
             $datamhs=$_SESSION['currentPageNilaiFinal']['DataMHS'];
             $nim=$datamhs['nim'];
             $this->Nilai->setDataMHS($datamhs);
-            $str = "SELECT nomor_transkrip,predikat_kelulusan,tanggal_lulus,judul_skripsi,iddosen_pembimbing,iddosen_pembimbing2,iddosen_ketua,iddosen_pemket,tahun,idsmt FROM transkrip_asli WHERE nim='$nim'";
-            $this->DB->setFieldTable(array('nomor_transkrip','predikat_kelulusan','tanggal_lulus','judul_skripsi','iddosen_pembimbing','iddosen_pembimbing2','iddosen_ketua','iddosen_pemket','tahun','idsmt'));
+            $str = "SELECT nomor_ijazah,nomor_transkrip,predikat_kelulusan,tanggal_lulus,judul_skripsi,iddosen_pembimbing,iddosen_pembimbing2,iddosen_ketua,iddosen_pemket,tahun,idsmt FROM transkrip_asli WHERE nim='$nim'";
+            $this->DB->setFieldTable(array('nomor_ijazah','nomor_transkrip','predikat_kelulusan','tanggal_lulus','judul_skripsi','iddosen_pembimbing','iddosen_pembimbing2','iddosen_ketua','iddosen_pemket','tahun','idsmt'));
             $r=$this->DB->getRecord($str);
             $datatranskrip=$r[1];
             
@@ -40,7 +40,9 @@ class CDetailNilaiFinal extends MainPageON {
             $this->cmbEditDosenPembimbing2->dataBind();
             $this->cmbEditDosenPembimbing2->Text=$datatranskrip['iddosen_pembimbing2'];	
             if (isset($r[1])) {
-                
+                $this->hiddennomorijazah->Value=$datatranskrip['nomor_transkrip'];
+                $this->txtEditNomorIjazah->Text=$datatranskrip['nomor_ijazah'];
+
                 $this->hiddennomortranskrip->Value=$datatranskrip['nomor_transkrip'];
                 $this->txtEditNomorTranskrip->Text=$datatranskrip['nomor_transkrip'];
                 
@@ -69,12 +71,25 @@ class CDetailNilaiFinal extends MainPageON {
 			$this->errorMessage->Text=$ex->getMessage();
         }        
 	}
+    public function checkNoIjazah ($sender,$param) {
+        $no_ijazah=addslashes($param->Value);
+		try {			
+			if ($this->hiddennomorijazah->Value!=$no_ijazah) {
+				if ($this->DB->checkRecordIsExist('nomor_ijazah','transkrip_asli',$no_ijazah)) {
+					throw new Exception ("Nomor Ijazah ($no_ijazah) telah ada, silahkan ganti dengan yang lain");
+				}
+			}
+		}catch (Exception $e) {
+			$sender->ErrorMessage = $e->getMessage();
+			$param->IsValid=false;
+		}
+    }
     public function checkNoTranskrip ($sender,$param) {
         $no_transkrip=addslashes($param->Value);
 		try {			
 			if ($this->hiddennomortranskrip->Value!=$no_transkrip) {
 				if ($this->DB->checkRecordIsExist('nomor_transkrip','transkrip_asli',$no_transkrip)) {
-					throw new Exception ("Nomor Transkrip Nilai ($no_transkrip) telah ada, silahkan ganti dengan yang lain");
+					throw new Exception ("Nomor Transkrip ($no_transkrip) telah ada, silahkan ganti dengan yang lain");
 				}
 			}
 		}catch (Exception $e) {
@@ -89,6 +104,7 @@ class CDetailNilaiFinal extends MainPageON {
             $ta=$datamhs['ta'];
             $idsmt=$datamhs['idsmt'];
             
+            $no_ijazah=$this->txtEditNomorIjazah->Text;
 			$no_transkrip=$this->txtEditNomorTranskrip->Text;			
 			$predikat=$this->cmbEditPredikatKelulusan->Text;
 			$tanggal_lulus=date('Y-m-d',$this->txtEditTanggalLulus->TimeStamp);						
@@ -99,7 +115,7 @@ class CDetailNilaiFinal extends MainPageON {
 			$pemket=$this->setup->getSettingValue('id_penandatangan_khs');	
             
             if ($this->DB->checkRecordIsExist('nim','transkrip_asli',$nim)){
-                $str = "UPDATE transkrip_asli SET nomor_transkrip='$no_transkrip',predikat_kelulusan='$predikat',tanggal_lulus='$tanggal_lulus',judul_skripsi='$judul_skripsi',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',iddosen_ketua='$ketua',iddosen_pemket='$pemket',tahun='$ta',idsmt='$idsmt' WHERE nim='$nim'";
+                $str = "UPDATE transkrip_asli SET nomor_ijazah='$no_ijazah',nomor_transkrip='$no_transkrip',predikat_kelulusan='$predikat',tanggal_lulus='$tanggal_lulus',judul_skripsi='$judul_skripsi',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',iddosen_ketua='$ketua',iddosen_pemket='$pemket',tahun='$ta',idsmt='$idsmt' WHERE nim='$nim'";
                 $this->DB->updateRecord($str);
                 
                 foreach($this->RepeaterS->Items as $inputan) {						

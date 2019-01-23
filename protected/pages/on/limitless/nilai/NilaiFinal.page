@@ -123,10 +123,10 @@
                             <th scope="col" width="70">NO</th>					
                             <th scope="col">NIM</th>
                             <th scope="col" width="250">NAMA</th>
+                            <th scope="col">NOMOR <br />IJAZAH</th>
                             <th scope="col">NOMOR <br />TRANSKRIP</th>
                             <th scope="col">PREDIKAT<br/>KELULUSAN</th>					
                             <th scope="col">TANGGAL<br />LULUS</th>
-                            <th scope="col">IPK</th>					
                             <th scope="col">STATUS</th>
                             <th scope="col">T.A/SMT<br/>LULUS</th>
                             <th scope="col" width="100">AKSI</th>					
@@ -139,11 +139,11 @@
                             <td><%# $this->Data['no']%></td>					
                             <td><a href="<%=$this->Page->constructUrl('kemahasiswaan.ProfilMahasiswa',true,array('id'=>$this->DataItem['nim']))%>"><%#$this->DataItem['nim']%></a></td>                            
                             <td><%# $this->Data['nama_mhs']%></td>
+                            <td><%# $this->Data['nomor_ijazah']%></td>
                             <td><%# $this->Data['nomor_transkrip']%></td>
                             <td><%# $this->Data['predikat_kelulusan']%></td>					
                             <td><%# $this->page->TGL->tanggal('d/m/Y',$this->Data['tanggal_lulus'])%></td>					
-                            <td><com:TLiteral ID="lblIpk" /></td>
-                            <td><%#$this->Page->DMaster->getNamaStatusMHSByID($this->DataItem['k_status'])%></td>
+                            <td><%#$this->Page->DMaster->getNamaStatusMHSByID($this->DataItem['k_status'])%> <strong>IPK:</strong> <com:TLiteral ID="lblIpk" /></td>
                             <td><%# $this->Data['tasmt']%></td>
                             <td>
                                 <ul class="icons-list">        

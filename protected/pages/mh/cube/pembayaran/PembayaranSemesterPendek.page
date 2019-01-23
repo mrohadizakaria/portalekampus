@@ -82,7 +82,26 @@
                                 <td class="text-right"><%#$this->Page->Finance->toRupiah($this->DataItem['biaya_sks'])%></td>					
                                 <td><%#$this->DataItem['jumlah_sks']%></td>
                                 <td class="text-right"><%#$this->Page->Finance->toRupiah($this->DataItem['total'])%></td>					
-                                <td>        
+                                <td>    
+                                    <com:TActiveLinkButton ID="btnPrintFaktur" OnClick="Page.printOut" ClientSide.PostState="false" Attributes.Title="Print Out Faktur" CssClass="table-link">                                        
+                                        <prop:Text>
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </prop:Text>
+                                        <prop:ClientSide.OnPreDispatch>                                                                                      
+                                            $('<%=$this->btnPrintFaktur->ClientId%>').disabled='disabled';						
+                                            Pace.stop();
+                                            Pace.start();
+                                        </prop:ClientSide.OnPreDispatch>
+                                        <prop:ClientSide.OnLoading>
+                                            $('<%=$this->btnPrintFaktur->ClientId%>').disabled='disabled';									                            
+                                        </prop:ClientSide.OnLoading>
+                                        <prop:ClientSide.onComplete>
+                                            $('<%=$this->btnPrintFaktur->ClientId%>').disabled='';									                            
+                                        </prop:ClientSide.OnComplete>
+                                    </com:TActiveLinkButton>    
                                     <com:TActiveLinkButton ID="btnEditFromRepeater" OnClick="Page.editRecord" ClientSide.PostState="false" Attributes.Title="Ubah Transaksi" CssClass="table-link<%#($this->DataItem['commited']==true)?' default':''%>">                                        
                                         <prop:Text>
                                             <span class="fa-stack">
@@ -149,5 +168,6 @@
         </div>
     </div>
 </com:TPanel>
+<%include Application.layouts.cube.ModalPrintOut%>
 <%include Application.layouts.cube.ModalMessageError%>
 </com:TContent>

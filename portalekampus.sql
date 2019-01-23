@@ -1584,6 +1584,7 @@ CREATE TABLE `transaksi_sp` (
 
 CREATE TABLE `transkrip_asli` (
   `nim` char(20) NOT NULL,
+  `nomor_ijazah` varchar(25) NOT NULL,
   `nomor_transkrip` varchar(20) NOT NULL,
   `predikat_kelulusan` varchar(30) NOT NULL,
   `tanggal_lulus` date NOT NULL,

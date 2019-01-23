@@ -317,4 +317,78 @@ class Logic_ReportFinance extends Logic_Report {
         }
         $this->setLink($this->dataReport['linkoutput'],"Laporan Rekapitiulasi Pembayaran Semester");
     }
+
+    public function printFakturPembayaranMHSLama () {
+        $dataReport=$this->dataReport;
+        $no_transaksi=$dataReport['no_transaksi'];
+        $nama_tahun=$dataReport['nama_tahun'];
+        $nama_semester=$dataReport['nama_semester'];
+        switch ($this->getDriver()) {
+            case 'excel2003' :               
+            case 'excel2007' :                
+
+            break;
+            case 'pdf' :
+                $rpt=$this->rpt;
+                $rpt->setTitle('Transkriprip Nilai Kurikulum');
+                $rpt->setSubject('Transkriprip Nilai Kurikulum');
+                $rpt->AddPage();
+                $this->setHeaderPT();
+
+                $row=$this->currentRow;
+				$row+=12;
+                $rpt->SetFont ('helvetica','B',12);	
+				$rpt->setXY(30,$row);			
+                $rpt->Cell(150,5,"BUKTI PEMBAYARAN BIAYA KULIAH T.A $nama_tahun SEMESTER $nama_semester",'B',0,'C');
+                $row+=5;
+                $rpt->SetFont ('helvetica','',8);
+                $rpt->setXY(30,$row);			
+                $rpt->Cell(150,5,"No. Transaksi: $no_transaksi No. Faktur ".$dataReport['no_faktur'],0,0,'C');
+
+                $row+=0;
+                $rpt->SetFont ('helvetica','B',8);	
+				$rpt->setXY(3,$row);			
+				$rpt->Cell(0,$row,'Nama Mahasiswa');
+				$rpt->SetFont ('helvetica','',8);
+				$rpt->setXY(38,$row);			
+				$rpt->Cell(0,$row,': '.$dataReport['nama_mhs']);
+				$rpt->SetFont ('helvetica','B',8);	
+				$rpt->setXY(105,$row);			
+				$rpt->Cell(0,$row,'Program Studi');
+				$rpt->SetFont ('helvetica','',8);
+				$rpt->setXY(130,$row);			
+                $rpt->Cell(0,$row,': '.$dataReport['nama_ps']);
+                $row+=3;
+				$rpt->setXY(3,$row);			
+				$rpt->SetFont ('helvetica','B',8);	
+				$rpt->Cell(0,$row,'NIM');
+				$rpt->SetFont ('helvetica','',8);
+				$rpt->setXY(38,$row);			
+				$rpt->Cell(0,$row,': '.$dataReport['nim']);				
+				$rpt->SetFont ('helvetica','B',8);	
+				$rpt->setXY(105,$row);			
+				$rpt->Cell(0,$row,'No. Formulir');
+				$rpt->SetFont ('helvetica','',8);
+				$rpt->setXY(130,$row);			
+                $rpt->Cell(0,$row,': '.$dataReport['no_formulir']);
+                $row+=3;
+				$rpt->setXY(3,$row);			
+				$rpt->SetFont ('helvetica','B',8);	
+				$rpt->Cell(0,$row,'Tahun Masuk');
+				$rpt->SetFont ('helvetica','',8);
+				$rpt->setXY(38,$row);			
+				$rpt->Cell(0,$row,': '.$dataReport['tahun_masuk']);				
+				$rpt->SetFont ('helvetica','B',8);	
+				$rpt->setXY(105,$row);			
+				$rpt->Cell(0,$row,'Kelas');
+				$rpt->SetFont ('helvetica','',8);
+				$rpt->setXY(130,$row);			
+				$rpt->Cell(0,$row,': '.$dataReport['namakelas']);
+                
+                $this->printOut("fakturpembayaran_$no_transaksi");
+            break;
+        }
+        $this->setLink($this->dataReport['linkoutput'],"Faktur Pembayaran $nama_tahun Semester $nama_semester");
+    }
+
 }

@@ -15,6 +15,11 @@ class CPembayaranSemesterGenap Extends MainPageMHS {
 			$this->tbCmbTA->DataSource=$this->DMaster->removeIdFromArray($this->DMaster->getListTA($this->Pengguna->getDataUser('tahun_masuk')),'none');;
             $this->tbCmbTA->Text=$_SESSION['currentPagePembayaranSemesterGenap']['ta'];
             $this->tbCmbTA->dataBind();
+
+            $this->tbCmbOutputReport->DataSource=$this->setup->getOutputFileType();
+            $this->tbCmbOutputReport->Text= $_SESSION['outputreport'];
+            $this->tbCmbOutputReport->DataBind();
+
 			try {
 				$datamhs = $this->Pengguna->getDataUser();
 				$datamhs['idsmt']=2;
@@ -148,5 +153,44 @@ class CPembayaranSemesterGenap Extends MainPageMHS {
 		$this->DB->deleteRecord("transaksi WHERE no_transaksi='$no_transaksi'");		
 		$this->redirect('pembayaran.PembayaranSemesterGenap',true);
 	}	
-    
+    public function printOut ($sender,$param) {
+        $this->createObj('reportfinance');
+        $this->linkOutput->Text='';
+        $this->linkOutput->NavigateUrl='#';
+        $no_transaksi=$this->getDataKeyField($sender,$this->ListTransactionRepeater);
+        switch ($_SESSION['outputreport']) {
+            case  'summarypdf' :
+                $messageprintout="Mohon maaf Print out pada mode summary pdf tidak kami support.";                
+            break;
+            case  'summaryexcel' :
+                $messageprintout="Mohon maaf Print out pada mode summary excel tidak kami support.";                
+            break;
+            case  'excel2007' :
+                $messageprintout="Mohon maaf Print out pada mode excel 2007 belum kami support.";                
+            break;
+            case  'pdf' :
+                $str = "SELECT t.no_transaksi,t.no_faktur,t.kjur,t.tahun,t.idsmt,t.idkelas,t.no_formulir,t.nim,vdm.nama_mhs,vdm.tahun_masuk,t.tanggal,t.userid,t.date_added,t.date_modified FROM transaksi t JOIN v_datamhs vdm ON (vdm.nim=t.nim) WHERE t.no_transaksi='$no_transaksi'";
+                $this->DB->setFieldTable(array('no_transaksi','no_faktur','kjur','tahun','idsmt','idkelas','no_formulir','nim','tahun_masuk','nama_mhs','tanggal','userid','date_added','date_modified'));
+                $r=$this->DB->getRecord($str);
+                $dataReport=$r[1];
+
+                $nama_tahun = $this->DMaster->getNamaTA($dataReport['tahun']);
+                $nama_semester = $this->setup->getSemester($dataReport['idsmt']);                  
+                $dataReport['nama_tahun']=$nama_tahun;
+                $dataReport['nama_semester']=$nama_semester;
+                $dataReport['nama_ps']=$_SESSION['daftar_jurusan'][$dataReport['kjur']];
+                $dataReport['namakelas']=$this->DMaster->getNamaKelasByID($dataReport['idkelas']);
+
+                $dataReport['linkoutput']=$this->linkOutput; 
+                $this->report->setDataReport($dataReport); 
+                $this->report->setMode($_SESSION['outputreport']);
+
+                $messageprintout="Faktur Pembayaran T.A $nama_tahun Semester Genap No. Transaksi $no_transaksi : <br/>";
+                $this->report->printFakturPembayaranMHSLama();	
+            break;
+        }
+        $this->lblMessagePrintout->Text=$messageprintout;
+        $this->lblPrintout->Text='Faktur Pembayaran Semester Genap';
+        $this->modalPrintOut->show();
+    }
 }

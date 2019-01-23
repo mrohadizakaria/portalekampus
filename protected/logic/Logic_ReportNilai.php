@@ -213,8 +213,7 @@ class Logic_ReportNilai extends Logic_Report {
                                                 
                         $rpt->AddPage();
                         $this->setHeaderPT();
-                        
-                        //                
+                                                                
                         $row=$this->currentRow;
                         $row+=6;
                         $rpt->SetFont ('helvetica','B',12);	
@@ -1418,7 +1417,11 @@ class Logic_ReportNilai extends Logic_Report {
                 $rpt->setTitle('Transkrip Nilai Final');
 				$rpt->setSubject('Transkrip Nilai Final');
                 $rpt->AddPage('P','F4');
-				$row=48;				
+                $row=43;			
+                $rpt->SetFont ('helvetica','',8);	
+                $rpt->setXY(3,$row);			
+                $rpt->Cell(0,5,'Nomor Ijazah: '.$biodata['dataTranskrip']['nomor_ijazah'],0,0,'R');
+                $row+=6;	
                 $rpt->SetFont ('helvetica','BU',12);	
 				$rpt->setXY(3,$row);			
 				$rpt->Cell(0,5,'TRANSKRIP AKADEMIK',0,0,'C');
@@ -2116,7 +2119,7 @@ class Logic_ReportNilai extends Logic_Report {
                 $sheet->setCellValue('B12','Jenjang / Program Studi (LAMA) :');
                 $sheet->mergeCells('E12:H12');
                 $sheet->setCellValue('E12',$this->dataReport['nama_ps_asal'].' ('.$this->dataReport['kode_ps_asal'].') '.$this->dataReport['njenjang']);
-//
+
                 $sheet->mergeCells('B13:D13');
                 $sheet->setCellValue('B13','Jenjang / Program Studi (BARU) :');
                 $sheet->mergeCells('E13:H13');
@@ -2332,7 +2335,7 @@ class Logic_ReportNilai extends Logic_Report {
                 $sheet->mergeCells('E13:F13');		
                 $sheet->setCellValue('E13','Dosen Pengampu');
                 $sheet->setCellValue('G13',': '.$this->dataReport['nama_dosen_matakuliah'].' ['.$this->dataReport['nidn_dosen_matakuliah'].') ');
-//
+
                 $sheet->mergeCells('E14:F14');
                 $sheet->setCellValue('E14','Dosen Pengajar');
                 $sheet->setCellValue('G14',': '.$this->dataReport['nama_dosen'].' ['.$this->dataReport['nidn'].') ');
