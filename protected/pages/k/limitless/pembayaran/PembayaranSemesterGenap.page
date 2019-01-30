@@ -53,6 +53,7 @@
                 <div class="form-group">
                     <label><strong>Kriteria :</strong></label>
                     <com:TDropDownList ID="cmbKriteria" CssClass="form-control">
+                        <com:TListItem Text="NO. TRANSAKSI" Value="no_transaksi" />
                         <com:TListItem Text="NO. FAKTUR" Value="no_faktur" />
                         <com:TListItem Text="NIM" Value="nim" />
                         <com:TListItem Text="NAMA MAHASISWA" Value="nama" />                                    

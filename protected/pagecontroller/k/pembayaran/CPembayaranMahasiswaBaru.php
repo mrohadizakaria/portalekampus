@@ -71,20 +71,25 @@ class CPembayaranMahasiswaBaru Extends MainPageK {
         if ($search) {
             $this->lblModulHeader->Text=' DARI HASI PENCARIAN';
             $txtsearch=addslashes($this->txtKriteria->Text);
-            switch ($this->cmbKriteria->Text) {                
+            switch ($this->cmbKriteria->Text) {    
+                case 'no_transaksi' :
+                    $clausa="AND t.no_transaksi='$txtsearch'";
+                    $str = "SELECT t.no_transaksi,t.no_faktur,t.tanggal,t.no_formulir,fp.nama_mhs,commited,CONCAT (t.tahun,t.idsmt) AS tasmt FROM transaksi t JOIN formulir_pendaftaran fp ON (t.no_formulir=fp.no_formulir) WHERE fp.no_formulir=t.no_formulir AND fp.ta='$tahun_masuk' AND fp.idsmt='$semester_masuk' AND t.kjur=$kjur $clausa";
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("transaksi t,formulir_pendaftaran fp WHERE fp.no_formulir=t.no_formulir AND fp.ta='$tahun_masuk' AND fp.idsmt='$semester_masuk' AND t.kjur=$kjur $clausa",'no_transaksi');	
+                break;            
                 case 'no_faktur' :
                     $clausa="AND t.no_faktur='$txtsearch'";
-                    $str = "SELECT t.no_transaksi,t.tanggal,t.no_formulir,fp.nama_mhs,commited,CONCAT (t.tahun,t.idsmt) AS tasmt FROM transaksi t JOIN formulir_pendaftaran fp ON (t.no_formulir=fp.no_formulir) WHERE fp.no_formulir=t.no_formulir $clausa";
+                    $str = "SELECT t.no_transaksi,t.no_faktur,t.tanggal,t.no_formulir,fp.nama_mhs,commited,CONCAT (t.tahun,t.idsmt) AS tasmt FROM transaksi t JOIN formulir_pendaftaran fp ON (t.no_formulir=fp.no_formulir) WHERE fp.no_formulir=t.no_formulir AND fp.ta='$tahun_masuk' AND fp.idsmt='$semester_masuk' AND t.kjur=$kjur $clausa";
                     $jumlah_baris=$this->DB->getCountRowsOfTable("transaksi t,formulir_pendaftaran fp WHERE fp.no_formulir=t.no_formulir AND fp.ta='$tahun_masuk' AND fp.idsmt='$semester_masuk' AND t.kjur=$kjur $clausa",'no_transaksi');	
                 break;
                 case 'no_formulir' :
                     $clausa="AND t.no_formulir='$txtsearch'";
-                    $str = "SELECT t.no_transaksi,t.tanggal,t.no_formulir,fp.nama_mhs,commited,CONCAT (t.tahun,t.idsmt) AS tasmt FROM transaksi t JOIN formulir_pendaftaran fp ON (t.no_formulir=fp.no_formulir) WHERE fp.no_formulir=t.no_formulir AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk $clausa";
+                    $str = "SELECT t.no_transaksi,t.no_faktur,t.tanggal,t.no_formulir,fp.nama_mhs,commited,CONCAT (t.tahun,t.idsmt) AS tasmt FROM transaksi t JOIN formulir_pendaftaran fp ON (t.no_formulir=fp.no_formulir) WHERE fp.no_formulir=t.no_formulir AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk $clausa";
                     $jumlah_baris=$this->DB->getCountRowsOfTable("transaksi t,formulir_pendaftaran fp WHERE fp.no_formulir=t.no_formulir AND fp.ta='$tahun_masuk' AND fp.idsmt='$semester_masuk' AND t.kjur=$kjur $clausa",'no_transaksi');	
                 break;
                 case 'nama' :
                     $clausa="AND fp.nama_mhs LIKE '%$txtsearch%'";
-                    $str = "SELECT t.no_transaksi,t.tanggal,t.no_formulir,fp.nama_mhs,commited,CONCAT (t.tahun,t.idsmt) AS tasmt FROM transaksi t JOIN formulir_pendaftaran fp ON (t.no_formulir=fp.no_formulir) WHERE fp.no_formulir=t.no_formulir AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk $clausa";
+                    $str = "SELECT t.no_transaksi,t.no_faktur,t.tanggal,t.no_formulir,fp.nama_mhs,commited,CONCAT (t.tahun,t.idsmt) AS tasmt FROM transaksi t JOIN formulir_pendaftaran fp ON (t.no_formulir=fp.no_formulir) WHERE fp.no_formulir=t.no_formulir AND t.tahun=$tahun_masuk AND t.idsmt=$semester_masuk $clausa";
                     $jumlah_baris=$this->DB->getCountRowsOfTable("transaksi t,formulir_pendaftaran fp WHERE fp.no_formulir=t.no_formulir AND fp.ta='$tahun_masuk' AND fp.idsmt='$semester_masuk' AND t.kjur=$kjur $clausa",'no_transaksi');	
                 break;
             }
