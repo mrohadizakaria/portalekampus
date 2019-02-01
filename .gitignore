@@ -7,3 +7,5 @@ protected/application.xml
 themes/*
 index.php
 .classpath
+.vscode
+.github
