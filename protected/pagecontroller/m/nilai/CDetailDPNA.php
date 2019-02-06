@@ -156,7 +156,7 @@ class CDetailDPNA extends MainPageM {
                 $dataReport['nama_jabatan_dpna']=$this->setup->getSettingValue('nama_jabatan_dpna');
                 $dataReport['nama_penandatangan_dpna']=$this->setup->getSettingValue('nama_penandatangan_dpna');
                 $dataReport['jabfung_penandatangan_dpna']=$this->setup->getSettingValue('jabfung_penandatangan_dpna');
-                $dataReport['nipy_penandatangan_dpna']=$this->setup->getSettingValue('nipy_penandatangan_dpna');
+                $dataReport['nidn_penandatangan_dpna']=$this->setup->getSettingValue('nidn_penandatangan_dpna');
 
                 $dataReport['linkoutput']=$this->linkOutput; 
                 $this->report->setDataReport($dataReport); 

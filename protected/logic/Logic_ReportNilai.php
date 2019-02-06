@@ -1837,15 +1837,15 @@ class Logic_ReportNilai extends Logic_Report {
                 $sheet->setCellValue("H$row",$this->setup->getSettingValue('kota_pt').", $tanggal");			
                 
                 $row+=2;                
-                $sheet->setCellValue("C$row",'A.n. Ketua '.$this->dataReport['nama_pt_alias']);			
-                $sheet->setCellValue("F$row","Ketua Program Studi");			
-                $sheet->setCellValue("H$row","Dosen Pengajar");			
+                $sheet->setCellValue("C$row",'A.N. KETUA');			
+                $sheet->setCellValue("F$row","KETUA PROGRAM STUDI");			
+                $sheet->setCellValue("H$row","DOSEN PENGAJAR");			
                
 
                 $row+=1;
                 $sheet->setCellValue("C$row",$this->dataReport['nama_jabatan_dpna']);			
                 $sheet->setCellValue("F$row",$this->dataReport['nama_ps']);			
-                $sheet->setCellValue("H$row",'Matakuliah');			
+                $sheet->setCellValue("H$row",'MATAKULIAH');			
                 
                 $row+=5;
                 $sheet->setCellValue("C$row",$this->dataReport['nama_penandatangan_dpna']);			
@@ -1854,8 +1854,8 @@ class Logic_ReportNilai extends Logic_Report {
                 $sheet->setCellValue("H$row",$this->dataReport['dosenpengajar']);			
                 
                 $row+=1;
-                $sheet->setCellValue("C$row",strtoupper($this->dataReport['jabfung_penandatangan_dpna']). ' NIPY '.$this->dataReport['nipy_penandatangan_dpna']);			
-                $sheet->setCellValue("F$row",$kaprodi['nama_jabatan']. ' NIPY '.$kaprodi['nipy']);			                
+                $sheet->setCellValue("C$row",strtoupper($this->dataReport['jabfung_penandatangan_dpna']). ' NIDN '.$this->dataReport['nidn_penandatangan_dpna']);			
+                $sheet->setCellValue("F$row",$kaprodi['nama_jabatan']. ' NIDN '.$kaprodi['nidn']);			                
                 
                 $this->printOut("dpna_$kmatkul");
             break;
@@ -2022,32 +2022,32 @@ class Logic_ReportNilai extends Logic_Report {
                     }
                     $row+=5;
                     $rpt->SetFont ('helvetica','B',8);
-                    $rpt->setXY(40,$row);													
+                    $rpt->setXY(3,$row);													
                     $tanggal=$this->tgl->tanggal('l, j F Y');				
-                    $rpt->Cell(250, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'C');		
+                    $rpt->Cell(192, 5, $this->setup->getSettingValue('kota_pt').", $tanggal",0,0,'R');		
 
                     $row+=5;
-                    $rpt->setXY(40,$row);			
-                    $rpt->Cell(3, 5, 'A.n. Ketua '.$this->dataReport['nama_pt_alias'],0,0,'C');			
-                    $rpt->Cell(115, 5, "Ketua Program Studi",0,0,'C');		
-                    $rpt->Cell(15, 5, "Dosen Pengajar",0,0,'C');		
+                    $rpt->setXY(3,$row);			
+                    $rpt->Cell(64, 5, 'A.N. KETUA',1,0,'C');			
+                    $rpt->Cell(64, 5, "KETUA PROGRAM STUDI",1,0,'C');		
+                    $rpt->Cell(64, 5, "DOSEN PENGAJAR",1,0,'C');		
 
                     $row+=5;
-                    $rpt->setXY(40,$row);			
-                    $rpt->Cell(5, 5, $this->dataReport['nama_jabatan_dpna'],0,0,'C');												
-                    $rpt->Cell(110, 5, $this->dataReport['nama_ps'],0,0,'C');		
-                    $rpt->Cell(23, 5, 'Matakuliah',0,0,'C');	
+                    $rpt->setXY(3,$row);			
+                    $rpt->Cell(64, 5, $this->dataReport['nama_jabatan_dpna'],0,0,'C');												
+                    $rpt->Cell(64, 5, $this->dataReport['nama_ps'],1,0,'C');		
+                    $rpt->Cell(64, 5, 'MATAKULIAH',1,0,'C');	
 
                     $row+=18;				
-                    $rpt->setXY(40,$row);			
-                    $rpt->Cell(6, 5,$this->dataReport['nama_penandatangan_dpna'],0,0,'C');
-                    $rpt->Cell(105, 5,$kaprodi['nama_dosen'],0,0,'C');
-                    $rpt->Cell(37, 5,$this->dataReport['dosenpengajar'],0,0,'C');
+                    $rpt->setXY(3,$row);			
+                    $rpt->Cell(64, 5,$this->dataReport['nama_penandatangan_dpna'],0,0,'C');
+                    $rpt->Cell(64, 5,$kaprodi['nama_dosen'],1,0,'C');
+                    $rpt->Cell(64, 5,$this->dataReport['dosenpengajar'],0,0,'C');
 
                     $row+=5;
-                    $rpt->setXY(40,$row);			
-                    $rpt->Cell(5, 5, strtoupper($this->dataReport['jabfung_penandatangan_dpna']). ' NIPY '.$this->dataReport['nipy_penandatangan_dpna'],0,0,'C');
-                    $rpt->Cell(108, 5, $kaprodi['nama_jabatan']. ' NIPY '.$kaprodi['nipy'],0,0,'C');
+                    $rpt->setXY(3,$row);			
+                    $rpt->Cell(64, 5, strtoupper($this->dataReport['jabfung_penandatangan_dpna']). ' NIDN '.$this->dataReport['nidn_penandatangan_dpna'],0,0,'C');
+                    $rpt->Cell(64, 5, $kaprodi['nama_jabatan']. ' NIDN '.$kaprodi['nidn'],0,0,'C');
                     if ($i < ($jumlahpage-1)) {
                         $rpt->AddPage('P','F4');
                         $row=5;
