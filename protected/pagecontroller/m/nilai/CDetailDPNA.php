@@ -89,7 +89,7 @@ class CDetailDPNA extends MainPageM {
         $dataDPNA=$_SESSION['currentPageDPNA']['DataDPNA'];
         $dataDPNA['idkelas_mhs']=$idkelas_mhs;
         if ($idkelas_mhs != 'none') {
-            $str = "SELECT idkelas,nama_kelas,hari,jam_masuk,jam_keluar,d.nidn,d.nama_dosen FROM kelas_mhs km,pengampu_penyelenggaraan pp,dosen d WHERE km.idpengampu_penyelenggaraan=pp.idpengampu_penyelenggaraan AND d.iddosen=pp.iddosen AND idkelas_mhs=$idkelas_mhs";
+            $str = "SELECT idkelas,nama_kelas,hari,jam_masuk,jam_keluar,d.nidn,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen FROM kelas_mhs km,pengampu_penyelenggaraan pp,dosen d WHERE km.idpengampu_penyelenggaraan=pp.idpengampu_penyelenggaraan AND d.iddosen=pp.iddosen AND idkelas_mhs=$idkelas_mhs";
             $this->DB->setFieldTable(array('idkelas','nama_kelas','hari','jam_masuk','jam_keluar','nidn','nama_dosen'));
             $r=$this->DB->getRecord($str);
             $datakelas=$r[1];

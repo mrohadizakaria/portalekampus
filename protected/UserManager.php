@@ -138,7 +138,7 @@ class UserManager extends TAuthManager {
                 $this->dataUser['data_user']['theme']='limitless';	
 			break;
 			case 'Dosen' :				
-				$str = "SELECT u.userid,d.iddosen,d.nidn,d.nipy,d.nama_dosen,d.theme FROM user u,dosen d WHERE u.username=d.username AND d.username='$username'";
+				$str = "SELECT u.userid,d.iddosen,d.nidn,d.nipy,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen,d.theme FROM user u,dosen d WHERE u.username=d.username AND d.username='$username'";
 				$this->db->setFieldTable(array('userid','iddosen','nidn','nipy','nama_dosen','theme'));
 				$r=$this->db->getRecord($str);	
 				
@@ -148,7 +148,7 @@ class UserManager extends TAuthManager {
                 $this->db->updateRecord("UPDATE user SET logintime=NOW() WHERE username='$username'");
 			break;
 			case 'DosenWali' :					
-				$str = "SELECT d.iddosen,dw.iddosen_wali,d.nidn,d.nipy,d.nama_dosen,theme FROM dosen d,dosen_wali dw WHERE d.iddosen=dw.iddosen AND d.username='$username'";
+				$str = "SELECT d.iddosen,dw.iddosen_wali,d.nidn,d.nipy,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen,d.theme FROM dosen d,dosen_wali dw WHERE d.iddosen=dw.iddosen AND d.username='$username'";
 				$this->db->setFieldTable(array('iddosen','iddosen_wali','nidn','nipy','nama_dosen','theme'));
 				$r=$this->db->getRecord($str);				
 				$this->dataUser['data_user']=$r[1];

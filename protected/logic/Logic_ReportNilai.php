@@ -1839,7 +1839,7 @@ class Logic_ReportNilai extends Logic_Report {
                 $row+=2;                
                 $sheet->setCellValue("C$row",'A.n. Ketua '.$this->dataReport['nama_pt_alias']);			
                 $sheet->setCellValue("F$row","Ketua Program Studi");			
-                $sheet->setCellValue("H$row","Dosen Pengampu");			
+                $sheet->setCellValue("H$row","Dosen Pengajar");			
                
 
                 $row+=1;
@@ -1851,7 +1851,7 @@ class Logic_ReportNilai extends Logic_Report {
                 $sheet->setCellValue("C$row",$this->dataReport['nama_penandatangan_dpna']);			
                 $kaprodi=$objNilai->getKetuaPRODI($this->dataReport['kjur']);
                 $sheet->setCellValue("F$row",$kaprodi['nama_dosen']);			
-                $sheet->setCellValue("H$row",$dosen_pengampu);			
+                $sheet->setCellValue("H$row",$this->dataReport['dosenpengajar']);			
                 
                 $row+=1;
                 $sheet->setCellValue("C$row",strtoupper($this->dataReport['jabfung_penandatangan_dpna']). ' NIPY '.$this->dataReport['nipy_penandatangan_dpna']);			
@@ -2030,7 +2030,7 @@ class Logic_ReportNilai extends Logic_Report {
                     $rpt->setXY(40,$row);			
                     $rpt->Cell(3, 5, 'A.n. Ketua '.$this->dataReport['nama_pt_alias'],0,0,'C');			
                     $rpt->Cell(115, 5, "Ketua Program Studi",0,0,'C');		
-                    $rpt->Cell(15, 5, "Dosen Pengampu",0,0,'C');		
+                    $rpt->Cell(15, 5, "Dosen Pengajar",0,0,'C');		
 
                     $row+=5;
                     $rpt->setXY(40,$row);			
@@ -2042,7 +2042,7 @@ class Logic_ReportNilai extends Logic_Report {
                     $rpt->setXY(40,$row);			
                     $rpt->Cell(6, 5,$this->dataReport['nama_penandatangan_dpna'],0,0,'C');
                     $rpt->Cell(105, 5,$kaprodi['nama_dosen'],0,0,'C');
-                    $rpt->Cell(37, 5,$dosen_pengampu,0,0,'C');
+                    $rpt->Cell(37, 5,$this->dataReport['dosenpengajar'],0,0,'C');
 
                     $row+=5;
                     $rpt->setXY(40,$row);			
