@@ -2044,7 +2044,7 @@ class Logic_ReportNilai extends Logic_Report {
                     $nidn_jabatan_dosen_ttd=$this->dataReport['nama_jabatan_dosen_pengampu']. ' NIDN '.$this->dataReport['nidn_dosen_pengampu'];
                     if ($this->dataReport['idjabatan_dosen_pengajar'] > 0)
                     {
-                        $nama_dosen_ttd==$this->dataReport['nama_dosen_pengajar'];
+                        $nama_dosen_ttd=$this->dataReport['nama_dosen_pengajar'];
                         $nidn_jabatan_dosen_ttd=$this->dataReport['nama_jabatan_dosen_pengajar']. ' NIDN '.$this->dataReport['nidn_dosen_pengajar'];
                     }
                     $rpt->Cell(64, 5,$nama_dosen_ttd,0,0,'C');                    
