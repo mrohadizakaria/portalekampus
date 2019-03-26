@@ -499,5 +499,20 @@ class Logic_DMaster extends Logic_Global {
             $dataitem['none']='Daftar Jabatan Fungsional';
         }
         return $dataitem;  
-	}
+    }
+    /**
+     * digunakan untuk mendapatkan nama jabatan akademik berdasarkan id
+     * @param type $idjabatan
+     * @return type
+     */
+    public function getNamaJabfungByID ($idjabatan) {	
+        if ($this->Application->Cache) {            
+            $dataitem=$this->getListJabfung();
+            $nama_item=$dataitem[$idjabatan];
+        }else {
+            $dataitem=$this->getList("jabatan_akademik WHERE idjabatan=$idjabatan",array('nama_jabatan'),'nama_jabatan');
+            $nama_item=$dataitem[1]['nama_jabatan'];                               
+        }
+        return $nama_item;
+    }
 }

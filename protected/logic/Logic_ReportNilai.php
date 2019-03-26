@@ -1664,6 +1664,7 @@ class Logic_ReportNilai extends Logic_Report {
      */
     public function printDPNA ($objNilai) {    
         $kmatkul=$this->dataReport['kmatkul'];
+        $idkelas_mhs=$this->dataReport['idkelas_mhs'];
         $kaprodi=$objNilai->getKetuaPRODI($this->dataReport['kjur']);
         switch ($this->getDriver()) {
             case 'excel2003' :               
@@ -1684,16 +1685,14 @@ class Logic_ReportNilai extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 							);
                 $sheet->getStyle("A7:K8")->applyFromArray($styleArray);
-                $dosen_pengampu=$this->dataReport['nama_dosen'];
-                $idkelas_mhs=$this->dataReport['idkelas_mhs'];
-                
+
                 $sheet->getColumnDimension('A')->setWidth(8);
                 $sheet->getColumnDimension('B')->setWidth(11);
                 $sheet->getColumnDimension('C')->setWidth(25);
                 $sheet->getColumnDimension('D')->setWidth(15);
                 $sheet->getColumnDimension('F')->setWidth(12);
                 $sheet->getColumnDimension('G')->setWidth(20);
-                $sheet->getColumnDimension('K')->setWidth(15);
+                $sheet->getColumnDimension('K')->setWidth(15);               
                 
                 if ($idkelas_mhs == 'none'){                    
                     $sheet->mergeCells('A10:B10');                    
@@ -1873,9 +1872,7 @@ class Logic_ReportNilai extends Logic_Report {
                 $row+=6;
                 $rpt->SetFont ('helvetica','B',12);	
                 $rpt->setXY(3,$row);			
-                $rpt->Cell(0,$row,'DAFTAR PESERTA DAN NILAI AKHIR',0,0,'C');
-                $dosen_pengampu=$this->dataReport['nama_dosen'];
-                
+                $rpt->Cell(0,$row,'DAFTAR PESERTA DAN NILAI AKHIR',0,0,'C');                
                 if ($idkelas_mhs == 'none'){
                     $row+=6;
 					$rpt->SetFont ('helvetica','B',8);	
@@ -1903,7 +1900,7 @@ class Logic_ReportNilai extends Logic_Report {
 					$rpt->Cell(0,$row,'Dosen Pengampu');
 					$rpt->SetFont ('helvetica','',8);
 					$rpt->setXY(130,$row);			
-					$rpt->Cell(0,$row,': '.$this->dataReport['nama_dosen']);
+					$rpt->Cell(0,$row,': '.$this->dataReport['nama_dosen_pengampu']);
                     $row+=3;
 					$rpt->setXY(3,$row);			
 					$rpt->SetFont ('helvetica','B',8);	
@@ -1945,7 +1942,7 @@ class Logic_ReportNilai extends Logic_Report {
 					$rpt->Cell(0,$row,'Dosen Pengampu');
 					$rpt->SetFont ('helvetica','',8);
 					$rpt->setXY(130,$row);			
-					$rpt->Cell(0,$row,': '.$this->dataReport['nama_dosen']);
+					$rpt->Cell(0,$row,': '.$this->dataReport['nama_dosen_pengampu']);
                     $row+=3;
 					$rpt->setXY(3,$row);
 					$rpt->SetFont ('helvetica','B',8);						
@@ -1958,7 +1955,7 @@ class Logic_ReportNilai extends Logic_Report {
 					$rpt->Cell(0,$row,'Dosen Pengajar');
 					$rpt->SetFont ('helvetica','',8);
 					$rpt->setXY(130,$row);			
-					$rpt->Cell(0,$row,': '.$this->dataReport['dosenpengajar']);			
+					$rpt->Cell(0,$row,': '.$this->dataReport['nama_dosen_pengajar']);			
                     $row+=3;
 					$rpt->setXY(3,$row);			
 					$rpt->SetFont ('helvetica','B',8);	
@@ -2028,26 +2025,35 @@ class Logic_ReportNilai extends Logic_Report {
 
                     $row+=5;
                     $rpt->setXY(3,$row);			
-                    $rpt->Cell(64, 5, 'A.N. KETUA',1,0,'C');			
-                    $rpt->Cell(64, 5, "KETUA PROGRAM STUDI",1,0,'C');		
-                    $rpt->Cell(64, 5, "DOSEN PENGAJAR",1,0,'C');		
+                    $rpt->Cell(64, 5, 'A.N. KETUA',0,0,'C');			
+                    $rpt->Cell(64, 5, "KETUA PROGRAM STUDI",0,0,'C');		
+                    $rpt->Cell(64, 5, "DOSEN PENGAJAR",0,0,'C');		
 
                     $row+=5;
                     $rpt->setXY(3,$row);			
                     $rpt->Cell(64, 5, $this->dataReport['nama_jabatan_dpna'],0,0,'C');												
-                    $rpt->Cell(64, 5, $this->dataReport['nama_ps'],1,0,'C');		
-                    $rpt->Cell(64, 5, 'MATAKULIAH',1,0,'C');	
+                    $rpt->Cell(64, 5, $this->dataReport['nama_ps'],0,0,'C');		
+                    $rpt->Cell(64, 5, 'MATAKULIAH',0,0,'C');	
 
                     $row+=18;				
                     $rpt->setXY(3,$row);			
                     $rpt->Cell(64, 5,$this->dataReport['nama_penandatangan_dpna'],0,0,'C');
-                    $rpt->Cell(64, 5,$kaprodi['nama_dosen'],1,0,'C');
-                    $rpt->Cell(64, 5,$this->dataReport['dosenpengajar'],0,0,'C');
+                    $rpt->Cell(64, 5,$kaprodi['nama_dosen'],0,0,'C');
+
+                    $nama_dosen_ttd=$this->dataReport['nama_dosen_pengampu'];
+                    $nidn_jabatan_dosen_ttd=$this->dataReport['nama_jabatan_dosen_pengampu']. ' NIDN '.$this->dataReport['nidn_dosen_pengampu'];
+                    if ($this->dataReport['idjabatan_dosen_pengajar'] > 0)
+                    {
+                        $nama_dosen_ttd==$this->dataReport['nama_dosen_pengajar'];
+                        $nidn_jabatan_dosen_ttd=$this->dataReport['nama_jabatan_dosen_pengajar']. ' NIDN '.$this->dataReport['nidn_dosen_pengajar'];
+                    }
+                    $rpt->Cell(64, 5,$nama_dosen_ttd,0,0,'C');                    
 
                     $row+=5;
                     $rpt->setXY(3,$row);			
                     $rpt->Cell(64, 5, strtoupper($this->dataReport['jabfung_penandatangan_dpna']). ' NIDN '.$this->dataReport['nidn_penandatangan_dpna'],0,0,'C');
                     $rpt->Cell(64, 5, $kaprodi['nama_jabatan']. ' NIDN '.$kaprodi['nidn'],0,0,'C');
+                    $rpt->Cell(64, 5,$nidn_jabatan_dosen_ttd,0,0,'C');                        
                     if ($i < ($jumlahpage-1)) {
                         $rpt->AddPage('P','F4');
                         $row=5;

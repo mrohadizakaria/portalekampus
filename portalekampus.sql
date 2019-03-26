@@ -2026,7 +2026,7 @@ CREATE TABLE `v_transaksi` (
 --
 DROP TABLE IF EXISTS `v_datamhs`;
 
-CREATE VIEW `v_datamhs`  AS  select `rm`.`nim` AS `nim`,`rm`.`nirm` AS `nirm`,`rm`.`no_formulir` AS `no_formulir`,`fm`.`nama_mhs` AS `nama_mhs`,`fm`.`tempat_lahir` AS `tempat_lahir`,`fm`.`tanggal_lahir` AS `tanggal_lahir`,`fm`.`jk` AS `jk`,`fm`.`alamat_kantor` AS `alamat_kantor`,`fm`.`alamat_rumah` AS `alamat_rumah`,`fm`.`telp_rumah` AS `telp_rumah`,`fm`.`telp_hp` AS `telp_hp`,`pm`.`email` AS `email`,`pm`.`userpassword` AS `userpassword`,`rm`.`tahun` AS `tahun_masuk`,`rm`.`idsmt` AS `semester_masuk`,`rm`.`iddosen_wali` AS `iddosen_wali`,`rm`.`kjur` AS `kjur`,`ps`.`nama_ps` AS `nama_ps`,`rm`.`idkonsentrasi` AS `idkonsentrasi`,`rm`.`k_status` AS `k_status`,`rm`.`perpanjang` AS `perpanjang`,`rm`.`idkelas` AS `idkelas`,`pm`.`theme` AS `theme`,`pm`.`photo_profile` AS `photo_profile` from (((`register_mahasiswa` `rm` join `formulir_pendaftaran` `fm`) join `program_studi` `ps`) join `profiles_mahasiswa` `pm`) where ((`rm`.`no_formulir` = `fm`.`no_formulir`) and (`rm`.`kjur` = `ps`.`kjur`) and (`rm`.`no_formulir` = `pm`.`no_formulir`)) ;
+CREATE VIEW `v_datamhs`  AS  SELECT `rm`.`nim` AS `nim`,`rm`.`nirm` AS `nirm`,`rm`.`no_formulir` AS `no_formulir`,`fm`.`nama_mhs` AS `nama_mhs`,`fm`.`tempat_lahir` AS `tempat_lahir`,`fm`.`tanggal_lahir` AS `tanggal_lahir`,`fm`.`jk` AS `jk`,`fm`.`alamat_kantor` AS `alamat_kantor`,`fm`.`alamat_rumah` AS `alamat_rumah`,`fm`.`telp_rumah` AS `telp_rumah`,`fm`.`telp_hp` AS `telp_hp`,`pm`.`email` AS `email`,`pm`.`userpassword` AS `userpassword`,`rm`.`tahun` AS `tahun_masuk`,`rm`.`idsmt` AS `semester_masuk`,`rm`.`iddosen_wali` AS `iddosen_wali`,`rm`.`kjur` AS `kjur`,`ps`.`nama_ps` AS `nama_ps`,`rm`.`idkonsentrasi` AS `idkonsentrasi`,`rm`.`k_status` AS `k_status`,`rm`.`perpanjang` AS `perpanjang`,`rm`.`idkelas` AS `idkelas`,`pm`.`theme` AS `theme`,`pm`.`photo_profile` AS `photo_profile` FROM (((`register_mahasiswa` `rm` join `formulir_pendaftaran` `fm`) join `program_studi` `ps`) join `profiles_mahasiswa` `pm`) WHERE ((`rm`.`no_formulir` = `fm`.`no_formulir`) and (`rm`.`kjur` = `ps`.`kjur`) and (`rm`.`no_formulir` = `pm`.`no_formulir`)) ;
 
 -- --------------------------------------------------------
 
@@ -2035,7 +2035,7 @@ CREATE VIEW `v_datamhs`  AS  select `rm`.`nim` AS `nim`,`rm`.`nirm` AS `nirm`,`r
 --
 DROP TABLE IF EXISTS `v_kelas_mhs`;
 
-CREATE VIEW `v_kelas_mhs`  AS  select `pp`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`km`.`idpengampu_penyelenggaraan` AS `idpengampu_penyelenggaraan`,`km`.`idkelas_mhs` AS `idkelas_mhs`,`kmd`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idkelas` AS `idkelas`,`km`.`nama_kelas` AS `nama_kelas`,`km`.`hari` AS `hari`,`km`.`jam_masuk` AS `jam_masuk`,`km`.`jam_keluar` AS `jam_keluar`,`d`.`nidn` AS `nidn`,`pp`.`iddosen` AS `iddosen`,`km`.`idruangkelas` AS `idruangkelas`,concat(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen` from (((`kelas_mhs_detail` `kmd` join `kelas_mhs` `km`) join `pengampu_penyelenggaraan` `pp`) join `dosen` `d`) where ((`km`.`idkelas_mhs` = `kmd`.`idkelas_mhs`) and (`pp`.`idpengampu_penyelenggaraan` = `km`.`idpengampu_penyelenggaraan`) and (`pp`.`iddosen` = `d`.`iddosen`)) ;
+CREATE VIEW `v_kelas_mhs`  AS  SELECT `pp`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`km`.`idpengampu_penyelenggaraan` AS `idpengampu_penyelenggaraan`,`km`.`idkelas_mhs` AS `idkelas_mhs`,`kmd`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idkelas` AS `idkelas`,`km`.`nama_kelas` AS `nama_kelas`,`km`.`hari` AS `hari`,`km`.`jam_masuk` AS `jam_masuk`,`km`.`jam_keluar` AS `jam_keluar`,`d`.`nidn` AS `nidn`,`pp`.`iddosen` AS `iddosen`,`km`.`idruangkelas` AS `idruangkelas`,CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen` FROM (((`kelas_mhs_detail` `kmd` join `kelas_mhs` `km`) join `pengampu_penyelenggaraan` `pp`) join `dosen` `d`) WHERE ((`km`.`idkelas_mhs` = `kmd`.`idkelas_mhs`) and (`pp`.`idpengampu_penyelenggaraan` = `km`.`idpengampu_penyelenggaraan`) and (`pp`.`iddosen` = `d`.`iddosen`)) ;
 
 -- --------------------------------------------------------
 
@@ -2044,7 +2044,7 @@ CREATE VIEW `v_kelas_mhs`  AS  select `pp`.`idpenyelenggaraan` AS `idpenyelengga
 --
 DROP TABLE IF EXISTS `v_konfirmasi_pembayaran`;
 
-CREATE VIEW `v_konfirmasi_pembayaran`  AS  select `kp`.`idkonfirmasi` AS `idkonfirmasi`,`kp`.`no_formulir` AS `no_formulir`,`kp`.`jumlah_bayar` AS `jumlah_bayar`,`kkp`.`biaya` AS `biaya`,`kp`.`tanggal_bayar` AS `tanggal_bayar`,`kp`.`pembayaran_dari_bank` AS `pembayaran_dari_bank`,`kp`.`pemilik_rekening` AS `pemilik_rekening`,`kp`.`idkelas` AS `idkelas`,`kp`.`ta` AS `ta`,`kp`.`idsmt` AS `idsmt`,`kp`.`kjur` AS `kjur`,`kp`.`verified` AS `verified`,`kkp`.`idkombi` AS `idkombi`,`kp`.`idrekening_institusi` AS `idrekening_institusi`,concat(`rk`.`bank`,_latin1' ',`rk`.`no_rekening`,_latin1'(',`k`.`nkelas`,_latin1')') AS `rekening_tujuan`,`mp`.`nama_pembayaran` AS `metode_pembayaran` from ((((`konfirmasi_pembayaran` `kp` join `kombi_konfirmasi_pembayaran` `kkp`) join `rekening_institusi` `rk`) join `kelas` `k`) join `metode_pembayaran` `mp`) where ((`kkp`.`idkonfirmasi` = `kp`.`idkonfirmasi`) and (`rk`.`idrekening_institusi` = `kp`.`idrekening_institusi`) and (`k`.`idkelas` = `rk`.`idkelas`) and (`mp`.`idmetode_pembayaran` = `kp`.`idmetode_pembayaran`)) ;
+CREATE VIEW `v_konfirmasi_pembayaran`  AS  SELECT `kp`.`idkonfirmasi` AS `idkonfirmasi`,`kp`.`no_formulir` AS `no_formulir`,`kp`.`jumlah_bayar` AS `jumlah_bayar`,`kkp`.`biaya` AS `biaya`,`kp`.`tanggal_bayar` AS `tanggal_bayar`,`kp`.`pembayaran_dari_bank` AS `pembayaran_dari_bank`,`kp`.`pemilik_rekening` AS `pemilik_rekening`,`kp`.`idkelas` AS `idkelas`,`kp`.`ta` AS `ta`,`kp`.`idsmt` AS `idsmt`,`kp`.`kjur` AS `kjur`,`kp`.`verified` AS `verified`,`kkp`.`idkombi` AS `idkombi`,`kp`.`idrekening_institusi` AS `idrekening_institusi`,CONCAT(`rk`.`bank`,_latin1' ',`rk`.`no_rekening`,_latin1'(',`k`.`nkelas`,_latin1')') AS `rekening_tujuan`,`mp`.`nama_pembayaran` AS `metode_pembayaran` FROM ((((`konfirmasi_pembayaran` `kp` join `kombi_konfirmasi_pembayaran` `kkp`) join `rekening_institusi` `rk`) join `kelas` `k`) join `metode_pembayaran` `mp`) WHERE ((`kkp`.`idkonfirmasi` = `kp`.`idkonfirmasi`) and (`rk`.`idrekening_institusi` = `kp`.`idrekening_institusi`) and (`k`.`idkelas` = `rk`.`idkelas`) and (`mp`.`idmetode_pembayaran` = `kp`.`idmetode_pembayaran`)) ;
 
 -- --------------------------------------------------------
 
@@ -2053,7 +2053,7 @@ CREATE VIEW `v_konfirmasi_pembayaran`  AS  select `kp`.`idkonfirmasi` AS `idkonf
 --
 DROP TABLE IF EXISTS `v_konversi2`;
 
-CREATE VIEW `v_konversi2`  AS  select `dk`.`iddata_konversi` AS `iddata_konversi`,`dk`.`nama` AS `nama`,`dk`.`alamat` AS `alamat`,`dk`.`no_telp` AS `no_telp`,`dk`.`nim_asal` AS `nim_asal`,`dk`.`kode_pt_asal` AS `kode_pt_asal`,`dk`.`kjenjang` AS `kjenjang`,`js`.`njenjang` AS `njenjang`,`dk`.`kode_ps_asal` AS `kode_ps_asal`,`dk`.`kjur` AS `kjur`,`dk`.`tahun` AS `tahun`,`nk`.`kmatkul` AS `kmatkul`,`nk`.`kmatkul_asal` AS `kmatkul_asal`,`nk`.`matkul_asal` AS `matkul_asal`,`nk`.`sks_asal` AS `sks_asal`,`nk`.`idnilai_konversi` AS `idnilai_konversi`,`nk`.`n_kual` AS `n_kual`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester` from (((`data_konversi2` `dk` join `nilai_konversi2` `nk`) join `jenjang_studi` `js`) join `matakuliah` `m`) where ((`dk`.`iddata_konversi` = `nk`.`iddata_konversi`) and (`dk`.`kjenjang` = `js`.`kjenjang`) and (`m`.`kmatkul` = `nk`.`kmatkul`)) order by `m`.`semester`,`m`.`kmatkul` ;
+CREATE VIEW `v_konversi2`  AS  SELECT `dk`.`iddata_konversi` AS `iddata_konversi`,`dk`.`nama` AS `nama`,`dk`.`alamat` AS `alamat`,`dk`.`no_telp` AS `no_telp`,`dk`.`nim_asal` AS `nim_asal`,`dk`.`kode_pt_asal` AS `kode_pt_asal`,`dk`.`kjenjang` AS `kjenjang`,`js`.`njenjang` AS `njenjang`,`dk`.`kode_ps_asal` AS `kode_ps_asal`,`dk`.`kjur` AS `kjur`,`dk`.`tahun` AS `tahun`,`nk`.`kmatkul` AS `kmatkul`,`nk`.`kmatkul_asal` AS `kmatkul_asal`,`nk`.`matkul_asal` AS `matkul_asal`,`nk`.`sks_asal` AS `sks_asal`,`nk`.`idnilai_konversi` AS `idnilai_konversi`,`nk`.`n_kual` AS `n_kual`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester` FROM (((`data_konversi2` `dk` join `nilai_konversi2` `nk`) join `jenjang_studi` `js`) join `matakuliah` `m`) WHERE ((`dk`.`iddata_konversi` = `nk`.`iddata_konversi`) and (`dk`.`kjenjang` = `js`.`kjenjang`) and (`m`.`kmatkul` = `nk`.`kmatkul`)) order by `m`.`semester`,`m`.`kmatkul` ;
 
 -- --------------------------------------------------------
 
@@ -2062,7 +2062,7 @@ CREATE VIEW `v_konversi2`  AS  select `dk`.`iddata_konversi` AS `iddata_konversi
 --
 DROP TABLE IF EXISTS `v_krsmhs`;
 
-CREATE VIEW `v_krsmhs`  AS  select `km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`k`.`idkrs` AS `idkrs`,`km`.`batal` AS `batal`,`k`.`tgl_krs` AS `tgl_krs`,`k`.`no_krs` AS `no_krs`,`k`.`nim` AS `nim`,`p`.`kjur` AS `kjur`,`k`.`idsmt` AS `idsmt`,`k`.`tahun` AS `tahun`,`k`.`tasmt` AS `tasmt`,`k`.`sah` AS `sah`,`k`.`tgl_disahkan` AS `tgl_disahkan`,`m`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`d`.`nidn` AS `nidn`,concat(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`m`.`aktif` AS `aktif` from ((((`krsmatkul` `km` join `krs` `k`) join `penyelenggaraan` `p`) join `matakuliah` `m`) join `dosen` `d`) where ((`km`.`idkrs` = `k`.`idkrs`) and (`km`.`idpenyelenggaraan` = `p`.`idpenyelenggaraan`) and (`p`.`kmatkul` = `m`.`kmatkul`) and (`p`.`iddosen` = `d`.`iddosen`)) ;
+CREATE VIEW `v_krsmhs`  AS  SELECT `km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`k`.`idkrs` AS `idkrs`,`km`.`batal` AS `batal`,`k`.`tgl_krs` AS `tgl_krs`,`k`.`no_krs` AS `no_krs`,`k`.`nim` AS `nim`,`p`.`kjur` AS `kjur`,`k`.`idsmt` AS `idsmt`,`k`.`tahun` AS `tahun`,`k`.`tasmt` AS `tasmt`,`k`.`sah` AS `sah`,`k`.`tgl_disahkan` AS `tgl_disahkan`,`m`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`d`.`nidn` AS `nidn`,CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`m`.`aktif` AS `aktif` FROM ((((`krsmatkul` `km` join `krs` `k`) join `penyelenggaraan` `p`) join `matakuliah` `m`) join `dosen` `d`) WHERE ((`km`.`idkrs` = `k`.`idkrs`) and (`km`.`idpenyelenggaraan` = `p`.`idpenyelenggaraan`) and (`p`.`kmatkul` = `m`.`kmatkul`) and (`p`.`iddosen` = `d`.`iddosen`)) ;
 
 -- --------------------------------------------------------
 
@@ -2071,7 +2071,7 @@ CREATE VIEW `v_krsmhs`  AS  select `km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idp
 --
 DROP TABLE IF EXISTS `v_nilai`;
 
-CREATE VIEW `v_nilai`  AS  select `km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`k`.`nim` AS `nim`,`k`.`idsmt` AS `idsmt`,`k`.`tahun` AS `tahun`,`k`.`tasmt` AS `tasmt`,`p`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`nm`.`n_kuan` AS `n_kuan`,`nm`.`n_kual` AS `n_kual`,`d`.`nidn` AS `nidn`,concat(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`m`.`aktif` AS `aktif`,`m`.`idkur` AS `idkur`,`nm`.`telah_isi_kuesioner` AS `telah_isi_kuesioner`,`nm`.`tanggal_isi_kuesioner` AS `tanggal_isi_kuesioner` from (((((`nilai_matakuliah` `nm` join `krsmatkul` `km`) join `krs` `k`) join `penyelenggaraan` `p`) join `dosen` `d`) join `matakuliah` `m`) where ((`nm`.`idkrsmatkul` = `km`.`idkrsmatkul`) and (`km`.`idkrs` = `k`.`idkrs`) and (`km`.`idpenyelenggaraan` = `p`.`idpenyelenggaraan`) and (`d`.`iddosen` = `p`.`iddosen`) and (`p`.`kmatkul` = `m`.`kmatkul`) and (`k`.`sah` = 1) and (`km`.`batal` = 0)) ;
+CREATE VIEW `v_nilai`  AS  SELECT `km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`k`.`nim` AS `nim`,`k`.`idsmt` AS `idsmt`,`k`.`tahun` AS `tahun`,`k`.`tasmt` AS `tasmt`,`p`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`nm`.`n_kuan` AS `n_kuan`,`nm`.`n_kual` AS `n_kual`,`d`.`nidn` AS `nidn`,CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`m`.`aktif` AS `aktif`,`m`.`idkur` AS `idkur`,`nm`.`telah_isi_kuesioner` AS `telah_isi_kuesioner`,`nm`.`tanggal_isi_kuesioner` AS `tanggal_isi_kuesioner` FROM (((((`nilai_matakuliah` `nm` join `krsmatkul` `km`) join `krs` `k`) join `penyelenggaraan` `p`) join `dosen` `d`) join `matakuliah` `m`) WHERE ((`nm`.`idkrsmatkul` = `km`.`idkrsmatkul`) and (`km`.`idkrs` = `k`.`idkrs`) and (`km`.`idpenyelenggaraan` = `p`.`idpenyelenggaraan`) and (`d`.`iddosen` = `p`.`iddosen`) and (`p`.`kmatkul` = `m`.`kmatkul`) and (`k`.`sah` = 1) and (`km`.`batal` = 0)) ;
 
 -- --------------------------------------------------------
 
@@ -2080,7 +2080,7 @@ CREATE VIEW `v_nilai`  AS  select `km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idpe
 --
 DROP TABLE IF EXISTS `v_nilai_khs`;
 
-CREATE VIEW `v_nilai_khs`  AS  select `k`.`idkrs` AS `idkrs`,`km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`k`.`nim` AS `nim`,`k`.`idsmt` AS `idsmt`,`k`.`tahun` AS `tahun`,`k`.`tasmt` AS `tasmt`,`p`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`idkonsentrasi` AS `idkonsentrasi`,`m`.`ispilihan` AS `ispilihan`,`m`.`islintas_prodi` AS `islintas_prodi`,`m`.`semester` AS `semester`,`nm`.`n_kuan` AS `n_kuan`,`nm`.`n_kual` AS `n_kual`,`nm`.`telah_isi_kuesioner` AS `telah_isi_kuesioner`,`nm`.`tanggal_isi_kuesioner` AS `tanggal_isi_kuesioner`,`d`.`iddosen` AS `iddosen`,`d`.`nidn` AS `nidn`,concat(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`m`.`aktif` AS `aktif` from (((((`krs` `k` join `krsmatkul` `km` on((`k`.`idkrs` = `km`.`idkrs`))) join `penyelenggaraan` `p` on((`km`.`idpenyelenggaraan` = `p`.`idpenyelenggaraan`))) join `matakuliah` `m` on((`p`.`kmatkul` = `m`.`kmatkul`))) join `dosen` `d` on((`d`.`iddosen` = `p`.`iddosen`))) left join `nilai_matakuliah` `nm` on((`nm`.`idkrsmatkul` = `km`.`idkrsmatkul`))) where ((`k`.`sah` = 1) and (`km`.`batal` = 0)) ;
+CREATE VIEW `v_nilai_khs`  AS  SELECT `k`.`idkrs` AS `idkrs`,`km`.`idkrsmatkul` AS `idkrsmatkul`,`km`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`k`.`nim` AS `nim`,`k`.`idsmt` AS `idsmt`,`k`.`tahun` AS `tahun`,`k`.`tasmt` AS `tasmt`,`p`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`idkonsentrasi` AS `idkonsentrasi`,`m`.`ispilihan` AS `ispilihan`,`m`.`islintas_prodi` AS `islintas_prodi`,`m`.`semester` AS `semester`,`nm`.`n_kuan` AS `n_kuan`,`nm`.`n_kual` AS `n_kual`,`nm`.`telah_isi_kuesioner` AS `telah_isi_kuesioner`,`nm`.`tanggal_isi_kuesioner` AS `tanggal_isi_kuesioner`,`d`.`iddosen` AS `iddosen`,`d`.`nidn` AS `nidn`,CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`m`.`aktif` AS `aktif` FROM (((((`krs` `k` join `krsmatkul` `km` on((`k`.`idkrs` = `km`.`idkrs`))) join `penyelenggaraan` `p` on((`km`.`idpenyelenggaraan` = `p`.`idpenyelenggaraan`))) join `matakuliah` `m` on((`p`.`kmatkul` = `m`.`kmatkul`))) join `dosen` `d` on((`d`.`iddosen` = `p`.`iddosen`))) left join `nilai_matakuliah` `nm` on((`nm`.`idkrsmatkul` = `km`.`idkrsmatkul`))) WHERE ((`k`.`sah` = 1) and (`km`.`batal` = 0)) ;
 
 -- --------------------------------------------------------
 
@@ -2089,7 +2089,7 @@ CREATE VIEW `v_nilai_khs`  AS  select `k`.`idkrs` AS `idkrs`,`km`.`idkrsmatkul` 
 --
 DROP TABLE IF EXISTS `v_nilai_komponen`;
 
-CREATE VIEW `v_nilai_komponen`  AS  select `km`.`idkrsmatkul` AS `idkrsmatkul`,`na`.`n_kuan` AS `absensi`,`nt`.`n_kuan` AS `tugas`,`nq`.`n_kuan` AS `quiz`,`nut`.`n_kuan` AS `uts`,`nu`.`n_kuan` AS `uas` from (((((`krsmatkul` `km` left join `nilai_absensi` `na` on((`na`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_tugas` `nt` on((`nt`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_quiz` `nq` on((`nq`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_uts` `nut` on((`nut`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_uas` `nu` on((`nu`.`idkrsmatkul` = `km`.`idkrsmatkul`))) where (`km`.`batal` = 0) ;
+CREATE VIEW `v_nilai_komponen`  AS  SELECT `km`.`idkrsmatkul` AS `idkrsmatkul`,`na`.`n_kuan` AS `absensi`,`nt`.`n_kuan` AS `tugas`,`nq`.`n_kuan` AS `quiz`,`nut`.`n_kuan` AS `uts`,`nu`.`n_kuan` AS `uas` FROM (((((`krsmatkul` `km` left join `nilai_absensi` `na` on((`na`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_tugas` `nt` on((`nt`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_quiz` `nq` on((`nq`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_uts` `nut` on((`nut`.`idkrsmatkul` = `km`.`idkrsmatkul`))) left join `nilai_uas` `nu` on((`nu`.`idkrsmatkul` = `km`.`idkrsmatkul`))) WHERE (`km`.`batal` = 0) ;
 
 -- --------------------------------------------------------
 
@@ -2098,7 +2098,7 @@ CREATE VIEW `v_nilai_komponen`  AS  select `km`.`idkrsmatkul` AS `idkrsmatkul`,`
 --
 DROP TABLE IF EXISTS `v_pengampu_penyelenggaraan`;
 
-CREATE VIEW `v_pengampu_penyelenggaraan`  AS  select `pp`.`idpengampu_penyelenggaraan` AS `idpengampu_penyelenggaraan`,`p`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`p`.`kjur` AS `kjur`,`p`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`pp`.`iddosen` AS `iddosen`,`d`.`nidn` AS `nidn`,concat(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`p`.`idsmt` AS `idsmt`,`p`.`tahun` AS `tahun` from (((`pengampu_penyelenggaraan` `pp` join `penyelenggaraan` `p`) join `matakuliah` `m`) join `dosen` `d`) where ((`p`.`idpenyelenggaraan` = `pp`.`idpenyelenggaraan`) and (`m`.`kmatkul` = `p`.`kmatkul`) and (`pp`.`iddosen` = `d`.`iddosen`)) ;
+CREATE VIEW `v_pengampu_penyelenggaraan`  AS  SELECT `pp`.`idpengampu_penyelenggaraan` AS `idpengampu_penyelenggaraan`,`p`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`p`.`kjur` AS `kjur`,`p`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`pp`.`iddosen` AS `iddosen`,`d`.`nidn` AS `nidn`,CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`p`.`idsmt` AS `idsmt`,`p`.`tahun` AS `tahun` FROM (((`pengampu_penyelenggaraan` `pp` join `penyelenggaraan` `p`) join `matakuliah` `m`) join `dosen` `d`) WHERE ((`p`.`idpenyelenggaraan` = `pp`.`idpenyelenggaraan`) and (`m`.`kmatkul` = `p`.`kmatkul`) and (`pp`.`iddosen` = `d`.`iddosen`)) ;
 
 -- --------------------------------------------------------
 
@@ -2107,7 +2107,27 @@ CREATE VIEW `v_pengampu_penyelenggaraan`  AS  select `pp`.`idpengampu_penyelengg
 --
 DROP TABLE IF EXISTS `v_penyelenggaraan`;
 
-CREATE VIEW `v_penyelenggaraan`  AS  select `p`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`p`.`kjur` AS `kjur`,`p`.`idsmt` AS `idsmt`,`p`.`tahun` AS `tahun`,`p`.`kmatkul` AS `kmatkul`,`m`.`idkur` AS `idkur`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`m`.`aktif` AS `aktif`,`p`.`iddosen` AS `iddosen`,`d`.`nidn` AS `nidn`,concat(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen` from ((`penyelenggaraan` `p` join `matakuliah` `m`) join `dosen` `d`) where ((`p`.`kmatkul` = `m`.`kmatkul`) and (`p`.`iddosen` = `d`.`iddosen`)) ;
+CREATE VIEW `v_penyelenggaraan`  AS SELECT 
+                                      `p`.`idpenyelenggaraan` AS `idpenyelenggaraan`,
+                                      `p`.`kjur` AS `kjur`,
+                                      `p`.`idsmt` AS `idsmt`,
+                                      `p`.`tahun` AS `tahun`,
+                                      `p`.`kmatkul` AS `kmatkul`,
+                                      `m`.`idkur` AS `idkur`,
+                                      `m`.`nmatkul` AS `nmatkul`,
+                                      `m`.`sks` AS `sks`,
+                                      `m`.`semester` AS `semester`,
+                                      `m`.`aktif` AS `aktif`,
+                                      `p`.`iddosen` AS `iddosen`,
+                                      `d`.`nidn` AS `nidn`,
+                                      CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,
+                                      `d`.`idjabatan`,
+                                      `ja`.`nama_jabatan`
+                                    FROM 
+                                    `penyelenggaraan` `p` JOIN `matakuliah` `m` ON (`p`.`kmatkul` = `m`.`kmatkul`)
+                                    JOIN `dosen` `d` ON `p`.`iddosen` = `d`.`iddosen`           
+                                    JOIN `jabatan_akademik` `ja` ON `d`.`idjabatan`= `ja`.`idjabatan`                        
+                                   
 
 -- --------------------------------------------------------
 
@@ -2116,7 +2136,7 @@ CREATE VIEW `v_penyelenggaraan`  AS  select `p`.`idpenyelenggaraan` AS `idpenyel
 --
 DROP TABLE IF EXISTS `v_transaksi`;
 
-CREATE VIEW `v_transaksi`  AS  select `td`.`idtransaksi_detail` AS `idtransaksi_detail`,`td`.`no_transaksi` AS `no_transaksi`,`td`.`idkombi` AS `idkombi`,`k`.`nama_kombi` AS `nama_kombi`,`td`.`dibayarkan` AS `dibayarkan`,`t`.`no_faktur` AS `no_faktur`,`t`.`kjur` AS `kjur`,`t`.`tahun` AS `tahun`,`t`.`idsmt` AS `idsmt`,concat(`t`.`tahun`,'',`t`.`idsmt`) AS `tasmt`,`t`.`idkelas` AS `idkelas`,`t`.`nim` AS `nim`,`t`.`no_formulir` AS `no_formulir`,`t`.`tanggal` AS `tanggal`,`t`.`commited` AS `commited` from ((`transaksi_detail` `td` join `transaksi` `t`) join `kombi` `k`) where ((`t`.`no_transaksi` = `td`.`no_transaksi`) and (`k`.`idkombi` = `td`.`idkombi`)) ;
+CREATE VIEW `v_transaksi`  AS  SELECT `td`.`idtransaksi_detail` AS `idtransaksi_detail`,`td`.`no_transaksi` AS `no_transaksi`,`td`.`idkombi` AS `idkombi`,`k`.`nama_kombi` AS `nama_kombi`,`td`.`dibayarkan` AS `dibayarkan`,`t`.`no_faktur` AS `no_faktur`,`t`.`kjur` AS `kjur`,`t`.`tahun` AS `tahun`,`t`.`idsmt` AS `idsmt`,CONCAT(`t`.`tahun`,'',`t`.`idsmt`) AS `tasmt`,`t`.`idkelas` AS `idkelas`,`t`.`nim` AS `nim`,`t`.`no_formulir` AS `no_formulir`,`t`.`tanggal` AS `tanggal`,`t`.`commited` AS `commited` FROM ((`transaksi_detail` `td` join `transaksi` `t`) join `kombi` `k`) WHERE ((`t`.`no_transaksi` = `td`.`no_transaksi`) and (`k`.`idkombi` = `td`.`idkombi`)) ;
 
 --
 -- Indexes for dumped tables

@@ -20,8 +20,8 @@ class CDetailDPNA extends MainPageM {
                 }                
                 $this->Demik->InfoMatkul['nama_ps']=$_SESSION['daftar_jurusan'][$this->Demik->InfoMatkul['kjur']];
                 $this->Demik->InfoMatkul['ta']=$this->DMaster->getNamaTA($this->Demik->InfoMatkul['tahun']);
-                $this->Demik->InfoMatkul['nama_semester']=$this->setup->getSemester($this->Demik->InfoMatkul['idsmt']);
-                $_SESSION['currentPageDPNA']['DataDPNA']=$this->Demik->InfoMatkul;
+                $this->Demik->InfoMatkul['nama_semester']=$this->setup->getSemester($this->Demik->InfoMatkul['idsmt']);                
+                $_SESSION['currentPageDPNA']['DataDPNA']=$this->Demik->InfoMatkul;                
                 //daftar kelas            
                 $str = "SELECT km.idkelas_mhs,km.idkelas,km.nama_kelas FROM pengampu_penyelenggaraan pp,kelas_mhs km WHERE pp.idpengampu_penyelenggaraan=km.idpengampu_penyelenggaraan AND pp.idpenyelenggaraan=$idpenyelenggaraan";
                 $this->DB->setFieldTable(array('idkelas_mhs','idkelas','nama_kelas'));
@@ -41,7 +41,7 @@ class CDetailDPNA extends MainPageM {
                 }else{
                     $this->panelErrorKelasEmpty->Visible=true;
                 }                
-                $this->populateData();	              
+                $this->populateData();	                              
                 $this->populateInfoKelas($_SESSION['currentPageDPNA']['idkelas_mhs']);
             } catch (Exception $ex) {
                 $this->idProcess='view';	
@@ -88,9 +88,13 @@ class CDetailDPNA extends MainPageM {
         $infokelas='';
         $dataDPNA=$_SESSION['currentPageDPNA']['DataDPNA'];
         $dataDPNA['idkelas_mhs']=$idkelas_mhs;
-        if ($idkelas_mhs != 'none') {
-            $str = "SELECT idkelas,nama_kelas,hari,jam_masuk,jam_keluar,d.nidn,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen FROM kelas_mhs km,pengampu_penyelenggaraan pp,dosen d WHERE km.idpengampu_penyelenggaraan=pp.idpengampu_penyelenggaraan AND d.iddosen=pp.iddosen AND idkelas_mhs=$idkelas_mhs";
-            $this->DB->setFieldTable(array('idkelas','nama_kelas','hari','jam_masuk','jam_keluar','nidn','nama_dosen'));
+        if ($idkelas_mhs == 'none') {
+            $dataDPNA['idjabatan_dosen_pengajar']=0;
+        }
+        else
+        {
+            $str = "SELECT idkelas,nama_kelas,hari,jam_masuk,jam_keluar,d.nidn AS nidn_dosen_pengajar,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen_pengajar,d.idjabatan AS idjabatan_dosen_pengajar FROM kelas_mhs km,pengampu_penyelenggaraan pp,dosen d WHERE km.idpengampu_penyelenggaraan=pp.idpengampu_penyelenggaraan AND d.iddosen=pp.iddosen AND idkelas_mhs=$idkelas_mhs";
+            $this->DB->setFieldTable(array('idkelas','nama_kelas','hari','jam_masuk','jam_keluar','nidn_dosen_pengajar','nama_dosen_pengajar','idjabatan_dosen_pengajar'));
             $r=$this->DB->getRecord($str);
             $datakelas=$r[1];
             $datakelas['namakelas']=$this->DMaster->getNamaKelasByID($datakelas['idkelas']).'-'.chr($datakelas['nama_kelas']+64);
@@ -101,8 +105,10 @@ class CDetailDPNA extends MainPageM {
             $dataDPNA['hari']=$datakelas['hari'];
             $dataDPNA['jam_masuk']=$datakelas['jam_masuk'];
             $dataDPNA['jam_keluar']=$datakelas['jam_keluar'];
-            $dataDPNA['nidn']=$datakelas['nidn'];
-            $dataDPNA['dosenpengajar']=$datakelas['nama_dosen'];                        
+            $dataDPNA['nidn_dosen_pengajar']=$datakelas['nidn_dosen_pengajar'];
+            $dataDPNA['nama_dosen_pengajar']=$datakelas['nama_dosen_pengajar'];
+            $dataDPNA['idjabatan_dosen_pengajar']=$datakelas['idjabatan_dosen_pengajar'];                            
+            $dataDPNA['nama_jabatan_dosen_pengajar']=$this->DMaster->getNamaJabfungByID($datakelas['idjabatan_dosen_pengajar']);                        
             $infokelas .= '<div class="col-lg-6">';
                 $infokelas .= '<div class="form-horizontal">';            
                     $infokelas .= '<div class="form-group">';
@@ -126,7 +132,7 @@ class CDetailDPNA extends MainPageM {
                     $infokelas .= '<div class="form-group">';
                         $infokelas .= '<label class="col-sm-3 control-label"><strong>DOSEN PENGAJAR: </strong></label>';
                         $infokelas .= '<div class="col-sm-8">';
-                            $infokelas .= '<p class="form-control-static">'.$datakelas['nama_dosen'].' ['.$datakelas['nidn'].']</p>';
+                            $infokelas .= '<p class="form-control-static">'.$datakelas['nama_dosen_pengajar'].' ['.$datakelas['nidn_dosen_pengajar'].']</p>';
                         $infokelas .= '</div>';
                     $infokelas .= '</div>';
                 $infokelas .= '</div>';

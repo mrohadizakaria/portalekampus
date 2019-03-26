@@ -120,14 +120,12 @@ class Logic_Akademik extends Logic_Mahasiswa {
 	public function getInfoMatkul($id,$mode_info) {        
 		switch ($mode_info) {
 			case 'penyelenggaraan' :
-				$this->db->setFieldTable (array('idpenyelenggaraan','kmatkul','nmatkul','sks','semester','iddosen','nama_dosen','nidn','kjur','tahun','idsmt'));
-				$str = "SELECT idpenyelenggaraan,kmatkul,nmatkul,sks,semester,iddosen,nama_dosen,nidn,kjur,tahun,idsmt FROM v_penyelenggaraan WHERE idpenyelenggaraan='$id'";
+				$this->db->setFieldTable (array('idpenyelenggaraan','kmatkul','nmatkul','sks','semester','iddosen_pengampu','nama_dosen_pengampu','nidn_dosen_pengampu','idjabatan_dosen_pengampu','nama_jabatan_dosen_pengampu','kjur','tahun','idsmt'));
+				$str = "SELECT idpenyelenggaraan,kmatkul,nmatkul,sks,semester,iddosen AS iddosen_pengampu,nama_dosen AS nama_dosen_pengampu,nidn AS nidn_dosen_pengampu,idjabatan AS idjabatan_dosen_pengampu,nama_jabatan AS nama_jabatan_dosen_pengampu,kjur,tahun,idsmt FROM v_penyelenggaraan WHERE idpenyelenggaraan='$id'";
 				$r=$this->db->getRecord($str);
 				if (isset($r[1])) {
 					$r[1]['kmatkul']=$this->getKmatkul($r[1]['kmatkul']);					
-					$r[1]['jumlah_peserta']=$this->getJumlahMhsInPenyelenggaraan($id);
-					$r[1]['nidn_dosen_pengampu']=$r[1]['nidn'];
-					$r[1]['nama_dosen_pengampu']=$r[1]['nama_dosen'];
+					$r[1]['jumlah_peserta']=$this->getJumlahMhsInPenyelenggaraan($id);					
 					$r[1]['jumlah_kelas']=$this->getJumlahKelas($id,'penyelenggaraan');
 					$this->InfoMatkul=$r[1]; 
 				}
