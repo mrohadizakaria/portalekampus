@@ -243,7 +243,7 @@ class UserManager extends TAuthManager {
 				$result = $this->db->getRecord($str);				
 				if (isset($result[1])){				 
 				    $data_user=$result[1];
-				    $data_user['active']=$result[1]['k_status']=='A' ? 1:0;
+				    $data_user['active']=($result[1]['k_status']=='A' || $result[1]['k_status']=='C' || $result[1]['k_status']=='N') ? 1:0;
 				    $data_user['page']='mh';
                 }                
 			break;			
