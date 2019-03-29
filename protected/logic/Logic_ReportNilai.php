@@ -1709,7 +1709,7 @@ class Logic_ReportNilai extends Logic_Report {
                     
                     $sheet->mergeCells('E13:F13');      
                     $sheet->setCellValue("E12",'Dosen Pengampu');				
-                    $sheet->setCellValue("G12",': '.$this->dataReport['nama_dosen']);
+                    $sheet->setCellValue("G12",': '.$this->dataReport['nama_dosen_pengampu']);
                     
                     $sheet->mergeCells('A13:B13');                    
                     $sheet->setCellValue("A13",'Semester');				
@@ -1740,7 +1740,7 @@ class Logic_ReportNilai extends Logic_Report {
                     
                     $sheet->mergeCells('E13:F13');      
                     $sheet->setCellValue("E12",'Dosen Pengampu');				
-                    $sheet->setCellValue("G12",': '.$this->dataReport['nama_dosen']);
+                    $sheet->setCellValue("G12",': '.$this->dataReport['nama_dosen_pengampu']);
                     
                     $sheet->mergeCells('A13:B13');                    
                     $sheet->setCellValue("A13",'Semester');				
@@ -1756,15 +1756,15 @@ class Logic_ReportNilai extends Logic_Report {
                     
                     $sheet->mergeCells('E13:F13');      
                     $sheet->setCellValue("E13",'Hari / Jam');				
-                    $sheet->setCellValue("G13",$this->dataReport['hari'].', '.$this->dataReport['jam_masuk'].'-'.$this->dataReport['jam_keluar']);
+                    $sheet->setCellValue("G13",': '.$this->dataReport['hari'].', '.$this->dataReport['jam_masuk'].'-'.$this->dataReport['jam_keluar']);
                     
                     $idkelas=$this->dataReport['idkelas_mhs'];                    
                     $itemcount=$this->db->getCountRowsOfTable("kelas_mhs_detail kmd JOIN v_krsmhs vkm ON (vkm.idkrsmatkul=kmd.idkrsmatkul)  JOIN v_datamhs vdm ON (vkm.nim=vdm.nim) WHERE  kmd.idkelas_mhs=$idkelas AND vkm.sah=1 AND vkm.batal=0",'vkm.nim');
                     $pagesize=40;				
                     $jumlahpage=ceil($itemcount/$pagesize);		
                     
-                    $str ="SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,n.n_kual FROM kelas_mhs_detail kmd LEFT JOIN nilai_matakuliah n ON (n.idkrsmatkul=kmd.idkrsmatkul) JOIN v_krsmhs vkm ON (vkm.idkrsmatkul=kmd.idkrsmatkul)  JOIN v_datamhs vdm ON (vkm.nim=vdm.nim) WHERE  kmd.idkelas_mhs=$idkelas AND vkm.sah=1 AND vkm.batal=0 ORDER BY vdm.nama_mhs ASC";
-                    $this->db->setFieldTable(array('nim','nirm','nama_mhs','jk','n_kual'));
+                    $str ="SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,n.n_kual,n.n_kuan FROM kelas_mhs_detail kmd LEFT JOIN nilai_matakuliah n ON (n.idkrsmatkul=kmd.idkrsmatkul) JOIN v_krsmhs vkm ON (vkm.idkrsmatkul=kmd.idkrsmatkul)  JOIN v_datamhs vdm ON (vkm.nim=vdm.nim) WHERE  kmd.idkelas_mhs=$idkelas AND vkm.sah=1 AND vkm.batal=0 ORDER BY vdm.nama_mhs ASC";
+                    $this->db->setFieldTable(array('nim','nirm','nama_mhs','jk','n_kual','n_kuan'));
                 }
                 
                 $sheet->mergeCells('A15:A16');				
@@ -1849,12 +1849,21 @@ class Logic_ReportNilai extends Logic_Report {
                 $row+=5;
                 $sheet->setCellValue("C$row",$this->dataReport['nama_penandatangan_dpna']);			
                 $kaprodi=$objNilai->getKetuaPRODI($this->dataReport['kjur']);
-                $sheet->setCellValue("F$row",$kaprodi['nama_dosen']);			
-                $sheet->setCellValue("H$row",$this->dataReport['dosenpengajar']);			
+                $sheet->setCellValue("F$row",$kaprodi['nama_dosen']);	
+                
+                $nama_dosen_ttd=$this->dataReport['nama_dosen_pengampu'];
+                $nidn_jabatan_dosen_ttd=$this->dataReport['nama_jabatan_dosen_pengampu']. ' NIDN '.$this->dataReport['nidn_dosen_pengampu'];
+                if ($this->dataReport['idjabatan_dosen_pengajar'] > 0)
+                {
+                    $nama_dosen_ttd=$this->dataReport['nama_dosen_pengajar'];
+                    $nidn_jabatan_dosen_ttd=$this->dataReport['nama_jabatan_dosen_pengajar']. ' NIDN '.$this->dataReport['nidn_dosen_pengajar'];
+                }                
+                $sheet->setCellValue("H$row",$nama_dosen_ttd);			
                 
                 $row+=1;
                 $sheet->setCellValue("C$row",strtoupper($this->dataReport['jabfung_penandatangan_dpna']). ' NIDN '.$this->dataReport['nidn_penandatangan_dpna']);			
                 $sheet->setCellValue("F$row",$kaprodi['nama_jabatan']. ' NIDN '.$kaprodi['nidn']);			                
+                $sheet->setCellValue("H$row",$nidn_jabatan_dosen_ttd);			
                 
                 $this->printOut("dpna_$kmatkul");
             break;

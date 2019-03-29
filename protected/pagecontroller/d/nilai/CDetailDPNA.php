@@ -9,9 +9,6 @@ class CDetailDPNA extends MainPageD {
         $this->createObj('Nilai');        
         
 		if (!$this->IsPostback&&!$this->IsCallback) {
-            if (!isset($_SESSION['currentPageDetailDPNA'])||$_SESSION['currentPageDetailDPNA']['page_name']!='d.nilai.DetailDPNA') {
-				$_SESSION['currentPageDetailDPNA']=array('page_name'=>'d.nilai.DetailDPNA','page_num'=>0,'search'=>false,'DataDPNA'=>array());
-			}  
             $this->tbCmbOutputReport->DataSource=$this->setup->getOutputFileType();
             $this->tbCmbOutputReport->Text= $_SESSION['outputreport'];
             $this->tbCmbOutputReport->DataBind();            
@@ -22,9 +19,13 @@ class CDetailDPNA extends MainPageD {
                     throw new Exception ("Kelas Mahasiswa dengan id ($idkelas_mhs) tidak terdaftar.");		
                 }     
                 $infokelas=$this->Demik->InfoKelas;
+                $this->Demik->InfoKelas['nama_ps']=$_SESSION['daftar_jurusan'][$infokelas['kjur']];
+                $this->Demik->InfoKelas['ta']=$this->DMaster->getNamaTA($infokelas['tahun']);
+                $this->Demik->InfoKelas['nama_semester']=$this->setup->getSemester($infokelas['idsmt']);                
                 $this->Demik->InfoKelas['namakelas']=$this->DMaster->getNamaKelasByID($infokelas['idkelas']).'-'.chr($infokelas['nama_kelas']+64);
                 $this->Demik->InfoKelas['hari']=$this->TGL->getNamaHari($infokelas['hari']);
-                $_SESSION['currentPageDetailDPNA']['DataDPNA']=$this->Demik->InfoKelas;
+                
+                $_SESSION['currentPageDPNA']['DataDPNA']=$this->Demik->InfoKelas;
                 $this->populateData();	             
             } catch (Exception $ex) {
                 $this->idProcess='view';	
@@ -32,18 +33,13 @@ class CDetailDPNA extends MainPageD {
             }
 		}
 	}    
-    public function filterRecord ($sender,$param) {
-		$_SESSION['currentPageDetailDPNA']['idkelas_mhs']=$this->cmbDaftarKelas->Text;
-		$this->populateData($_SESSION['currentPageDetailDPNA']['search']);        
-        $this->InfoKelasPanel->render($param->NewWriter);
-	}
 	protected function populateData() {	
-        $idkelas_mhs=$_SESSION['currentPageDetailDPNA']['DataDPNA']['idkelas_mhs'];
+        $idkelas_mhs=$_SESSION['currentPageDPNA']['DataDPNA']['idkelas_mhs'];
         $str = "SELECT vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,n.n_kuan,n.n_kual FROM kelas_mhs_detail kmd LEFT JOIN nilai_matakuliah n ON (n.idkrsmatkul=kmd.idkrsmatkul) JOIN v_krsmhs vkm ON (vkm.idkrsmatkul=kmd.idkrsmatkul) JOIN v_datamhs vdm ON (vkm.nim=vdm.nim) WHERE  kmd.idkelas_mhs=$idkelas_mhs AND vkm.sah=1 AND vkm.batal=0 ORDER BY vdm.nama_mhs ASC";        
         $this->DB->setFieldTable(array('nim','nirm','nama_mhs','jk','n_kuan','n_kual'));
         $r=$this->DB->getRecord($str);	           
         $result=array();
-        $sks=$this->Demik->InfoMatkul['sks'];
+        $sks=$this->Demik->InfoKelas['sks'];
         while (list($k,$v)=each($r)) {
             $n_kuan='-';
             $n_kual='-';
@@ -64,7 +60,10 @@ class CDetailDPNA extends MainPageD {
         $this->RepeaterS->DataSource=$result;
         $this->RepeaterS->dataBind();	                
 	}
-	public function printOut ($sender,$param) {	
+	public function printOut ($sender,$param) {	    
+        $this->Demik->InfoKelas=$_SESSION['currentPageDPNA']['DataDPNA'];
+        $dataReport=$_SESSION['currentPageDPNA']['DataDPNA'];     
+        print_r($dataReport);    
         $this->createObj('reportnilai');
         $this->linkOutput->Text='';
         $this->linkOutput->NavigateUrl='#';
@@ -76,20 +75,11 @@ class CDetailDPNA extends MainPageD {
                 $messageprintout="Mohon maaf Print out pada mode summary excel tidak kami support.";                
             break;
             case 'pdf' :
-                $dataReport=$_SESSION['currentPageDetailDPNA']['DataDPNA'];        
+                       
                 $nama_matakuliah=$dataReport['nmatkul'];
                 
                 $messageprintout="Matakuliah $nama_matakuliah";
-                $nama_tahun = $this->DMaster->getNamaTA($dataReport['tahun']);
-                $nama_semester = $this->setup->getSemester($dataReport['idsmt']);                
-                $nama_ps=$_SESSION['daftar_jurusan'][$dataReport['kjur']];
-                
-                $dataReport['nama_ps']=$nama_ps;
-                $dataReport['ta']=$nama_tahun;
-                $dataReport['nama_semester']=$nama_semester; 
-                
-                $dataReport['dosenpengajar']=$dataReport['nama_dosen'];
-                $dataReport['nama_dosen']=$dataReport['nama_dosen_matakuliah'];
+                $dataReport['nama_pt_alias']=$this->setup->getSettingValue('nama_pt_alias');
                 $dataReport['nama_jabatan_dpna']=$this->setup->getSettingValue('nama_jabatan_dpna');
                 $dataReport['nama_penandatangan_dpna']=$this->setup->getSettingValue('nama_penandatangan_dpna');
                 $dataReport['jabfung_penandatangan_dpna']=$this->setup->getSettingValue('jabfung_penandatangan_dpna');
@@ -103,15 +93,18 @@ class CDetailDPNA extends MainPageD {
                 
             break;
             case  'excel2007' :
-                $dataReport=$_SESSION['currentPageDetailDPNA']['DataDPNA'];        
+                
+
+                
                 $nama_matakuliah=$dataReport['nmatkul'];
                 
                 $messageprintout="Matakuliah $nama_matakuliah";
 
+                $dataReport['nama_pt_alias']=$this->setup->getSettingValue('nama_pt_alias');
                 $dataReport['nama_jabatan_dpna']=$this->setup->getSettingValue('nama_jabatan_dpna');
                 $dataReport['nama_penandatangan_dpna']=$this->setup->getSettingValue('nama_penandatangan_dpna');
                 $dataReport['jabfung_penandatangan_dpna']=$this->setup->getSettingValue('jabfung_penandatangan_dpna');
-                $dataReport['nipy_penandatangan_dpna']=$this->setup->getSettingValue('nipy_penandatangan_dpna');
+                $dataReport['nidn_penandatangan_dpna']=$this->setup->getSettingValue('nidn_penandatangan_dpna');
 
                 $dataReport['linkoutput']=$this->linkOutput; 
                 $this->report->setDataReport($dataReport); 

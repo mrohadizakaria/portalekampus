@@ -1743,282 +1743,6 @@ CREATE TABLE `log_aktivitas_user` (
   `date_activity` datetime NOT NULL
 ) ENGINE=MyISAM;
 
---
--- Stand-in structure for view `v_datamhs`
--- (See below for the actual view)
---
-CREATE TABLE `v_datamhs` (
-`nim` char(20)
-,`nirm` char(20)
-,`no_formulir` int(11)
-,`nama_mhs` varchar(200)
-,`tempat_lahir` varchar(100)
-,`tanggal_lahir` date
-,`jk` enum('L','P')
-,`alamat_kantor` varchar(200)
-,`alamat_rumah` varchar(200)
-,`telp_rumah` varchar(50)
-,`telp_hp` varchar(50)
-,`email` varchar(200)
-,`userpassword` varchar(60)
-,`tahun_masuk` year(4)
-,`semester_masuk` tinyint(1)
-,`iddosen_wali` mediumint(9)
-,`kjur` tinyint(4)
-,`nama_ps` varchar(30)
-,`idkonsentrasi` tinyint(4)
-,`k_status` char(1)
-,`perpanjang` tinyint(1)
-,`idkelas` char(1)
-,`theme` varchar(25)
-,`photo_profile` varchar(150)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_kelas_mhs`
--- (See below for the actual view)
---
-CREATE TABLE `v_kelas_mhs` (
-`idpenyelenggaraan` bigint(20)
-,`idpengampu_penyelenggaraan` int(11)
-,`idkelas_mhs` int(11)
-,`idkrsmatkul` bigint(20)
-,`idkelas` char(1)
-,`nama_kelas` tinyint(4)
-,`hari` varchar(7)
-,`jam_masuk` char(5)
-,`jam_keluar` char(5)
-,`nidn` varchar(15)
-,`iddosen` mediumint(9)
-,`idruangkelas` smallint(6)
-,`nama_dosen` varchar(112)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_konfirmasi_pembayaran`
--- (See below for the actual view)
---
-CREATE TABLE `v_konfirmasi_pembayaran` (
-`idkonfirmasi` int(11)
-,`no_formulir` int(11)
-,`jumlah_bayar` int(11)
-,`biaya` int(11)
-,`tanggal_bayar` date
-,`pembayaran_dari_bank` varchar(20)
-,`pemilik_rekening` varchar(60)
-,`idkelas` char(1)
-,`ta` year(4)
-,`idsmt` tinyint(4)
-,`kjur` tinyint(4)
-,`verified` tinyint(1)
-,`idkombi` tinyint(4)
-,`idrekening_institusi` tinyint(4)
-,`rekening_tujuan` varchar(78)
-,`metode_pembayaran` varchar(30)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_konversi2`
--- (See below for the actual view)
---
-CREATE TABLE `v_konversi2` (
-`iddata_konversi` bigint(20)
-,`nama` varchar(80)
-,`alamat` varchar(150)
-,`no_telp` varchar(25)
-,`nim_asal` varchar(30)
-,`kode_pt_asal` varchar(6)
-,`kjenjang` char(1)
-,`njenjang` varchar(15)
-,`kode_ps_asal` varchar(6)
-,`kjur` tinyint(4)
-,`tahun` year(4)
-,`kmatkul` varchar(9)
-,`kmatkul_asal` varchar(9)
-,`matkul_asal` varchar(80)
-,`sks_asal` tinyint(4)
-,`idnilai_konversi` bigint(20)
-,`n_kual` char(1)
-,`nmatkul` varchar(50)
-,`sks` char(1)
-,`semester` char(2)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_krsmhs`
--- (See below for the actual view)
---
-CREATE TABLE `v_krsmhs` (
-`idkrsmatkul` bigint(20)
-,`idpenyelenggaraan` bigint(20)
-,`idkrs` bigint(20)
-,`batal` tinyint(1)
-,`tgl_krs` date
-,`no_krs` varchar(50)
-,`nim` char(20)
-,`kjur` tinyint(4)
-,`idsmt` tinyint(1)
-,`tahun` year(4)
-,`tasmt` int(5)
-,`sah` tinyint(1)
-,`tgl_disahkan` date
-,`kmatkul` char(9)
-,`nmatkul` varchar(50)
-,`sks` char(1)
-,`semester` char(2)
-,`nidn` varchar(15)
-,`nama_dosen` varchar(112)
-,`aktif` tinyint(1)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_nilai`
--- (See below for the actual view)
---
-CREATE TABLE `v_nilai` (
-`idkrsmatkul` bigint(20)
-,`idpenyelenggaraan` bigint(20)
-,`nim` char(20)
-,`idsmt` tinyint(1)
-,`tahun` year(4)
-,`tasmt` int(5)
-,`kmatkul` char(9)
-,`nmatkul` varchar(50)
-,`sks` char(1)
-,`semester` char(2)
-,`n_kuan` decimal(5,2)
-,`n_kual` char(1)
-,`nidn` varchar(15)
-,`nama_dosen` varchar(112)
-,`aktif` tinyint(1)
-,`idkur` tinyint(4)
-,`telah_isi_kuesioner` tinyint(1)
-,`tanggal_isi_kuesioner` date
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_nilai_khs`
--- (See below for the actual view)
---
-CREATE TABLE `v_nilai_khs` (
-`idkrs` bigint(20)
-,`idkrsmatkul` bigint(20)
-,`idpenyelenggaraan` bigint(20)
-,`nim` char(20)
-,`idsmt` tinyint(1)
-,`tahun` year(4)
-,`tasmt` int(5)
-,`kmatkul` char(9)
-,`nmatkul` varchar(50)
-,`sks` char(1)
-,`idkonsentrasi` tinyint(4)
-,`ispilihan` tinyint(1)
-,`islintas_prodi` tinyint(1)
-,`semester` char(2)
-,`n_kuan` decimal(5,2)
-,`n_kual` char(1)
-,`telah_isi_kuesioner` tinyint(1)
-,`tanggal_isi_kuesioner` date
-,`iddosen` mediumint(9)
-,`nidn` varchar(15)
-,`nama_dosen` varchar(112)
-,`aktif` tinyint(1)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_nilai_komponen`
--- (See below for the actual view)
---
-CREATE TABLE `v_nilai_komponen` (
-`idkrsmatkul` bigint(20)
-,`absensi` tinyint(4)
-,`tugas` tinyint(4)
-,`quiz` tinyint(4)
-,`uts` tinyint(4)
-,`uas` tinyint(4)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_pengampu_penyelenggaraan`
--- (See below for the actual view)
---
-CREATE TABLE `v_pengampu_penyelenggaraan` (
-`idpengampu_penyelenggaraan` int(11)
-,`idpenyelenggaraan` bigint(20)
-,`kjur` tinyint(4)
-,`kmatkul` char(9)
-,`nmatkul` varchar(50)
-,`sks` char(1)
-,`semester` char(2)
-,`iddosen` mediumint(9)
-,`nidn` varchar(15)
-,`nama_dosen` varchar(112)
-,`idsmt` tinyint(1)
-,`tahun` year(4)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_penyelenggaraan`
--- (See below for the actual view)
---
-CREATE TABLE `v_penyelenggaraan` (
-`idpenyelenggaraan` bigint(20)
-,`kjur` tinyint(4)
-,`idsmt` tinyint(1)
-,`tahun` year(4)
-,`kmatkul` char(9)
-,`idkur` tinyint(4)
-,`nmatkul` varchar(50)
-,`sks` char(1)
-,`semester` char(2)
-,`aktif` tinyint(1)
-,`iddosen` mediumint(9)
-,`nidn` varchar(15)
-,`nama_dosen` varchar(112)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_transaksi`
--- (See below for the actual view)
---
-CREATE TABLE `v_transaksi` (
-`idtransaksi_detail` bigint(20)
-,`no_transaksi` bigint(20)
-,`idkombi` tinyint(4)
-,`nama_kombi` varchar(50)
-,`dibayarkan` decimal(10,0)
-,`no_faktur` char(15)
-,`kjur` tinyint(4)
-,`tahun` year(4)
-,`idsmt` tinyint(4)
-,`tasmt` varchar(8)
-,`idkelas` char(1)
-,`nim` char(20)
-,`no_formulir` int(11)
-,`tanggal` date
-,`commited` tinyint(1)
-);
-
 -- --------------------------------------------------------
 
 --
@@ -2098,7 +1822,28 @@ CREATE VIEW `v_nilai_komponen`  AS  SELECT `km`.`idkrsmatkul` AS `idkrsmatkul`,`
 --
 DROP TABLE IF EXISTS `v_pengampu_penyelenggaraan`;
 
-CREATE VIEW `v_pengampu_penyelenggaraan`  AS  SELECT `pp`.`idpengampu_penyelenggaraan` AS `idpengampu_penyelenggaraan`,`p`.`idpenyelenggaraan` AS `idpenyelenggaraan`,`p`.`kjur` AS `kjur`,`p`.`kmatkul` AS `kmatkul`,`m`.`nmatkul` AS `nmatkul`,`m`.`sks` AS `sks`,`m`.`semester` AS `semester`,`pp`.`iddosen` AS `iddosen`,`d`.`nidn` AS `nidn`,CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,`p`.`idsmt` AS `idsmt`,`p`.`tahun` AS `tahun` FROM (((`pengampu_penyelenggaraan` `pp` join `penyelenggaraan` `p`) join `matakuliah` `m`) join `dosen` `d`) WHERE ((`p`.`idpenyelenggaraan` = `pp`.`idpenyelenggaraan`) and (`m`.`kmatkul` = `p`.`kmatkul`) and (`pp`.`iddosen` = `d`.`iddosen`)) ;
+CREATE VIEW `v_pengampu_penyelenggaraan`  AS  SELECT 
+                                        `pp`.`idpengampu_penyelenggaraan` AS `idpengampu_penyelenggaraan`,
+                                        `p`.`idpenyelenggaraan` AS `idpenyelenggaraan`,
+                                        `p`.`kjur` AS `kjur`,
+                                        `p`.`idsmt` AS `idsmt`,
+                                        `p`.`tahun` AS `tahun`, 
+                                        `p`.`kmatkul` AS `kmatkul`,
+                                        `m`.`nmatkul` AS `nmatkul`,
+                                        `m`.`sks` AS `sks`,
+                                        `m`.`semester` AS `semester`,
+                                        `m`.`aktif` AS `aktif`,
+                                        `pp`.`iddosen` AS `iddosen`,
+                                        `d`.`nidn` AS `nidn`,                                        
+                                        CONCAT(`d`.`gelar_depan`,_latin1' ',`d`.`nama_dosen`,_latin1' ',`d`.`gelar_belakang`) AS `nama_dosen`,
+                                        `d`.`idjabatan`,
+                                        `ja`.`nama_jabatan`,
+                                        `pp`.`verified` AS `verified`
+                                      FROM 
+                                      `pengampu_penyelenggaraan` `pp` JOIN `penyelenggaraan` `p` ON (`p`.`idpenyelenggaraan` = `pp`.`idpenyelenggaraan`)
+                                      JOIN `matakuliah` `m` ON `m`.`kmatkul` = `p`.`kmatkul`
+                                      JOIN `dosen` `d` ON `pp`.`iddosen` = `d`.`iddosen`   
+                                      JOIN `jabatan_akademik` `ja` ON `d`.`idjabatan`= `ja`.`idjabatan`                                    
 
 -- --------------------------------------------------------
 

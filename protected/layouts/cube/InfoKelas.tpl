@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label"><strong>DOSEN PENGAJAR: </strong></label>
                                 <div class="col-sm-8">
-                                    <p class="form-control-static"><%= $this->Demik->InfoKelas['nama_dosen']%> [<%= $this->Demik->InfoKelas['nidn']%>]</p>
+                                    <p class="form-control-static"><%= $this->Demik->InfoKelas['nama_dosen_pengajar']%> [<%= $this->Demik->InfoKelas['nidn_dosen_pengajar']%>]</p>
                                 </div>                            
                             </div> 
                         </div>
@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label"><strong>KELAS: </strong></label>
                                 <div class="col-sm-8">
-                                    <p class="form-control-static"><%= $this->Demik->InfoKelas['namakelas']%> [<%= $this->Demik->InfoKelas['nidn']%>]</p>
+                                    <p class="form-control-static"><%= $this->Demik->InfoKelas['namakelas']%> [<%= $this->Demik->InfoKelas['nidn_dosen_pengajar']%>]</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
