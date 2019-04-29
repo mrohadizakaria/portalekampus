@@ -99,15 +99,47 @@ class CFormulirPendaftaran extends MainPageM {
                     $str = "$str WHERE $clausa";
                 break;
             }
-        }else{
+        }else{            
+            $status_dulang = $_SESSION['currentPageFormulirPendaftaran']['status_dulang'];
             $str_status='';
-            if ($_SESSION['currentPageFormulirPendaftaran']['status_dulang'] == 'belum') {
-                $str_status= " AND rm.nim IS NULL";
-            }elseif ($_SESSION['currentPageFormulirPendaftaran']['status_dulang'] == 'sudah') {
-                $str_status= " AND rm.nim IS NOT NULL";
-            }
-            $jumlah_baris=$this->DB->getCountRowsOfTable("formulir_pendaftaran fp JOIN bipend bp ON (fp.no_formulir=bp.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=fp.no_formulir) WHERE fp.ta='$tahun_masuk' AND fp.idsmt='$semester' AND fp.daftar_via='WEB' AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')$str_status",'fp.no_formulir');
-            $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.jk,fp.alamat_rumah,fp.telp_hp,nomor_ijazah,IF(char_length(COALESCE(rm.nim,''))>0,'dulang','-') AS ket,rm.nim FROM formulir_pendaftaran fp JOIN bipend bp ON (fp.no_formulir=bp.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=fp.no_formulir) WHERE fp.ta='$tahun_masuk' AND fp.idsmt='$semester' AND fp.daftar_via='WEB' AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')$str_status";
+            $str_kjur = " AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')";
+            switch ($status_dulang)
+            {
+                case 'belum' :
+                    $str_kjur = " AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')";
+                    $str_status= " AND rm.nim IS NULL";
+                break;
+                case 'sudah' :
+                    $str_kjur = " AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')";
+                    $str_status= " AND rm.nim IS NOT NULL";
+                break;
+                case 'kjur1' :
+                    $str_kjur = " AND fp.kjur1='$kjur'";
+                    $str_status= '';
+                break;
+                case 'kjur1_belum_dulang' :
+                    $str_kjur = " AND fp.kjur1='$kjur'";
+                    $str_status= ' AND rm.nim IS NULL';
+                break;
+                case 'kjur1_sudah_dulang' :
+                    $str_kjur = " AND fp.kjur1='$kjur'";
+                    $str_status= ' AND rm.nim IS NOT NULL';
+                break;
+                case 'kjur2' :
+                    $str_kjur = " AND fp.kjur2='$kjur'";
+                    $str_status= '';
+                break;
+                case 'kjur2_belum_dulang' :
+                    $str_kjur = " AND fp.kjur2='$kjur'";
+                    $str_status= ' AND rm.nim IS NULL';
+                break;
+                case 'kjur2_sudah_dulang' :
+                    $str_kjur = " AND fp.kjur2='$kjur'";
+                    $str_status= ' AND rm.nim IS NOT NULL';
+                break;                
+            }            
+            $jumlah_baris=$this->DB->getCountRowsOfTable("formulir_pendaftaran fp JOIN bipend bp ON (fp.no_formulir=bp.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=fp.no_formulir) WHERE fp.ta='$tahun_masuk' AND fp.idsmt='$semester'$str_kjur AND fp.daftar_via='WEB'$str_status",'fp.no_formulir');
+            $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.jk,fp.alamat_rumah,fp.telp_hp,nomor_ijazah,IF(char_length(COALESCE(rm.nim,''))>0,'dulang','-') AS ket,rm.nim FROM formulir_pendaftaran fp JOIN bipend bp ON (fp.no_formulir=bp.no_formulir) LEFT JOIN register_mahasiswa rm ON (rm.no_formulir=fp.no_formulir) WHERE fp.ta='$tahun_masuk' AND fp.idsmt='$semester'$str_kjur AND fp.daftar_via='WEB'$str_status";
         }	
 		$this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageFormulirPendaftaran']['page_num'];
 		$this->RepeaterS->VirtualItemCount=$jumlah_baris;
@@ -385,7 +417,8 @@ class CFormulirPendaftaran extends MainPageM {
                         $dataReport['semester']=$semester;
                         $dataReport['nama_tahun']=$nama_tahun;
                         $dataReport['nama_semester']=$nama_semester;        
-                        $dataReport['daftar_via']='WEB';         
+                        $dataReport['daftar_via']='WEB';     
+                        $dataReport['status_dulang'] = $_SESSION['currentPageFormulirPendaftaran']['status_dulang'];   
                         $dataReport['offset']=$_SESSION['currentPageFormulirPendaftaran']['offset'];         
                         $dataReport['limit']=$_SESSION['currentPageFormulirPendaftaran']['limit'];         
 
@@ -409,6 +442,7 @@ class CFormulirPendaftaran extends MainPageM {
                         $dataReport['nama_tahun']=$nama_tahun;
                         $dataReport['nama_semester']=$nama_semester;        
                         $dataReport['daftar_via']='WEB';         
+                        $dataReport['status_dulang'] = $_SESSION['currentPageFormulirPendaftaran']['status_dulang'];
                         $dataReport['offset']=$_SESSION['currentPageFormulirPendaftaran']['offset'];         
                         $dataReport['limit']=$_SESSION['currentPageFormulirPendaftaran']['limit'];         
 

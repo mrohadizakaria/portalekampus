@@ -107,7 +107,7 @@ class Logic_ReportSPMB extends Logic_Report {
                 $row+=5;				
                 $rpt->setXY(3,$row);			
                 $rpt->Cell(40,5,'Kab/Kodya/Kota',1,0);				
-                $rpt->Cell(80,5,': '.$datamhs['Kota'],1,0);
+                $rpt->Cell(80,5,': '.$datamhs['kota'],1,0);
                 $row+=5;				
                 $rpt->setXY(3,$row);			
                 $rpt->Cell(40,5,'Provinsi',1,0);				
@@ -161,10 +161,48 @@ class Logic_ReportSPMB extends Logic_Report {
         $nama_tahun=$this->dataReport['nama_tahun'];
         $nama_semester=$this->dataReport['nama_semester'];
         $daftar_via=$this->dataReport['daftar_via'];
+
+        $str_status='';
+        $str_kjur = " AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')";
+        switch ($this->dataReport['status_dulang'])
+        {
+            case 'belum' :
+                $str_kjur = " AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')";
+                $str_status= " AND rm.nim IS NULL";
+            break;
+            case 'sudah' :
+                $str_kjur = " AND (fp.kjur1='$kjur' OR fp.kjur2='$kjur')";
+                $str_status= " AND rm.nim IS NOT NULL";
+            break;
+            case 'kjur1' :
+                $str_kjur = " AND fp.kjur1='$kjur'";
+                $str_status= '';
+            break;
+            case 'kjur1_belum_dulang' :
+                $str_kjur = " AND fp.kjur1='$kjur'";
+                $str_status= ' AND rm.nim IS NULL';
+            break;
+            case 'kjur1_sudah_dulang' :
+                $str_kjur = " AND fp.kjur1='$kjur'";
+                $str_status= ' AND rm.nim IS NOT NULL';
+            break;
+            case 'kjur2' :
+                $str_kjur = " AND fp.kjur2='$kjur'";
+                $str_status= '';
+            break;
+            case 'kjur2_belum_dulang' :
+                $str_kjur = " AND fp.kjur2='$kjur'";
+                $str_status= ' AND rm.nim IS NULL';
+            break;
+            case 'kjur2_sudah_dulang' :
+                $str_kjur = " AND fp.kjur2='$kjur'";
+                $str_status= ' AND rm.nim IS NOT NULL';
+            break;            
+        }            
         switch ($this->getDriver()) {
             case 'excel2003' :               
-            case 'excel2007' :                
-                $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.tempat_lahir,fp.tanggal_lahir,fp.jk,fp.idagama,fp.nama_ibu_kandung,a.nama_agama,nik,fp.idwarga,fp.idstatus,fp.alamat_kantor,fp.alamat_rumah,fp.telp_rumah,fp.telp_kantor,fp.telp_hp,pm.email,fp.idjp,jp.nama_pekerjaan,fp.pendidikan_terakhir,fp.jurusan,fp.kota,fp.provinsi,fp.tahun_pa,jp.nama_pekerjaan,fp.jenis_slta,fp.asal_slta,fp.status_slta,fp.nomor_ijazah,fp.kjur1,fp.kjur2,fp.idkelas,fp.waktu_mendaftar,fp.ta,fp.idsmt FROM formulir_pendaftaran fp,agama a,jenis_pekerjaan jp,profiles_mahasiswa pm WHERE fp.idagama=a.idagama AND fp.idjp=jp.idjp AND pm.no_formulir=fp.no_formulir AND ta='$tahun_masuk' AND idsmt='$semester' AND daftar_via='$daftar_via' AND (kjur1='$kjur' OR kjur2='$kjur')";
+            case 'excel2007' : 
+                $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.tempat_lahir,fp.tanggal_lahir,fp.jk,fp.idagama,fp.nama_ibu_kandung,a.nama_agama,nik,fp.idwarga,fp.idstatus,fp.alamat_kantor,fp.alamat_rumah,fp.telp_rumah,fp.telp_kantor,fp.telp_hp,pm.email,fp.idjp,jp.nama_pekerjaan,fp.pendidikan_terakhir,fp.jurusan,fp.kota,fp.provinsi,fp.tahun_pa,jp.nama_pekerjaan,fp.jenis_slta,fp.asal_slta,fp.status_slta,fp.nomor_ijazah,fp.kjur1,fp.kjur2,fp.idkelas,fp.waktu_mendaftar,fp.ta,fp.idsmt FROM formulir_pendaftaran fp,agama a,jenis_pekerjaan jp,profiles_mahasiswa pm WHERE fp.idagama=a.idagama AND fp.idjp=jp.idjp AND pm.no_formulir=fp.no_formulir AND ta='$tahun_masuk' AND idsmt='$semester'$str_kjur AND daftar_via='$daftar_via'$str_status";
                 $this->db->setFieldTable(array('no_formulir','nama_mhs','tempat_lahir','tanggal_lahir','jk','idagama','nama_ibu_kandung','nama_agama','nik','idwarga','idstatus','alamat_kantor','alamat_rumah','telp_rumah','telp_kantor','telp_hp','email','idjp','nama_pekerjaan','pendidikan_terakhir','jurusan','kota','provinsi','tahun_pa','nama_pekerjaan','jenis_slta','asal_slta','status_slta','nomor_ijazah','kjur1','kjur2','idkelas','waktu_mendaftar','ta','idsmt'));
                 $r=$this->db->getRecord($str);
                 
@@ -305,7 +343,7 @@ class Logic_ReportSPMB extends Logic_Report {
             case 'pdf' :     
                 $offset=$this->dataReport['offset'];
                 $limit=$this->dataReport['limit'];
-                $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.tempat_lahir,fp.tanggal_lahir,fp.jk,fp.idagama,fp.nama_ibu_kandung,a.nama_agama,nik,fp.idwarga,fp.idstatus,fp.alamat_kantor,fp.alamat_rumah,fp.telp_rumah,fp.telp_kantor,fp.telp_hp,pm.email,fp.idjp,jp.nama_pekerjaan,fp.pendidikan_terakhir,fp.jurusan,fp.kota,fp.provinsi,fp.tahun_pa,jp.nama_pekerjaan,fp.jenis_slta,fp.asal_slta,fp.status_slta,fp.nomor_ijazah,fp.kjur1,fp.kjur2,fp.idkelas,fp.waktu_mendaftar,fp.ta,fp.idsmt FROM formulir_pendaftaran fp,agama a,jenis_pekerjaan jp,profiles_mahasiswa pm WHERE fp.idagama=a.idagama AND fp.idjp=jp.idjp AND pm.no_formulir=fp.no_formulir AND ta='$tahun_masuk' AND idsmt='$semester' AND daftar_via='$daftar_via' AND (kjur1='$kjur' OR kjur2='$kjur') LIMIT $offset,$limit";
+                $str = "SELECT fp.no_formulir,fp.nama_mhs,fp.tempat_lahir,fp.tanggal_lahir,fp.jk,fp.idagama,fp.nama_ibu_kandung,a.nama_agama,nik,fp.idwarga,fp.idstatus,fp.alamat_kantor,fp.alamat_rumah,fp.telp_rumah,fp.telp_kantor,fp.telp_hp,pm.email,fp.idjp,jp.nama_pekerjaan,fp.pendidikan_terakhir,fp.jurusan,fp.kota,fp.provinsi,fp.tahun_pa,jp.nama_pekerjaan,fp.jenis_slta,fp.asal_slta,fp.status_slta,fp.nomor_ijazah,fp.kjur1,fp.kjur2,fp.idkelas,fp.waktu_mendaftar,fp.ta,fp.idsmt FROM formulir_pendaftaran fp,agama a,jenis_pekerjaan jp,profiles_mahasiswa pm WHERE fp.idagama=a.idagama AND fp.idjp=jp.idjp AND pm.no_formulir=fp.no_formulir AND ta='$tahun_masuk' AND idsmt='$semester'$str_kjur AND daftar_via='$daftar_via'$str_status LIMIT $offset,$limit";
                 $this->db->setFieldTable(array('no_formulir','nama_mhs','tempat_lahir','tanggal_lahir','jk','idagama','nama_ibu_kandung','nama_agama','nik','idwarga','idstatus','alamat_kantor','alamat_rumah','telp_rumah','telp_kantor','telp_hp','email','idjp','nama_pekerjaan','pendidikan_terakhir','jurusan','kota','provinsi','tahun_pa','nama_pekerjaan','jenis_slta','asal_slta','status_slta','nomor_ijazah','kjur1','kjur2','idkelas','waktu_mendaftar','ta','idsmt'));
                 $r=$this->db->getRecord($str);
                 
@@ -410,7 +448,7 @@ class Logic_ReportSPMB extends Logic_Report {
                     $row+=5;				
                     $rpt->setXY(3,$row);			
                     $rpt->Cell(40,5,'Kab/Kodya/Kota',1,0);				
-                    $rpt->Cell(80,5,': '.$datamhs['Kota'],1,0);
+                    $rpt->Cell(80,5,': '.$datamhs['kota'],1,0);
                     $row+=5;				
                     $rpt->setXY(3,$row);			
                     $rpt->Cell(40,5,'Provinsi',1,0);				
