@@ -59,7 +59,12 @@ class CPendaftaranOnline extends MainPageM {
 	public function Page_Changed ($sender,$param) {
 		$_SESSION['currentPagePendaftaranOnline']['page_num']=$param->NewPageIndex;
 		$this->populateData($_SESSION['currentPagePendaftaranOnline']['search']);
-	}		
+    }		
+    public function changeStatusKonfirmasi ($sender,$param)
+    {
+        $_SESSION['currentPagePendaftaranOnline']['status_konfirmasi']=$this->cmbKonfirmasi->Text;
+        $this->populateData($_SESSION['currentPagePendaftaranOnline']['search']);
+    }
 	public function populateData ($search=false) {
         $idkelas=$_SESSION['currentPagePendaftaranOnline']['kelas'];
         $tahun_masuk=$_SESSION['tahun_pendaftaran'];                 
@@ -76,9 +81,20 @@ class CPendaftaranOnline extends MainPageM {
             }
             $str="$str $clausa";
             $jumlah_baris=$this->DB->getCountRowsOfTable ("formulir_pendaftaran_temp$clausa",'no_pendaftaran');     
-        }else{                       
-            $str = "SELECT no_pendaftaran,no_formulir,nama_mhs,telp_hp,email,kjur1,kjur2,idkelas,waktu_mendaftar,file_bukti_bayar FROM formulir_pendaftaran_temp WHERE ta=$tahun_masuk";
-            $jumlah_baris=$this->DB->getCountRowsOfTable ("formulir_pendaftaran_temp WHERE ta=$tahun_masuk",'no_pendaftaran');     
+        }else{               
+            $status_konfirmasi = $_SESSION['currentPagePendaftaranOnline']['status_konfirmasi'];
+            $str_konfirmasi ='';
+            switch ($status_konfirmasi)
+            {
+                case 'belum' :
+                    $str_konfirmasi="AND file_bukti_bayar=''";
+                break;
+                case 'sudah' :
+                    $str_konfirmasi="AND file_bukti_bayar!=''";
+                break;
+            } 
+            $str = "SELECT no_pendaftaran,no_formulir,nama_mhs,telp_hp,email,kjur1,kjur2,idkelas,waktu_mendaftar,file_bukti_bayar FROM formulir_pendaftaran_temp WHERE ta=$tahun_masuk $str_konfirmasi";
+            $jumlah_baris=$this->DB->getCountRowsOfTable ("formulir_pendaftaran_temp WHERE ta=$tahun_masuk $str_konfirmasi",'no_pendaftaran');     
         }
         $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPagePendaftaranOnline']['page_num'];
         $this->RepeaterS->VirtualItemCount=$jumlah_baris;
