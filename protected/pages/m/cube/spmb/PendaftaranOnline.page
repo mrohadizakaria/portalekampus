@@ -571,6 +571,7 @@
                                     <com:TListItem Value="none" Text="Keseluruhan" />
                                     <com:TListItem Value="belum" Text="Belum Konfirmasi" />
                                     <com:TListItem Value="sudah" Text="Sudah Konfirmasi" />
+                                    <com:TListItem Value="sudah_bayar" Text="Sudah Bayar" />
                                     <prop:ClientSide.OnPreDispatch>                                                                   
                                         $('loading').show(); 
                                         $('<%=$this->cmbKonfirmasi->ClientId%>').disabled='disabled';						
@@ -631,7 +632,8 @@
                                             <th scope="col" width="310">NAMA</th>  
                                             <th scope="col">KELAS</th>
                                             <th scope="col">NO.HP</th>  
-                                            <th scope="col">WAKTU MENDAFTAR</th>  
+                                            <th scope="col">WAKTU MENDAFTAR</th> 
+                                            <th>AKSI</th> 
                                         </tr>   	
                                     </thead>
                                     <tbody>

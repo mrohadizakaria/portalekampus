@@ -92,6 +92,9 @@ class CPendaftaranOnline extends MainPageM {
                 case 'sudah' :
                     $str_konfirmasi="AND file_bukti_bayar!=''";
                 break;
+                case 'sudah_bayar' :
+                    $str_konfirmasi="AND no_formulir!=''";
+                break;
             } 
             $str = "SELECT no_pendaftaran,no_formulir,nama_mhs,telp_hp,email,kjur1,kjur2,idkelas,waktu_mendaftar,file_bukti_bayar FROM formulir_pendaftaran_temp WHERE ta=$tahun_masuk $str_konfirmasi";
             $jumlah_baris=$this->DB->getCountRowsOfTable ("formulir_pendaftaran_temp WHERE ta=$tahun_masuk $str_konfirmasi",'no_pendaftaran');     
