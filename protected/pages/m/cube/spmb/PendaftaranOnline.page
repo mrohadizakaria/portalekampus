@@ -513,8 +513,9 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Kriteria :</label>
                             <div class="col-lg-9">
-                                <com:TDropDownList ID="cmbKriteria" CssClass="form-control">                                                           
-                                    <com:TListItem Value="no_formulir" Text="No Formulir" />
+                                <com:TDropDownList ID="cmbKriteria" CssClass="form-control">
+                                    <com:TListItem Value="no_registrasi" Text="NO. REGISTRASI" />                                                           
+                                    <com:TListItem Value="no_formulir" Text="No Formulir" />                                    
                                     <com:TListItem Value="nama_mhs" Text="Nama Mahasiswa" />
                                 </com:TDropDownList>
                             </div>
@@ -572,6 +573,7 @@
                                     <com:TListItem Value="belum" Text="Belum Konfirmasi" />
                                     <com:TListItem Value="sudah" Text="Sudah Konfirmasi" />
                                     <com:TListItem Value="sudah_bayar" Text="Sudah Bayar" />
+                                    <com:TListItem Value="sudah_bayar_belum_terinput" Text="Sudah Bayar Tetapi Belum Terinput" />
                                     <prop:ClientSide.OnPreDispatch>                                                                   
                                         $('loading').show(); 
                                         $('<%=$this->cmbKonfirmasi->ClientId%>').disabled='disabled';						

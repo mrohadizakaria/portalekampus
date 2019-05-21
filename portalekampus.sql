@@ -1871,7 +1871,7 @@ CREATE VIEW `v_penyelenggaraan`  AS SELECT
                                     FROM 
                                     `penyelenggaraan` `p` JOIN `matakuliah` `m` ON (`p`.`kmatkul` = `m`.`kmatkul`)
                                     JOIN `dosen` `d` ON `p`.`iddosen` = `d`.`iddosen`           
-                                    JOIN `jabatan_akademik` `ja` ON `d`.`idjabatan`= `ja`.`idjabatan`                        
+                                    JOIN `jabatan_akademik` `ja` ON `d`.`idjabatan`= `ja`.`idjabatan`;                        
                                    
 
 -- --------------------------------------------------------

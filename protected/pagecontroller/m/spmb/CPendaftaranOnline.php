@@ -75,6 +75,9 @@ class CPendaftaranOnline extends MainPageM {
                 case 'no_registrasi' :
                     $clausa=" WHERE no_pendaftaran='$txtsearch'"; 
                 break;
+                case 'no_formulir' :
+                    $clausa=" WHERE no_formulir='$txtsearch'"; 
+                break;
                 case 'nama_mhs' :
                     $clausa=" WHERE nama_mhs LIKE '%$txtsearch%'";                    
                 break;
@@ -94,6 +97,9 @@ class CPendaftaranOnline extends MainPageM {
                 break;
                 case 'sudah_bayar' :
                     $str_konfirmasi="AND no_formulir!=''";
+                break;
+                case 'sudah_bayar_belum_terinput' :
+                    $str_konfirmasi="AND no_formulir!='' AND file_bukti_bayar=''";
                 break;
             } 
             $str = "SELECT no_pendaftaran,no_formulir,nama_mhs,telp_hp,email,kjur1,kjur2,idkelas,waktu_mendaftar,file_bukti_bayar FROM formulir_pendaftaran_temp WHERE ta=$tahun_masuk $str_konfirmasi";
