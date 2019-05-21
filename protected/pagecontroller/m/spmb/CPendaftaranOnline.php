@@ -98,8 +98,8 @@ class CPendaftaranOnline extends MainPageM {
                 case 'sudah_bayar' :
                     $str_konfirmasi="AND no_formulir!=''";
                 break;
-                case 'sudah_bayar_belum_terinput' :
-                    $str_konfirmasi="AND no_formulir!='' AND file_bukti_bayar=''";
+                case 'belum_terinput' :
+                    $str_konfirmasi="AND no_formulir='' AND file_bukti_bayar!=''";
                 break;
             } 
             $str = "SELECT no_pendaftaran,no_formulir,nama_mhs,telp_hp,email,kjur1,kjur2,idkelas,waktu_mendaftar,file_bukti_bayar FROM formulir_pendaftaran_temp WHERE ta=$tahun_masuk $str_konfirmasi";

@@ -573,7 +573,7 @@
                                     <com:TListItem Value="belum" Text="Belum Konfirmasi" />
                                     <com:TListItem Value="sudah" Text="Sudah Konfirmasi" />
                                     <com:TListItem Value="sudah_bayar" Text="Sudah Bayar" />
-                                    <com:TListItem Value="sudah_bayar_belum_terinput" Text="Sudah Bayar Tetapi Belum Terinput" />
+                                    <com:TListItem Value="belum_terinput" Text="Belum Terinput" />
                                     <prop:ClientSide.OnPreDispatch>                                                                   
                                         $('loading').show(); 
                                         $('<%=$this->cmbKonfirmasi->ClientId%>').disabled='disabled';						
@@ -655,6 +655,7 @@
                                     <td><%#$this->Page->TGL->tanggal('l, d-m-Y',$this->DataItem['waktu_mendaftar'])%></td>                                     
                                     <td>
                                         <com:THyperLink  NavigateUrl="<%=$this->Page->setup->getAddress()%>/<%#$this->DataItem['file_bukti_bayar']%>" Text="LIAT BUKTI BAYAR" Enabled="<%#$this->DataItem['file_bukti_bayar']!=''%>"/>                                                                                      
+                                        
                                     </td>       
                                 </tr>                             
                             </prop:ItemTemplate>                        
