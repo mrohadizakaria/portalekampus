@@ -24,6 +24,15 @@ class CDetailDPNA extends MainPageD {
                 $this->Demik->InfoKelas['nama_semester']=$this->setup->getSemester($infokelas['idsmt']);                
                 $this->Demik->InfoKelas['namakelas']=$this->DMaster->getNamaKelasByID($infokelas['idkelas']).'-'.chr($infokelas['nama_kelas']+64);
                 $this->Demik->InfoKelas['hari']=$this->TGL->getNamaHari($infokelas['hari']);
+
+                $str = "SELECT d.nidn AS nidn_dosen_pengajar,CONCAT(d.gelar_depan,' ',d.nama_dosen,' ',d.gelar_belakang) AS nama_dosen_pengajar,d.idjabatan AS idjabatan_dosen_pengajar FROM kelas_mhs km,pengampu_penyelenggaraan pp,dosen d WHERE km.idpengampu_penyelenggaraan=pp.idpengampu_penyelenggaraan AND d.iddosen=pp.iddosen AND idkelas_mhs=$idkelas_mhs";
+                $this->DB->setFieldTable(array('nidn_dosen_pengajar','nama_dosen_pengajar','idjabatan_dosen_pengajar'));
+                $r=$this->DB->getRecord($str);
+                $datakelas=$r[1];
+                $this->Demik->InfoKelas['nidn_dosen_pengajar']=$datakelas['nidn_dosen_pengajar'];
+                $this->Demik->InfoKelas['nama_dosen_pengajar']=$datakelas['nama_dosen_pengajar'];
+                $this->Demik->InfoKelas['idjabatan_dosen_pengajar']=$datakelas['idjabatan_dosen_pengajar'];                            
+                $this->Demik->InfoKelas['nama_jabatan_dosen_pengajar']=$this->DMaster->getNamaJabfungByID($datakelas['idjabatan_dosen_pengajar']);
                 
                 $_SESSION['currentPageDPNA']['DataDPNA']=$this->Demik->InfoKelas;
                 $this->populateData();	             
@@ -62,8 +71,7 @@ class CDetailDPNA extends MainPageD {
 	}
 	public function printOut ($sender,$param) {	    
         $this->Demik->InfoKelas=$_SESSION['currentPageDPNA']['DataDPNA'];
-        $dataReport=$_SESSION['currentPageDPNA']['DataDPNA'];     
-        print_r($dataReport);    
+        $dataReport=$_SESSION['currentPageDPNA']['DataDPNA'];             
         $this->createObj('reportnilai');
         $this->linkOutput->Text='';
         $this->linkOutput->NavigateUrl='#';
@@ -93,9 +101,6 @@ class CDetailDPNA extends MainPageD {
                 
             break;
             case  'excel2007' :
-                
-
-                
                 $nama_matakuliah=$dataReport['nmatkul'];
                 
                 $messageprintout="Matakuliah $nama_matakuliah";
