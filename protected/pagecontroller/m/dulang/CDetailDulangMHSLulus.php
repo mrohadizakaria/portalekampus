@@ -102,7 +102,7 @@ class CDetailDulangMHSLulus Extends MainPageM {
                     $this->DB->insertRecord($str);
                 }else{
                     $iddulang=$datadulang['iddulang'];
-                    $str = "UPDATE dulang SET k_status='L' WHERER iddulang=$iddulang";
+                    $str = "UPDATE dulang SET k_status='L' WHERE iddulang=$iddulang";
                     $this->DB->updateRecord($str);
                 }
 				$this->DB->query('COMMIT');

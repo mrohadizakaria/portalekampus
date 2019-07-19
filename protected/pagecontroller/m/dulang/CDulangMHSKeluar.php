@@ -146,10 +146,9 @@ class CDulangMHSKeluar Extends MainPageM {
         $nim=addslashes($param->Value);		
         if ($nim != '') {
             try {
-                if (!isset($_SESSION['currentPageDulangMHSKeluar']['DataMHS']['no_formulir'])) {
-                    
-                    $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,vdm.semester_masuk,iddosen_wali,vdm.k_status,sm.n_status AS status,vdm.idkelas,ke.nkelas FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) LEFT JOIN status_mhs sm ON (vdm.k_status=sm.k_status) LEFT JOIN kelas ke ON (vdm.idkelas=ke.idkelas) WHERE vdm.nim='$nim'";
-                    $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','semester_masuk','iddosen_wali','k_status','status','idkelas','nkelas'));
+                if (!isset($_SESSION['currentPageDulangMHSKeluar']['DataMHS']['no_formulir'])) {                    
+                    $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.jk,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.kjur,vdm.nama_ps,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.tahun_masuk,vdm.semester_masuk,iddosen_wali,vdm.k_status,sm.n_status AS status,vdm.idkelas,ke.nkelas,vdm.photo_profile FROM v_datamhs vdm LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) LEFT JOIN status_mhs sm ON (vdm.k_status=sm.k_status) LEFT JOIN kelas ke ON (vdm.idkelas=ke.idkelas) WHERE vdm.nim='$nim'";
+                    $this->DB->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','jk','tempat_lahir','tanggal_lahir','kjur','nama_ps','idkonsentrasi','nama_konsentrasi','tahun_masuk','semester_masuk','iddosen_wali','k_status','status','idkelas','nkelas','photo_profile'));
                     $r=$this->DB->getRecord($str);	           
                     if (!isset($r[1])) {
                         throw new Exception ("Mahasiswa Dengan NIM ($nim) tidak terdaftar di Portal.");
@@ -157,7 +156,7 @@ class CDulangMHSKeluar Extends MainPageM {
                     $datamhs=$r[1]; 
                     $datamhs['iddata_konversi']=$this->Demik->isMhsPindahan($nim,true);
                     if ($datamhs['k_status'] == 'K') {
-                        throw new Exception ("Mahasiswa Dengan NIM ($nim) telah dinyatakan lulus.");
+                        throw new Exception ("Mahasiswa Dengan NIM ($nim) telah dinyatakan keluar.");
                     }
                     if ($datamhs['k_status'] == 'N' || $datamhs['k_status'] == 'D' || $datamhs['k_status'] == 'K' || $datamhs['k_status'] == 'C') {
                         throw new Exception ("Untuk dinyatakan lulus Mahasiswa Dengan NIM ($nim) status akhirnya harus AKTIF.");
