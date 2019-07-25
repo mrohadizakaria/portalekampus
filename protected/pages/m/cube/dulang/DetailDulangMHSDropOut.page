@@ -64,6 +64,15 @@
                                     <div class="col-lg-2">
                                         <com:TDropDownList ID="cmbAddSMTDropOut" CssClass="form-control" />
                                     </div>
+                                    <com:TActiveCustomValidator ID="checkDulang" ControlToValidate="cmbAddTADropOut" Display="Dynamic" OnServerValidate="checkDulang" ValidationGroup="addDulangMhsDropOut" CssClass="has-error help-block">
+                                        <prop:ClientSide.OnValidationError>
+                                            $('cmbAddTADropOut').addClassName('has-error');
+                                            jQuery('#<%=$this->checkDulang->ClientID%>').removeAttr('style');
+                                        </prop:ClientSide.OnValidationError>
+                                        <prop:ClientSide.OnValidationSuccess>
+                                            $('cmbAddTADropOut').removeClassName('has-error');
+                                        </prop:ClientSide.OnValidationSuccess>
+                                    </com:TActiveCustomValidator> 
                                 </div>                                
                             </div>
                         </div>

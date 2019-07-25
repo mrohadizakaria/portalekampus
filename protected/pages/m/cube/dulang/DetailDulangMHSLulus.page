@@ -64,6 +64,15 @@
                                     <div class="col-lg-2">
                                         <com:TDropDownList ID="cmbAddSMTLulus" CssClass="form-control" />
                                     </div>
+                                    <com:TActiveCustomValidator ID="checkDulang" ControlToValidate="cmbAddTALulus" Display="Dynamic" OnServerValidate="checkDulang" ValidationGroup="addDulangMhsLulus" CssClass="has-error help-block">
+                                        <prop:ClientSide.OnValidationError>
+                                            $('cmbAddTALulus').addClassName('has-error');
+                                            jQuery('#<%=$this->checkDulang->ClientID%>').removeAttr('style');
+                                        </prop:ClientSide.OnValidationError>
+                                        <prop:ClientSide.OnValidationSuccess>
+                                            $('cmbAddTALulus').removeClassName('has-error');
+                                        </prop:ClientSide.OnValidationSuccess>
+                                    </com:TActiveCustomValidator> 
                                 </div>                                
                             </div>
                         </div>

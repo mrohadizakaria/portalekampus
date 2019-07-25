@@ -17,11 +17,11 @@ class CDetailDulangMHSDropOut Extends MainPageM {
                     $this->DB->setFieldTable(array('tahun','idsmt'));
                     $datadulang=$this->DB->getRecord($str);	    
                     
-                    $this->cmbAddTADropOut->DataSource=array($datadulang[1]['tahun']=>$this->DMaster->getNamaTA($datadulang[1]['tahun']));
+                    $this->cmbAddTADropOut->DataSource=$this->DMaster->removeIdFromArray($this->DMaster->getListTA($datamhs['tahun_masuk']),'none');
                     $this->cmbAddTADropOut->Text=$datadulang[1]['tahun'];
                     $this->cmbAddTADropOut->dataBind();
                      				
-                    $this->cmbAddSMTDropOut->DataSource=array($datadulang[1]['idsmt']=>$this->setup->getSemester($datadulang[1]['idsmt']));
+                    $this->cmbAddSMTDropOut->DataSource=array(1=>'GANJIL',2=>'GENAP');
                     $this->cmbAddSMTDropOut->Text=$datadulang[1]['idsmt'];
                     $this->cmbAddSMTDropOut->dataBind();
                     
@@ -57,9 +57,28 @@ class CDetailDulangMHSDropOut Extends MainPageM {
 		$this->lblModulHeader->Text="Program Studi $ps T.A $ta Semester $semester";        
 	}
     
-    public function getDataMHS($idx) {		        
-        return $this->Nilai->getDataMHS($idx);
+    public function getDataMHS($idx) {		       
+        if (isset($_SESSION['currentPageDulangMHSDropOut']['DataMHS'][$idx])) {
+            return $_SESSION['currentPageDulangMHSDropOut']['DataMHS'][$idx];
+        }
     }    
+    public function checkDulang ($sender,$param) {
+        $datamhs=$_SESSION['currentPageDulangMHSDropOut']['DataMHS'];
+        $ta=addslashes($param->Value);		       
+        $semester=$this->cmbAddSMTDropOut->Text;            
+        try {            
+            $nim=$datamhs['nim'];
+            $this->Nilai->setDataMHS(array('nim'=>$nim));
+            $datadulang=$this->Nilai->getDataDulang($semester,$ta);
+            
+            if (isset($datadulang['iddulang'])) {
+                throw new Exception ("Mahasiswa Dengan NIM ($nim) telah daftar ulang di T.A dan Semester ini.");
+            }          
+        }catch (Exception $e) {
+            $param->IsValid=false;
+            $sender->ErrorMessage=$e->getMessage();
+        }	    
+    }  
     public function saveData ($sender,$param) {		
 		if ($this->IsValid) {	
             $datamhs=$_SESSION['currentPageDulangMHSDropOut']['DataMHS'];						
@@ -75,17 +94,9 @@ class CDetailDulangMHSDropOut Extends MainPageM {
 			$this->DB->query ('BEGIN');
 			if ($this->DB->updateRecord($str)) {
                 $status_sebelumnnya=$datamhs['k_status'];
-                $tasmt=$ta.$semester;              
-                $this->Nilai->setDataMHS(array('nim'=>$nim));
-                $datadulang=$this->Nilai->getDataDulang($semester,$ta);
-                if (isset($datadulang['iddulang'])) {
-                    $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$semester','$tasmt',NOW(),'$kelas','$status_sebelumnnya','D')";
-                    $this->DB->insertRecord($str);
-                }else{
-                    $iddulang=$datadulang['iddulang'];
-                    $str = "UPDATE dulang SET k_status='D' WHERE iddulang=$iddulang";
-                    $this->DB->updateRecord($str);
-                }
+                $tasmt=$ta.$semester;        
+                $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$semester','$tasmt',NOW(),'$kelas','$status_sebelumnnya','D')";
+                $this->DB->insertRecord($str);               
 				$this->DB->query('COMMIT');
                 unset($_SESSION['currentPageDulangMHSDropOut']['DataMHS']);
                 $this->redirect('dulang.DulangMHSDropOut',true);
