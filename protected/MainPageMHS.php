@@ -24,6 +24,14 @@ class MainPageMHS extends MainPage {
      * show page pembayaran semester Pendek [pembayaran]
      */
     public $showPembayaranSemesterPendek=false;
+    /**     
+     * show page pembayaran Cuti semester Ganjil [pembayaran]
+     */
+    public $showPembayaranCutiSemesterGanjil=false;
+     /**     
+     * show page pembayaran Cuti semester Genap [pembayaran]
+     */
+    public $showPembayaranCutiSemesterGenap=false;
 	public function onLoad ($param) {		
 		parent::onLoad($param);				
         if (!$this->IsPostBack&&!$this->IsCallBack) {	
