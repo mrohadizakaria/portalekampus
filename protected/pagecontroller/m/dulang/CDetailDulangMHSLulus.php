@@ -17,11 +17,11 @@ class CDetailDulangMHSLulus Extends MainPageM {
                     $this->DB->setFieldTable(array('tahun','idsmt'));
                     $datadulang=$this->DB->getRecord($str);	    
                     
-                    $this->cmbAddTALulus->DataSource=$this->DMaster->removeIdFromArray($this->DMaster->getListTA($datamhs['tahun_masuk']),'none');
+                    $this->cmbAddTALulus->DataSource=array($datadulang[1]['tahun']=>$this->DMaster->getNamaTA($datadulang[1]['tahun']));
                     $this->cmbAddTALulus->Text=$datadulang[1]['tahun'];
                     $this->cmbAddTALulus->dataBind();
                      				
-                    $this->cmbAddSMTLulus->DataSource=array(1=>'GANJIL',2=>'GENAP');
+                    $this->cmbAddSMTLulus->DataSource=array($datadulang[1]['idsmt']=>$this->setup->getSemester($datadulang[1]['idsmt']));
                     $this->cmbAddSMTLulus->Text=$datadulang[1]['idsmt'];
                     $this->cmbAddSMTLulus->dataBind();
                     
@@ -56,7 +56,6 @@ class CDetailDulangMHSLulus Extends MainPageM {
                     $_SESSION['semester']=$datadulang[1]['idsmt'];
                     $_SESSION['ta']=$datadulang[1]['tahun'];
                     $_SESSION['kjur']= $datamhs['kjur'];
-
                     $this->setInfoToolbar();
                 }else{
                     throw new Exception("Data Mahasiswa belum ada di session.");
@@ -75,28 +74,9 @@ class CDetailDulangMHSLulus Extends MainPageM {
 		$this->lblModulHeader->Text="Program Studi $ps T.A $ta Semester $semester";        
 	}
     
-    public function getDataMHS($idx) {		       
-        if (isset($_SESSION['currentPageDulangMHSLulus']['DataMHS'][$idx])) {
-            return $_SESSION['currentPageDulangMHSLulus']['DataMHS'][$idx];
-        }
-    }  
-    public function checkDulang ($sender,$param) {
-        $datamhs=$_SESSION['currentPageDulangMHSLulus']['DataMHS'];
-        $ta=addslashes($param->Value);		       
-        $semester=$this->cmbAddSMTLulus->Text;            
-        try {            
-            $nim=$datamhs['nim'];
-            $this->Nilai->setDataMHS(array('nim'=>$nim));
-            $datadulang=$this->Nilai->getDataDulang($semester,$ta);
-            
-            if (isset($datadulang['iddulang'])) {
-                throw new Exception ("Mahasiswa Dengan NIM ($nim) telah daftar ulang di T.A dan Semester ini.");
-            }          
-        }catch (Exception $e) {
-            $param->IsValid=false;
-            $sender->ErrorMessage=$e->getMessage();
-        }	    
-    }  
+    public function getDataMHS($idx) {		        
+        return $this->Nilai->getDataMHS($idx);
+    }    
     public function saveData ($sender,$param) {		
 		if ($this->IsValid) {	
             $datamhs=$_SESSION['currentPageDulangMHSLulus']['DataMHS'];						
@@ -113,9 +93,17 @@ class CDetailDulangMHSLulus Extends MainPageM {
 			$this->DB->query ('BEGIN');
 			if ($this->DB->updateRecord($str)) {
                 $status_sebelumnnya=$datamhs['k_status'];
-                $tasmt=$ta.$semester;                              
-                $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$semester','$tasmt',NOW(),'$kelas','$status_sebelumnnya','L')";
-                $this->DB->insertRecord($str);            
+                $tasmt=$ta.$semester;              
+                $this->Nilai->setDataMHS(array('nim'=>$nim));
+                $datadulang=$this->Nilai->getDataDulang($semester,$ta);
+                if (isset($datadulang['iddulang'])) {
+                    $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$semester','$tasmt',NOW(),'$kelas','$status_sebelumnnya','L')";
+                    $this->DB->insertRecord($str);
+                }else{
+                    $iddulang=$datadulang['iddulang'];
+                    $str = "UPDATE dulang SET k_status='L' WHERE iddulang=$iddulang";
+                    $this->DB->updateRecord($str);
+                }
 				$this->DB->query('COMMIT');
                 unset($_SESSION['currentPageDulangMHSLulus']['DataMHS']);
                 $this->redirect('dulang.DulangMHSLulus',true);
