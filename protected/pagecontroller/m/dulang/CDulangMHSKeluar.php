@@ -155,12 +155,18 @@ class CDulangMHSKeluar Extends MainPageM {
                     }
                     $datamhs=$r[1]; 
                     $datamhs['iddata_konversi']=$this->Demik->isMhsPindahan($nim,true);
-                    if ($datamhs['k_status'] == 'K') {
-                        throw new Exception ("Mahasiswa Dengan NIM ($nim) telah dinyatakan keluar.");
-                    }
-                    if ($datamhs['k_status'] == 'N' || $datamhs['k_status'] == 'D' || $datamhs['k_status'] == 'K' || $datamhs['k_status'] == 'C') {
-                        throw new Exception ("Untuk dinyatakan lulus Mahasiswa Dengan NIM ($nim) status akhirnya harus AKTIF.");
-                    }
+
+                    switch($datamhs['k_status']) {
+                        case 'K' :
+                            throw new Exception ("Mahasiswa Dengan NIM ($nim) telah dinyatakan keluar.");
+                        break;
+                        case 'L' :
+                            throw new Exception ("Mahasiswa Dengan NIM ($nim) telah dinyatakan lulus.");
+                        break;
+                        case 'D' :
+                            throw new Exception ("Mahasiswa Dengan NIM ($nim) telah dinyatakan drop-out.");
+                        break;
+                    }                    
                     $this->Demik->setDataMHS($datamhs);
                     $datadulang=$this->Demik->getDataDulang($_SESSION['semester'],$_SESSION['ta']);
                     if (isset($datadulang['iddulang'])) {         
