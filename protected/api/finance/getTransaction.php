@@ -65,18 +65,23 @@ class getTransaction extends BaseWS {
 					}			
 				break;
 				case 11: //bayar cuti
-					$str = "SELECT no_transaksi,no_faktur,tahun,idsmt,nim,dibayarkan AS totaltagihan,commited,tanggal,date_added FROM transaksi_cuti WHERE no_transaksi='$no_transaksi'";
-					$this->DB->setFieldTable(array('no_transaksi','no_faktur','tahun','idsmt','nim','totaltagihan','commited','tanggal','date_added'));		
+					$str = "SELECT t.no_transaksi,t.no_faktur,t.tahun,t.idsmt,vdm.no_formulir,t.nim,vdm.nama_mhs,vdm.kjur,vdm.nama_ps,vdm.idkelas,k.nkelas AS nama_kelas,t.dibayarkan AS totaltagihan,t.commited,t.tanggal,t.date_added FROM transaksi_cuti t JOIN v_datamhs vdm ON (vdm.nim=t.nim) JOIN kelas k ON (k.idkelas=vdm.idkelas)  WHERE t.no_transaksi='$no_transaksi'";
+					$this->DB->setFieldTable(array('no_transaksi','no_faktur','tahun','idsmt','no_formulir','nim','nama_mhs','kjur','nama_ps','idkelas','nama_kelas','totaltagihan','commited','tanggal','date_added'));		
 					$r=$this->DB->getRecord($str);						
 					if (isset($r[1])) {
-                        if ($r[1]['commited']==1) {
+						$payload=$r[1];
+                        if ($payload['commited']==1) {
                             $this->payload['status']='88';
                             $message="Login=1, transaksi ($no_transaksi) sudah pernah dilakukan";
                         }else{
                             $this->payload['status']='00';
                             $message="Login=1, data transaksi dengan nomor ($no_transaksi) berhasil diperoleh !!!";
-                        }
-						$this->payload['payload']=$r[1];							
+						}			
+						$this->createObj('dmaster');
+						$payload['nama_prodi']=$payload['nama_ps'];		
+						$payload['semester']=$this->semester[$payload['idsmt']];		
+						$payload['keterangan']='CUTI';		
+						$this->payload['payload']=$payload;							
 						$this->payload['message']=$message;
 					}else{
 						$this->payload['status']='04';
@@ -90,7 +95,7 @@ class getTransaction extends BaseWS {
 		}catch (Exception $e) {
 			$this->payload['message'] = $e->getMessage();
 		}
-		$this->Pengguna->insertNewActivity ('json=get_transaction',"melakukan request api terhadap method get_transaction, outputnya: ".$this->payload['message']);
+		// $this->Pengguna->insertNewActivity ('json=get_transaction',"melakukan request api terhadap method get_transaction, outputnya: ".$this->payload['message']);
 		return $this->payload;
 	
 	}
