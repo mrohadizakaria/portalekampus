@@ -30,9 +30,16 @@ class CPembayaranSemesterGenap Extends MainPageMHS {
                     throw new Exception ("NIM ($nim) adalah seorang Mahasiswa baru, mohon diproses di Pembayaran->Mahasiswa Baru.");
                 }
                 $this->checkPembayaranSemesterLalu ();
-				$this->Finance->setDataMHS($datamhs);
-				CPembayaranSemesterGenap::$KewajibanMahasiswa=$this->Finance->getTotalBiayaMhsPeriodePembayaran ('lama');
-				$this->populateTransaksi();
+
+                $result=$this->populateTransaksi();
+                $idkelas = isset($result[1])?$result[1]['idkelas']:$datamhs['idkelas'];
+                $datamhs['idkelas']=$idkelas;
+                $this->Finance->setDataMHS($datamhs);
+                CPembayaranSemesterGenap::$KewajibanMahasiswa=$this->Finance->getTotalBiayaMhsPeriodePembayaran ('lama');
+                
+                $this->ListTransactionRepeater->DataSource=$result;
+                $this->ListTransactionRepeater->dataBind(); 
+                
 			}catch (Exception $ex) {
                 $this->idProcess='view';	
                 $this->errorMessage->Text=$ex->getMessage();
@@ -70,8 +77,8 @@ class CPembayaranSemesterGenap Extends MainPageMHS {
         $tahun=$datamhs['ta'];
         
         $kjur=$datamhs['kjur'];
-        $str = "SELECT no_transaksi,no_faktur,tanggal,commited,date_added FROM transaksi WHERE tahun='$tahun' AND idsmt='$idsmt' AND nim='$nim' AND kjur='$kjur'";
-        $this->DB->setFieldTable(array('no_transaksi','no_faktur','tanggal','commited','date_added'));
+        $str = "SELECT no_transaksi,no_faktur,tanggal,idkelas,commited,date_added FROM transaksi WHERE tahun='$tahun' AND idsmt='$idsmt' AND nim='$nim' AND kjur='$kjur'";
+        $this->DB->setFieldTable(array('no_transaksi','no_faktur','tanggal','idkelas','commited','date_added'));
         $r=$this->DB->getRecord($str);
         $result=array();
         while (list($k,$v)=each($r)) {
@@ -79,8 +86,7 @@ class CPembayaranSemesterGenap Extends MainPageMHS {
             $v['total']=$this->DB->getSumRowsOfTable('dibayarkan',"transaksi_detail WHERE no_transaksi=$no_transaksi");
             $result[$k]=$v;
         }
-        $this->ListTransactionRepeater->DataSource=$result;
-        $this->ListTransactionRepeater->dataBind();        
+       return $result;
 	}	
 	public function addTransaction ($sender,$param) {
 		$datamhs=$this->Pengguna->getDataUser();    
