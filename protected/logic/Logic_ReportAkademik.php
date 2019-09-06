@@ -1482,8 +1482,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='L' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
-                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,d.idkelas,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='L' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
+                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','idkelas','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
                 while (list($k,$v)=each ($r)) {       
@@ -1579,8 +1579,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='D' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
-                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,d.idkelas,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='D' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
+                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','idkelas','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
                 while (list($k,$v)=each ($r)) {       
@@ -1677,8 +1677,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='K' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
-                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,d.idkelas,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='K' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
+                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','idkelas','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
                 while (list($k,$v)=each ($r)) {       
