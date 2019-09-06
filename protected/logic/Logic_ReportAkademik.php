@@ -1145,8 +1145,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:I7");
-                $sheet->mergeCells("A8:I8");
+                $sheet->mergeCells("A7:J7");
+                $sheet->mergeCells("A8:J8");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DAFTAR MAHASISWA DAFTAR ULANG STATUS AKTIF");
                 $sheet->setCellValue("A8",'PROGRAM STUDI '.$this->dataReport['nama_ps'].' T.A '.$this->dataReport['nama_tahun'].' SEMESTER '.$this->dataReport['nama_semester']);
@@ -1165,18 +1165,20 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue('B10','NO. FORMULIR');
                 $sheet->setCellValue('D10','NIM');
                 $sheet->setCellValue('E10','NIRM');
-                $sheet->setCellValue('F10','NAMA MHS'); 
-                $sheet->setCellValue('G10','DOSEN WALI'); 
-                $sheet->setCellValue('H10','TANGGAL DAFTAR ULANG'); 
-                $sheet->setCellValue('I10','T.A DAN SMT DAFTAR ULANG');
+                $sheet->setCellValue('F10','NAMA MHS');
+                $sheet->setCellValue('G10','KELAS'); 
+                $sheet->setCellValue('H10','DOSEN WALI'); 
+                $sheet->setCellValue('I10','TANGGAL DAFTAR ULANG'); 
+                $sheet->setCellValue('J10','T.A DAN SMT DAFTAR ULANG');
                 
                 $sheet->getColumnDimension('C')->setWidth(15);
                 $sheet->getColumnDimension('D')->setWidth(15);
                 $sheet->getColumnDimension('E')->setWidth(15);
                 $sheet->getColumnDimension('F')->setWidth(50);
-                $sheet->getColumnDimension('G')->setWidth(40);
-                $sheet->getColumnDimension('H')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(20);
+                $sheet->getColumnDimension('H')->setWidth(40);
                 $sheet->getColumnDimension('I')->setWidth(17);
+                $sheet->getColumnDimension('J')->setWidth(17);
                 
                  $styleArray=array(
 								'font' => array('bold' => true),
@@ -1184,13 +1186,13 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A10:I10")->applyFromArray($styleArray);
-                $sheet->getStyle("A10:I10")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A10:J10")->applyFromArray($styleArray);
+                $sheet->getStyle("A10:J10")->getAlignment()->setWrapText(true);
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='A' ORDER BY vdm.nama_mhs ASC";
-                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,d.idkelas,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='A' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
+                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','idkelas','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
                 while (list($k,$v)=each ($r)) {       
@@ -1200,9 +1202,10 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValueExplicit("D$row",$v['nim'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValueExplicit("E$row",$v['nirm'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValue("F$row",$v['nama_mhs']); 
-                    $sheet->setCellValue("G$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
-                    $sheet->setCellValue("H$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
-                    $sheet->setCellValue("I$row",$v['tahun'].$v['idsmt']);
+                    $sheet->setCellValue("G$row",$objDMaster->getNamaKelasByID($v['idkelas'])); 
+                    $sheet->setCellValue("H$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
+                    $sheet->setCellValue("I$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
+                    $sheet->setCellValue("J$row",$v['tahun'].$v['idsmt']);
                     $row+=1;       
                 }
                 $row=$row-1;
@@ -1211,8 +1214,8 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A11:I$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:I$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:J$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
@@ -1239,8 +1242,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:I7");
-                $sheet->mergeCells("A8:I8");
+                $sheet->mergeCells("A7:J7");
+                $sheet->mergeCells("A8:J8");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DAFTAR MAHASISWA DAFTAR ULANG STATUS NON-AKTIF");
                 $sheet->setCellValue("A8",'PROGRAM STUDI '.$this->dataReport['nama_ps'].' T.A '.$this->dataReport['nama_tahun'].' SEMESTER '.$this->dataReport['nama_semester']);
@@ -1260,17 +1263,19 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue('D10','NIM');
                 $sheet->setCellValue('E10','NIRM');
                 $sheet->setCellValue('F10','NAMA MHS'); 
-                $sheet->setCellValue('G10','DOSEN WALI'); 
-                $sheet->setCellValue('H10','TANGGAL DAFTAR ULANG'); 
-                $sheet->setCellValue('I10','T.A DAN SMT DAFTAR ULANG');
+                $sheet->setCellValue('G10','KELAS'); 
+                $sheet->setCellValue('H10','DOSEN WALI'); 
+                $sheet->setCellValue('I10','TANGGAL DAFTAR ULANG'); 
+                $sheet->setCellValue('J10','T.A DAN SMT DAFTAR ULANG');
                 
                 $sheet->getColumnDimension('C')->setWidth(15);
                 $sheet->getColumnDimension('D')->setWidth(15);
                 $sheet->getColumnDimension('E')->setWidth(15);
                 $sheet->getColumnDimension('F')->setWidth(50);
-                $sheet->getColumnDimension('G')->setWidth(40);
-                $sheet->getColumnDimension('H')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(20);
+                $sheet->getColumnDimension('H')->setWidth(40);
                 $sheet->getColumnDimension('I')->setWidth(17);
+                $sheet->getColumnDimension('J')->setWidth(17);
                 
                  $styleArray=array(
 								'font' => array('bold' => true),
@@ -1278,13 +1283,13 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A10:I10")->applyFromArray($styleArray);
-                $sheet->getStyle("A10:I10")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A10:J10")->applyFromArray($styleArray);
+                $sheet->getStyle("A10:J10")->getAlignment()->setWrapText(true);
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='N' ORDER BY vdm.nama_mhs ASC";
-                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,d.idkelas,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='N' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
+                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','idkelas','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
                 while (list($k,$v)=each ($r)) {       
@@ -1294,9 +1299,10 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValueExplicit("D$row",$v['nim'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValueExplicit("E$row",$v['nirm'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValue("F$row",$v['nama_mhs']); 
-                    $sheet->setCellValue("G$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
-                    $sheet->setCellValue("H$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
-                    $sheet->setCellValue("I$row",$v['tahun'].$v['idsmt']);
+                    $sheet->setCellValue("G$row",$objDMaster->getNamaKelasByID($v['idkelas'])); 
+                    $sheet->setCellValue("H$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
+                    $sheet->setCellValue("I$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
+                    $sheet->setCellValue("J$row",$v['tahun'].$v['idsmt']);
                     $row+=1;       
                 }
                 $row=$row-1;
@@ -1305,8 +1311,8 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A11:I$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:I$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:J$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
@@ -1333,8 +1339,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:I7");
-                $sheet->mergeCells("A8:I8");
+                $sheet->mergeCells("A7:J7");
+                $sheet->mergeCells("A8:J8");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DAFTAR MAHASISWA DAFTAR ULANG STATUS CUTI");
                 $sheet->setCellValue("A8",'PROGRAM STUDI '.$this->dataReport['nama_ps'].' T.A '.$this->dataReport['nama_tahun'].' SEMESTER '.$this->dataReport['nama_semester']);
@@ -1354,17 +1360,19 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue('D10','NIM');
                 $sheet->setCellValue('E10','NIRM');
                 $sheet->setCellValue('F10','NAMA MHS'); 
-                $sheet->setCellValue('G10','DOSEN WALI'); 
-                $sheet->setCellValue('H10','TANGGAL DAFTAR ULANG'); 
-                $sheet->setCellValue('I10','T.A DAN SMT DAFTAR ULANG');
+                $sheet->setCellValue('G10','KELAS'); 
+                $sheet->setCellValue('H10','DOSEN WALI'); 
+                $sheet->setCellValue('I10','TANGGAL DAFTAR ULANG'); 
+                $sheet->setCellValue('J10','T.A DAN SMT DAFTAR ULANG');
                 
                 $sheet->getColumnDimension('C')->setWidth(15);
                 $sheet->getColumnDimension('D')->setWidth(15);
                 $sheet->getColumnDimension('E')->setWidth(15);
                 $sheet->getColumnDimension('F')->setWidth(50);
-                $sheet->getColumnDimension('G')->setWidth(40);
-                $sheet->getColumnDimension('H')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(20);
+                $sheet->getColumnDimension('H')->setWidth(40);
                 $sheet->getColumnDimension('I')->setWidth(17);
+                $sheet->getColumnDimension('J')->setWidth(17);
                 
                  $styleArray=array(
 								'font' => array('bold' => true),
@@ -1372,13 +1380,13 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A10:I10")->applyFromArray($styleArray);
-                $sheet->getStyle("A10:I10")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A10:J10")->applyFromArray($styleArray);
+                $sheet->getStyle("A10:J10")->getAlignment()->setWrapText(true);
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='C' ORDER BY vdm.nama_mhs ASC";
-                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,d.idkelas,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='C' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
+                $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','idkelas','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
                 while (list($k,$v)=each ($r)) {       
@@ -1388,9 +1396,10 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValueExplicit("D$row",$v['nim'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValueExplicit("E$row",$v['nirm'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValue("F$row",$v['nama_mhs']); 
-                    $sheet->setCellValue("G$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
-                    $sheet->setCellValue("H$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
-                    $sheet->setCellValue("I$row",$v['tahun'].$v['idsmt']);
+                    $sheet->setCellValue("G$row",$objDMaster->getNamaKelasByID($v['idkelas'])); 
+                    $sheet->setCellValue("H$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
+                    $sheet->setCellValue("I$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
+                    $sheet->setCellValue("J$row",$v['tahun'].$v['idsmt']);
                     $row+=1;       
                 }
                 $row=$row-1;
@@ -1399,8 +1408,8 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A11:I$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:I$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:J$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
@@ -1427,8 +1436,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:I7");
-                $sheet->mergeCells("A8:I8");
+                $sheet->mergeCells("A7:J7");
+                $sheet->mergeCells("A8:J8");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DAFTAR MAHASISWA DAFTAR ULANG STATUS LULUS");
                 $sheet->setCellValue("A8",'PROGRAM STUDI '.$this->dataReport['nama_ps'].' T.A '.$this->dataReport['nama_tahun'].' SEMESTER '.$this->dataReport['nama_semester']);
@@ -1448,17 +1457,19 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue('D10','NIM');
                 $sheet->setCellValue('E10','NIRM');
                 $sheet->setCellValue('F10','NAMA MHS'); 
-                $sheet->setCellValue('G10','DOSEN WALI'); 
-                $sheet->setCellValue('H10','TANGGAL DAFTAR ULANG'); 
-                $sheet->setCellValue('I10','T.A DAN SMT DAFTAR ULANG');
+                $sheet->setCellValue('G10','KELAS'); 
+                $sheet->setCellValue('H10','DOSEN WALI'); 
+                $sheet->setCellValue('I10','TANGGAL DAFTAR ULANG'); 
+                $sheet->setCellValue('J10','T.A DAN SMT DAFTAR ULANG');
                 
                 $sheet->getColumnDimension('C')->setWidth(15);
                 $sheet->getColumnDimension('D')->setWidth(15);
                 $sheet->getColumnDimension('E')->setWidth(15);
                 $sheet->getColumnDimension('F')->setWidth(50);
-                $sheet->getColumnDimension('G')->setWidth(40);
-                $sheet->getColumnDimension('H')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(20);
+                $sheet->getColumnDimension('H')->setWidth(40);
                 $sheet->getColumnDimension('I')->setWidth(17);
+                $sheet->getColumnDimension('J')->setWidth(17);
                 
                  $styleArray=array(
 								'font' => array('bold' => true),
@@ -1466,12 +1477,12 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A10:I10")->applyFromArray($styleArray);
-                $sheet->getStyle("A10:I10")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A10:J10")->applyFromArray($styleArray);
+                $sheet->getStyle("A10:J10")->getAlignment()->setWrapText(true);
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='L' ORDER BY vdm.nama_mhs ASC";
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='L' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
                 $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
@@ -1482,9 +1493,10 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValueExplicit("D$row",$v['nim'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValueExplicit("E$row",$v['nirm'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValue("F$row",$v['nama_mhs']); 
-                    $sheet->setCellValue("G$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
-                    $sheet->setCellValue("H$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
-                    $sheet->setCellValue("I$row",$v['tahun'].$v['idsmt']);
+                    $sheet->setCellValue("G$row",$objDMaster->getNamaKelasByID($v['idkelas'])); 
+                    $sheet->setCellValue("H$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
+                    $sheet->setCellValue("I$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
+                    $sheet->setCellValue("J$row",$v['tahun'].$v['idsmt']);
                     $row+=1;       
                 }
                 $row=$row-1;
@@ -1493,8 +1505,8 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A11:I$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:I$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:J$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
@@ -1521,8 +1533,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:I7");
-                $sheet->mergeCells("A8:I8");
+                $sheet->mergeCells("A7:J7");
+                $sheet->mergeCells("A8:J8");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DAFTAR MAHASISWA DAFTAR ULANG STATUS DROP OUT");
                 $sheet->setCellValue("A8",'PROGRAM STUDI '.$this->dataReport['nama_ps'].' T.A '.$this->dataReport['nama_tahun'].' SEMESTER '.$this->dataReport['nama_semester']);
@@ -1542,17 +1554,19 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue('D10','NIM');
                 $sheet->setCellValue('E10','NIRM');
                 $sheet->setCellValue('F10','NAMA MHS'); 
-                $sheet->setCellValue('G10','DOSEN WALI'); 
-                $sheet->setCellValue('H10','TANGGAL DAFTAR ULANG'); 
-                $sheet->setCellValue('I10','T.A DAN SMT DAFTAR ULANG');
+                $sheet->setCellValue('G10','KELAS'); 
+                $sheet->setCellValue('H10','DOSEN WALI'); 
+                $sheet->setCellValue('I10','TANGGAL DAFTAR ULANG'); 
+                $sheet->setCellValue('J10','T.A DAN SMT DAFTAR ULANG');
                 
                 $sheet->getColumnDimension('C')->setWidth(15);
                 $sheet->getColumnDimension('D')->setWidth(15);
                 $sheet->getColumnDimension('E')->setWidth(15);
                 $sheet->getColumnDimension('F')->setWidth(50);
-                $sheet->getColumnDimension('G')->setWidth(40);
-                $sheet->getColumnDimension('H')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(20);
+                $sheet->getColumnDimension('H')->setWidth(40);
                 $sheet->getColumnDimension('I')->setWidth(17);
+                $sheet->getColumnDimension('J')->setWidth(17);
                 
                  $styleArray=array(
 								'font' => array('bold' => true),
@@ -1560,12 +1574,12 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A10:I10")->applyFromArray($styleArray);
-                $sheet->getStyle("A10:I10")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A10:J10")->applyFromArray($styleArray);
+                $sheet->getStyle("A10:J10")->getAlignment()->setWrapText(true);
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='D' ORDER BY vdm.nama_mhs ASC";
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='D' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
                 $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
@@ -1576,9 +1590,10 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValueExplicit("D$row",$v['nim'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValueExplicit("E$row",$v['nirm'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValue("F$row",$v['nama_mhs']); 
-                    $sheet->setCellValue("G$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
-                    $sheet->setCellValue("H$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
-                    $sheet->setCellValue("I$row",$v['tahun'].$v['idsmt']);
+                    $sheet->setCellValue("G$row",$objDMaster->getNamaKelasByID($v['idkelas'])); 
+                    $sheet->setCellValue("H$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
+                    $sheet->setCellValue("I$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
+                    $sheet->setCellValue("J$row",$v['tahun'].$v['idsmt']);
                     $row+=1;       
                 }
                 $row=$row-1;
@@ -1587,8 +1602,8 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A11:I$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:I$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:J$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
@@ -1616,8 +1631,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:I7");
-                $sheet->mergeCells("A8:I8");
+                $sheet->mergeCells("A7:J7");
+                $sheet->mergeCells("A8:J8");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DAFTAR MAHASISWA DAFTAR ULANG STATUS KELUAR");
                 $sheet->setCellValue("A8",'PROGRAM STUDI '.$this->dataReport['nama_ps'].' T.A '.$this->dataReport['nama_tahun'].' SEMESTER '.$this->dataReport['nama_semester']);
@@ -1637,17 +1652,19 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue('D10','NIM');
                 $sheet->setCellValue('E10','NIRM');
                 $sheet->setCellValue('F10','NAMA MHS'); 
-                $sheet->setCellValue('G10','DOSEN WALI'); 
-                $sheet->setCellValue('H10','TANGGAL DAFTAR ULANG'); 
-                $sheet->setCellValue('I10','T.A DAN SMT DAFTAR ULANG');
+                $sheet->setCellValue('G10','KELAS'); 
+                $sheet->setCellValue('H10','DOSEN WALI'); 
+                $sheet->setCellValue('I10','TANGGAL DAFTAR ULANG'); 
+                $sheet->setCellValue('J10','T.A DAN SMT DAFTAR ULANG');
                 
                 $sheet->getColumnDimension('C')->setWidth(15);
                 $sheet->getColumnDimension('D')->setWidth(15);
                 $sheet->getColumnDimension('E')->setWidth(15);
                 $sheet->getColumnDimension('F')->setWidth(50);
-                $sheet->getColumnDimension('G')->setWidth(40);
-                $sheet->getColumnDimension('H')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(20);
+                $sheet->getColumnDimension('H')->setWidth(40);
                 $sheet->getColumnDimension('I')->setWidth(17);
+                $sheet->getColumnDimension('J')->setWidth(17);
                 
                 $styleArray=array(
 								'font' => array('bold' => true),
@@ -1655,12 +1672,12 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A10:I10")->applyFromArray($styleArray);
-                $sheet->getStyle("A10:I10")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A10:J10")->applyFromArray($styleArray);
+                $sheet->getStyle("A10:J10")->getAlignment()->setWrapText(true);
                 
                 $sheet->getRowDimension(16)->setRowHeight(20);
                 
-                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='K' ORDER BY vdm.nama_mhs ASC";
+                $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='K' ORDER BY d.idkelas ASC,vdm.nama_mhs ASC";
                 $this->db->setFieldTable(array('iddulang','no_formulir','nim','nirm','nama_mhs','iddosen_wali','tanggal','tahun','idsmt'));
                 $r=$this->db->getRecord($str);
                 $row=11;
@@ -1671,9 +1688,10 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValueExplicit("D$row",$v['nim'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValueExplicit("E$row",$v['nirm'],PHPExcel_Cell_DataType::TYPE_STRING);
                     $sheet->setCellValue("F$row",$v['nama_mhs']); 
-                    $sheet->setCellValue("G$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
-                    $sheet->setCellValue("H$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
-                    $sheet->setCellValue("I$row",$v['tahun'].$v['idsmt']);
+                    $sheet->setCellValue("G$row",$objDMaster->getNamaKelasByID($v['idkelas'])); 
+                    $sheet->setCellValue("H$row",$objDMaster->getNamaDosenWaliByID($v['iddosen_wali'])); 
+                    $sheet->setCellValue("I$row",$this->tgl->tanggal('d F Y',$v['tanggal'])); 
+                    $sheet->setCellValue("J$row",$v['tahun'].$v['idsmt']);
                     $row+=1;       
                 }
                 $row=$row-1;
@@ -1682,8 +1700,8 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A11:I$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:I$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:J$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
