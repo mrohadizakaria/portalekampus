@@ -157,9 +157,10 @@ class CTransaksiPembayaranPiutangSemesterGanjil Extends MainPageK {
             $nim=$datamhs['nim'];
             
             $no_faktur=addslashes($this->txtAddNomorFaktur->Text);            
+            $disc=addslashes($this->txtAddDisc->Text);            
             $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
             
-            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',date_modified=NOW() WHERE no_transaksi=$no_transaksi";
+            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',disc='$disc',date_modified=NOW() WHERE no_transaksi=$no_transaksi";
             $this->DB->updateRecord($str);
             unset($_SESSION['currentPagePembayaranPiutangSemesterGanjil']['DataMHS']);
             $this->redirect('pembayaran.DetailPembayaranPiutangSemesterGanjil',true,array('id'=>$nim));
@@ -171,11 +172,12 @@ class CTransaksiPembayaranPiutangSemesterGanjil Extends MainPageK {
             $no_transaksi=$datamhs['no_transaksi'];
             $nim=$datamhs['nim'];
        
-            $no_faktur=addslashes($this->txtAddNomorFaktur->Text);            
+            $no_faktur=addslashes($this->txtAddNomorFaktur->Text);       
+            $disc=addslashes($this->txtAddDisc->Text);                 
             $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
             
             $this->DB->query('BEGIN');
-            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',commited=1,date_modified=NOW() WHERE no_transaksi=$no_transaksi";
+            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',disc='$disc',commited=1,date_modified=NOW() WHERE no_transaksi=$no_transaksi";
             $this->DB->updateRecord($str);            
             
             $this->DB->query('COMMIT');

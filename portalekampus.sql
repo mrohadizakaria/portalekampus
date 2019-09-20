@@ -1495,6 +1495,7 @@ CREATE TABLE `transaksi` (
   `tanggal` date NOT NULL,
   `userid` smallint(6) NOT NULL,
   `jumlah_sks` smallint(6) NOT NULL,
+  `disc` decimal(5,2) NOT NULL,
   `date_added` datetime NOT NULL,
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

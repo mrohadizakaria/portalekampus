@@ -17,8 +17,8 @@ class getTransaction extends BaseWS {
 			$tipe_transaksi=substr($no_transaksi, 0,2);
 			switch ($tipe_transaksi) {
 				case 10: //bayar biasa
-					$str = "SELECT t.no_transaksi,t.no_faktur,t.kjur,t.tahun,t.idsmt,t.idkelas,k.nkelas,t.no_formulir,fp.nama_mhs,t.nim,t.commited,t.tanggal,t.date_added FROM transaksi t LEFT JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN kelas k ON (k.idkelas=t.idkelas) WHERE t.no_transaksi='$no_transaksi'";
-					$this->DB->setFieldTable(array('no_transaksi','no_faktur','kjur','tahun','idsmt','idkelas','nkelas','no_formulir','nama_mhs','nim','commited','tanggal','date_added'));		
+					$str = "SELECT t.no_transaksi,t.no_faktur,t.kjur,t.tahun,t.idsmt,t.idkelas,k.nkelas,t.no_formulir,fp.nama_mhs,t.nim,t.disc,t.commited,t.tanggal,t.date_added FROM transaksi t LEFT JOIN formulir_pendaftaran fp ON (fp.no_formulir=t.no_formulir) LEFT JOIN kelas k ON (k.idkelas=t.idkelas) WHERE t.no_transaksi='$no_transaksi'";
+					$this->DB->setFieldTable(array('no_transaksi','no_faktur','kjur','tahun','idsmt','idkelas','nkelas','no_formulir','nama_mhs','nim','disc','commited','tanggal','date_added'));		
 					$r=$this->DB->getRecord($str);						
 					if (isset($r[1])) {
 						$result=$r[1];
@@ -45,8 +45,10 @@ class getTransaction extends BaseWS {
 						$payload['nama_prodi']=$payload['kjur'] > 0 ? $this->DMaster->getNamaProgramStudiByID($payload['kjur']) : '';
 						$payload['semester']=$this->semester[$result['idsmt']];	
 						$payload['nama_kelas']=$result['nkelas'];
-						$this->createObj('Finance');						
-						$payload['totaltagihan']=$this->Finance->getTotalTagihanByNoTransaksi($no_transaksi);
+						$this->createObj('Finance');	
+						$totaltagihan = $this->Finance->getTotalTagihanByNoTransaksi($no_transaksi);			
+						$jumlah = $result['disc']>0?($totaltagihan*($result['disc']/100)):$totaltagihan;			
+						$payload['totaltagihan']=$jumlah;
 						$payload['commited']=$result['commited'];
                         $payload['keterangan']=$keterangan;
                         if ($result['commited']==1) {

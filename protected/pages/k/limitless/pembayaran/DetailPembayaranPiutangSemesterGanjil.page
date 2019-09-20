@@ -73,6 +73,7 @@
                                 <th scope="col">TANGGAL TRANSAKSI</th>			
                                 <th scope="col">TANGGAL INPUT</th>			
                                 <th scope="col" class="text-right">TOTAL</th>											
+                                <th scope="col" class="text-right">DISCOUNT</th>											
                                 <th scope="col" width="120">AKSI</th>
                             </tr>
                             </thead>
@@ -83,9 +84,10 @@
                                 <td><%#$this->DataItem['no']%></td>
                                 <td><%#$this->DataItem['no_transaksi']%></td>						
                                 <td><%#$this->DataItem['no_faktur']%></td>											
-                                <td><%=$this->Page->TGL->tanggal('l, j F Y',$this->DataItem['tanggal'])%></td>	
-                                <td><%=$this->Page->TGL->tanggal('l, j F Y',$this->DataItem['date_added'])%></td>	
+                                <td><%=$this->Page->TGL->tanggal('l, d/m/Y',$this->DataItem['tanggal'])%></td>	
+                                <td><%=$this->Page->TGL->tanggal('l, d/m/Y',$this->DataItem['date_added'])%></td>	
                                 <td class="text-right"><%#$this->Page->Finance->toRupiah($this->DataItem['total'])%></td>					
+                                <td class="text-right"><%#$this->Page->Finance->toRupiah($this->DataItem['jumlah_disc'])%></td>					
                                 <td>        
                                     <ul class="icons-list">
                                         <li class="<%#$this->DataItem['commited']==true?'text-grey-600':'text-primary-600'%>">
@@ -128,19 +130,22 @@
                                 <tr Align="right">
                                     <td colspan="5"><b>Total</b></td>							
                                     <td><%#$this->Page->Finance->toRupiah(CDetailPembayaranPiutangSemesterGanjil::$TotalSudahBayar)%></td>
+                                    <td><%#$this->Page->Finance->toRupiah(CDetailPembayaranPiutangSemesterGanjil::$TotalDiscount)%></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr Align="right">
                                     <td colspan="5"><b>Kewajiban Mahasiswa</b></td>							
                                     <td><%#$this->Page->Finance->toRupiah(CDetailPembayaranPiutangSemesterGanjil::$KewajibanMahasiswa)%></td>
                                     <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr Align="right">
                                     <td class="rounded-foot-left" colspan="5"><b>Sisa</b></td>							
                                     <td><%#$this->Page->Finance->toRupiah(CDetailPembayaranPiutangSemesterGanjil::$KewajibanMahasiswa-CDetailPembayaranPiutangSemesterGanjil::$TotalSudahBayar)%></td>
                                     <td class="rounded-foot-right">&nbsp;</td>
+                                    <td class="rounded-foot-right">&nbsp;</td>
                                 </tr>
-                                </tfoot>
+                            </tfoot>
                             </table>
                         </prop:FooterTemplate>
                         <prop:EmptyTemplate>                       
