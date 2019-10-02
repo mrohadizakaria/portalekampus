@@ -1324,6 +1324,7 @@ CREATE TABLE `rekap_status_mahasiswa` (
   `nama_mhs` varchar(200) NOT NULL,
   `jk` char(1) NOT NULL,
   `kjur` tinyint(4) NOT NULL,
+  `tahun_masuk` year(4) NOT NULL,
   `ta` year(4) NOT NULL,
   `idsmt` tinyint(4) NOT NULL,
   `idkelas` char(1) NOT NULL,

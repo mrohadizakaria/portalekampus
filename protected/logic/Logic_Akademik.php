@@ -324,8 +324,8 @@ class Logic_Akademik extends Logic_Mahasiswa {
      * @param type $status
      * @return rekap status mahasiswa
      */
-    public function getRekapStatusMHS ($kjur,$periode_awal,$periode_akhir,$k_status) {
-        $str = "SELECT ta,idsmt,idkelas,jk,COUNT(nim) AS jumlah FROM rekap_status_mahasiswa WHERE (ta >= $periode_awal AND ta <= $periode_akhir) AND k_status='$k_status' AND kjur=$kjur GROUP BY ta,idsmt,idkelas,jk";
+    public function getRekapStatusMHS ($kjur,$periode_awal,$periode_akhir,$k_status,$custom_sql='') {
+        $str = "SELECT ta,idsmt,idkelas,jk,COUNT(nim) AS jumlah FROM rekap_status_mahasiswa WHERE (ta >= $periode_awal AND ta <= $periode_akhir) AND k_status='$k_status' AND kjur=$kjur $custom_sql GROUP BY ta,idsmt,idkelas,jk";
         $this->db->setFieldTable(array('ta','idsmt','idkelas','jk','jumlah'));			
         $r = $this->db->getRecord($str);  
         
@@ -339,8 +339,9 @@ class Logic_Akademik extends Logic_Mahasiswa {
             }     
             $i=1;
             while (list($m,$n)=each ($temp_data1)) {            
-                reset($r);
-                $temp_data2=array();
+                reset($r);                
+                $temp_data2[$m]['p']='';
+                $temp_data2[$m]['w']='';
                 while (list($a,$b)=each ($r)) {            
                     $index=$b['ta'].$b['idsmt'].$b['idkelas'];
                     if ($b['jk']=='L') {

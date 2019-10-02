@@ -88,10 +88,10 @@
                     <label class="col-md-3 control-label">Disc (%) :</label>
                     <div class="col-md-3">     
                         <com:TTextBox ID="txtAddDisc" CssClass="form-control" Text="0" />
-                        <com:TRequiredFieldValidator ID="FieldAddNomorDisc" ControlToValidate="txtAddDisc" Display="Dynamic" ErrorMessage="Mohon isi Disc, bila tidak isi dengan 0" ValidationGroup="addtransaksi" FocusOnError="true" CssClass="has-error help-block">			
+                        <com:TRequiredFieldValidator ID="FieldAddDisc" ControlToValidate="txtAddDisc" Display="Dynamic" ErrorMessage="Mohon isi Disc, bila tidak isi dengan 0" ValidationGroup="addtransaksi" FocusOnError="true" CssClass="has-error help-block">			
                             <prop:ClientSide.OnValidationError>
                                 $('divAddDisc').addClassName('has-error');
-                                jQuery('#<%=$this->FieldAddNomorDisc->ClientID%>').removeAttr('style');
+                                jQuery('#<%=$this->FieldAddDisc->ClientID%>').removeAttr('style');
                             </prop:ClientSide.OnValidationError>
                             <prop:ClientSide.OnValidationSuccess>
                                 $('divAddDisc').removeClassName('has-error');

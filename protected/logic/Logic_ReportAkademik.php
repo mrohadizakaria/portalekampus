@@ -664,6 +664,8 @@ class Logic_ReportAkademik extends Logic_Report {
      */
     public function printRekapStatusMahasiswa ($objDemik,$objDMaster) {
         $kjur=$this->dataReport['kjur'];
+        $k_status=$this->dataReport['k_status'];
+        $tahun_masuk=$this->dataReport['tahun_masuk'];
         $nama_ps=$this->dataReport['nama_ps'];
         $ta1=$this->dataReport['ta1'];
         $ta2=$this->dataReport['ta2'];                
@@ -760,8 +762,10 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->getStyle("A11:V12")->applyFromArray($styleArray);
                 $sheet->getStyle("A11:V12")->getAlignment()->setWrapText(true);
                 
-                
-                $str = "SELECT ta,idsmt,idkelas FROM rekap_status_mahasiswa WHERE (ta >= $ta1 AND ta <= $ta2) AND kjur=$kjur GROUP BY ta,idsmt,idkelas";
+                $sql_tahun_masuk=$tahun_masuk == 'none'?'':"AND tahun_masuk='$tahun_masuk'";
+                $sql_status = $k_status == 'none'?'':"k_status='$k_status'";
+                $sql = $sql_tahun_masuk . $sql_status;
+                $str = "SELECT ta,idsmt,idkelas FROM rekap_status_mahasiswa WHERE (ta >= $ta1 AND ta <= $ta2) AND kjur=$kjur $sql GROUP BY ta,idsmt,idkelas";
                 $this->db->setFieldTable(array('ta','idsmt','idkelas'));	
                 $r = $this->db->getRecord($str);  
                 
@@ -774,7 +778,10 @@ class Logic_ReportAkademik extends Logic_Report {
                     }  
                     $dataaktif=$objDemik->getRekapStatusMHS($kjur,$ta1,$ta2,'A');
                     $row=13;
-                    while (list($m,$n)=each ($data)) {            
+                    while (list($m,$n)=each ($data)) {                                    
+                        $sheet->setCellValue("A$row",$v['ta']);				
+                        $sheet->setCellValue("B$row",$v['idsmt']);				
+                        $sheet->setCellValue("C$row",$v['idkelas']);				
                         $sheet->setCellValue("D$row",$dataaktif[$m]['jumlah_pria']);				
                         $sheet->setCellValue("E$row",$dataaktif[$m]['jumlah_wanita']);				
                         $sheet->setCellValue("F$row",'L + P');	

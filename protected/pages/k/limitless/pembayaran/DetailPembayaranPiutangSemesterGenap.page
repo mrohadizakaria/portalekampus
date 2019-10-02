@@ -73,6 +73,7 @@
                                 <th scope="col">TANGGAL TRANSAKSI</th>			
                                 <th scope="col">TANGGAL INPUT</th>			
                                 <th scope="col" class="text-right">TOTAL</th>											
+                                <th scope="col" class="text-right">DISCOUNT</th>											
                                 <th scope="col" width="120">AKSI</th>
                             </tr>
                             </thead>

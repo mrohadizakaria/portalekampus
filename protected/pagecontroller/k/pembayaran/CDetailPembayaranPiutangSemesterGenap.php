@@ -2,6 +2,7 @@
 prado::using ('Application.MainPageK');
 class CDetailPembayaranPiutangSemesterGenap Extends MainPageK {
     public static $TotalSudahBayar=0;
+    public static $TotalDiscount=0;
     public static $KewajibanMahasiswa=0;
 	public function onLoad($param) {
 		parent::onLoad($param);				
@@ -60,13 +61,14 @@ class CDetailPembayaranPiutangSemesterGenap Extends MainPageK {
         $tahun=$datamhs['ta'];
         $idsmt=$_SESSION['currentPagePembayaranPiutangSemesterGenap']['semester'];
         $kjur=$datamhs['kjur'];
-        $str = "SELECT no_transaksi,no_faktur,tanggal,commited,date_added FROM transaksi WHERE tahun='$tahun' AND idsmt='$idsmt' AND nim='$nim' AND kjur='$kjur'";
-        $this->DB->setFieldTable(array('no_transaksi','no_faktur','tanggal','commited','date_added'));
+        $str = "SELECT no_transaksi,no_faktur,tanggal,commited,disc,date_added FROM transaksi WHERE tahun='$tahun' AND idsmt='$idsmt' AND nim='$nim' AND kjur='$kjur'";
+        $this->DB->setFieldTable(array('no_transaksi','no_faktur','tanggal','commited','disc','date_added'));
         $r=$this->DB->getRecord($str);
         $result=array();
         while (list($k,$v)=each($r)) {
             $no_transaksi=$v['no_transaksi'];
             $v['total']=$this->DB->getSumRowsOfTable('dibayarkan',"transaksi_detail WHERE no_transaksi=$no_transaksi");
+            $v['jumlah_disc']=$v['disc'] > 0 ? $v['total']-(($v['disc']/100)*$v['total']):0;
             $result[$k]=$v;
         }
         $this->ListTransactionRepeater->DataSource=$result;
@@ -82,6 +84,7 @@ class CDetailPembayaranPiutangSemesterGenap Extends MainPageK {
                 $item->btnDeleteFromRepeater->Attributes->onclick="if(!confirm('Apakah Anda ingin menghapus Transaksi ini?')) return false;";
             }
             CDetailPembayaranPiutangSemesterGenap::$TotalSudahBayar+=$item->DataItem['total'];
+            CDetailPembayaranPiutangSemesterGenap::$TotalDiscount+=$item->DataItem['jumlah_disc'];
 		}
 	}	
 	public function addTransaction ($sender,$param) {

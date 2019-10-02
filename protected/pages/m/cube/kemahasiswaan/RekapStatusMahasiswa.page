@@ -35,6 +35,24 @@
                                     <com:TListItem Text="LULUS" Value="L" />                                    
                                 </com:TDropDownList>
                             </div>
+                        </div> 
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Tahun Masuk :</label>
+                            <div class="col-lg-3">
+                                <com:TDropDownList ID="cmbFilterTahunMasuk" CssClass="form-control" />                                    
+                            </div>
+                        </div>                        
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Semester :</label>
+                            <div class="col-lg-3">
+                                <com:TDropDownList ID="cmbFilterSemester" CssClass="form-control" />                                    
+                            </div>
+                        </div>                        
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Kelas :</label>
+                            <div class="col-lg-3">
+                                <com:TDropDownList ID="cmbFilterKelas" CssClass="form-control" />                                    
+                            </div>
                         </div>                        
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
