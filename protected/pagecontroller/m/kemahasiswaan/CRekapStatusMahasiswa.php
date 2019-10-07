@@ -43,6 +43,12 @@ class CRekapStatusMahasiswa Extends MainPageM {
             $this->cmbFilterSemester->Text=$_SESSION['currentPageRekapStatusMahasiswa']['idsmt'];
             $this->cmbFilterSemester->DataBind();
             
+            $kelas=$this->DMaster->getListKelas();			
+            $kelas['none']='KESELURUHAN';
+            $this->cmbFilterKelas->DataSource=$kelas;
+            $this->cmbFilterKelas->Text=$_SESSION['currentPageRekapStatusMahasiswa']['idkelas'];
+            $this->cmbFilterKelas->DataBind();
+            
             $this->tbCmbOutputReport->DataSource=$this->setup->getOutputFileType();
             $this->tbCmbOutputReport->Text= $_SESSION['outputreport'];
             $this->tbCmbOutputReport->DataBind();
@@ -99,6 +105,8 @@ class CRekapStatusMahasiswa Extends MainPageM {
     public function filterRecord ($sender,$param) {
         $_SESSION['currentPageRekapStatusMahasiswa']['k_status']=$this->cmbFilterStatus->Text;
         $_SESSION['currentPageRekapStatusMahasiswa']['tahun_masuk']=$this->cmbFilterTahunMasuk->Text;        
+        $_SESSION['currentPageRekapStatusMahasiswa']['idsmt']=$this->cmbFilterSemester->Text;        
+        $_SESSION['currentPageRekapStatusMahasiswa']['idkelas']=$this->cmbFilterKelas->Text;        
         $this->redirect('kemahasiswaan.RekapStatusMahasiswa',true);
 	} 
 	public function populateData() {		
@@ -108,7 +116,13 @@ class CRekapStatusMahasiswa Extends MainPageM {
         
         $k_status=$_SESSION['currentPageRekapStatusMahasiswa']['k_status'];
         $tahun_masuk=$_SESSION['currentPageRekapStatusMahasiswa']['tahun_masuk'];
-        $sql=$tahun_masuk == 'none'?'':"AND tahun_masuk='$tahun_masuk'";
+        $sql=$tahun_masuk == 'none'?'':"AND tahun_masuk='$tahun_masuk'";        
+        
+        $idsmt=$_SESSION['currentPageRekapStatusMahasiswa']['idsmt'];        
+        $sql.=$idsmt == 'none'?'':"AND idsmt='$idsmt'";
+
+        $idkelas=$_SESSION['currentPageRekapStatusMahasiswa']['idkelas'];        
+        $sql.=$idkelas == 'none'?'':"AND idkelas='$idkelas'";
         switch ($k_status) {
             case 'A' :                
                 $r=$this->Demik->getRekapStatusMHS($kjur,$ta1,$ta2,'A',$sql);
