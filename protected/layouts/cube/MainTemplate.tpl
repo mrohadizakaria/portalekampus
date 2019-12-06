@@ -522,6 +522,11 @@
                                                     </a>
                                                 </li> 
                                                 <li>
+                                                    <a href="<%=$this->Page->constructUrl('kemahasiswaan.CalonWisuda',true)%>"<%=$this->Page->showCalonWisuda==true ? ' class="active" ':''%>>
+                                                        Calon Wisuda
+                                                    </a>
+                                                </li> 
+                                                <li>
                                                     <a href="<%=$this->Page->constructUrl('kemahasiswaan.PindahKelas',true)%>"<%=$this->Page->showPindahKelas==true ? ' class="active" ':''%>>
                                                         Pindah Kelas
                                                     </a>

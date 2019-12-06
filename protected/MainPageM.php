@@ -41,6 +41,10 @@ class MainPageM extends MainPage {
      */
     public $showRekapStatusMahasiswa=false;
     /**
+     * show page calon wisuda [akademik kemahasiswaan]
+     */
+    public $showCalonWisuda=false;
+    /**
      * show page pindah kelas [akademik kemahasiswaan]
      */
     public $showPindahKelas=false;

@@ -1413,6 +1413,7 @@ INSERT INTO `setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (9, 'general', 'alamat_pt', 'Jl. Fisabilillah No. 8'),
 (11, 'general', 'kota_pt', 'Tanjungpinang'),
 (12, 'general', 'provinsi_pt', 'Kepulauan Riau');
+(200, 'cron', 'kemahasiswaan', '[]');
 
 --
 -- Table structure for table `soal`
