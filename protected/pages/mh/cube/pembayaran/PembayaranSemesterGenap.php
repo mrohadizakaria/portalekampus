@@ -9,7 +9,9 @@ class PembayaranSemesterGenap Extends CPembayaranSemesterGenap {
 		$tahun_masuk=$datamhs['tahun_masuk'];
 		$semester_masuk=$datamhs['semester_masuk'];
 		$ta=$_SESSION['currentPagePembayaranSemesterGenap']['ta'];			
-		if ($tahun_masuk != $ta && $semester_masuk!=2) {	
+		if ($tahun_masuk == $ta && $semester_masuk==2) {	
+		    return true;
+		}else{
 			$ta=($ta == $tahun_masuk)?$tahun_masuk:$ta;																		
 			$this->Finance->setDataMHS(array('no_formulir'=>$datamhs['no_formulir']));
 			$idkelas=$this->Finance->getKelasFromTransaksi($ta,1);
