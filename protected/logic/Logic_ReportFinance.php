@@ -110,7 +110,7 @@ class Logic_ReportFinance extends Logic_Report {
                     $this->db->setFieldTable(array('tahun','idsmt','idkelas','k_status'));
                     $data_dulang = $this->db->getRecord($str);
                     
-                    $str="SELECT tahun,idsmt,SUM(dibayarkan) AS dibayarkan FROM v_transaksi WHERE no_formulir='$no_formulir' GROUP BY tahun,idsmt";
+                    $str="SELECT tahun,idsmt,SUM(dibayarkan) AS dibayarkan FROM v_transaksi WHERE no_formulir='$no_formulir' AND idkombi!=1 GROUP BY tahun,idsmt";
                     $this->db->setFieldTable(array('tahun','idsmt','dibayarkan'));
                     $result = $this->db->query($str);                    
                     $daftar_dibayarkan=array();
