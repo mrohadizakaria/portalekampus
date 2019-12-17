@@ -29,17 +29,21 @@ class CDetailNilaiFinal extends MainPageON {
             $str = "SELECT nomor_ijazah,nomor_transkrip,predikat_kelulusan,tanggal_lulus,judul_skripsi,iddosen_pembimbing,iddosen_pembimbing2,iddosen_ketua,iddosen_pemket,tahun,idsmt FROM transkrip_asli WHERE nim='$nim'";
             $this->DB->setFieldTable(array('nomor_ijazah','nomor_transkrip','predikat_kelulusan','tanggal_lulus','judul_skripsi','iddosen_pembimbing','iddosen_pembimbing2','iddosen_ketua','iddosen_pemket','tahun','idsmt'));
             $r=$this->DB->getRecord($str);
-            $datatranskrip=$r[1];
-            
+
             $daftar_dosen=$this->DMaster->removeIdFromArray($this->DMaster->getDaftarDosen(),'none');
+            
             $this->cmbEditDosenPembimbing->DataSource=$daftar_dosen;
-            $this->cmbEditDosenPembimbing->dataBind();            
-            $this->cmbEditDosenPembimbing->Text=$datatranskrip['iddosen_pembimbing'];
+            $this->cmbEditDosenPembimbing->dataBind();     
 
             $this->cmbEditDosenPembimbing2->DataSource=$daftar_dosen;
             $this->cmbEditDosenPembimbing2->dataBind();
-            $this->cmbEditDosenPembimbing2->Text=$datatranskrip['iddosen_pembimbing2'];	
+
             if (isset($r[1])) {
+                $datatranskrip=$r[1];             
+                       
+                $this->cmbEditDosenPembimbing->Text=$datatranskrip['iddosen_pembimbing'];
+                $this->cmbEditDosenPembimbing2->Text=$datatranskrip['iddosen_pembimbing2'];	
+            
                 $this->hiddennomorijazah->Value=$datatranskrip['nomor_ijazah'];
                 $this->txtEditNomorIjazah->Text=$datatranskrip['nomor_ijazah'];
 
