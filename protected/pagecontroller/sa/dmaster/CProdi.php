@@ -8,8 +8,7 @@ class CProdi extends MainPageSA {
 		if (!$this->IsPostBack&&!$this->IsCallBack) {
             if (!isset($_SESSION['currentPageProdi'])||$_SESSION['currentPageProdi']['page_name']!='sa.dmaster.Prodi') {
 				$_SESSION['currentPageProdi']=array('page_name'=>'sa.dmaster.Prodi','page_num'=>0,'search'=>false);
-			}
-            $this->DB->insertRecord("REPLACE INTO program_studi SET kjur=0,kode_epsbed=0,nama_ps=0,nama_ps_alias=0,kjenjang=0,konsentrasi=0,idkur=0,iddosen=0");
+			}            
             $this->populateData ();			
 		}
 	}
