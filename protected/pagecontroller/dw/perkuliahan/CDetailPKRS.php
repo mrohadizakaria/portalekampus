@@ -104,8 +104,8 @@ class CDetailPKRS extends MainPageDW {
                     throw new Exception ('Matakuliah, tidak bisa disahkan. Karena telah melebihi batas anda');
                 }
                 $str = "UPDATE krsmatkul SET batal=0 WHERE idkrsmatkul=$idkrsmatkul";
-				$this->DB->updateRecord($str);
-				$this->DB->insertRecord("INSERT INTO pkrs (nim,idpenyelenggaraan,sah,tanggal) VALUES ('$nim',$idpenyelenggaraan,1,NOW())");			
+				$this->DB->updateRecord($str);                
+                $this->DB->insertRecord("INSERT INTO pkrs SET nim='$nim',idpenyelenggaraan=$idpenyelenggaraan,tambah=0,hapus=1,batal=0,sah=1,tanggal=NOW()");										
 				$this->redirect('perkuliahan.DetailPKRS',true,array('id'=>$idkrs));	
 			} catch (Exception $e) {
 				$this->modalMessageError->show();
@@ -114,7 +114,7 @@ class CDetailPKRS extends MainPageDW {
 		}elseif ($id[0]==0) {		
 			$str = "UPDATE krsmatkul SET batal=1 WHERE idkrsmatkul=$idkrsmatkul";			
 			$this->DB->updateRecord($str);
-			$this->DB->insertRecord("INSERT INTO pkrs (nim,idpenyelenggaraan,batal,tanggal) VALUES ('$nim',$idpenyelenggaraan,1,NOW())");			
+            $this->DB->insertRecord("INSERT INTO pkrs SET nim='$nim',idpenyelenggaraan=$idpenyelenggaraan,tambah=0,hapus=0,batal=1,sah=0,tanggal=NOW()");										
 			$this->redirect('perkuliahan.DetailPKRS',true,array('id'=>$idkrs));	
 		}
 		
@@ -128,7 +128,7 @@ class CDetailPKRS extends MainPageDW {
 		$this->DB->query ('BEGIN');		
 		if ($this->DB->deleteRecord("krsmatkul WHERE idkrsmatkul='$idkrsmatkul'")) {
 			$this->DB->deleteRecord("kelas_mhs_detail WHERE idkrsmatkul='$idkrsmatkul'");
-			$this->DB->insertRecord("INSERT INTO pkrs (nim,idpenyelenggaraan,hapus,tanggal) VALUES ('$nim',$idpenyelenggaraan,1,NOW())");										
+            $this->DB->insertRecord("INSERT INTO pkrs SET nim='$nim',idpenyelenggaraan=$idpenyelenggaraan,tambah=0,hapus=1,batal=0,sah=0,tanggal=NOW()");										
 			$this->DB->query ('COMMIT');
 		}else {
 			$this->DB->query ('ROLLBACK');
