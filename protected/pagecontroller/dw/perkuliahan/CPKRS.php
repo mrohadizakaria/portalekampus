@@ -74,7 +74,7 @@ class CPKRS extends MainPageDW {
 		$iddosen_wali=$this->iddosen_wali;
 		$ta=$_SESSION['ta'];
 		$idsmt=$_SESSION['semester'];
-         $str = "SELECT p.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,vp.nmatkul,vp.sks,p.tambah,p.hapus,p.batal,p.sah,p.tanggal FROM pkrs p,v_datamhs vdm,v_penyelenggaraan vp WHERE p.nim=vdm.nim AND p.idpenyelenggaraan=vp.idpenyelenggaraan AND vp.idsmt='$idsmt' AND vp.tahun='$ta' AND vdm.iddosen_wali=$iddosen_wali";
+        $str = "SELECT p.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,vp.nmatkul,vp.sks,p.tambah,p.hapus,p.batal,p.sah,p.tanggal FROM pkrs p,v_datamhs vdm,v_penyelenggaraan vp WHERE p.nim=vdm.nim AND p.idpenyelenggaraan=vp.idpenyelenggaraan AND vp.idsmt='$idsmt' AND vp.tahun='$ta' AND vdm.iddosen_wali=$iddosen_wali";
           
         if ($search) {
             $txtsearch=addslashes($this->txtKriteria->Text);
@@ -93,6 +93,7 @@ class CPKRS extends MainPageDW {
         }else{
             $jumlah_baris = $this->DB->getCountRowsOfTable("pkrs p,v_datamhs vdm,penyelenggaraan vp WHERE p.nim=vdm.nim AND p.idpenyelenggaraan=vp.idpenyelenggaraan AND vp.idsmt='$idsmt' AND vp.tahun='$ta' AND vdm.iddosen_wali=$iddosen_wali");
         }        
+        $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPagePKRS']['page_num'];
 		$this->RepeaterS->VirtualItemCount=$jumlah_baris;
 		$currentPage=$this->RepeaterS->CurrentPageIndex;
 		$offset=$currentPage*$this->RepeaterS->PageSize;		
@@ -101,7 +102,7 @@ class CPKRS extends MainPageDW {
 		if (($offset+$limit)>$itemcount) {
 			$limit=$itemcount-$offset;
 		}
-		if ($limit < 0) {$offset=0;$limit=$this->setup->getSettingValue('default_pagesize');$_SESSION['currentPagePKRS']['page_num']=0;}
+		if ($limit < 0) {$offset=0;$limit=6;$_SESSION['currentPagePKRS']['page_num']=0;}
         $str = "$str ORDER BY vdm.nama_mhs ASC LIMIT $offset,$limit";	
         $this->DB->setFieldTable(array('nim','nama_mhs','jk','tahun_masuk','nmatkul','sks','tambah','hapus','batal','sah','tanggal'));
         $r = $this->DB->getRecord($str,$offset+1);
