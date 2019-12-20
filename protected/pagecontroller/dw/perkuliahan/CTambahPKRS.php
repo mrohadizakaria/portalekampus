@@ -103,7 +103,7 @@ class CTambahPKRS extends MainPageDW {
 			if (!$this->DB->checkRecordIsExist('idpenyelenggaraan','krsmatkul',$idpenyelenggaraan,' AND idkrs='.$idkrs)) { 
 				$str = "INSERT INTO krsmatkul (idkrsmatkul,idkrs,idpenyelenggaraan,batal) VALUES (NULL,'$idkrs',$idpenyelenggaraan,0)";
 				$this->DB->insertRecord($str);
-                $this->DB->insertRecord("INSERT INTO pkrs (nim,idpenyelenggaraan,tambah,tanggal) VALUES ('$nim',$idpenyelenggaraan,1,NOW())");
+				$this->DB->insertRecord("INSERT INTO pkrs SET nim='$nim',idpenyelenggaraan=$idpenyelenggaraan,tambah=1,hapus=0,batal=0,tanggal=NOW()");														
                 $this->DB->query ('COMMIT');
 				$this->redirect ('perkuliahan.TambahPKRS',true);
 			}else{
