@@ -1495,7 +1495,7 @@ CREATE TABLE `transaksi` (
   `nim` char(20) NOT NULL,
   `commited` tinyint(1) NOT NULL DEFAULT '0',
   `tanggal` date NOT NULL,
-  `userid` smallint(6) NOT NULL,
+  `userid` int(11) NOT NULL,
   `jumlah_sks` smallint(6) NOT NULL,
   `disc` decimal(5,2) NOT NULL,
   `date_added` datetime NOT NULL,
