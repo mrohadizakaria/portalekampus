@@ -1412,7 +1412,7 @@ INSERT INTO `setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (8, 'general', 'jslogger', '0'),
 (9, 'general', 'alamat_pt', 'Jl. Fisabilillah No. 8'),
 (11, 'general', 'kota_pt', 'Tanjungpinang'),
-(12, 'general', 'provinsi_pt', 'Kepulauan Riau');
+(12, 'general', 'provinsi_pt', 'Kepulauan Riau'),
 (200, 'cron', 'kemahasiswaan', '[]');
 
 --
@@ -1846,7 +1846,7 @@ CREATE VIEW `v_pengampu_penyelenggaraan`  AS  SELECT
                                       `pengampu_penyelenggaraan` `pp` JOIN `penyelenggaraan` `p` ON (`p`.`idpenyelenggaraan` = `pp`.`idpenyelenggaraan`)
                                       JOIN `matakuliah` `m` ON `m`.`kmatkul` = `p`.`kmatkul`
                                       JOIN `dosen` `d` ON `pp`.`iddosen` = `d`.`iddosen`   
-                                      JOIN `jabatan_akademik` `ja` ON `d`.`idjabatan`= `ja`.`idjabatan`                                    
+                                      JOIN `jabatan_akademik` `ja` ON `d`.`idjabatan`= `ja`.`idjabatan`;                                    
 
 -- --------------------------------------------------------
 
