@@ -39,10 +39,14 @@ class CDaftarKonsentrasi extends MainPageMHS {
             $idkonsentrasi=$this->cmbKonsentrasiProdi->Text;
             $ta=$this->setup->getSettingValue('default_ta');
             $semester=$this->setup->getSettingValue('default_semester');
-            $str = "INSERT INTO pendaftaran_konsentrasi (nim,kjur,idkonsentrasi,jumlah_sks,tahun,idsmt,tanggal_daftar,status_daftar) VALUES ('$nim',$kjur,$idkonsentrasi,$jumlah_sks,$ta,$semester,NOW(),0)";
-            $this->DB->insertRecord($str);
-            
-            $this->redirect('kemahasiswaan.DaftarKonsentrasi',true);
+            try {
+                $str = "INSERT INTO pendaftaran_konsentrasi (nim,kjur,idkonsentrasi,jumlah_sks,tahun,idsmt,tanggal_daftar,status_daftar) VALUES ('$nim',$kjur,$idkonsentrasi,$jumlah_sks,$ta,$semester,NOW(),0)";
+                $this->DB->insertRecord($str);
+                
+                $this->redirect('kemahasiswaan.DaftarKonsentrasi',true);
+            } catch (Exception $ex) {
+                echo $ex->getMessage();
+            }
         }
     }
 }
