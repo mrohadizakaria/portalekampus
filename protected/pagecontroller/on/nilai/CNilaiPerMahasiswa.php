@@ -162,7 +162,7 @@ class CNilaiPerMahasiswa extends MainPageON {
                     $nilai_sebelumnya=$inputan->nilai_sebelumnya->Value;				
                     if ($nilai_sebelumnya==''&&$n_kual!='none') {//insert					
                         if (!$this->DB->checkRecordIsExist('idkrsmatkul','nilai_matakuliah',$idkrsmatkul)) {
-                            $str = "INSERT INTO nilai_matakuliah (idnilai,idkrsmatkul,n_kuan,n_kual,userid_input,tanggal_input,tanggal_modif) VALUES (NULL,$idkrsmatkul,'$n_kuan','$n_kual',$userid,NOW(),NOW())";				
+                            $str = "INSERT INTO nilai_matakuliah SET idnilai=NULL,idkrsmatkul=$idkrsmatkul,persentase_quiz=0,persentase_tugas=0,persentase_uts=0,persentase_uas=0,persentase_absen=0,nilai_quiz=0,nilai_tugas=0,nilai_uts=0,nilai_uas=0,nilai_absen=0,n_kuan='$n_kuan',n_kual='$n_kual',userid_input=$userid,userid_modif=$userid,tanggal_input=NOW(),tanggal_modif=NOW()";				
                             $this->DB->insertRecord($str);
                         }
                     }elseif($n_kual!='none'&&$n_kual!=$nilai_sebelumnya){//update										
