@@ -746,12 +746,12 @@ CREATE TABLE `kuesioner_hasil` (
   `jumlah_soal` smallint(6) NOT NULL,
   `skor_tertinggi` int(11) NOT NULL,
   `skor_terendah` int(11) NOT NULL,
-  `intervals` decimal(6,2) NOT NULL,
-  `maks_sangatburuk` decimal(6,2) NOT NULL,
-  `maks_buruk` decimal(6,2) NOT NULL,
-  `maks_sedang` decimal(6,2) NOT NULL,
-  `maks_baik` decimal(6,2) NOT NULL,
-  `maks_sangatbaik` decimal(6,2) NOT NULL,
+  `intervals` decimal(15,2) NOT NULL,
+  `maks_sangatburuk` decimal(15,2) NOT NULL,
+  `maks_buruk` decimal(15,2) NOT NULL,
+  `maks_sedang` decimal(15,2) NOT NULL,
+  `maks_baik` decimal(15,2) NOT NULL,
+  `maks_sangatbaik` decimal(15,2) NOT NULL,
   `n_kuan` tinyint(11) NOT NULL,
   `n_kual` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
