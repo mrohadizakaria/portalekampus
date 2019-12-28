@@ -65,7 +65,7 @@ class CTambahKRS extends MainPageMHS {
                     $tanggal=date('Y-m-d');
                     $no_krs=mt_rand();                    
                     $tasmt=$tahun.$idsmt;
-                    $str = "INSERT INTO krs (idkrs,tgl_krs,no_krs,nim,idsmt,tahun,tasmt) VALUES (NULL,'$tanggal',$no_krs,'$nim','$idsmt','$tahun','$tasmt')";
+                    $str = "INSERT INTO krs SET idkrs=NULL,tgl_krs='$tanggal',no_krs=$no_krs,nim='$nim',idsmt='$idsmt',tahun='$tahun',tasmt='$tasmt',sah=0,tgl_disahkan='0000-00-00'";
                     $this->DB->insertRecord($str);					
                     $this->KRS->DataKRS['krs'] = array('idkrs'=>$this->DB->getLastInsertID(),
                                      'tgl_krs'=>$tanggal,

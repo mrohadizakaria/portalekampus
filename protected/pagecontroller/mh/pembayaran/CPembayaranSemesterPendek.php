@@ -97,7 +97,7 @@ class CPembayaranSemesterPendek Extends MainPageMHS {
                     $userid=$this->Pengguna->getDataUser('userid');
 
                     $this->DB->query ('BEGIN');
-                    $str = "INSERT INTO transaksi (no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,tanggal,userid,date_added,date_modified) VALUES ($no_transaksi,'$no_faktur','$ps','$ta','$idsmt','$idkelas','$no_formulir','$nim',NOW(),'$userid',NOW(),NOW())";					
+                    $str = "INSERT INTO transaksi (no_transaksi=$no_transaksi,no_faktur='$no_faktur',kjur='$ps',tahun='$ta',idsmt='$idsmt',idkelas='$idkelas',no_formulir='$no_formulir',nim='$nim',jumlah_sks=0,disc=0,tanggal=NOW(),userid='$userid',date_added=NOW(),date_modified=NOW()";					
                     if ($this->DB->insertRecord($str)) {
                         $str = "INSERT INTO transaksi_detail (idtransaksi_detail,no_transaksi,idkombi,dibayarkan,jumlah_sks) VALUES(NULL,$no_transaksi,14,0,0)";
                         $this->DB->insertRecord($str);
