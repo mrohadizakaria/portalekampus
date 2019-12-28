@@ -244,7 +244,7 @@
                                 <td><%# $this->DataItem['nama_mhs']%></td>
                                 <td><%# $this->DataItem['jk']%></td>
                                 <td><%# $this->DataItem['namakelas']%></td>
-                                <td><com:TTextBox ID="txtNilaiAngka" CssClass="form-control" Width="70px" /></td>
+                                <td><com:TTextBox ID="txtNilaiAngka" CssClass="form-control" Width="70px" Text="0" Attributes.OnKeyUp="formatangka(this,true)" /></td>
                                     <td>
                                         <com:THiddenField ID="idkrsmatkul" Value="<%# $this->DataItem['idkrsmatkul']%>" />
                                         <com:THiddenField ID="nilai_sebelumnya" />

@@ -157,7 +157,7 @@ class CNilaiPerMahasiswa extends MainPageON {
             foreach ($repeater->Items as $inputan) {	
                 if ($inputan->cmbNilai->Enabled) {												
                     $idkrsmatkul=$inputan->idkrsmatkul->Value;		
-                    $n_kuan=  addslashes($inputan->txtNilaiAngka->Text);
+                    $n_kuan=addslashes($inputan->txtNilaiAngka->Text);
                     $n_kual=$inputan->cmbNilai->Text;				
                     $nilai_sebelumnya=$inputan->nilai_sebelumnya->Value;				
                     if ($nilai_sebelumnya==''&&$n_kual!='none') {//insert					

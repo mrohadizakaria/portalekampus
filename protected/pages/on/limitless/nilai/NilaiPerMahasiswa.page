@@ -110,7 +110,7 @@
                                     <td><%#$this->DataItem['nmatkul']%></td>
                                     <td><%#$this->DataItem['sks']%></td>
                                     <td><%#$this->DataItem['nama_dosen']%></td>
-                                    <td><com:TTextBox ID="txtNilaiAngka" CssClass="form-control" Width="70px" /></td>
+                                    <td><com:TTextBox ID="txtNilaiAngka" CssClass="form-control" Width="70px" Text="0" Attributes.OnKeyUp="formatangka(this,true)" /></td>
                                     <td>
                                         <com:THiddenField ID="idkrsmatkul" Value="<%# $this->DataItem['idkrsmatkul']%>" />
                                         <com:THiddenField ID="nilai_sebelumnya" />
