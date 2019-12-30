@@ -1,6 +1,6 @@
 <?php
 prado::using ('Application.MainPageK');
-class CPiutangJangkaPendek extends MainPageK {
+class CPembayaranPiutangTertagihGanjil extends MainPageK {
 	public function onLoad($param) {		
 		parent::onLoad($param);						
         $this->showReport=true;
@@ -92,8 +92,8 @@ class CPiutangJangkaPendek extends MainPageK {
              
         $kelas=$_SESSION['currentPagePiutangJangkaPendek']['kelas'];
         $str_kelas = $kelas == 'none'?'':" AND idkelas='$kelas'";
-        $jumlah_baris=$this->DB->getCountRowsOfTable("v_datamhs WHERE kjur=$kjur AND tahun_masuk=$tahun_masuk AND k_status!='L' $str_kelas",'nim');		        
-        $str = "SELECT no_formulir,nim,nirm,nama_mhs,jk,idkelas,tahun_masuk,semester_masuk FROM v_datamhs WHERE kjur='$kjur'AND tahun_masuk=$tahun_masuk AND k_status!='L' $str_kelas";			
+        $jumlah_baris=$this->DB->getCountRowsOfTable("v_datamhs WHERE kjur=$kjur AND tahun_masuk=$tahun_masuk AND (k_status='N' OR k_status='D' OR k_status='K') $str_kelas",'nim');		        
+        $str = "SELECT no_formulir,nim,nirm,nama_mhs,jk,idkelas,tahun_masuk,semester_masuk FROM v_datamhs WHERE kjur='$kjur'AND tahun_masuk=$tahun_masuk AND (k_status='N' OR k_status='D' OR k_status='K') $str_kelas";			
         $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPagePiutangJangkaPendek']['page_num'];
 		$this->RepeaterS->VirtualItemCount=$jumlah_baris;
 		$currentPage=$this->RepeaterS->CurrentPageIndex;

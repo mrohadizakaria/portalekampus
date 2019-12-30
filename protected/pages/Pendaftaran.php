@@ -67,7 +67,7 @@ class Pendaftaran extends MainPageF {
 	        $ta=$this->setup->getSettingValue('default_tahun_pendaftaran');
 	        $idsmt=1;
 	        $no_pendaftaran=$ta.mt_rand(1000,9999).$idsmt;
-	        $str  = "INSERT INTO formulir_pendaftaran_temp SET no_pendaftaran='$no_pendaftaran',nama_mhs='$nama_mhs',tempat_lahir='$tempat_lahir',tanggal_lahir='$tgl_lahir',jk='$jk',email='$email',telp_hp='$telp_hp',kjur1='$kjur1',kjur2='$kjur2',idkelas='$idkelas',ta='$ta',idsmt='$idsmt',salt='$salt',userpassword='$password',waktu_mendaftar=NOW()";
+	        $str  = "INSERT INTO formulir_pendaftaran_temp SET no_pendaftaran='$no_pendaftaran',no_formulir=0,nama_mhs='$nama_mhs',tempat_lahir='$tempat_lahir',tanggal_lahir='$tgl_lahir',jk='$jk',email='$email',telp_hp='$telp_hp',kjur1='$kjur1',kjur2='$kjur2',idkelas='$idkelas',ta='$ta',idsmt='$idsmt',salt='$salt',userpassword='$password',waktu_mendaftar=NOW(),file_bukti_bayar=''";
 	        $this->DB->insertRecord($str);
 	        
 	        $this->redirect('PendaftaranSuccess',false,array('id'=>$no_pendaftaran));

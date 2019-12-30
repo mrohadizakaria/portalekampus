@@ -215,7 +215,7 @@
                                         <a href="<%=$this->Page->constructUrl('pembayaran.PembayaranPiutangSemesterGenap',true)%>">
                                             <i class="icon-calculator3"></i> Piutang Semester Genap
                                         </a>
-                                    </li>
+                                    </li>                                    
                                 </ul>
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-files-empty position-left"></i> Laporan <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu width-250">
+                <ul class="dropdown-menu width-450">
                     <li class="dropdown-header">REKAPITULASI</li>
                     <li<%=$this->Page->showReportRekapPembayaranGanjil==true?' class="active"':''%>>
                         <a href="<%=$this->Page->constructUrl('report.RekapPembayaranSemesterGanjil',true)%>">
@@ -249,7 +249,17 @@
                         <a href="<%=$this->Page->constructUrl('report.PiutangJangkaPendek',true)%>">
                             <i class="icon-file-text"></i> Piutang Jangka Pendek
                         </a>
-                    </li>                                        
+                    </li>                                
+                    <li<%=$this->Page->showPembayaranPiutangSemesterGanjil==true?' class="active"':''%>>
+                        <a href="<%=$this->Page->constructUrl('report.PembayaranPiutangTertagihGanjil',true)%>">
+                            <i class="icon-calculator3"></i> Piutang Tertagih Ganjil
+                        </a>
+                    </li>
+                    <li<%=$this->Page->showPembayaranPiutangSemesterGenap==true?' class="active"':''%>>
+                        <a href="<%=$this->Page->constructUrl('report.PembayaranPiutangTertagihGenap',true)%>">
+                            <i class="icon-calculator3"></i> Piutang Tertagih Genap
+                        </a>
+                    </li>        
                 </ul>
             </li>
             </com:TLiteral>
