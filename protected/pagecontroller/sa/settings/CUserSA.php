@@ -124,8 +124,8 @@ class CUserSA extends MainPageSA {
             $password=$data['password'];           
             $page='sa';
             $group_id=$this->cmbAddGroup->Text;  
-            $kjur=$this->cmbAddProdi->Text;
-            $str = "INSERT INTO user (userid,username,userpassword,salt,nama,email,page,group_id,kjur,active,theme,foto,date_added) VALUES (NULL,'$username','$password','$salt','$nama','$email','$page','$group_id','$kjur',1,'cube','resources/userimages/no_photo.png',NOW())";
+            $kjur=$this->cmbAddProdi->Text;            
+            $str = "INSERT INTO user SET userid=NULL,idbank=0,username='$username',userpassword='$password',salt='$salt',nama='$nama',email='$email',page='$page',group_id='$group_id',kjur='$kjur',active=1,isdeleted=0,theme='cube',foto='resources/userimages/no_photo.png',date_added=NOW()";             
             $this->DB->insertRecord($str);           
             
 			$this->redirect('settings.UserSA',true);
