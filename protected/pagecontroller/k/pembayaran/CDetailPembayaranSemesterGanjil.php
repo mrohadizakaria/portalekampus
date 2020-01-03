@@ -125,7 +125,7 @@ class CDetailPembayaranSemesterGanjil Extends MainPageK {
                         $biaya=$v['biaya'];
                         $idkombi=$v['idkombi'];
                         $sisa_bayar=isset($sudah_dibayarkan[$idkombi]) ? $biaya-$sudah_dibayarkan[$idkombi]:$biaya;
-                        $str = "INSERT INTO transaksi_detail (idtransaksi_detail,no_transaksi,idkombi,dibayarkan,jumlah_sks) VALUES(NULL,$no_transaksi,$idkombi,$sisa_bayar,0)";
+                        $str = "INSERT INTO transaksi_detail SET idtransaksi_detail=NULL,no_transaksi=$no_transaksi,idkombi=$idkombi,dibayarkan=$sisa_bayar,jumlah_sks=0";
                         $this->DB->insertRecord($str);
                     }                   
                     $this->DB->query('COMMIT');

@@ -233,7 +233,7 @@ class CFormulirPendaftaran extends MainPageM {
             
             $idkelas=$this->cmbEditKelas->Text; 
             $kjur1=$this->cmbEditKjur1->Text;
-            $kjur2=$this->cmbEditKjur2->Text;                       
+            $kjur2=($this->cmbEditKjur2->Text)>0?$this->cmbEditKjur2->Text:0;                       
             $ta=$this->cmbEditTahunMasuk->Text;
             $idsmt=$this->cmbEditSemester->Text;           
             	

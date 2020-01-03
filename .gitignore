@@ -9,3 +9,5 @@ index.php
 .classpath
 .vscode
 .github
+error_log
+access_log
