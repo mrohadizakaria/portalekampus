@@ -110,7 +110,7 @@ class CDetailPembayaranPiutangSemesterGenap Extends MainPageK {
                 $userid=$this->Pengguna->getDataUser('userid');
 
                 $this->DB->query ('BEGIN');
-                $str = "INSERT INTO transaksi SET no_transaksi=$no_transaksi,no_faktur='$no_faktur',kjur='$ps',tahun='$ta',idsmt='$idsmt',idkelas='$idkelas',no_formulir='$no_formulir',nim='$nim',tanggal=NOW(),jumlah_sks=0,userid='$userid',date_added=NOW(),date_modified=NOW()";                
+                $str = "INSERT INTO transaksi SET no_transaksi=$no_transaksi,no_faktur='$no_faktur',kjur='$ps',tahun='$ta',idsmt='$idsmt',idkelas='$idkelas',no_formulir='$no_formulir',nim='$nim',tanggal=NOW(),jumlah_sks=0,userid='$userid',disc=0,date_added=NOW(),date_modified=NOW()";                
                 if ($this->DB->insertRecord($str)) {
                     $str = "SELECT idkombi,SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE nim=$nim AND tahun=$ta AND idsmt=$idsmt AND commited=1 GROUP BY idkombi ORDER BY idkombi+1 ASC";
                     $this->DB->setFieldTable(array('idkombi','sudah_dibayar'));
@@ -129,7 +129,7 @@ class CDetailPembayaranPiutangSemesterGenap Extends MainPageK {
                         $biaya=$v['biaya'];
                         $idkombi=$v['idkombi'];
                         $sisa_bayar=isset($sudah_dibayarkan[$idkombi]) ? $biaya-$sudah_dibayarkan[$idkombi]:$biaya;
-                        $str = "INSERT INTO transaksi_detail (idtransaksi_detail,no_transaksi,idkombi,dibayarkan) VALUES(NULL,$no_transaksi,$idkombi,$sisa_bayar)";
+                        $str = "INSERT INTO transaksi_detail (idtransaksi_detail,no_transaksi,idkombi,dibayarkan,jumlah_sks) VALUES(NULL,$no_transaksi,$idkombi,$sisa_bayar,0)";
                         $this->DB->insertRecord($str);
                     }                   
                     $this->DB->query('COMMIT');
