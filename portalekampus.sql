@@ -1297,7 +1297,7 @@ CREATE TABLE `rekap_laporan_pembayaran_per_semester` (
   `no_formulir` int(11) NOT NULL,
   `nim` char(20) NOT NULL,
   `nirm` char(20) NOT NULL,
-  `nama_mhs` varchar(20) NOT NULL,
+  `nama_mhs` varchar(200) NOT NULL,
   `jk` char(1) NOT NULL,
   `tahun_masuk` year(4) NOT NULL,
   `semester_masuk` tinyint(1) NOT NULL,
