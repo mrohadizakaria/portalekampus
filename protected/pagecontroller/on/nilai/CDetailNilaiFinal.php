@@ -135,7 +135,7 @@ class CDetailNilaiFinal extends MainPageON {
                     }
                 }
             }else{
-                $str = "INSERT transkrip_asli SET nim='$nim',nomor_transkrip='$no_transkrip',predikat_kelulusan='$predikat',tanggal_lulus='$tanggal_lulus',judul_skripsi='$judul_skripsi',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',iddosen_ketua='$ketua',iddosen_pemket='$pemket',tahun='$ta',idsmt='$idsmt'";
+                $str = "INSERT transkrip_asli SET nim='$nim',nomor_ijazah='$no_ijazah',nomor_transkrip='$no_transkrip',predikat_kelulusan='$predikat',tanggal_lulus='$tanggal_lulus',judul_skripsi='$judul_skripsi',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',iddosen_ketua='$ketua',iddosen_pemket='$pemket',tahun='$ta',idsmt='$idsmt'";
                 $this->DB->insertRecord($str);
             }
 			$this->redirect('nilai.DetailNilaiFinal',true);
