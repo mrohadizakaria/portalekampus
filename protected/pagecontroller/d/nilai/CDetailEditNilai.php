@@ -133,8 +133,29 @@ class CDetailEditNilai extends MainPageD {
                     $n_kuan=($persentase_quiz*$nilai_quiz)+($persentase_tugas*$nilai_tugas)+($persentase_uts*$nilai_uts)+($persentase_uas*$nilai_uas)+($persentase_absen*$nilai_absen);
                     $n_kual=$this->Nilai->getRentangNilaiNKuan($n_kuan);
                     
-                    $str = "REPLACE INTO nilai_matakuliah (idkrsmatkul,persentase_quiz, persentase_tugas, persentase_uts, persentase_uas, persentase_absen, nilai_quiz, nilai_tugas, nilai_uts, nilai_uas, nilai_absen, n_kuan,n_kual,userid_input,tanggal_input,userid_modif,tanggal_modif,bydosen,ket,telah_isi_kuesioner,tanggal_isi_kuesioner) VALUES ($idkrsmatkul,'$persentase_quiz','$persentase_tugas','$persentase_uts','$persentase_uas','$persentase_absen','$nilai_quiz','$nilai_tugas','$nilai_uts','$nilai_uas','$nilai_absen','$n_kuan','$n_kual',$userid,NOW(),$userid,NOW(),1,'bydosen',0,'0000-00-00')";																				
-                    $this->DB->insertRecord($str);
+                    $str = "REPLACE INTO nilai_matakuliah SET 
+                                                            idkrsmatkul=$idkrsmatkul,
+                                                            persentase_quiz='$persentase_quiz',
+                                                            persentase_tugas='$persentase_tugas',
+                                                            persentase_uts='$persentase_uts',
+                                                            persentase_uas='$persentase_uas', 
+                                                            persentase_absen='$persentase_absen', 
+                                                            nilai_quiz='$nilai_quiz', 
+                                                            nilai_tugas='$nilai_tugas', 
+                                                            nilai_uts='$nilai_uts',
+                                                            nilai_uas='$nilai_uas', 
+                                                            nilai_absen='$nilai_absen', 
+                                                            n_kuan='$n_kuan',
+                                                            n_kual='$n_kual',
+                                                            userid_input=$userid,
+                                                            tanggal_input=NOW(),
+                                                            userid_modif=$userid,
+                                                            tanggal_modif=NOW(),
+                                                            bydosen=1,
+                                                            ket='bydosen',
+                                                            telah_isi_kuesioner=0,
+                                                            tanggal_isi_kuesioner='0000-00-00')";																				
+                $this->DB->insertRecord($str);
                 }
             }
             $this->redirect("nilai.DetailEditNilai", true,array('id'=>$idkelas_mhs));
