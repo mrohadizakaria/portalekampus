@@ -116,7 +116,7 @@ class CPembayaranCutiSemesterGanjil Extends MainPageMHS {
             $this->Finance->setDataMHS($datamhs);
             $dibayarkan=$this->Finance->getBiayaCuti($datamhs['tahun_masuk'],$datamhs['semester_masuk'],$datamhs['idkelas']);
             
-            $str = "INSERT INTO transaksi_cuti SET no_transaksi='$no_transaksi',no_faktur='$no_faktur',tahun=$tahun,idsmt=1,nim='$nim',dibayarkan=$dibayarkan,tanggal='$tanggal',date_added=NOW(),date_modified=NOW(),userid=$userid";
+            $str = "INSERT INTO transaksi_cuti SET no_transaksi='$no_transaksi',no_faktur='$no_faktur',tahun=$tahun,idsmt=1,nim='$nim',idkombi=0,dibayarkan=$dibayarkan,commited=0,tanggal='$tanggal',date_added=NOW(),date_modified=NOW(),userid=$userid";
             $this->DB->insertRecord($str);
             
             $this->redirect('pembayaran.PembayaranCutiSemesterGanjil',true);
