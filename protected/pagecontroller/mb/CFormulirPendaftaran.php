@@ -220,7 +220,7 @@ class CFormulirPendaftaran extends MainPageMB {
 		if ($this->IsValid) {
 			$no_formulir=$this->txtAddNoFormulir->Text;
 			$nama_mhs=addslashes(strtoupper(trim($this->txtAddNamaMhs->Text)));			
-			$tempat_lahir=strtoupper(trim($this->txtAddTempatLahir->Text));						
+			$tempat_lahir=addslashes(strtoupper(trim($this->txtAddTempatLahir->Text)));						
 			$tgl_lahir=date ('Y-m-d',$this->txtAddTanggalLahir->TimeStamp);
 			$jk=$this->rdAddPria->Checked===true?'L':'P';
             $idagama=$this->cmbAddAgama->Text;
@@ -293,7 +293,7 @@ class CFormulirPendaftaran extends MainPageMB {
 		if ($this->IsValid) {
 			$no_formulir=$this->txtEditNoFormulir->Text;
 			$nama_mhs=addslashes(strtoupper(trim($this->txtEditNamaMhs->Text)));			
-			$tempat_lahir=strtoupper(trim($this->txtEditTempatLahir->Text));						
+			$tempat_lahir=addslashes(strtoupper(trim($this->txtEditTempatLahir->Text)));						
 			$tgl_lahir=date ('Y-m-d',$this->txtEditTanggalLahir->TimeStamp);
 			$jk=$this->rdEditPria->Checked===true?'L':'P';
             $idagama=$this->cmbEditAgama->Text;

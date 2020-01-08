@@ -53,7 +53,7 @@ class Pendaftaran extends MainPageF {
 	public function saveData ($sender,$param) {
 	    if ($this->IsValid) {
 	        $nama_mhs=addslashes(strtoupper(trim($this->txtAddNamaMhs->Text)));
-	        $tempat_lahir=strtoupper(trim($this->txtAddTempatLahir->Text));
+	        $tempat_lahir=addslashes(strtoupper(trim($this->txtAddTempatLahir->Text)));
 	        $tgl_lahir=date ('Y-m-d',$this->txtAddTanggalLahir->TimeStamp);
 	        $jk=$this->rdAddPria->Checked===true?'L':'P';
 	        $telp_hp=addslashes($this->txtAddNoTelpHP->Text);
