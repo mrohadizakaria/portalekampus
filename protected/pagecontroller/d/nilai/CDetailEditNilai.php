@@ -154,7 +154,7 @@ class CDetailEditNilai extends MainPageD {
                                                             bydosen=1,
                                                             ket='bydosen',
                                                             telah_isi_kuesioner=0,
-                                                            tanggal_isi_kuesioner='0000-00-00')";																				
+                                                            tanggal_isi_kuesioner='0000-00-00'";																				
                 $this->DB->insertRecord($str);
                 }
             }

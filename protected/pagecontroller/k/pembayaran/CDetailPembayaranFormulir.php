@@ -97,7 +97,7 @@ class CDetailPembayaranFormulir Extends MainPageK {
                 $userid=$this->Pengguna->getDataUser('userid');
 
                 $this->DB->query ('BEGIN');
-                $str = "INSERT INTO transaksi SET no_transaksi=$no_transaksi,no_faktur='$no_faktur',tahun='$ta',idsmt='$idsmt',idkelas='$idkelas',no_formulir='$no_formulir',tanggal=NOW(),userid='$userid',jumlah_sks=0,disc=0,date_added=NOW(),date_modified=NOW()";
+                $str = "INSERT INTO transaksi SET no_transaksi=$no_transaksi,no_faktur='$no_faktur',kjur=0,tahun='$ta',idsmt='$idsmt',idkelas='$idkelas',no_formulir='$no_formulir',nim=0,tanggal=NOW(),jumlah_sks=0,disc=0,userid='$userid',date_added=NOW(),date_modified=NOW()";
                 if ($this->DB->insertRecord($str)) {
                     $str = "SELECT idkombi,SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE no_formulir=$no_formulir AND tahun=$ta AND idsmt=$idsmt AND commited=1 GROUP BY idkombi ORDER BY idkombi+1 ASC";
                     $this->DB->setFieldTable(array('idkombi','sudah_dibayar'));
