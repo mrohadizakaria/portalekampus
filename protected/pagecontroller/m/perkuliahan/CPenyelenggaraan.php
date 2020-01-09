@@ -113,7 +113,7 @@ class CPenyelenggaraan extends MainPageM {
             $kjur=$_SESSION['kjur'];
             
 			$str = "INSERT INTO penyelenggaraan (idpenyelenggaraan,idsmt,tahun,kmatkul,kjur,iddosen) VALUES (NULL,'$idsmt','$ta','";
-			$str_pengampu='INSERT INTO pengampu_penyelenggaraan (idpengampu_penyelenggaraan,idpenyelenggaraan,iddosen) VALUES (NULL,';
+			$str_pengampu='INSERT INTO pengampu_penyelenggaraan (idpengampu_penyelenggaraan,idpenyelenggaraan,iddosen,verified) VALUES (NULL,';
 			foreach ($this->RepeaterAdd->Items As $inputan) {
                 $iddosen=$inputan->cmbAddDaftarDosen->Text;
 				if ($iddosen != 'none'&& $iddosen !='') {					
@@ -122,7 +122,7 @@ class CPenyelenggaraan extends MainPageM {
 					$this->DB->query('BEGIN');
 					if ($this->DB->insertRecord($str2)) {
 						$idpenyelenggaraan=$this->DB->getLastInsertID();
-						$str_pengampu2=$str_pengampu."$idpenyelenggaraan,$iddosen)";
+						$str_pengampu2=$str_pengampu."$idpenyelenggaraan,$iddosen,0)";
 						$this->DB->insertRecord($str_pengampu2);
 						$this->DB->query('COMMIT');
 					}else {

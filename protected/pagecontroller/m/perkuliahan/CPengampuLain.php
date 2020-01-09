@@ -70,7 +70,7 @@ class CPengampuLain extends MainPageM {
 		if ($this->IsValid) {			
 			$iddosen=$this->cmbAddDaftarDosen->Text;
 			$idpenyelenggaraan=$this->hiddenid->Value;		
-			$str = "INSERT INTO pengampu_penyelenggaraan (idpengampu_penyelenggaraan,idpenyelenggaraan,iddosen) VALUES (NULL,$idpenyelenggaraan,$iddosen)";
+			$str = "INSERT INTO pengampu_penyelenggaraan (idpengampu_penyelenggaraan,idpenyelenggaraan,iddosen,verified) VALUES (NULL,$idpenyelenggaraan,$iddosen,0)";
 			$this->DB->insertRecord($str);
             $_SESSION['currentPagePembagianKelas']['iddosen']='none';
 			$this->redirect('perkuliahan.PengampuLain',true,array('id'=>$idpenyelenggaraan));
