@@ -1541,7 +1541,7 @@ CREATE TABLE `transaksi_cuti` (
   `date_added` date NOT NULL,
   `date_modified` date NOT NULL,
   `tanggal` date NOT NULL,
-  `userid` smallint(6) NOT NULL
+  `userid` char(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

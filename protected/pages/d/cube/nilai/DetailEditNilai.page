@@ -78,7 +78,7 @@
                         <div class="form-group" id="divPersenQuiz">
                             <label class="col-lg-2 control-label">Persentase Quiz :</label>
                             <div class="col-lg-3">
-                                <com:TTextBox ID="txtPersenQuiz" CssClass="form-control" Width="70px" />
+                                <com:TTextBox ID="txtPersenQuiz" CssClass="form-control bil" Width="70px" />
                                 <com:TRequiredFieldValidator ID="FieldPersenQuizValidator" ControlToValidate="txtPersenQuiz" Display="Dynamic" ErrorMessage="Isi nilai persentase Quiz" ValidationGroup="editpersentasenilai" CssClass="has-error help-block">
                                     <prop:ClientSide.OnValidationError>
                                         $('divPersenQuiz').addClassName('has-error');
@@ -93,7 +93,7 @@
                         <div class="form-group" id="divPersenTugas">
                             <label class="col-lg-2 control-label">Persentase Tugas :</label>
                             <div class="col-lg-3">
-                                <com:TTextBox ID="txtPersenTugas" CssClass="form-control" Width="70px" />
+                                <com:TTextBox ID="txtPersenTugas" CssClass="form-control bil" Width="70px" />
                                 <com:TRequiredFieldValidator ID="FieldPersenTugasValidator" ControlToValidate="txtPersenTugas" Display="Dynamic" ErrorMessage="Isi nilai persentase Tugas" ValidationGroup="editpersentasenilai" CssClass="has-error help-block">
                                     <prop:ClientSide.OnValidationError>
                                         $('divPersenTugas').addClassName('has-error');
@@ -108,7 +108,7 @@
                         <div class="form-group" id="divPersenUTS">
                             <label class="col-lg-2 control-label">Persentase UTS :</label>
                             <div class="col-lg-3">
-                                <com:TTextBox ID="txtPersenUTS" CssClass="form-control" Width="70px" />
+                                <com:TTextBox ID="txtPersenUTS" CssClass="form-control bil" Width="70px" />
                                 <com:TRequiredFieldValidator ID="FieldPersenUTSValidator" ControlToValidate="txtPersenUTS" Display="Dynamic" ErrorMessage="Isi nilai persentase UTS" ValidationGroup="editpersentasenilai" CssClass="has-error help-block">
                                     <prop:ClientSide.OnValidationError>
                                         $('divPersenUTS').addClassName('has-error');
@@ -123,7 +123,7 @@
                         <div class="form-group" id="divPersenUAS">
                             <label class="col-lg-2 control-label">Persentase UAS :</label>
                             <div class="col-lg-3">
-                                <com:TTextBox ID="txtPersenUAS" CssClass="form-control" Width="70px" />
+                                <com:TTextBox ID="txtPersenUAS" CssClass="form-control bil" Width="70px" />
                                 <com:TRequiredFieldValidator ID="FieldPersenUASValidator" ControlToValidate="txtPersenUAS" Display="Dynamic" ErrorMessage="Isi nilai persentase UAS" ValidationGroup="editpersentasenilai" CssClass="has-error help-block">
                                     <prop:ClientSide.OnValidationError>
                                         $('divPersenUAS').addClassName('has-error');
@@ -138,7 +138,7 @@
                         <div class="form-group" id="divPersenAbsen">
                             <label class="col-lg-2 control-label">Persentase Absen :</label>
                             <div class="col-lg-3">
-                                <com:TTextBox ID="txtPersenAbsen" CssClass="form-control" Width="70px" />
+                                <com:TTextBox ID="txtPersenAbsen" CssClass="form-control bil" Width="70px" />
                                 <com:TRequiredFieldValidator ID="FieldPersenAbsenValidator" ControlToValidate="txtPersenAbsen" Display="Dynamic" ErrorMessage="Isi nilai persentase Absen" ValidationGroup="editpersentasenilai" CssClass="has-error help-block">
                                     <prop:ClientSide.OnValidationError>
                                         $('divPersenAbsen').addClassName('has-error');
@@ -277,23 +277,23 @@
                                     <td><%#$this->DataItem['nim']%></td>
                                     <td>
                                         <com:THiddenField ID="hiddenpersenquiz" Value="<%#$this->DataItem['persentase_quiz']%>" />
-                                        <com:TTextBox ID="txtNilaiQuiz" Text="<%#$this->DataItem['nilai_quiz']%>" CssClass="form-control" Width="70px" />
+                                        <com:TTextBox ID="txtNilaiQuiz" Text="<%#$this->DataItem['nilai_quiz']%>" CssClass="form-control bil" Width="70px" />
                                     </td>
                                     <td>
                                         <com:THiddenField ID="hiddenpersentugas" Value="<%#$this->DataItem['persentase_tugas']%>" />
-                                        <com:TTextBox ID="txtNilaiTugas" Text="<%#$this->DataItem['nilai_tugas']%>" CssClass="form-control" Width="70px" />
+                                        <com:TTextBox ID="txtNilaiTugas" Text="<%#$this->DataItem['nilai_tugas']%>" CssClass="form-control bil" Width="70px" />
                                     </td>
                                     <td>
                                         <com:THiddenField ID="hiddenpersenuts" Value="<%#$this->DataItem['persentase_uts']%>" />
-                                        <com:TTextBox ID="txtNilaiUTS" CssClass="form-control" Text="<%#$this->DataItem['nilai_uts']%>" Width="70px" />
+                                        <com:TTextBox ID="txtNilaiUTS" CssClass="form-control bil" Text="<%#$this->DataItem['nilai_uts']%>" Width="70px" />
                                     </td>
                                     <td>
                                         <com:THiddenField ID="hiddenpersenuas" Value="<%#$this->DataItem['persentase_uas']%>" />
-                                        <com:TTextBox ID="txtNilaiUAS" CssClass="form-control" Text="<%#$this->DataItem['nilai_uas']%>" Width="70px" />
+                                        <com:TTextBox ID="txtNilaiUAS" CssClass="form-control bil" Text="<%#$this->DataItem['nilai_uas']%>" Width="70px" />
                                     </td>							
                                     <td>
                                         <com:THiddenField ID="hiddenpersenabsen" Value="<%#$this->DataItem['persentase_absen']%>" />
-                                        <com:TTextBox ID="txtNilaiAbsen" CssClass="form-control" Text="<%#$this->DataItem['nilai_absen']%>" Width="70px" />
+                                        <com:TTextBox ID="txtNilaiAbsen" CssClass="form-control bil" Text="<%#$this->DataItem['nilai_absen']%>" Width="70px" />
                                     </td>
                                     <td><%=$this->DataItem['n_kuan']%></td>
                                     <td><%=$this->DataItem['am']%></td>
@@ -326,4 +326,23 @@
     </div>
 </com:TPanel>
 <%include Application.layouts.cube.ModalPrintOut%>
+</com:TContent>
+<com:TContent ID="jscontent">
+<script src="<%=$this->Theme->baseUrl%>/js/autoNumeric.min.js" type="text/javascript"></script>
+</com:TContent>
+<com:TContent ID="jsinlinecontent">
+<script type="text/javascript">
+anElement=new AutoNumeric.multiple ('.bil',{
+                allowDecimalPadding: false,
+                minimumValue:0,
+                maximumValue:100,
+                numericPos:true,
+                decimalPlaces : 0,
+                digitGroupSeparator : '',
+                showWarnings:false,
+                unformatOnSubmit: true,
+                emptyInputBehavior:0,
+                modifyValueOnWheel:false
+            });
+</script>
 </com:TContent>

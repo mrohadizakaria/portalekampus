@@ -44,4 +44,3 @@ jQuery('.select-all').click(function() {
   jQuery('.' + $this.data('class')).not(':disabled').prop('checked', checked);
   $this.data('checked', checked)
 });
-

@@ -83,11 +83,11 @@ class CImportNilai extends MainPageD {
                     //  Read a row of data into an array
                     $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,NULL,TRUE,FALSE);
                     $idkrsmatkul=$rowData[0][0];
-                    $nilai_quiz=$rowData[0][3];
-                    $nilai_tugas=$rowData[0][4];
-                    $nilai_uts=$rowData[0][5];
-                    $nilai_uas=$rowData[0][6];
-                    $nilai_absen=$rowData[0][7];
+                    $nilai_quiz=$rowData[0][3]>0?$rowData[0][3]:0;
+                    $nilai_tugas=$rowData[0][4]>0?$rowData[0][4]:0;
+                    $nilai_uts=$rowData[0][5]>0?$rowData[0][5]:0;
+                    $nilai_uas=$rowData[0][6]>0?$rowData[0][6]:0;
+                    $nilai_absen=$rowData[0][7]>0?$rowData[0][7]:0;
                     $n_kuan=($persentase_quiz*$nilai_quiz)+($persentase_tugas*$nilai_tugas)+($persentase_uts*$nilai_uts)+($persentase_uas*$nilai_uas)+($persentase_absen*$nilai_absen);
                     $n_kual=$this->Nilai->getRentangNilaiNKuan($n_kuan);
                     
