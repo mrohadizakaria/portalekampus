@@ -11,3 +11,4 @@ index.php
 .github
 error_log
 access_log
+.DS_STORE

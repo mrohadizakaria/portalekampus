@@ -247,7 +247,7 @@ class CFormulirPendaftaran extends MainPageMB {
             $statusslta=$this->cmbAddStatusSLTA->Text;
 			$nomor_ijazah=trim($this->txtAddNomorIjazah->Text);			            
             $kjur1=$this->cmbAddKjur1->Text;
-            $kjur2=$this->cmbAddKjur2->Text;
+            $kjur2=($this->cmbAddKjur2->Text)>0?$this->cmbAddKjur2->Text:0;
             $waktu_mendaftar=date('Y-m-d H:m:s');   
             $idsmt=$this->Pengguna->getDataUser('semester_masuk');
             $ta=$this->Pengguna->getDataUser('tahun_masuk');
@@ -320,7 +320,7 @@ class CFormulirPendaftaran extends MainPageMB {
             $statusslta=$this->cmbEditStatusSLTA->Text;
 			$nomor_ijazah=trim($this->txtEditNomorIjazah->Text);			            
             $kjur1=$this->cmbEditKjur1->Text;
-            $kjur2=$this->cmbEditKjur2->Text;
+            $kjur2=($this->cmbEditKjur2->Text)>0?$this->cmbEditKjur2->Text:0;
             $waktu_mendaftar=date('Y-m-d H:m:s');            
             $ta=$this->Pengguna->getDataUser('tahun_masuk');
             $idsmt=$this->Pengguna->getDataUser('semester_masuk');
