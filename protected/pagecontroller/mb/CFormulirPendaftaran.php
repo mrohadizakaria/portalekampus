@@ -273,7 +273,7 @@ class CFormulirPendaftaran extends MainPageMB {
 				
                 $photo_profile=$this->hiddenAddFoto->Value;
                 $userpassword=md5($_SESSION['userpassword_mb']);
-                $str = "INSERT INTO profiles_mahasiswa (idprofile,no_formulir,email,userpassword,theme,photo_profile) VALUES (NULL,$no_formulir,'$email','$userpassword','cube','$photo_profile')";
+                $str = "INSERT INTO profiles_mahasiswa (idprofile,no_formulir,nim,email,userpassword,theme,photo_profile) VALUES (NULL,$no_formulir,0,'$email','$userpassword','cube','$photo_profile')";
                 $this->DB->insertRecord($str);
                 $ket="Input Via WEB";
                 $userid=1;
