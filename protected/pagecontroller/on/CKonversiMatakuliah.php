@@ -140,8 +140,8 @@ class CKonversiMatakuliah extends MainPageON {
 			$idkur=$this->hiddenidkur->Value;
             $i=1;
             try {
-                $str="INSERT INTO data_konversi2 (iddata_konversi,nama,alamat,no_telp,nim_asal,kode_pt_asal,nama_pt_asal,kjenjang,kode_ps_asal,nama_ps_asal,tahun,kjur,idkur,date_added,date_modified) VALUES ";
-                $str=$str . " (NULL,'$nama','$alamat','$notelp','$nim_asal','$kode_pt_asal','$pt_asal','$kjenjang','$kode_ps_asal','$ps_asal','$tahun_masuk',$kjur,$idkur,NOW(),NOW())";
+                $str="INSERT INTO data_konversi2 (iddata_konversi,nama,alamat,no_telp,nim_asal,kode_pt_asal,nama_pt_asal,kjenjang,kode_ps_asal,nama_ps_asal,tahun,kjur,idkur,perpanjangan,date_added,date_modified) VALUES ";
+                $str=$str . " (NULL,'$nama','$alamat','$notelp','$nim_asal','$kode_pt_asal','$pt_asal','$kjenjang','$kode_ps_asal','$ps_asal','$tahun_masuk',$kjur,$idkur,0,NOW(),NOW())";
                 $this->DB->query ('BEGIN');
                 if ($this->DB->insertRecord($str)) {						
                     $iddata_konversi=$this->DB->getLastInsertID();                
@@ -165,7 +165,7 @@ class CKonversiMatakuliah extends MainPageON {
                 }       
             } catch (Exception $ex) {
                 $nmatkul=$_SESSION['currentPageKonversiMatakuliah']['daftarmatkul'][$i]['nmatkul'];
-                $this->lblContentMessageError->Text="Matakuliah $nmatkul dengan kode $kmatkul_before belum terdaftar di Kurikulum saat ini. Mohon untuk ditambahkan di Data Master -> Matakuliah";
+                $this->lblContentMessageError->Text="Matakuliah $nmatkul dengan kode $kmatkul_before belum terdaftar di Kurikulum saat ini. Mohon untuk ditambahkan di Data Master -> Matakuliah <em>".$ex->getMessage().'</em>';
                 $this->modalMessageError->show(); 
             }			
 		}
