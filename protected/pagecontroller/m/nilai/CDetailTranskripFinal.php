@@ -3,7 +3,6 @@ prado::using ('Application.MainPageM');
 class CDetailTranskripFinal extends MainPageM {		
 	public function onLoad($param) {
 		parent::onLoad($param);				
-        $this->Pengguna->moduleForbiden('akademik','transkrip_sementara');
 		$this->showSubMenuAkademikNilai=true;
         $this->showTranskripFinal=true;    
         $this->createObj('Nilai');
