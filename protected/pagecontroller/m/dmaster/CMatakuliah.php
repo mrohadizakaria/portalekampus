@@ -206,6 +206,7 @@ class CMatakuliah extends MainPageM {
             $sks=$this->cmbAddSks->Text;
             $idkonsentrasi=$this->cmbAddKonsentrasi->Text;            
             if ($idkonsentrasi == 'none') {
+                $idkonsentrasi=0;
                 $islindas_prodi=$this->cmbAddMatkulLintasProdi->Text;
                 $ispilihan=$islindas_prodi==1?1:$this->cmbAddMatkulPilihan->Text;
             }else{
@@ -284,6 +285,7 @@ class CMatakuliah extends MainPageM {
             $sks=$this->cmbEditSks->Text;
             $idkonsentrasi=$this->cmbEditKonsentrasi->Text;            
             if ($idkonsentrasi == 'none') {
+                $idkonsentrasi=0;
                 $islindas_prodi=$this->cmbEditMatkulLintasProdi->Text;
                 $ispilihan=$islindas_prodi==1?1:$this->cmbEditMatkulPilihan->Text;
             }else{
