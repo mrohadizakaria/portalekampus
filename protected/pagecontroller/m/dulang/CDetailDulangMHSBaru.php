@@ -85,7 +85,7 @@ class CDetailDulangMHSBaru Extends MainPageM {
             $kjur=$datamhs['kjur'];
 			$kelas=$datamhs['idkelas'];
             $iddosen_wali=$this->cmbAddDosenWali->Text;
-			$str = "INSERT INTO register_mahasiswa (nim,nirm,no_formulir,tahun,idsmt,tanggal,kjur,iddosen_wali,k_status,idkelas) VALUES ('$nim','$nirm','$no_formulir','$ta','$semester','$tanggal','$kjur','$iddosen_wali','A','$kelas')";			
+			$str = "INSERT INTO register_mahasiswa (nim,nirm,no_formulir,tahun,idsmt,tanggal,kjur,idkonsentrasi,iddosen_wali,k_status,idkelas,perpanjang) VALUES ('$nim','$nirm','$no_formulir','$ta','$semester','$tanggal','$kjur',0,'$iddosen_wali','A','$kelas',0)";			
 			$this->DB->query ('BEGIN');
 			if ($this->DB->insertRecord($str)) {
                 $tasmt=$ta.$semester;

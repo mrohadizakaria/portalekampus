@@ -38,7 +38,7 @@ CREATE TABLE `berita` (
   `idcat_berita` tinyint(4) NOT NULL,
   `tanggal_berita` datetime NOT NULL,
   `tanggal_modifikasi` datetime NOT NULL,
-  `userid` varchar(20) NOT NULL,
+  `userid` int(11) NOT NULL,
   `tipe` char(2) NOT NULL,
   `judul` varchar(255) NOT NULL,
   `content_resume` text NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `bipend` (
   `gelombang` tinyint(4) NOT NULL,
   `dibayarkan` int(11) NOT NULL,
   `ket` varchar(255) NOT NULL,
-  `userid` smallint(6) NOT NULL
+  `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -266,7 +266,7 @@ CREATE TABLE `forumposts` (
   `title` varchar(100) NOT NULL,
   `content` text NOT NULL,
   `sumlike` int(11) NOT NULL,
-  `userid` varchar(20) NOT NULL,
+  `userid` int(11) NOT NULL,
   `tipe` char(2) NOT NULL,
   `nama_user` varchar(100) NOT NULL,
   `unread` tinyint(1) NOT NULL DEFAULT '1',
@@ -488,7 +488,7 @@ CREATE TABLE `kbm` (
   `materi` varchar(255) NOT NULL,
   `periksa` tinyint(1) NOT NULL,
   `tanggal_periksa` datetime NOT NULL,
-  `userid` mediumint(9) NOT NULL
+  `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1100,7 +1100,7 @@ CREATE TABLE `pengumuman` (
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `sumlike` int(11) NOT NULL,
-  `userid` varchar(20) NOT NULL,
+  `userid` int(11) NOT NULL,
   `tipe` char(2) NOT NULL,
   `nama_user` varchar(100) NOT NULL,
   `unread` tinyint(1) NOT NULL DEFAULT '1',
@@ -1517,7 +1517,7 @@ CREATE TABLE `transaksi_api` (
   `nim` char(20) NOT NULL,
   `commited` tinyint(1) NOT NULL DEFAULT '0',
   `tanggal` date NOT NULL,
-  `userid` smallint(6) NOT NULL,
+  `userid` int(11) NOT NULL,
   `total` bigint(20) NOT NULL,
   `date_added` datetime NOT NULL,
   `date_modified` datetime NOT NULL
@@ -1541,7 +1541,7 @@ CREATE TABLE `transaksi_cuti` (
   `date_added` date NOT NULL,
   `date_modified` date NOT NULL,
   `tanggal` date NOT NULL,
-  `userid` char(20) NOT NULL
+  `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1576,7 +1576,7 @@ CREATE TABLE `transaksi_sp` (
   `sks` tinyint(4) NOT NULL,
   `dibayarkan` decimal(10,0) NOT NULL,
   `commited` tinyint(1) NOT NULL DEFAULT '0',
-  `userid` smallint(6) NOT NULL
+  `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1642,7 +1642,7 @@ CREATE TABLE `tweets` (
   `id` bigint(20) NOT NULL,
   `tweets` varchar(140) NOT NULL,
   `dt` datetime NOT NULL,
-  `userid` varchar(20) NOT NULL,
+  `userid` int(11) NOT NULL,
   `tipe` char(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1657,7 +1657,7 @@ CREATE TABLE `tweetscomment` (
   `id` bigint(20) NOT NULL,
   `comment` varchar(140) NOT NULL,
   `dt` datetime NOT NULL,
-  `userid` varchar(20) NOT NULL,
+  `userid` int(11) NOT NULL,
   `tipe` char(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
