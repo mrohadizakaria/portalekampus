@@ -111,7 +111,7 @@ class commitTransaction extends BaseWS {
 		            $datadulang=$this->Finance->getDataDulang($datamhs['ta'],$datamhs['idsmt']);		            
 		            if (!isset($datadulang['iddulang'])) {		                
 		                $tasmt=$ta.$idsmt;		                
-		                $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$idsmt','$tasmt','NOW()','$idkelas','$k_status','C')";
+		                $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$idsmt','$tasmt',NOW(),'$idkelas','$k_status','C')";
 		                $this->DB->insertRecord($str);
 
 		                $str = "UPDATE register_mahasiswa SET k_status='C' WHERE nim='$nim'";
@@ -131,7 +131,7 @@ class commitTransaction extends BaseWS {
 		}catch (Exception $e) {
 			$this->payload['message'] = $e->getMessage();
 		}	
-		$this->Pengguna->insertNewActivity ('json=commit_transaction',"melakukan request api terhadap method commit_transaction, outputnya: ".$this->payload['message']);
+		$this->Pengguna->insertNewActivity ('json=commit_transaction',"melakukan request api terhadap method commit_transaction, outputnya: ".addslashes($this->payload['message']));
 		return $this->payload;
 	}
 }
