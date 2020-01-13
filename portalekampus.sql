@@ -23,7 +23,7 @@ INSERT INTO `agama` (`idagama`, `nama_agama`) VALUES
 CREATE TABLE `backup_log` (
   `backup_log_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
-  `backup_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `backup_time` datetime NOT NULL,
   `backup_file` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
