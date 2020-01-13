@@ -191,7 +191,7 @@ CREATE TABLE `formulir_pendaftaran` (
   `telp_hp` varchar(50) NOT NULL,
   `idjp` tinyint(4) NOT NULL,
   `pendidikan_terakhir` varchar(40) DEFAULT NULL,
-  `jurusan` varchar(35) DEFAULT NULL,
+  `jurusan` varchar(255) DEFAULT NULL,
   `kota` varchar(60) DEFAULT NULL,
   `provinsi` varchar(40) DEFAULT NULL,
   `tahun_pa` year(4) DEFAULT NULL,
