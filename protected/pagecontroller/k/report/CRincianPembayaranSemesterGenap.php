@@ -154,7 +154,7 @@ class CRincianPembayaranSemesterGenap Extends MainPageK {
 			$str2 = "SELECT SUM(dibayarkan) AS dibayarkan FROM transaksi t,transaksi_detail td WHERE td.no_transaksi=t.no_transaksi AND t.nim=$nim AND t.idsmt=$semester AND t.tahun=$ta AND t.commited=1";			
 			$this->DB->setFieldTable(array('dibayarkan'));
 			$r2=$this->DB->getRecord($str2);				
-			$dibayarkan=$r2[1]['dibayarkan'];
+			$dibayarkan=$r2[1]['dibayarkan']>0?$r2[1]['dibayarkan']:0;
             $kewajiban=($ta==$v['tahun_masuk'] && $v['semester_masuk'] == $semester) ? $komponen_biaya[$idkelas]['baru']:$komponen_biaya[$idkelas]['lama'];
             $sisa=$kewajiban-$dibayarkan;
             
@@ -177,7 +177,7 @@ class CRincianPembayaranSemesterGenap Extends MainPageK {
         $str2 = "SELECT SUM(dibayarkan) AS dibayarkan FROM transaksi t,transaksi_detail td WHERE td.no_transaksi=t.no_transaksi AND t.nim=$nim AND t.idsmt=$semester AND t.tahun=$ta AND t.commited=1";			
         $this->DB->setFieldTable(array('dibayarkan'));
         $r2=$this->DB->getRecord($str2);
-        $dibayarkan=$r2[1]['dibayarkan'];
+        $dibayarkan=$r2[1]['dibayarkan']>0?$r2[1]['dibayarkan']:0;
         $sisa=$kewajiban-$dibayarkan;
         $str = "UPDATE rekap_laporan_pembayaran_per_semester SET dibayarkan='$dibayarkan', kewajiban='$kewajiban', sisa='$sisa' WHERE idrekap=$idrekap";
         $this->DB->updateRecord($str);
