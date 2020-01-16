@@ -329,7 +329,7 @@
 </com:TPanel>
 </com:TContent>
 <com:TContent ID="jscontent">
-<script src="<%=$this->Theme->baseUrl%>/js/autoNumeric.min.js" type="text/javascript"></script>
+<script src="<%=$this->Theme->baseUrl%>/assets/js/plugins/autoNumeric.min.js" type="text/javascript"></script>
 </com:TContent>
 <com:TContent ID="jsinlinecontent">
 <script type="text/javascript">
