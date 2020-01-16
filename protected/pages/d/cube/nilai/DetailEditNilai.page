@@ -334,14 +334,12 @@
 <script type="text/javascript">
 anElement=new AutoNumeric.multiple ('.bil',{
                 allowDecimalPadding: false,
-                minimumValue:0,
-                maximumValue:100,
-                numericPos:true,
-                decimalPlaces : 0,
-                digitGroupSeparator : '',
+                minimumValue:0.00,
+                maximumValue:100.00,
+                decimalCharacter:'.',
                 showWarnings:false,
+                emptyInputBehavior:0.00,
                 unformatOnSubmit: true,
-                emptyInputBehavior:0,
                 modifyValueOnWheel:false
             });
 </script>
