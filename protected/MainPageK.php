@@ -76,6 +76,23 @@ class MainPageK extends MainPage {
      * show page piutang jangka pendek [report]
      */
     public $showReportPiutangJangkaPendek=false;
+    /**     
+     * show page pembayaran piutang tertagih semester ganjil [report]
+     */
+    public $showPembayaranPiutangTertagihGanjil=false;
+    /**     
+     * show page pembayaran piutang tertagih semester genap[report]
+     */
+    public $showPembayaranPiutangTertagihGenap=false;
+    /**     
+     * show page pembayaran piutang tidak tertagih semester ganjil [report]
+     */
+    public $showPembayaranPiutangTidakTertagihGanjil=false;
+    /**     
+     * show page pembayaran piutang tidak tertagih semester genap[report]
+     */
+    public $showPembayaranPiutangTidakTertagihGenap=false;
+
 	public function onLoad ($param) {		
 		parent::onLoad($param);				
         if (!$this->IsPostBack&&!$this->IsCallBack) {	

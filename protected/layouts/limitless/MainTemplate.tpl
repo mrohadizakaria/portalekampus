@@ -250,14 +250,24 @@
                             <i class="icon-file-text"></i> Piutang Jangka Pendek
                         </a>
                     </li>                                
-                    <li<%=$this->Page->showPembayaranPiutangSemesterGanjil==true?' class="active"':''%>>
+                    <li<%=$this->Page->showPembayaranPiutangTertagihGanjil==true?' class="active"':''%>>
                         <a href="<%=$this->Page->constructUrl('report.PembayaranPiutangTertagihGanjil',true)%>">
                             <i class="icon-calculator3"></i> Piutang Tertagih Ganjil
                         </a>
                     </li>
-                    <li<%=$this->Page->showPembayaranPiutangSemesterGenap==true?' class="active"':''%>>
+                    <li<%=$this->Page->showPembayaranPiutangTertagihGenap==true?' class="active"':''%>>
                         <a href="<%=$this->Page->constructUrl('report.PembayaranPiutangTertagihGenap',true)%>">
                             <i class="icon-calculator3"></i> Piutang Tertagih Genap
+                        </a>
+                    </li>        
+                    <li<%=$this->Page->showPembayaranPiutangTidakTertagihGanjil==true?' class="active"':''%>>
+                        <a href="<%=$this->Page->constructUrl('report.PembayaranPiutangTidakTertagihGanjil',true)%>">
+                            <i class="icon-calculator3"></i> Piutang Tidak Tertagih Ganjil
+                        </a>
+                    </li>
+                    <li<%=$this->Page->showPembayaranPiutangTidakTertagihGenap==true?' class="active"':''%>>
+                        <a href="<%=$this->Page->constructUrl('report.PembayaranPiutangTidakTertagihGenap',true)%>">
+                            <i class="icon-calculator3"></i> Piutang Tidak Tertagih Genap
                         </a>
                     </li>        
                 </ul>
