@@ -94,7 +94,7 @@ class CSoalPMB extends MainPageMB {
             $no_formulir=$this->Pengguna->getDataUser('no_formulir');
             $pin = addslashes($this->txtAddPIN->Text);
             if ($this->DB->checkRecordIsExist ('no_pin','pin',$pin," AND no_formulir='$no_formulir'")) {
-                $str = "INSERT INTO kartu_ujian (no_formulir,no_ujian,tgl_ujian,idtempat_spmb) VALUES ($no_formulir,'$no_formulir',NOW(),1)";            
+                $str = "INSERT INTO kartu_ujian (no_formulir,no_ujian,tgl_ujian,tgl_selesai_ujian,isfinish,idtempat_spmb) VALUES ($no_formulir,'$no_formulir',NOW(),'0000-00-00 00:00:00',0,1)";            
                 $this->DB->query('BEGIN');
                 if ($this->DB->insertRecord($str)) {              
                     $str = "INSERT INTO jawaban_ujian (idsoal,idjawaban,no_formulir) SELECT s.idsoal,0,$no_formulir FROM soal s ORDER BY RAND() LIMIT 80";
@@ -210,7 +210,7 @@ class CSoalPMB extends MainPageMB {
                     }
                 }
             }
-            $str= "REPLACE INTO nilai_ujian_masuk SET no_formulir=$no_formulir,jumlah_soal=$jumlah_soal,jawaban_benar=$jawaban_benar,jawaban_salah=$jawaban_salah,soal_tidak_terjawab=$soal_tidak_terjawab,passing_grade_1=$passing_grade_1,passing_grade_2=$passing_grade_2,nilai=$nilai,ket_lulus=0";
+            $str= "REPLACE INTO nilai_ujian_masuk SET no_formulir=$no_formulir,jumlah_soal=$jumlah_soal,jawaban_benar=$jawaban_benar,jawaban_salah=$jawaban_salah,soal_tidak_terjawab=$soal_tidak_terjawab,passing_grade_1=$passing_grade_1,passing_grade_2=$passing_grade_2,nilai=$nilai,ket_lulus=0,kjur=0";
             $this->DB->insertRecord($str);
             $this->DB->query('COMMIT');
             $this->redirect('SoalPMB',true);
