@@ -45,6 +45,11 @@
                 </div>
             </div>                
             <div class="table-responsive">
+                <small class="display-block">          
+                    <code>Data ini diquery berdasarkan status terakhir mahasiswa yang terdaftar di database, artinya status mahasiswa baik itu non-aktif, lulus, dan lain-lain; tetap akan muncul. 
+                        Bila ingin sebaliknya, pilih berdasarkan Daftar Ulang.
+                    </code>
+                </small>
                 <com:TActiveRepeater ID="RepeaterS" DataKeyField="nim" AllowPaging="true" PageSize="10" AllowCustomPaging="true">
                     <prop:HeaderTemplate>			
                         <table class="table table-striped">

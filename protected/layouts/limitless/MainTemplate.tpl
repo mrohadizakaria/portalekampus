@@ -244,7 +244,7 @@
                             <i class="icon-file-text"></i> Rincian Pembayaran Genap
                         </a>
                     </li>
-                    <li class="dropdown-header">PIUTANG</li>
+                    <li class="dropdown-header">PIUTANG (BERDASARKAN REGISTER MAHASISWA)</li>
                     <li<%=$this->Page->showReportPiutangJangkaPendek==true?' class="active"':''%>>
                         <a href="<%=$this->Page->constructUrl('report.PiutangJangkaPendek',true)%>">
                             <i class="icon-file-text"></i> Piutang Jangka Pendek
