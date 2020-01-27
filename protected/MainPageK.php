@@ -92,6 +92,11 @@ class MainPageK extends MainPage {
      * show page pembayaran piutang tidak tertagih semester genap[report]
      */
     public $showPembayaranPiutangTidakTertagihGenap=false;
+    
+    /**     
+     * show page pembayaran piutang tidak tertagih semester ganjil dulang [report]
+     */
+    public $showPembayaranPiutangTidakTertagihGanjilDulang=false;
 
 	public function onLoad ($param) {		
 		parent::onLoad($param);				

@@ -168,7 +168,7 @@
                 <header class="main-box-header clearfix">
                     <h2 class="pull-left">&nbsp;</h2> 
                     <div class="filter-block pull-right">                                                   
-                        <com:TActiveLinkButton ID="btnPrintDulangAll" OnClick="printOut" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out Dulang">
+                        <com:TActiveLinkButton ID="btnPrintDulangAll" OnClick="Page.printOut" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out Dulang">
                             <prop:Text><i class="fa fa-print fa-lg"></i></prop:Text>
                             <prop:ClientSide.OnPreDispatch>
                                 $('loading').show();

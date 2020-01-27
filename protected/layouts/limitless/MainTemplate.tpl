@@ -270,7 +270,13 @@
                             <i class="icon-calculator3"></i> Piutang Tidak Tertagih Genap
                         </a>
                     </li>        
-                </ul>
+                    <li class="dropdown-header">PIUTANG (BERDASARKAN DAFTAR ULANG)</li>
+                    <li<%=$this->Page->showPembayaranPiutangTidakTertagihGanjilDulang==true?' class="active"':''%>>
+                        <a href="<%=$this->Page->constructUrl('report.PembayaranPiutangTidakTertagihGanjilDulang',true)%>">
+                            <i class="icon-calculator3"></i> Piutang Tidak Tertagih Ganjil
+                        </a>
+                    </li>
+                </ul>   
             </li>
             </com:TLiteral>
             <com:TLiteral Visible="<%=$this->Page->Pengguna->getTipeUser()=='on'%>">

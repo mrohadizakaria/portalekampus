@@ -117,7 +117,7 @@ class commitTransaction extends BaseWS {
 		                $str = "UPDATE register_mahasiswa SET k_status='C' WHERE nim='$nim'";
 		                $this->DB->updateRecord($str);
 		            }
-		            $str = "INSERT INTO transaksi_api (no_transaksi,no_faktur,tahun,idsmt,nim,commited,tanggal,userid,total,date_added,date_modified) SELECT no_transaksi,no_faktur,tahun,idsmt,nim,commited,tanggal,$userid,dibayarkan,date_added,date_modified FROM transaksi_cuti WHERE no_transaksi='$no_transaksi'";
+		            $str = "INSERT INTO transaksi_api (no_transaksi,no_faktur,kjur,tahun,idsmt,idkelas,no_formulir,nim,commited,tanggal,userid,total,date_added,date_modified) SELECT tc.no_transaksi,tc.no_faktur,vdm.kjur,tc.tahun,tc.idsmt,vdm.idkelas,vdm.no_formulir,tc.nim,tc.commited,tc.tanggal,$userid,tc.dibayarkan,tc.date_added,tc.date_modified FROM transaksi_cuti tc,v_datamhs WHERE tc.nim=vdm.nim AND no_transaksi='$no_transaksi'";
 					$this->DB->insertRecord($str);	
 		            $this->DB->query('COMMIT');
 

@@ -55,7 +55,7 @@ CREATE TABLE `berita` (
 CREATE TABLE `bipend` (
   `idbipend` bigint(20) NOT NULL,
   `tahun` year(4) NOT NULL,
-  `no_faktur` char(15) NOT NULL,
+  `no_faktur` varchar(150) NOT NULL,
   `tgl_bayar` date NOT NULL,
   `no_formulir` int(11) NOT NULL,
   `gelombang` tinyint(4) NOT NULL,
@@ -1486,7 +1486,7 @@ INSERT INTO `tempat_spmb` (`idtempat_spmb`, `nama_tempat`, `alamat`) VALUES
 
 CREATE TABLE `transaksi` (
   `no_transaksi` bigint(20) NOT NULL,
-  `no_faktur` char(15) NOT NULL,
+  `no_faktur` varchar(150) NOT NULL,
   `kjur` tinyint(4) NOT NULL,
   `tahun` year(4) NOT NULL,
   `idsmt` tinyint(4) NOT NULL,
@@ -1508,7 +1508,7 @@ CREATE TABLE `transaksi` (
 
 CREATE TABLE `transaksi_api` (
   `no_transaksi` bigint(20) NOT NULL,
-  `no_faktur` char(15) NOT NULL,
+  `no_faktur` varchar(150) NOT NULL,
   `kjur` tinyint(4) NOT NULL,
   `tahun` year(4) NOT NULL,
   `idsmt` tinyint(4) NOT NULL,
@@ -1531,7 +1531,7 @@ CREATE TABLE `transaksi_api` (
 
 CREATE TABLE `transaksi_cuti` (
   `no_transaksi` int(11) NOT NULL,
-  `no_faktur` char(15) NOT NULL,
+  `no_faktur` varchar(150) NOT NULL,
   `tahun` year(4) NOT NULL,
   `idsmt` tinyint(4) NOT NULL,
   `nim` char(20) NOT NULL,
@@ -1566,7 +1566,7 @@ CREATE TABLE `transaksi_detail` (
 
 CREATE TABLE `transaksi_sp` (
   `no_transaksi` bigint(20) NOT NULL,
-  `no_faktur` char(15) NOT NULL,
+  `no_faktur` varchar(150) NOT NULL,
   `kjur` tinyint(4) NOT NULL,
   `tahun` year(4) NOT NULL,
   `idsmt` tinyint(4) NOT NULL,
