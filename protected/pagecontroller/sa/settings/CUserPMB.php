@@ -1,15 +1,15 @@
 <?php
 prado::using ('Application.MainPageSA');
-class CUserON extends MainPageSA {		    	
+class CUserPMB extends MainPageSA {		    	
 	public function onLoad($param) {
 		parent::onLoad($param);		     
         $this->showSubMenuSettingSistem=true;
-        $this->showUserON=true;   
+        $this->showUserPMB=true;   
 		if (!$this->IsPostBack&&!$this->IsCallback) {
-            if (!isset($_SESSION['currentPageUserON'])||$_SESSION['currentPageUserON']['page_name']!='sa.settings.UserON') {
-				$_SESSION['currentPageUserON']=array('page_name'=>'sa.settings.UserON','page_num'=>0,'search'=>false);
+            if (!isset($_SESSION['currentPageUserPMB'])||$_SESSION['currentPageUserPMB']['page_name']!='sa.settings.UserPMB') {
+				$_SESSION['currentPageUserPMB']=array('page_name'=>'sa.settings.UserPMB','page_num'=>0,'search'=>false);
 			}
-            $_SESSION['currentPageUserON']['search']=false;
+            $_SESSION['currentPageUserPMB']['search']=false;
             $this->populateData();            
 		}
 	}       
@@ -17,40 +17,40 @@ class CUserON extends MainPageSA {
 		$this->RepeaterS->render($param->NewWriter);	
 	}
 	public function Page_Changed ($sender,$param) {
-		$_SESSION['currentPageUserON']['page_num']=$param->NewPageIndex;
-		$this->populateData($_SESSION['currentPageUserON']['search']);
+		$_SESSION['currentPageUserPMB']['page_num']=$param->NewPageIndex;
+		$this->populateData($_SESSION['currentPageUserPMB']['search']);
 	}
     
     public function searchRecord ($sender,$param) {
-		$_SESSION['currentPageUserON']['search']=true;
-        $this->populateData($_SESSION['currentPageUserON']['search']);
+		$_SESSION['currentPageUserPMB']['search']=true;
+        $this->populateData($_SESSION['currentPageUserPMB']['search']);
 	}    
 	protected function populateData ($search=false) {
         if ($search) {
-            $str = "SELECT u.userid,u.username,u.nama,u.email,ug.group_name,u.active,u.foto,u.logintime FROM user u LEFT JOIN user_group ug ON (ug.group_id=u.group_id) WHERE page='on'";			
+            $str = "SELECT u.userid,u.username,u.nama,u.email,ug.group_name,u.active,u.foto,u.logintime FROM user u LEFT JOIN user_group ug ON (ug.group_id=u.group_id) WHERE page='pmb";			
             $txtsearch=$this->txtKriteria->Text;
             switch ($this->cmbKriteria->Text) {
                 case 'username' :
                     $clausa="AND username='$txtsearch'";
-                    $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='on' $clausa",'userid');		            
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='pmb' $clausa",'userid');		            
                     $str = "$str $clausa";
                 break;
                 case 'nama' :
                     $clausa="AND nama LIKE '%$txtsearch%'";
-                    $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='on' $clausa",'userid');		            
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='pmb' $clausa",'userid');		            
                     $str = "$str $clausa";
                 break;
                 case 'email' :
                     $clausa="AND email LIKE '%$txtsearch%'";
-                    $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='on' $clausa",'userid');		            
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='pmb' $clausa",'userid');		            
                     $str = "$str $clausa";
                 break;
             }
         }else{
-            $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='on'",'userid');		            
-            $str = "SELECT u.userid,u.username,u.nama,u.email,ug.group_name,u.active,u.foto,u.kjur,u.logintime FROM user u LEFT JOIN user_group ug ON (ug.group_id=u.group_id) WHERE page='on'";			
+            $jumlah_baris=$this->DB->getCountRowsOfTable("user WHERE page='pmb'",'userid');		            
+            $str = "SELECT u.userid,u.username,u.nama,u.email,ug.group_name,u.active,u.foto,u.kjur,u.logintime FROM user u LEFT JOIN user_group ug ON (ug.group_id=u.group_id) WHERE page='pmb'";			
         }
-        $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageUserON']['page_num'];
+        $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageUserPMB']['page_num'];
 		$this->RepeaterS->VirtualItemCount=$jumlah_baris;
 		$currentPage=$this->RepeaterS->CurrentPageIndex;
 		$offset=$currentPage*$this->RepeaterS->PageSize;		
@@ -59,7 +59,7 @@ class CUserON extends MainPageSA {
 		if (($offset+$limit)>$itemcount) {
 			$limit=$itemcount-$offset;
 		}
-		if ($limit < 0) {$offset=0;$limit=$this->setup->getSettingValue('default_pagesize');$_SESSION['currentPageUserON']['page_num']=0;}
+		if ($limit < 0) {$offset=0;$limit=$this->setup->getSettingValue('default_pagesize');$_SESSION['currentPageUserPMB']['page_num']=0;}
         $str = "$str ORDER BY username ASC LIMIT $offset,$limit";				
         $this->DB->setFieldTable(array('userid','username','nama','email','email','group_name','active','foto','kjur','logintime'));
 		$r = $this->DB->getRecord($str,$offset+1);	
@@ -122,13 +122,13 @@ class CUserON extends MainPageSA {
             $data=$this->Pengguna->createHashPassword($this->txtAddPassword1->Text);
             $salt=$data['salt'];
             $password=$data['password'];           
-            $page='on';
+            $page='pmb';
             $group_id=$this->cmbAddGroup->Text;  
             $kjur=($this->cmbAddProdi->Text>0)?$this->cmbAddProdi->Text:0;
-            $str = "INSERT INTO user SET userid=NULL,idbank=0,username='$username',userpassword='$password',salt='$salt',nama='$nama',email='$email',page='$page',group_id='$group_id',kjur='$kjur',active=1,isdeleted=0,theme='limitless',foto='resources/userimages/no_photo.png',logintime=NOW(),date_added=NOW()";             
+            $str = "INSERT INTO user SET userid=NULL,idbank=0,username='$username',userpassword='$password',salt='$salt',nama='$nama',email='$email',page='$page',group_id='$group_id',kjur='$kjur',active=1,isdeleted=0,theme='cube',foto='resources/userimages/no_photo.png',logintime=NOW(),date_added=NOW()";             
             $this->DB->insertRecord($str);           
             
-			$this->redirect('settings.UserON',true);
+			$this->redirect('settings.UserPMB',true);
         }
     }
     public function editRecord ($sender,$param) {
@@ -145,7 +145,7 @@ class CUserON extends MainPageSA {
         $this->txtEditEmail->Text=$result['email'];
         $this->hiddenemail->Value=$result['email'];     
         $this->txtEditUsername->Text=$result['username'];    
-        $this->hiddenusername->Value=$result['username'];
+        $this->hiddenusername->Value=$result['username'];    
         
         $this->cmbEditGroup->DataSource=$this->Pengguna->removeIdFromArray($this->Pengguna->getListGroup(),'none');
         $this->cmbEditGroup->Text=$result['group_id'];  
@@ -179,13 +179,13 @@ class CUserON extends MainPageSA {
                 $str = "UPDATE user SET username='$username',userpassword='$password',salt='$salt',nama='$nama',email='$email',group_id='$group_id',kjur='$kjur',active='$status' WHERE userid=$id";               
             }
             $this->DB->updateRecord($str); 
-			$this->redirect('settings.UserON',true);
+			$this->redirect('settings.UserPMB',true);
 		}
 	}
     public function deleteRecord ($sender,$param) {        
 		$id=$this->getDataKeyField($sender,$this->RepeaterS);        
         $this->DB->deleteRecord("user WHERE userid=$id");
-        $this->redirect('settings.UserON',true);
+        $this->redirect('settings.UserPMB',true);
     }   
     
 }

@@ -167,7 +167,7 @@ class CUserKeuangan extends MainPageSA {
             $email = addslashes($this->txtEditEmail->Text);
             $username=addslashes($this->txtEditUsername->Text); 
             $group_id=$this->cmbEditGroup->Text;  
-            $kjur=$this->cmbEditProdi->Text;
+            $kjur=($this->cmbEditProdi->Text>0)?$this->cmbEditProdi->Text:0;
             $status=$this->cmbEditStatus->Text;
             
             if ($this->txtEditPassword1->Text == '') {

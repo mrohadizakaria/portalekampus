@@ -308,6 +308,11 @@
                                                     </a>
                                                 </li>
                                                 <li>
+                                                    <a href="<%=$this->Page->constructUrl('settings.UserPMB',true)%>"<%=$this->Page->showUserPMB==true ? ' class="active" ':''%>>
+                                                        User PMB
+                                                    </a>
+                                                </li>
+                                                <li>
                                                     <a href="<%=$this->Page->constructUrl('settings.UserKeuangan',true)%>"<%=$this->Page->showUserKeuangan==true ? ' class="active" ':''%>>
                                                         User Keuangan
                                                     </a>
@@ -712,7 +717,69 @@
                                                 <span>Change Log</span>											
                                             </a>                                        
                                         </li>
-                                    </com:TLiteral>		
+                                    </com:TLiteral>	
+                                    <com:TLiteral Visible="<%=$this->Page->Pengguna->getTipeUser()=='pmb' && $this->Page->showSideBarMenu==true%>">
+                                        <li<%=$this->Page->showDashboard==true?' class="active"':''%>>
+                                            <a href="<%=$this->Page->constructUrl('Home',true)%>">
+                                                <i class="fa fa-dashboard"></i>
+                                                <span>Dashboard</span>											
+                                            </a>                                        
+                                        </li>
+                                        <li class="nav-header nav-header-first hidden-sm hidden-xs">
+                                            DATA MASTER
+                                        </li>
+                                        <li<%=$this->Page->showSoalPMB==true ? ' class="active" ':''%>>                                            
+                                            <a href="<%=$this->Page->constructUrl('dmaster.SoalPMB',true)%>">
+                                                <i class="fa fa-list-ul"></i>
+                                                <span>Soal PMB</span>                                                
+                                            </a>
+                                        </li>
+                                        <li class="nav-header nav-header-first hidden-sm hidden-xs">
+                                            SPMB
+                                        </li>  
+                                        <li<%=$this->Page->showPIN==true ? ' class="active" ':''%>>                                            
+                                            <a href="<%=$this->Page->constructUrl('spmb.PIN',true)%>">
+                                                <i class="fa fa-circle-o"></i>
+                                                <span>PIN</span>                                                
+                                            </a>
+                                        </li>
+                                        <li<%=$this->Page->showPendaftaranOnline==true ? ' class="active" ':''%>>                                            
+                                            <a href="<%=$this->Page->constructUrl('spmb.PendaftaranOnline',true)%>">
+                                                <i class="fa fa-globe"></i>
+                                                <span>Pendaftaran Online</span>                                                
+                                            </a>
+                                        </li>
+                                        <li<%=$this->Page->showFormulirPendaftaran==true ? ' class="active" ':''%>>                                            
+                                            <a href="<%=$this->Page->constructUrl('spmb.FormulirPendaftaran',true)%>">
+                                                <i class="fa fa-sign-in"></i>
+                                                <span>Formulir Pendaftaran</span>                                                
+                                            </a>
+                                        </li>
+                                        <li<%=$this->Page->showSubMenuSPMBUjianPMB==true?' class="active"':''%>>
+                                            <a href="#" class="dropdown-toggle">
+                                                <i class="fa fa-flag-checkered"></i>
+                                                <span>Ujian PMB</span>
+                                                <i class="fa fa-angle-right drop-icon"></i>
+                                            </a>
+                                            <ul class="submenu"> 
+                                                <li>
+                                                    <a href="<%=$this->Page->constructUrl('spmb.JadwalUjianPMB',true)%>"<%=$this->Page->showJadwalUjianPMB==true ? ' class="active" ':''%>>
+                                                        Jadwal Ujian PMB
+                                                    </a>
+                                                </li>   
+                                                <li>
+                                                    <a href="<%=$this->Page->constructUrl('spmb.PassingGrade',true)%>"<%=$this->Page->showPassingGradePMB==true ? ' class="active" ':''%>>
+                                                        Passing Grade
+                                                    </a>
+                                                </li>                                                
+                                                <li>
+                                                    <a href="<%=$this->Page->constructUrl('spmb.NilaiUjianPMB',true)%>"<%=$this->Page->showNilaiUjianPMB==true ? ' class="active" ':''%>>
+                                                        Nilai Ujian
+                                                    </a>
+                                                </li>                                                
+                                            </ul>
+                                        </li>
+                                    </com:TLiteral>
                                     <com:TLiteral Visible="<%=$this->Page->Pengguna->getTipeUser()=='mh' && $this->Page->showSideBarMenu==true%>">
                                         <li<%=$this->Page->showDashboard==true?' class="active"':''%>>
                                             <a href="<%=$this->Page->constructUrl('Home',true)%>">

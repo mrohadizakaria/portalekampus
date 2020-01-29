@@ -23,6 +23,7 @@
                 <com:TListItem Value="none" Text=" "/>
                 <com:TListItem Value="sa" Text="Super Admin"/>
 				<com:TListItem Value="m" Text="Manajemen"/>
+				<com:TListItem Value="pmb" Text="PMB"/>
                 <com:TListItem Value="k" Text="Keuangan"/> 
                 <com:TListItem Value="on" Text="Operator Nilai"/>
 				<com:TListItem Value="d" Text="Dosen"/>

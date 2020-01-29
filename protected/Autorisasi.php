@@ -63,6 +63,7 @@ class Autorisasi extends TModule implements IUserManager {
 				$_SESSION['userpassword_mb']=$password;
                 $message="Gagal. Silahkan masukan username dan password dengan benar.";
 			break;
+            case 'pmb' :
             case 'dw' :
             case 'd' :
             case 'k' :

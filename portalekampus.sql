@@ -1673,7 +1673,7 @@ CREATE TABLE `user` (
   `username` varchar(40) NOT NULL,
   `userpassword` varchar(150) NOT NULL,
   `salt` varchar(7) NOT NULL,
-  `page` enum('sa','m','d','dw','mb','mh','k','on','api') NOT NULL DEFAULT 'm',
+  `page` enum('sa','m','pmb','d','dw','mb','mh','k','on','api') NOT NULL DEFAULT 'm',
   `group_id` smallint(6) NOT NULL,
   `kjur` tinyint(4) NOT NULL,
   `nama` varchar(70) NOT NULL,

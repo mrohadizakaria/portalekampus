@@ -78,7 +78,15 @@ class UserManager extends TAuthManager {
 				$this->dataUser['hak_akses']=$this->loadAclUser($result[1]['userid']);
                 $userid=$this->dataUser['data_user']['userid'];
                 $this->db->updateRecord("UPDATE user SET logintime=NOW() WHERE userid=$userid");
-			break;            
+			break;
+			case 'PMB' :
+                $str = "SELECT u.userid,u.username,u.nama,u.email,u.page,u.group_id,u.kjur,u.isdeleted,u.foto,u.theme FROM user u WHERE username='$username' AND u.page='pmb'";
+                $this->db->setFieldTable (array('userid','username','nama','email','page','group_id','kjur','isdeleted','foto','theme'));							
+                $r= $this->db->getRecord($str);	
+				$this->dataUser['data_user']=$r[1];	
+                $userid=$this->dataUser['data_user']['userid'];
+                $this->db->updateRecord("UPDATE user SET logintime=NOW() WHERE userid=$userid");
+            break;            
 			case 'Mahasiswa' :	                
                 $str = "SELECT vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.tempat_lahir,vdm.tanggal_lahir,vdm.jk,vdm.alamat_rumah,vdm.email,vdm.kjur,vdm.idkonsentrasi,k.nama_konsentrasi,vdm.iddosen_wali,vdm.tahun_masuk,vdm.semester_masuk,vdm.nama_ps,vdm.k_status AS k_status,sm.n_status AS status,vdm.idkelas,ke.nkelas,perpanjang,theme,photo_profile FROM v_datamhs vdm LEFT JOIN status_mhs sm ON (vdm.k_status=sm.k_status) LEFT JOIN konsentrasi k ON (vdm.idkonsentrasi=k.idkonsentrasi) LEFT JOIN kelas ke ON (ke.idkelas=vdm.idkelas) WHERE nim='$username'";
                 $this->db->setFieldTable(array('no_formulir','nim','nirm','nama_mhs','tempat_lahir','tanggal_lahir','jk','alamat_rumah','email','kjur','idkonsentrasi','nama_konsentrasi','iddosen_wali','tahun_masuk','semester_masuk','nama_ps','k_status','status','idkelas','nkelas','perpanjang','theme','photo_profile'));
@@ -217,6 +225,12 @@ class UserManager extends TAuthManager {
                 $result = $this->db->getRecord($str);
                 $data_user=isset($result[1])?$result[1]:array('page'=>'','userpassword'=>'','active'=>1);
 			break;
+			case 'PMB' :
+                $str = "SELECT u.username,u.userpassword,u.salt,u.page,u.active FROM user u WHERE username='$username' AND active=1 AND page='pmb'";
+                $this->db->setFieldTable (array('username','userpassword','salt','page','active'));							
+                $result = $this->db->getRecord($str);
+                $data_user=isset($result[1])?$result[1]:array('page'=>'','userpassword'=>'','active'=>1);
+            break;
 			case 'Dosen' :
                 $str = "SELECT u.username,u.userpassword,u.salt,u.page,u.active AS active  FROM user u WHERE username='$username' AND active=1 AND page='d'";
                 $this->db->setFieldTable (array('username','userpassword','salt','page','active'));							

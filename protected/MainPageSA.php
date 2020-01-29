@@ -77,6 +77,10 @@ class MainPageSA extends MainPage {
      */
     public $showUserManajemen=false;
     /**     
+     * show page user PMB [setting ß]
+     */
+    public $showUserPMB=false;
+    /**     
      * show page user keuangan [setting sistem]
      */
     public $showUserKeuangan=false;

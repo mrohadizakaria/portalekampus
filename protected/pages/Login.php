@@ -19,6 +19,9 @@ class Login extends MainPage {
 			case 'm' :
 				$page = 'Manajemen';
 			break;
+			case 'pmb' :
+				$page = 'PMB';
+			break;
 			case 'k' :
 				$page = 'Keuangan';
 			break;  
@@ -121,6 +124,17 @@ class Login extends MainPage {
                     $foto='resources/userimages/no_photo.png';
                 break;
                 case 'm' :                    
+                    //daftar prodi diload saat awal, tujuannya supaya tidak terus2an diload.
+                    $_SESSION['daftar_jurusan']=$dmaster->getListProgramStudi(2);
+                    $_SESSION['kjur']=$setup->getSettingValue('default_kjur');           
+                    $_SESSION['ta']=$setup->getSettingValue('default_ta'); 
+                    $_SESSION['tahun_masuk']=$_SESSION['ta'];
+                    $_SESSION['tahun_pendaftaran']=$setup->getSettingValue('default_tahun_pendaftaran'); 
+                    $_SESSION['semester']=$setup->getSettingValue('default_semester');
+                    
+                    $foto=$pengguna->getDataUser('photo_profile');
+                break;                
+                case 'pmb' :                    
                     //daftar prodi diload saat awal, tujuannya supaya tidak terus2an diload.
                     $_SESSION['daftar_jurusan']=$dmaster->getListProgramStudi(2);
                     $_SESSION['kjur']=$setup->getSettingValue('default_kjur');           
