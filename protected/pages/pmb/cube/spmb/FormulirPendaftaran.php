@@ -1,5 +1,5 @@
 <?php
-prado::using ('Application.pagecontroller.m.spmb.CFormulirPendaftaran');
+prado::using ('Application.pagecontroller.pmb.spmb.CFormulirPendaftaran');
 class FormulirPendaftaran extends CFormulirPendaftaran {		
 	public function onLoad($param) {
 		parent::onLoad($param);			        

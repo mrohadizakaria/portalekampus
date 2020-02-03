@@ -1,0 +1,190 @@
+<%@ Title="Pembayaran - Formulir"%>
+<com:TContent ID="moduleheader">
+    <i class="fa fa-location-arrow"></i> Pembayaran Formulir <br/><small>Tahun Masuk <%=$_SESSION['tahun_masuk']%></small>
+</com:TContent>
+<com:TContent ID="modulebreadcrumb">    
+    <li><a href="#">KEUANGAN</a></li>    
+    <li class="active"><span>PEMBAYARAN FORMULIR</span></li>
+</com:TContent>
+<com:TContent ID="configtools">    
+    <%include Application.layouts.cube.FilterMode19%>
+</com:TContent>
+<com:TContent ID="csscontent">
+<link rel="stylesheet" type="text/css" href="<%=$this->Theme->baseUrl%>/css/libs/nifty-component.css"/>
+</com:TContent>
+<com:TContent ID="maincontent">	
+<com:TPanel Visible="<%= $this->getDefaultProcess() %>" CssClass="row">	
+    <div class="col-lg-12">
+        <div class="main-box clearfix">
+            <header class="main-box-header clearfix">
+                <h2><i class="fa fa-search"></i> Pencarian Data</h2>                    
+            </header>
+            <div class="main-box-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Kriteria :</label>
+                        <div class="col-lg-4">
+                            <com:TDropDownList ID="cmbKriteria" CssClass="form-control">
+                                <com:TListItem Text="NO. TRANSAKSI" Value="no_transaksi" />
+                                <com:TListItem Text="NO. FAKTUR" Value="no_faktur" />
+                                <com:TListItem Text="NO. FORMULIR" Value="no_formulir" /> 
+                                <com:TListItem Text="NO. REGISTRASI" Value="no_pendaftaran" />						
+                            </com:TDropDownList>
+                        </div>
+                    </div>  
+                    <div class="form-group" id="divtxtKriteria">
+                        <label class="col-lg-2 control-label">Isi Kriteria :</label>
+                        <div class="col-lg-4">
+                            <com:TActiveTextBox ID="txtKriteria" CssClass="form-control" />                                                                            
+                            <com:TRequiredFieldValidator ID="spanKriteriaValidator2" ValidationGroup="formPencarian" Display="Dynamic" ControlToValidate="txtKriteria" ErrorMessage="Input apa yang Anda cari, sesuai dengan kriteria yang Anda tentukan." FocusOnError="true" CssClass="has-error help-block">	
+                                <prop:ClientSide.OnValidationError>
+                                    $('divtxtKriteria').addClassName('has-error');
+                                    jQuery('#<%=$this->spanKriteriaValidator2->ClientID%>').removeAttr('style');                                
+                                </prop:ClientSide.OnValidationError>
+                                <prop:ClientSide.OnValidationSuccess>
+                                    $('divtxtKriteria').removeClassName('has-error');
+                                </prop:ClientSide.OnValidationSuccess>
+                            </com:TRequiredFieldValidator>                                         
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <com:TActiveCustomButton ID="btnSearch" CssClass="btn btn-info"  OnClick="Page.searchRecord" ValidationGroup="formPencarian" Attributes.Title="Cari">
+                                <prop:Text>                                        
+                                    <i class="fa fa-search"></i> Cari                                        
+                                </prop:Text>
+                                <prop:ClientSide.OnPreDispatch>         
+                                    $('loading').show();
+                                </prop:ClientSide.OnPreDispatch>
+                                <prop:ClientSide.OnLoading>
+                                    $('<%=$this->btnSearch->ClientId%>').disabled='disabled';						
+                                </prop:ClientSide.OnLoading>
+                                <prop:ClientSide.OnComplete>																	
+                                    $('<%=$this->btnSearch->ClientId%>').disabled='';						                               						                                        
+                                    $('loading').hide();
+                                </prop:ClientSide.OnComplete>
+                            </com:TActiveCustomButton>  
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="main-box">
+            <header class="main-box-header clearfix">
+                <h2>Isi Nomor Formulir :</h2>
+            </header>
+            <div class="main-box-body clearfix">
+                <div class="form-inline">                        
+                    <div class="form-group">
+                        <label class="sr-only">NIM :</label>
+                        <com:TTextBox CssClass="form-control" ID="txtNoFormulir" Attributes.PlaceHolder="No. Formulir" />                                                                                              
+                    </div>
+                    <com:TActiveCustomButton ID="btnGo" CssClass="btn btn-primary" OnClick="Go" Attributes.Title="Go" ValidationGroup="filterForm" >
+                        <prop:Text>                                        
+                            <i class="fa fa-location-arrow"></i> Go
+                        </prop:Text>
+                        <prop:ClientSide.OnPreDispatch>         
+                            $('<%=$this->btnGo->ClientId%>').disabled='disabled';						
+                            Pace.stop();
+                            Pace.start();			                               
+                        </prop:ClientSide.OnPreDispatch>
+                        <prop:ClientSide.OnLoading>
+                            $('<%=$this->btnGo->ClientId%>').disabled='disabled';						
+                        </prop:ClientSide.OnLoading>
+                        <prop:ClientSide.OnComplete>																	
+                            $('<%=$this->btnGo->ClientId%>').disabled='';						                                                        
+                        </prop:ClientSide.OnComplete>
+                    </com:TActiveCustomButton>       
+                    <com:TRequiredFieldValidator ValidationGroup="filterForm" Display="Dynamic" ControlToValidate="txtNoFormulir" ErrorMessage="Isi No. Formulir Mahasiswa Baru" FocusOnError="true" CssClass="has-error help-block" />
+                    <com:TActiveCustomValidator ControlToValidate="txtNoFormulir" Display="Dynamic" OnServerValidate="cekNomorFormulir" ValidationGroup="filterForm" ErrorMessage="Nomor Formulir tidak terdaftar di Database, silahkan ganti dengan yang lain" CssClass="has-error help-block" />	
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="main-box clearfix">
+            <header class="main-box-header clearfix">
+                <h2 class="pull-left">DAFTAR TRANSAKSI PEMBAYARAN FORMULIR <com:TActiveLabel ID="lblModulHeader" /></h2> 
+                <div class="filter-block pull-right">                                                   
+                    <com:TActiveLinkButton ID="btnPrintDulangAll" OnClick="Page.printOut" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out Dulang">
+                        <prop:Text><i class="fa fa-print fa-lg"></i></prop:Text>
+                        <prop:ClientSide.OnPreDispatch>
+                            $('loading').show();
+                        </prop:ClientSide.OnPreDispatch>
+                        <prop:ClientSide.OnLoading>
+                            $('<%=$this->btnPrintDulangAll->ClientId%>').disabled='disabled';				
+                        </prop:ClientSide.OnLoading>
+                        <prop:ClientSide.OnComplete>
+                            $('<%=$this->btnPrintDulangAll->ClientId%>').disabled='';				
+                            $('loading').hide();
+                        </prop:ClientSide.OnComplete>
+                    </com:TActiveLinkButton> 									
+                </div>
+            </header>
+            <div class="main-box-body clearfix">       
+                <div class="table-responsive">
+                    <com:TActiveRepeater ID="RepeaterS" DataKeyField="no_formulir" AllowPaging="true" PageSize="10" AllowCustomPaging="true" OnItemDataBound="setDataBound">
+                        <prop:HeaderTemplate>				
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr class="bg-teal-700">
+                                        <th scope="col" width="20">NO</th>							
+                                        <th scope="col" width="120">NO.TRANS</th>
+                                        <th scope="col" width="120">TANGGAL</i></th>
+                                        <th scope="col" width="130">FORMULIR</i></th> 
+                                        <th scope="col" width="130">NO. REGISTRASI</i></th> 									
+                                        <th scope="col" width="100">JUMLAH BAYAR</th>
+                                        <th scope="col" width="170">KELAS</th>
+                                        <th scope="col" width="70">TA/SMT</th>
+                                        <th scope="col" width="70">STATUS</th>
+                                        <th width="80">AKSI</th>
+                                    </tr>	
+                                </thead>		
+                                <tbody>							
+                        </prop:HeaderTemplate>
+                        <prop:ItemTemplate>
+                            <tr>
+                                <td><%#$this->DataItem['no']%></td>					
+                                <td><%#$this->DataItem['no_transaksi']%></td>
+                                <td><%#$this->DataItem['tanggal']%></td>
+                                <td><%# $this->Data['no_formulir']%></td>
+                                <td><%# $this->Data['no_pendaftaran']%></td>							
+                                <td><%#$this->DataItem['dibayarkan']%></td>	
+                                <td><%#$this->DataItem['nama_kelas']%></td>
+                                <td><%#$this->DataItem['tasmt']%></td>
+                                <td>
+                                   <%#$this->DataItem['commited']==true?'done':'in progress'%>                             
+                                </td>
+                                <td>
+                                    <a href="<%#$this->Page->constructUrl('keuangan.DetailPembayaranFormulir',true,array('id'=>$this->DataItem['no_formulir']))%>" title="Detail Transaksi" class="table-link" Attributes.title="Detail Transaksi">
+                                        <span class="fa-stack">
+                                            <i class="fa fa-square fa-stack-2x"></i>
+                                            <i class="fa fa-eye fa-stack-1x fa-inverse"></i>                                        
+                                        </span>   
+                                    </a>
+                                </td>
+                            </tr>
+                        </prop:ItemTemplate>							
+                        <prop:FooterTemplate>
+                            </tbody>
+                            </table>
+                        </prop:FooterTemplate>	
+                        <prop:EmptyTemplate>                       
+                            <div class="panel-body">
+                                <div class="alert alert-info alert-styled-left alert-bordered">
+                                    <span class="text-semibold">Info!</span>
+                                    Belum ada data yang bisa ditampilkan.
+                                </div>                
+                            </div>       
+                        </prop:EmptyTemplate>
+                    </com:TActiveRepeater>	
+                    <%include Application.layouts.cube.CustomPaging%>
+                </div>
+            </div>
+        </div>
+    </div>
+</com:TPanel>
+<%include Application.layouts.limitless.ModalPrintOut%>    
+</com:TContent>

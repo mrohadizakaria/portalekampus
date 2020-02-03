@@ -17,7 +17,7 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageMHS {
                 $this->setInfoToolbar();
                 $this->Finance->setDataMHS($datamhs);
                 $no_transaksi=$_SESSION['currentPagePembayaranSemesterGanjil']['no_transaksi'];
-                $str = "SELECT no_faktur,tanggal FROM transaksi WHERE no_transaksi=$no_transaksi";
+                $str = "SELECT no_faktur,tanggal FROM transaksi WHERE no_transaksi='$no_transaksi'";
                 $this->DB->setFieldTable(array('no_faktur','tanggal'));
                 $d=$this->DB->getRecord($str);
                 $this->hiddennofaktur->Value=$d[1]['no_faktur'];
@@ -52,7 +52,7 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageMHS {
             $sudah_dibayarkan[$p['idkombi']]=$p['sudah_dibayar'];
         }
         
-        $str = "SELECT idkombi,dibayarkan FROM transaksi_detail WHERE no_transaksi=$no_transaksi ORDER BY idkombi+1 ASC";
+        $str = "SELECT idkombi,dibayarkan FROM transaksi_detail WHERE no_transaksi='$no_transaksi' ORDER BY idkombi+1 ASC";
         $this->DB->setFieldTable(array('idkombi','dibayarkan'));
         $k=$this->DB->getRecord($str);
         
@@ -96,7 +96,7 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageMHS {
         $id=$this->GridS->DataKeys[$param->Item->ItemIndex]; 
         $datamhs = $this->Pengguna->getDataUser();
         $no_transaksi=$_SESSION['currentPagePembayaranSemesterGanjil']['no_transaksi'];
-        $this->DB->updateRecord("UPDATE transaksi_detail SET dibayarkan=0 WHERE idkombi=$id AND no_transaksi=$no_transaksi");
+        $this->DB->updateRecord("UPDATE transaksi_detail SET dibayarkan=0 WHERE idkombi=$id AND no_transaksi='$no_transaksi'");
         $this->GridS->EditItemIndex=-1;
         $this->populateData ();
     }  
@@ -124,10 +124,10 @@ class CTransaksiPembayaranSemesterGanjil Extends MainPageMHS {
         $r=$this->DB->getRecord($str);
         $biaya=$r[1]['biaya'];
         
-        $jumlah_bayar=$this->Finance->toInteger(addslashes($item->ColumnJumlahBayar->TextBox->Text));                         
+        $jumlah_bayar=(int)$this->Finance->toInteger(addslashes($item->ColumnJumlahBayar->TextBox->Text));                         
         
         if (($jumlah_bayar+$sudah_dibayar) <= $biaya) {
-            $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar' WHERE no_transaksi=$no_transaksi AND idkombi=$id";
+            $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar' WHERE no_transaksi='$no_transaksi' AND idkombi=$id";
             $this->DB->updateRecord($str);       
         }
         $this->GridS->EditItemIndex=-1;

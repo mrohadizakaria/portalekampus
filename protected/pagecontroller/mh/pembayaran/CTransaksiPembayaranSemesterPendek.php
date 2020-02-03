@@ -13,7 +13,7 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
                 }  
                 $this->Finance->setDataMHS($datamhs);
                 $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
-                $str = "SELECT no_faktur,tanggal FROM transaksi WHERE no_transaksi=$no_transaksi";
+                $str = "SELECT no_faktur,tanggal FROM transaksi WHERE no_transaksi='$no_transaksi'";
                 $this->DB->setFieldTable(array('no_faktur','tanggal'));
                 $d=$this->DB->getRecord($str);                
                 $this->hiddennofaktur->Value=$d[1]['no_faktur'];
@@ -32,7 +32,7 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
         $tahun_masuk=$datamhs['tahun_masuk'];   
         $kelas=$datamhs['idkelas'];                
                 
-        $str = "SELECT td.idkombi,td.dibayarkan,td.jumlah_sks,t.commited FROM transaksi t,transaksi_detail td WHERE t.no_transaksi=td.no_transaksi AND td.no_transaksi=$no_transaksi ORDER BY td.idkombi+1 ASC";
+        $str = "SELECT td.idkombi,td.dibayarkan,td.jumlah_sks,t.commited FROM transaksi t,transaksi_detail td WHERE t.no_transaksi=td.no_transaksi AND td.no_transaksi='$no_transaksi' ORDER BY td.idkombi+1 ASC";
         $this->DB->setFieldTable(array('idkombi','dibayarkan','jumlah_sks','commited'));
         $k=$this->DB->getRecord($str);
         
@@ -73,7 +73,7 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
         $id=$this->GridS->DataKeys[$param->Item->ItemIndex]; 
         $datamhs = $this->Pengguna->getDataUser();
         $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
-        $this->DB->updateRecord("UPDATE transaksi_detail SET dibayarkan=0 WHERE idkombi=14 AND no_transaksi=$no_transaksi");
+        $this->DB->updateRecord("UPDATE transaksi_detail SET dibayarkan=0 WHERE idkombi=14 AND no_transaksi='$no_transaksi'");
         $this->GridS->EditItemIndex=-1;
         $this->populateData ();
     }  
@@ -94,9 +94,9 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
         $jumlah_bayar=$jumlah_sks*$biaya;
         
         $this->DB->query ('BEGIN');
-        $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar',jumlah_sks=$jumlah_sks WHERE no_transaksi=$no_transaksi AND idkombi=$id";
+        $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar',jumlah_sks=$jumlah_sks WHERE no_transaksi='$no_transaksi' AND idkombi=$id";
         if ($this->DB->updateRecord($str) ) {
-            $str = "UPDATE transaksi SET jumlah_sks=$jumlah_sks WHERE no_transaksi=$no_transaksi";
+            $str = "UPDATE transaksi SET jumlah_sks=$jumlah_sks WHERE no_transaksi='$no_transaksi'";
             $this->DB->updateRecord($str);
             
             $this->DB->query('COMMIT');    
@@ -132,7 +132,7 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
             $no_faktur=addslashes($this->txtAddNomorFaktur->Text);            
             $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
             
-            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',date_modified=NOW() WHERE no_transaksi=$no_transaksi";
+            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',date_modified=NOW() WHERE no_transaksi='$no_transaksi'";
             $this->DB->updateRecord($str);
             unset($_SESSION['currentPagePembayaranSemesterPendek']['DataMHS']);
             $this->redirect('pembayaran.PembayaranSemesterPendek',true);
@@ -151,7 +151,7 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
             $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
             
             $this->DB->query('BEGIN');
-            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',commited=1,date_modified=NOW() WHERE no_transaksi=$no_transaksi";
+            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',commited=1,date_modified=NOW() WHERE no_transaksi='$no_transaksi'";
             $this->DB->updateRecord($str);
             
             $this->Finance->setDataMHS($datamhs);            

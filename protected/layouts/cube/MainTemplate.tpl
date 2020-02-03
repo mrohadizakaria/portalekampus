@@ -779,6 +779,15 @@
                                                 </li>                                                
                                             </ul>
                                         </li>
+                                        <li class="nav-header nav-header-first hidden-sm hidden-xs">
+                                            KEUANGAN
+                                        </li>
+                                        <li<%=$this->Page->showPembayaranFormulir==true ? ' class="active" ':''%>>                                            
+                                            <a href="<%=$this->Page->constructUrl('keuangan.PembayaranFormulir',true)%>">
+                                                <i class="fa fa-sign-in"></i>
+                                                <span>Pembayaran Formulir</span>                                                
+                                            </a>
+                                        </li>
                                     </com:TLiteral>
                                     <com:TLiteral Visible="<%=$this->Page->Pengguna->getTipeUser()=='mh' && $this->Page->showSideBarMenu==true%>">
                                         <li<%=$this->Page->showDashboard==true?' class="active"':''%>>

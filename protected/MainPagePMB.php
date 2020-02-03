@@ -74,33 +74,10 @@ class MainPagePMB extends MainPage {
      */
     public $showNilaiUjianPMB=false;
     /**
-     * show page penyelenggaraan [perkuliahan]
+     * show sub menu keuangan pembayaran formulir [keuangan]
      */
-    public $showPenyelenggaraan=false;
-    /**
-     * show page KRS Kelas Ekstension [perkuliahan]
-     */
-    public $showKRSEkstension=false;
-    /**
-     * show page Peserta matakuliah [perkuliahan]
-     */
-    public $showPesertaMatakuliah=false;
-    /**
-     * show page konversi sementara [akademik nilai]
-     */
-    public $showKonversiMatakuliah=false;
-    /**
-     * show page transkrip asli [akademik nilai]
-     */
-    public $showTranskripFinal=false;
-    /**
-     * show sub menu keuangan rekapitulasi[keuangan]
-     */
-    public $showSubMenuRekapKeuangan=false;
-    /**
-     * show page rekapitulasi pembayaran semester ganjil[keuangan]
-     */
-    public $showReportRekapPembayaranGanjil=false;
+    public $showPembayaranFormulir=false;
+    
 	public function onLoad ($param) {
 		parent::onLoad($param);
         if (!$this->IsPostBack&&!$this->IsCallBack) {
