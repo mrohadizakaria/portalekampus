@@ -1,6 +1,6 @@
 <%@ Title="Pembayaran - Formulir"%>
 <com:TContent ID="moduleheader">
-    <i class="fa fa-location-arrow"></i> Pembayaran Formulir <br/><small>Tahun Masuk <%=$_SESSION['tahun_masuk']%></small>
+    <i class="fa fa-location-arrow"></i> Pembayaran Formulir <br/><small> <com:TActiveLabel ID="lblModulHeader" /></small>
 </com:TContent>
 <com:TContent ID="modulebreadcrumb">    
     <li><a href="#">KEUANGAN</a></li>    
@@ -106,7 +106,7 @@
     <div class="col-lg-12">
         <div class="main-box clearfix">
             <header class="main-box-header clearfix">
-                <h2 class="pull-left">DAFTAR TRANSAKSI PEMBAYARAN FORMULIR <com:TActiveLabel ID="lblModulHeader" /></h2> 
+                <h2 class="pull-left">DAFTAR TRANSAKSI PEMBAYARAN FORMULIR</h2> 
                 <div class="filter-block pull-right">                                                   
                     <com:TActiveLinkButton ID="btnPrintDulangAll" OnClick="Page.printOut" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out Dulang">
                         <prop:Text><i class="fa fa-print fa-lg"></i></prop:Text>

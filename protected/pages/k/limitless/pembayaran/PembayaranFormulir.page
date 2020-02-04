@@ -1,6 +1,6 @@
 <%@ Title="Pembayaran - Formulir"%>
 <com:TContent ID="moduleheader">    
-    <i class="icon-calculator3 position-left"></i> <span class="text-semibold">Pembayaran Formulir Tahun Masuk <%=$_SESSION['tahun_masuk']%></span>
+    <i class="icon-calculator3 position-left"></i> <span class="text-semibold">Pembayaran Formulir <com:TActiveLabel ID="lblModulHeader" /></span>
 </com:TContent>
 <com:TContent ID="moduleheaderelement">    
     <div class="heading-elements">
@@ -101,7 +101,7 @@
     <div class="col-md-12">
         <div class="panel panel-flat">
             <div class="panel-heading">
-                <h5 class="panel-title"><i class="icon-calculator3 position-left"></i>  DAFTAR TRANSAKSI PEMBAYARAN FORMULIR <com:TActiveLabel ID="lblModulHeader" /></h5>                
+                <h5 class="panel-title"><i class="icon-calculator3 position-left"></i>  DAFTAR TRANSAKSI PEMBAYARAN FORMULIR</h5>                
                 <div class="heading-elements">
                     <div class="heading-btn">       
                         
