@@ -64,7 +64,9 @@ class CDetailPembayaranFormulir Extends MainPagePMB {
 		if ($item->ItemType==='Item' || $item->ItemType==='AlternatingItem') {			
 			if ($item->DataItem['commited']) {
                 $item->btnDeleteFromRepeater->Enabled=false;				
-                $item->btnEditFromRepeater->Enabled=false;				
+                $item->btnEditFromRepeater->Enabled=false;			
+                $item->btnEditFromRepeater->CssClass='table-link default';
+                $item->btnDeleteFromRepeater->CssClass='table-link default';
 			}else{
                 $item->btnDeleteFromRepeater->Attributes->onclick="if(!confirm('Apakah Anda ingin menghapus Transaksi ini?')) return false;";
             }

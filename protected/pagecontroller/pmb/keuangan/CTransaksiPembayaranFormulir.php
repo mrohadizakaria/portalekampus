@@ -1,12 +1,11 @@
 <?php
-prado::using ('Application.MainPageK');
-class CTransaksiPembayaranFormulir Extends MainPageK {	
+prado::using ('Application.MainPagePMB');
+class CTransaksiPembayaranFormulir Extends MainPagePMB {	
     public static $TotalKomponenBiaya=0;
     public static $TotalSudahDibayarkan=0;
     public static $TotalJumlahBayar=0;
 	public function onLoad($param) {
 		parent::onLoad($param);				
-        $this->showMenuPembayaran=true;
         $this->showPembayaranFormulir=true;                
         $this->createObj('Finance');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {            
@@ -24,7 +23,7 @@ class CTransaksiPembayaranFormulir Extends MainPageK {
                 $this->hiddennofaktur->Value=$d[1]['no_faktur'];
                 $this->txtAddNomorFaktur->Text=$d[1]['no_faktur'];
                 $this->cmbAddTanggalFaktur->Text=$this->TGL->tanggal('d-m-Y',$d[1]['tanggal']);
-				$str = "SELECT no_pendaftaran FROM formulir_pendaftaran_temp WHERE no_formulir=$no_formulir";
+				$str = "SELECT no_pendaftaran FROM formulir_pendaftaran_temp WHERE no_formulir='$no_formulir'";
                 $this->DB->setFieldTable(array('no_pendaftaran'));
                 $d=$this->DB->getRecord($str);
                 $this->txtAddNomorPendaftaran->Text=isset($d[1])?$d[1]['no_pendaftaran']:'';
@@ -49,7 +48,7 @@ class CTransaksiPembayaranFormulir Extends MainPageK {
         $idsmt=$datamhs['semester_masuk'];     
         $kelas=$datamhs['idkelas'];                
         
-        $str = "SELECT idkombi,SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE no_formulir=$no_formulir AND tahun=$ta AND idsmt=$idsmt AND commited=1 GROUP BY idkombi ORDER BY idkombi+1 ASC";
+        $str = "SELECT idkombi,SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE no_formulir='$no_formulir' AND tahun=$ta AND idsmt=$idsmt AND commited=1 GROUP BY idkombi ORDER BY idkombi+1 ASC";
         $this->DB->setFieldTable(array('idkombi','sudah_dibayar'));
         $d=$this->DB->getRecord($str);
         
@@ -117,7 +116,7 @@ class CTransaksiPembayaranFormulir Extends MainPageK {
         $kelas=$datamhs['idkelas'];       
         
         
-        $str = "SELECT SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE no_formulir=$no_formulir AND tahun=$ta AND idsmt=$idsmt AND idkombi=$id AND commited=1";
+        $str = "SELECT SUM(dibayarkan) AS sudah_dibayar FROM v_transaksi WHERE no_formulir='$no_formulir' AND tahun=$ta AND idsmt=$idsmt AND idkombi=$id AND commited=1";
         $this->DB->setFieldTable(array('sudah_dibayar'));
         $d=$this->DB->getRecord($str);
         $sudah_dibayar=$d[1]['sudah_dibayar'];
@@ -200,7 +199,7 @@ class CTransaksiPembayaranFormulir Extends MainPageK {
 			$this->DB->query("COMMIT");
             
             unset($_SESSION['currentPagePembayaranFormulir']['DataMHS']);
-            $this->redirect('pembayaran.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
+            $this->redirect('keuangan.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
         }
     }
     public function commitData ($sender,$param) {
@@ -222,18 +221,18 @@ class CTransaksiPembayaranFormulir Extends MainPageK {
             $this->DB->query("COMMIT");
 
             unset($_SESSION['currentPagePembayaranFormulir']['DataMHS']);
-            $this->redirect('pembayaran.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
+            $this->redirect('keuangan.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
         }
     }
     public function closeTransaction ($sender,$param) {
         $datamhs=$_SESSION['currentPagePembayaranFormulir']['DataMHS'];            
         $no_formulir=$datamhs['no_formulir'];
         unset($_SESSION['currentPagePembayaranFormulir']['DataMHS']);
-        $this->redirect('pembayaran.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
+        $this->redirect('keuangan.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
     }
     public function closeDetail ($sender,$param) {
         unset($_SESSION['currentPagePembayaranFormulir']['DataMHS']);
-        $this->redirect('pembayaran.PembayaranFormulir',true);
+        $this->redirect('keuangan.PembayaranFormulir',true);
     }
 }
 class TotalPrice extends MainController

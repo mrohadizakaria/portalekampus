@@ -6,8 +6,8 @@ class CPembayaranFormulir Extends MainPagePMB {
         $this->showPembayaranFormulir=true;                
         $this->createObj('Finance');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {
-            if (!isset($_SESSION['currentPagePembayaranFormulir'])||$_SESSION['currentPagePembayaranFormulir']['page_name']!='pmb.pembayaran.PembayaranFormulir') {
-				$_SESSION['currentPagePembayaranFormulir']=array('page_name'=>'pmb.pembayaran.PembayaranFormulir','page_num'=>0,'search'=>false,'semester_masuk'=>1,'DataMHS'=>array());												
+            if (!isset($_SESSION['currentPagePembayaranFormulir'])||$_SESSION['currentPagePembayaranFormulir']['page_name']!='pmb.keuangan.PembayaranFormulir') {
+				$_SESSION['currentPagePembayaranFormulir']=array('page_name'=>'pmb.keuangan.PembayaranFormulir','page_num'=>0,'search'=>false,'semester_masuk'=>1,'DataMHS'=>array());												
 			}
             $_SESSION['currentPagePembayaranFormulir']['search']=false; 
           
@@ -146,7 +146,7 @@ class CPembayaranFormulir Extends MainPagePMB {
 	public function Go($param,$sender) {	
         if ($this->IsValid) {            
             $no_formulir=addslashes($this->txtNoFormulir->Text);
-            $this->redirect('pembayaran.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
+            $this->redirect('keuangan.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
         }
 	}
 	
