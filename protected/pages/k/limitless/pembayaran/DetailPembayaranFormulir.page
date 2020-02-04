@@ -183,17 +183,17 @@
                             </tbody>
                             <tfoot>						
                                 <tr Align="right">
-                                    <td colspan="5"><b>Total</b></td>							
+                                    <td colspan="6"><b>Total</b></td>							
                                     <td><%#$this->Page->Finance->toRupiah(CDetailPembayaranFormulir::$TotalSudahBayar)%></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr Align="right">
-                                    <td colspan="5"><b>Kewajiban Mahasiswa</b></td>							
+                                    <td colspan="6"><b>Kewajiban Mahasiswa</b></td>							
                                     <td><%#$this->Page->Finance->toRupiah(CDetailPembayaranFormulir::$KewajibanMahasiswa)%></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr Align="right">
-                                    <td class="rounded-foot-left" colspan="5"><b>Sisa</b></td>							
+                                    <td class="rounded-foot-left" colspan="6"><b>Sisa</b></td>							
                                     <td><%#$this->Page->Finance->toRupiah(CDetailPembayaranFormulir::$KewajibanMahasiswa-CDetailPembayaranFormulir::$TotalSudahBayar)%></td>
                                     <td class="rounded-foot-right">&nbsp;</td>
                                 </tr>

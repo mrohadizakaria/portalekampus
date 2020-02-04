@@ -47,7 +47,7 @@ class CDetailPembayaranFormulir Extends MainPageK {
         $no_formulir=$datamhs['no_formulir'];
         $tahun=$datamhs['tahun_masuk'];
         $idsmt=$datamhs['semester_masuk'];        
-        $str = "SELECT t.no_transaksi,t.no_faktur,tanggal,t.commited,fpt.no_pendaftaran,t.date_added FROM transaksi t LEFT JOIN formulir_pendaftaran_temp fpt ON (fpt.no_formulir=t.no_formulir) WHERE t.tahun='$tahun' AND t.idsmt='$idsmt' AND t.no_formulir='$no_formulir'";
+        $str = "SELECT t.no_transaksi,t.no_faktur,tanggal,t.commited,fpt.no_pendaftaran,t.date_added FROM transaksi t LEFT JOIN formulir_pendaftaran_temp fpt ON (fpt.no_formulir=t.no_formulir) WHERE t.tahun='$tahun' AND t.idsmt='$idsmt' AND t.no_formulir='$no_formulir' AND kjur=0";
         $this->DB->setFieldTable(array('no_transaksi','no_faktur','tanggal','commited','no_pendaftaran','date_added'));
         $r=$this->DB->getRecord($str);
         $result=array();

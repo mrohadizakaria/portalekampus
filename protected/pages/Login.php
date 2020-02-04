@@ -99,7 +99,7 @@ class Login extends MainPage {
                     $_SESSION['tahun_pendaftaran']=$setup->getSettingValue('default_tahun_pendaftaran');
                     $_SESSION['semester']=$setup->getSettingValue('default_semester');
                     
-                    $foto='resources/userimages/no_photo.png';
+                    $foto=$pengguna->getDataUser('photo_profile');
                 break; 
                 case 'dw' :
                     //daftar prodi diload saat awal, tujuannya supaya tidak terus2an diload.
@@ -110,7 +110,7 @@ class Login extends MainPage {
                     $_SESSION['tahun_pendaftaran']=$setup->getSettingValue('default_tahun_pendaftaran');
                     $_SESSION['semester']=$setup->getSettingValue('default_semester');
                     
-                    $foto='resources/userimages/no_photo.png';
+                    $foto=$pengguna->getDataUser('photo_profile');
                 break;
                 case 'd' :
                     //daftar prodi diload saat awal, tujuannya supaya tidak terus2an diload.
@@ -121,7 +121,7 @@ class Login extends MainPage {
                     $_SESSION['tahun_pendaftaran']=$setup->getSettingValue('default_tahun_pendaftaran');
                     $_SESSION['semester']=$setup->getSettingValue('default_semester');
                     
-                    $foto='resources/userimages/no_photo.png';
+                    $foto=$pengguna->getDataUser('photo_profile');
                 break;
                 case 'm' :                    
                     //daftar prodi diload saat awal, tujuannya supaya tidak terus2an diload.
@@ -162,7 +162,7 @@ class Login extends MainPage {
                     $_SESSION['tahun_pendaftaran']=$setup->getSettingValue('default_tahun_pendaftaran'); 
                     $_SESSION['semester']=$setup->getSettingValue('default_semester');
                     
-                    $foto='resources/userimages/no_photo.png';
+                    $foto=$pengguna->getDataUser('photo_profile');
                 break; 
                 case 'on' :
                     $group_id=$pengguna->getDataUser('group_id');
@@ -180,7 +180,7 @@ class Login extends MainPage {
                     $_SESSION['semester']=$setup->getSettingValue('default_semester');
                     $_SESSION['tahun_masuk']=$_SESSION['ta'];
                     $_SESSION['tahun_pendaftaran']=$setup->getSettingValue('default_tahun_pendaftaran'); 
-                    $foto='resources/userimages/no_photo.png';
+                    $foto=$pengguna->getDataUser('photo_profile');
                 break; 
                 case 'mb' :
                     $_SESSION['ta']=$pengguna->getDataUser('tahun_masuk');

@@ -1,16 +1,15 @@
 <?php
-prado::using ('Application.MainPageK');
-class CDetailPembayaranFormulir Extends MainPageK {
+prado::using ('Application.MainPagePMB');
+class CDetailPembayaranFormulir Extends MainPagePMB {
     public static $TotalSudahBayar=0;
     public static $KewajibanMahasiswa=0;
 	public function onLoad($param) {
 		parent::onLoad($param);				
-        $this->showMenuPembayaran=true;
         $this->showPembayaranFormulir=true;                
         $this->createObj('Finance');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {
-            if (!isset($_SESSION['currentPagePembayaranFormulir'])||$_SESSION['currentPagePembayaranFormulir']['page_name']!='k.pembayaran.PembayaranFormulir') {
-				$_SESSION['currentPagePembayaranFormulir']=array('page_name'=>'k.pembayaran.PembayaranFormulir','page_num'=>0,'search'=>false,'kelas'=>'none','semester_masuk'=>1,'DataMHS'=>array());												
+            if (!isset($_SESSION['currentPagePembayaranFormulir'])||$_SESSION['currentPagePembayaranFormulir']['page_name']!='pmb.keuangan.PembayaranFormulir') {
+				$_SESSION['currentPagePembayaranFormulir']=array('page_name'=>'pmb.keuangan.PembayaranFormulir','page_num'=>0,'search'=>false,'kelas'=>'none','semester_masuk'=>1,'DataMHS'=>array());												
 			}        
             try {
                 $no_formulir=addslashes($this->request['id']);
@@ -47,7 +46,7 @@ class CDetailPembayaranFormulir Extends MainPageK {
         $no_formulir=$datamhs['no_formulir'];
         $tahun=$datamhs['tahun_masuk'];
         $idsmt=$datamhs['semester_masuk'];        
-        $str = "SELECT t.no_transaksi,t.no_faktur,tanggal,t.commited,fpt.no_pendaftaran,t.date_added FROM transaksi t LEFT JOIN formulir_pendaftaran_temp fpt ON (fpt.no_formulir=t.no_formulir) WHERE t.tahun='$tahun' AND t.idsmt='$idsmt' AND t.no_formulir='$no_formulir'";
+        $str = "SELECT t.no_transaksi,t.no_faktur,tanggal,t.commited,fpt.no_pendaftaran,t.date_added FROM transaksi t LEFT JOIN formulir_pendaftaran_temp fpt ON (fpt.no_formulir=t.no_formulir) WHERE t.tahun='$tahun' AND t.idsmt='$idsmt' AND t.no_formulir='$no_formulir' AND kjur=0";
         $this->DB->setFieldTable(array('no_transaksi','no_faktur','tanggal','commited','no_pendaftaran','date_added'));
         $r=$this->DB->getRecord($str);
         $result=array();
@@ -121,13 +120,13 @@ class CDetailPembayaranFormulir Extends MainPageK {
                     
                     $this->DB->query('COMMIT');
                     $_SESSION['currentPagePembayaranFormulir']['DataMHS']['no_transaksi']=$no_transaksi;            
-                    $this->redirect('pembayaran.TransaksiPembayaranFormulir',true);        
+                    $this->redirect('keuangan.TransaksiPembayaranFormulir',true);        
                 }else{
                     $this->DB->query('ROLLBACK');
                 }           
             }
         }else{            
-            $this->redirect('pembayaran.TransaksiPembayaranFormulir',true); 
+            $this->redirect('keuangan.TransaksiPembayaranFormulir',true); 
         }
 	}
     public function editRecord ($sender,$param) {	        
@@ -136,17 +135,17 @@ class CDetailPembayaranFormulir Extends MainPageK {
             $no_transaksi=$this->getDataKeyField($sender,$this->ListTransactionRepeater);		
             $_SESSION['currentPagePembayaranFormulir']['DataMHS']['no_transaksi']=$no_transaksi;
         }	
-		$this->redirect('pembayaran.TransaksiPembayaranFormulir',true);
+		$this->redirect('keuangan.TransaksiPembayaranFormulir',true);
 	}	
 	public function deleteRecord ($sender,$param) {	
         $datamhs=$_SESSION['currentPagePembayaranFormulir']['DataMHS']; 
         $no_formulir=$datamhs['no_formulir'];
 		$no_transaksi=$this->getDataKeyField($sender,$this->ListTransactionRepeater);		
 		$this->DB->deleteRecord("transaksi WHERE no_transaksi='$no_transaksi'");		
-		$this->redirect('pembayaran.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
+		$this->redirect('keuangan.DetailPembayaranFormulir',true,array('id'=>$no_formulir));
 	}		
     public function closeDetail ($sender,$param) {
         unset($_SESSION['currentPagePembayaranFormulir']['DataMHS']);
-        $this->redirect('pembayaran.PembayaranFormulir',true);
+        $this->redirect('keuangan.PembayaranFormulir',true);
     }
 }
