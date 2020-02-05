@@ -5,7 +5,7 @@ class UserManager extends TAuthManager {
 	*/
 	private $db;	
 	/**
-	* Page Manajemen, Mahasiswa, DPA, Dosen, Mahasiswa Baru, Orang Tua Wali
+	* Page Manajemen, PMB, Mahasiswa, DPA, Dosen, Mahasiswa Baru, Orang Tua Wali
 	*/
 	public $page;	
 	/**
@@ -44,7 +44,7 @@ class UserManager extends TAuthManager {
                 $this->db->updateRecord("UPDATE user SET logintime=NOW() WHERE userid=$userid");
             break;     
             case 'Api' :
-                $str = "SELECT u.userid,u.username,u.nama,u.email,u.page,u.isdeleted,u.foto as photo_profileu.theme FROM user u WHERE username='$username' AND u.page='api'";
+                $str = "SELECT u.userid,u.username,u.nama,u.email,u.page,u.isdeleted,u.foto as photo_profile,theme FROM user u WHERE username='$username' AND u.page='api'";
                 $this->db->setFieldTable (array('userid','username','nama','email','page','isdeleted','photo_profile','theme'));							
                 $r= $this->db->getRecord($str);	
 				$this->dataUser['data_user']=$r[1];	
@@ -52,7 +52,7 @@ class UserManager extends TAuthManager {
                 $this->db->updateRecord("UPDATE user SET logintime=NOW() WHERE userid=$userid");
             break;            
             case 'Keuangan' :				
-				$str = "SELECT u.userid,u.username,u.nama,u.email,u.page,u.isdeleted,u.foto as photo_profileu.theme FROM user u WHERE username='$username' AND u.page='k'";
+				$str = "SELECT u.userid,u.username,u.nama,u.email,u.page,u.isdeleted,u.foto as photo_profile,theme FROM user u WHERE username='$username' AND u.page='k'";
                 $this->db->setFieldTable (array('userid','username','nama','email','page','isdeleted','photo_profile','theme'));							
                 $r= $this->db->getRecord($str);	
 				$this->dataUser['data_user']=$r[1];	
@@ -60,7 +60,7 @@ class UserManager extends TAuthManager {
                 $this->db->updateRecord("UPDATE user SET logintime=NOW() WHERE userid=$userid");
 			break;
             case 'OperatorNilai' :
-                $str = "SELECT u.userid,u.username,u.nama,u.email,u.page,u.group_id,u.kjur,u.isdeleted,u.foto as photo_profileu.theme FROM user u WHERE username='$username' AND u.page='on'";
+                $str = "SELECT u.userid,u.username,u.nama,u.email,u.page,u.group_id,u.kjur,u.isdeleted,u.foto as photo_profile,theme FROM user u WHERE username='$username' AND u.page='on'";
                 $this->db->setFieldTable (array('userid','username','nama','email','page','group_id','kjur','isdeleted','photo_profile','theme'));							
                 $r= $this->db->getRecord($str);	
 				$this->dataUser['data_user']=$r[1];	
