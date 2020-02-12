@@ -127,6 +127,7 @@ class CTransaksiPembayaranSemesterGenap Extends MainPageMHS {
         $jumlah_bayar=(int)$this->Finance->toInteger(addslashes($item->ColumnJumlahBayar->TextBox->Text));                         
         
         if (($jumlah_bayar+$sudah_dibayar) <= $biaya) {
+            $jumlah_bayar=$jumlah_bayar>0?$jumlah_bayar:0;
             $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar' WHERE no_transaksi='$no_transaksi' AND idkombi=$id";
             $this->DB->updateRecord($str);       
         }
