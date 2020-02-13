@@ -125,19 +125,19 @@ class CDetailEditNilai extends MainPageD {
                     $persentase_uas=$inputan->hiddenpersenuas->Value;
                     $persentase_absen=$inputan->hiddenpersenabsen->Value;
 
-                    $nilai_quiz=addslashes($inputan->txtNilaiQuiz->Text);
+                    $nilai_quiz=addslashes(floatval(preg_replace('/[^\d.]/', '', $inputan->txtNilaiQuiz->Text)));
                     $nilai_quiz=($nilai_quiz >0)?$nilai_quiz:0;
 
-                    $nilai_tugas=addslashes($inputan->txtNilaiTugas->Text);
+                    $nilai_tugas=addslashes(floatval(preg_replace('/[^\d.]/', '', $inputan->txtNilaiTugas->Text)));
                     $nilai_tugas=($nilai_tugas >0)?$nilai_tugas:0;
 
-                    $nilai_uts=addslashes($inputan->txtNilaiUTS->Text);
+                    $nilai_uts=addslashes(floatval(preg_replace('/[^\d.]/', '', $inputan->txtNilaiUTS->Text)));
                     $nilai_uts=($nilai_uts >0)?$nilai_uts:0;
 
-                    $nilai_uas=addslashes($inputan->txtNilaiUAS->Text);
+                    $nilai_uas=addslashes(floatval(preg_replace('/[^\d.]/', '', $inputan->txtNilaiUAS->Text)));
                     $nilai_uas=($nilai_uas >0)?$nilai_uas:0;
 
-                    $nilai_absen=addslashes($inputan->txtNilaiAbsen->Text);  
+                    $nilai_absen=addslashes(floatval(preg_replace('/[^\d.]/', '', $inputan->txtNilaiAbsen->Text)));  
                     $nilai_absen=($nilai_absen >0)?$nilai_absen:0;  
 
                     $n_kuan=($persentase_quiz*$nilai_quiz)+($persentase_tugas*$nilai_tugas)+($persentase_uts*$nilai_uts)+($persentase_uas*$nilai_uas)+($persentase_absen*$nilai_absen);
