@@ -151,14 +151,14 @@ class CDosen extends MainPageM {
             $username=addslashes($this->txtAddUsername->Text);
 			$password=md5(txtAddPassword1);
             
-			$str = "INSERT INTO dosen SET nidn='$nidn',nipy='$nipy',nama_dosen='$nama',gelar_depan='$gelar_depan',gelar_belakang='$gelar_belakang',idjabatan='$idjabatanfungsional',alamat_dosen='$alamat_dosen',telp_hp='$no_telepon',email='$email',username='$username',userpassword='$password',theme='cube'";
+			$str = "INSERT INTO dosen SET nidn='$nidn',nipy='$nipy',nama_dosen='$nama',gelar_depan='$gelar_depan',gelar_belakang='$gelar_belakang',idjabatan='$idjabatanfungsional',alamat_dosen='$alamat_dosen',telp_hp='$no_telepon',email='$email',website='',username='$username',userpassword='$password',theme='cube',status=1";
 			$this->DB->query('BEGIN');
             if ($this->DB->insertRecord($str)) {
                 $data=$this->Pengguna->createHashPassword($this->txtAddPassword1->Text);
                 $salt=$data['salt'];
                 $password=$data['password'];           
                 $page='d';
-                $str = "INSERT INTO user SET username='$username',userpassword='$password',salt='$salt',nama='$nama',email='$email',page='$page',active=1,theme='cube',foto='resources/userimages/no_photo.png',date_added=NOW()";
+                $str = "INSERT INTO user SET idbank=0,username='$username',userpassword='$password',salt='$salt',page='$page',group_id=0,kjur=0,nama='$nama',email='$email',active=1,isdeleted=0,theme='cube',foto='resources/userimages/no_photo.png',token='',ipaddress='',logintime='',date_added=NOW()";
                 $this->DB->insertRecord($str);
                 $this->DB->query('COMMIT');
                 $this->Redirect('dmaster.Dosen',true);
@@ -222,7 +222,7 @@ class CDosen extends MainPageM {
                     $salt=$data['salt'];
                     $password=$data['password'];           
                     $page='d';
-                    $str = "INSERT INTO user SET userid=NULL,idbank=0,username='$username',userpassword='$password',salt='$salt',nama='$nama',email='$email',page='$page',group_id=0,kjur=0,active=1,isdeleted=0,theme='cube',foto='resources/userimages/no_photo.png',logintime=NOW(),date_added=NOW()";             
+                    $str = "INSERT INTO user SET idbank=0,username='$username',userpassword='$password',salt='$salt',page='$page',group_id=0,kjur=0,nama='$nama',email='$email',active=1,isdeleted=0,theme='cube',foto='resources/userimages/no_photo.png',token='',ipaddress='',logintime='',date_added=NOW()";
                     $this->DB->insertRecord($str);
                 }                
                 $this->DB->query('COMMIT');
