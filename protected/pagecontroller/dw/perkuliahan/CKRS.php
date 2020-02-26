@@ -115,6 +115,7 @@ class CKRS Extends MainPageDW {
 		$kjur=$_SESSION['kjur'];
 		$tahun_masuk=$_SESSION['currentPageKRS']['tahun_masuk'];         
         $str_tahun_masuk=$tahun_masuk == 'none' || $tahun_masuk == '' ? '':" AND vdm.tahun_masuk=$tahun_masuk";
+        $mode_krs=$_SESSION['currentPageKRS']['mode_krs'];      
         if ($search) {
             $txtsearch=addslashes($this->txtKriteria->Text);
             switch ($this->cmbKriteria->Text) {                
@@ -128,24 +129,42 @@ class CKRS Extends MainPageDW {
                     $clausa="AND vdm.nama_mhs LIKE '%$txtsearch%'";                    
                 break;
             }
-            if ($_SESSION['currentPageKRS']['mode_krs'] == 'belum') {
-                $str="SELECT vdm.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk FROM dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND d.nim AND vdm.idkelas!='C' NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta) $clausa";                                                
-                $jumlah_baris=$this->DB->getCountRowsOfTable("dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND d.nim AND vdm.idkelas!='C' NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta) $clausa",'d.nim');		
-                $this->DB->setFieldTable(array('nim','nama_mhs','jk','tahun_masuk'));
-            }else{
-                $str = "SELECT k.idkrs,k.tgl_krs,k.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,k.sah,k.tgl_disahkan FROM krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND k.tahun=$ta AND k.idsmt=$semester $clausa";            
-                $jumlah_baris=$this->DB->getCountRowsOfTable("krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali $clausa",'k.nim');		
-                $this->DB->setFieldTable(array('idkrs','tgl_krs','nim','nama_mhs','jk','tahun_masuk','sah','tgl_disahkan'));
+            switch ($mode_krs)
+            {
+                case 'belum' :
+                    $str="SELECT vdm.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk FROM dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND d.nim AND vdm.idkelas!='C' NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta) $clausa";                                                
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND d.nim AND vdm.idkelas!='C' NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta) $clausa",'d.nim');		
+                    $this->DB->setFieldTable(array('nim','nama_mhs','jk','tahun_masuk'));
+                break;
+                case 'sudah' :
+                    $str = "SELECT k.idkrs,k.tgl_krs,k.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,k.sah,k.tgl_disahkan FROM krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND k.tahun=$ta AND k.idsmt=$semester $clausa";            
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali $clausa",'k.nim');		
+                    $this->DB->setFieldTable(array('idkrs','tgl_krs','nim','nama_mhs','jk','tahun_masuk','sah','tgl_disahkan'));
+                break;
+                case 'belumsah' :
+                    $str = "SELECT k.idkrs,k.tgl_krs,k.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,k.sah,k.tgl_disahkan FROM krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND k.tahun=$ta AND k.idsmt=$semester AND k.sah=0 $clausa";            
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND k.sah=0  $clausa",'k.nim');		
+                    $this->DB->setFieldTable(array('idkrs','tgl_krs','nim','nama_mhs','jk','tahun_masuk','sah','tgl_disahkan'));
+                break;
             }
         }else{
-            if ($_SESSION['currentPageKRS']['mode_krs'] == 'belum') {
-                $str="SELECT vdm.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk FROM dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND vdm.kjur=$kjur AND d.nim NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta)$str_tahun_masuk";                                                
-                $jumlah_baris=$this->DB->getCountRowsOfTable("dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND vdm.kjur=$kjur AND d.nim NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta) $str_tahun_masuk",'d.nim');		
-                $this->DB->setFieldTable(array('nim','nama_mhs','jk','tahun_masuk'));
-            }else{
-                $str = "SELECT k.idkrs,k.tgl_krs,k.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,k.sah,k.tgl_disahkan FROM krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.kjur=$kjur $str_tahun_masuk";            
-                $jumlah_baris=$this->DB->getCountRowsOfTable("krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.kjur=$kjur $str_tahun_masuk",'k.nim');		
-                $this->DB->setFieldTable(array('idkrs','tgl_krs','nim','nama_mhs','jk','tahun_masuk','sah','tgl_disahkan'));
+            switch ($mode_krs)
+            {
+                case 'belum' :
+                    $str="SELECT vdm.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk FROM dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND vdm.kjur=$kjur AND d.nim NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta)$str_tahun_masuk";                                                
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("dulang d,v_datamhs vdm WHERE d.k_status='A' AND d.tahun=$ta AND d.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.nim=d.nim AND vdm.kjur=$kjur AND d.nim NOT IN (SELECT nim FROM krs WHERE idsmt=$semester AND tahun=$ta) $str_tahun_masuk",'d.nim');		
+                    $this->DB->setFieldTable(array('nim','nama_mhs','jk','tahun_masuk'));
+                break;
+                case 'sudah' :
+                    $str = "SELECT k.idkrs,k.tgl_krs,k.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,k.sah,k.tgl_disahkan FROM krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.kjur=$kjur $str_tahun_masuk";            
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.kjur=$kjur $str_tahun_masuk",'k.nim');		
+                    $this->DB->setFieldTable(array('idkrs','tgl_krs','nim','nama_mhs','jk','tahun_masuk','sah','tgl_disahkan'));
+                break;
+                case 'belumsah' :
+                    $str = "SELECT k.idkrs,k.tgl_krs,k.nim,vdm.nama_mhs,vdm.jk,vdm.tahun_masuk,k.sah,k.tgl_disahkan FROM krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.kjur=$kjur AND k.sah=0 $str_tahun_masuk";            
+                    $jumlah_baris=$this->DB->getCountRowsOfTable("krs k,v_datamhs vdm WHERE k.nim=vdm.nim AND k.tahun=$ta AND k.idsmt=$semester AND vdm.idkelas!='C' AND vdm.iddosen_wali=$iddosen_wali AND vdm.kjur=$kjur AND k.sah=0 $str_tahun_masuk",'k.nim');		
+                    $this->DB->setFieldTable(array('idkrs','tgl_krs','nim','nama_mhs','jk','tahun_masuk','sah','tgl_disahkan'));
+                break;
             }
         }
         $this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageKRS']['page_num'];

@@ -84,6 +84,7 @@
                                 <com:TActiveDropDownList ID="cmbModeKRS" OnCallback="changeModeKRS" CssClass="form-control">
                                     <com:TListItem Text="Sudah Isi KRS" Value="sudah" />
                                     <com:TListItem Text="Belum Isi KRS" Value="belum" />
+                                    <com:TListItem Text="KRS Belum Sah" Value="belumsah" />
                                     <prop:ClientSide.OnPreDispatch>
                                         $('loading').show();
                                     </prop:ClientSide.OnPreDispatch>
