@@ -159,9 +159,17 @@ class Logic_KRS extends Logic_Akademik {
      * @param type $idkrs
      */
 	public function sahkanKRS ($idkrs) {
-		$tgl=date('Y-m-d');
-		$str = "UPDATE krs SET sah=1,tgl_disahkan='$tgl' WHERE idkrs='$idkrs'";
-		$this->db->updateRecord ($str);
+        $tgl=date('Y-m-d');
+        $jumlah_matkul = $this->db->getCountRowsOfTable("krsmatkul WHERE idkrs='$idkrs'",'idkrsmatkul');
+        if ($jumlah_matkul > 0)
+        {
+            $str = "UPDATE krs SET sah=1,tgl_disahkan='$tgl' WHERE idkrs='$idkrs'";
+		    $this->db->updateRecord ($str);
+        }
+        else
+        {
+            throw new Exception ('Belum bisa disahkan karena matakuliah tidak ada !!!');
+        }
 	}
     /**
      * method untuk membatalkan krs mahasiswa

@@ -259,5 +259,6 @@
         </div>
     </div>    
 </com:TPanel>
+<%include Application.layouts.cube.ModalMessageError%>
 <%include Application.layouts.cube.ModalPrintOut%>
 </com:TContent>

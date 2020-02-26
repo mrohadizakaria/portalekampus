@@ -189,8 +189,17 @@ class CKRS Extends MainPageDW {
 	}
     public function sahkanKRS($sender,$param) {
         $idkrs = $sender->CommandParameter;
-        $this->KRS->sahkanKRS($idkrs);
-        $this->redirect ('perkuliahan.KRS',true);
+        try
+        {
+            $this->KRS->sahkanKRS($idkrs);
+            $this->redirect ('perkuliahan.KRS',true);
+        }
+        catch(Exception $e) {			
+            $this->lblContentMessageError->Text=$e->getMessage();
+            $this->modalMessageError->show();
+		}
+        
+        
     }
 	public function checkNIM ($sender,$param) {
 		$nim=addslashes($param->Value);
