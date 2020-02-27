@@ -20,8 +20,8 @@ class Logic_ReportAkademik extends Logic_Report {
 	            $this->rpt->getDefaultStyle()->getFont()->setName('Arial');
 	            $this->rpt->getDefaultStyle()->getFont()->setSize('9');
 	            
-	            $sheet->mergeCells("A7:G7");
-	            $sheet->mergeCells("A8:G8");
+	            $sheet->mergeCells("A7:H7");
+	            $sheet->mergeCells("A8:H8");
 	            $sheet->getRowDimension(7)->setRowHeight(20);
 	            $sheet->setCellValue("A7","DAFTAR PENYELENGGARAAN MATAKULIAH");
 	            $sheet->setCellValue("A8",'PROGRAM STUDI '.$this->dataReport['nama_prodi'].' T.A '.$this->dataReport['nama_tahun'].' SEMESTER '.$this->dataReport['nama_semester']);
@@ -41,6 +41,7 @@ class Logic_ReportAkademik extends Logic_Report {
 	            $sheet->getColumnDimension('E')->setWidth(6);
 	            $sheet->getColumnDimension('F')->setWidth(6);
 	            $sheet->getColumnDimension('G')->setWidth(35);
+	            $sheet->getColumnDimension('H')->setWidth(14);
 	            
 	            $sheet->setCellValue('A10','NO');
 	            $sheet->mergeCells("B10:C10");
@@ -49,6 +50,7 @@ class Logic_ReportAkademik extends Logic_Report {
 	            $sheet->setCellValue('E10','SKS');
 	            $sheet->setCellValue('F10','SMT');
 	            $sheet->setCellValue('G10','DOSEN PENGAMPU');
+	            $sheet->setCellValue('H10','NIDN');
 	            $sheet->getRowDimension(10)->setRowHeight(25);
 	            
 	            $styleArray=array(
@@ -57,8 +59,8 @@ class Logic_ReportAkademik extends Logic_Report {
                     'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 	                'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 	            );
-	            $sheet->getStyle("A10:G10")->applyFromArray($styleArray);
-	            $sheet->getStyle("A10:G10")->getAlignment()->setWrapText(true);
+	            $sheet->getStyle("A10:H10")->applyFromArray($styleArray);
+	            $sheet->getStyle("A10:H10")->getAlignment()->setWrapText(true);
 	            
 	            $str = "SELECT idpenyelenggaraan,kmatkul,nmatkul,sks,semester,nama_dosen FROM v_pengampu_penyelenggaraan WHERE idsmt='$idsmt' AND tahun='$ta' AND kjur='$kjur' ORDER BY nama_dosen ASC,nmatkul ASC";
 	            $this->db->setFieldTable (array('idpenyelenggaraan','kmatkul','nmatkul','sks','semester','nama_dosen'));
@@ -72,6 +74,7 @@ class Logic_ReportAkademik extends Logic_Report {
 	                $sheet->setCellValue("E$row",$v['sks']);
 	                $sheet->setCellValue("F$row",$v['semester']);
 	                $sheet->setCellValue("G$row",$v['nama_dosen']);
+	                $sheet->setCellValue("H$row",$v['nidn']);
 	                $row+=1;
 	            }
 	            $row=$row-1;
@@ -80,8 +83,8 @@ class Logic_ReportAkademik extends Logic_Report {
                     'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 	                'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 	            );
-	            $sheet->getStyle("A11:G$row")->applyFromArray($styleArray);
-	            $sheet->getStyle("A11:G$row")->getAlignment()->setWrapText(true);
+	            $sheet->getStyle("A11:H$row")->applyFromArray($styleArray);
+	            $sheet->getStyle("A11:H$row")->getAlignment()->setWrapText(true);
 	            
 	            $styleArray=array(
 	                'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
