@@ -62,8 +62,8 @@ class Logic_ReportAkademik extends Logic_Report {
 	            $sheet->getStyle("A10:H10")->applyFromArray($styleArray);
 	            $sheet->getStyle("A10:H10")->getAlignment()->setWrapText(true);
 	            
-	            $str = "SELECT idpenyelenggaraan,kmatkul,nmatkul,sks,semester,nama_dosen FROM v_pengampu_penyelenggaraan WHERE idsmt='$idsmt' AND tahun='$ta' AND kjur='$kjur' ORDER BY nama_dosen ASC,nmatkul ASC";
-	            $this->db->setFieldTable (array('idpenyelenggaraan','kmatkul','nmatkul','sks','semester','nama_dosen'));
+	            $str = "SELECT idpenyelenggaraan,kmatkul,nmatkul,sks,semester,nama_dosen,nidn FROM v_pengampu_penyelenggaraan WHERE idsmt='$idsmt' AND tahun='$ta' AND kjur='$kjur' ORDER BY nama_dosen ASC,nmatkul ASC";
+	            $this->db->setFieldTable (array('idpenyelenggaraan','kmatkul','nmatkul','sks','semester','nama_dosen','nidn'));
 	            $r= $this->db->getRecord($str);
 	            $row=11;	            
 	            while (list($k,$v)=each ($r)) {
