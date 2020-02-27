@@ -118,6 +118,12 @@
 							<com:TActiveImage ID="imgBuktiBayar" Attributes.alt="<%=$this->Page->Pengguna->getUsername()%>" CssClass="profile-img img-responsive center-block" />                                                    
 						</div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">&nbsp;</label>
+                        <div class="col-md-9">							
+							<com:TActiveLabel ID="lblMessageKonfirmasi"/>
+						</div>
+                    </div>
 				</div>				
 			</div>
 		</div>

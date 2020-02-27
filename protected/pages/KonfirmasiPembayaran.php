@@ -85,6 +85,7 @@ class KonfirmasiPembayaran extends MainPageF {
 			$this->imgBuktiBayar->Width='400px';
 			$no_pendaftaran=$this->hiddenid->Value;
             $this->DB->updateRecord("UPDATE formulir_pendaftaran_temp SET file_bukti_bayar='$path' WHERE no_pendaftaran='$no_pendaftaran'");           
+            $this->lblMessageKonfirmasi->Text='Konfirmasi berhasil, pembayaran Anda akan dicek, Silahkan tunggu, maksimal 1x24 Jam.';
         }else {                    
             //error handling
             switch ($sender->ErrorCode){
