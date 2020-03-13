@@ -118,5 +118,18 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-12">
+        <div class="main-box">
+            <header class="main-box-header clearfix">
+                <h2 class="pull-left"><i class="fa fa-eye"></i> Preview File Skripsi</h2>
+                <div class="icon-box pull-right">                                       
+                    
+                </div>
+            </header> 
+            <div class="main-box-body clearfix">
+                <com:THyperLink ID="linkFileSkripsi" CssClass="table-link" /> 
+            </div>
+        </div>
+    </div>    
 </com:TPanel>
 </com:TContent>

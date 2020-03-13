@@ -865,7 +865,7 @@
                                             </ul>
                                         </li>  
                                         <li<%=$this->Page->showSkripsi==true?' class="active"':''%>>
-                                            <a href="<%=$this->Page->constructUrl('skripsi',true)%>">
+                                            <a href="<%=$this->Page->constructUrl('Skripsi',true)%>">
                                                 <i class="fa fa-book"></i>
                                                 <span>Skripsi</span>											
                                             </a>                                        
