@@ -14,8 +14,8 @@ class CSkripsi extends MainPageMHS {
                                                     );
             }  
             $nim=$this->Pengguna->getDataUser('nim');
-            $str = "SELECT judul_skripsi,iddosen_pembimbing,iddosen_pembimbing2,ta,idsmt,file_skripsi FROM skripsi WHERE nim='$nim'";
-            $this->DB->setFieldTable(array('judul_skripsi','iddosen_pembimbing','iddosen_pembimbing2','ta','idsmt','file_skripsi'));
+            $str = "SELECT judul_skripsi,abstrak,iddosen_pembimbing,iddosen_pembimbing2,ta,idsmt,file_skripsi FROM skripsi WHERE nim='$nim'";
+            $this->DB->setFieldTable(array('judul_skripsi','abstrak','iddosen_pembimbing','iddosen_pembimbing2','ta','idsmt','file_skripsi'));
             $r=$this->DB->getRecord($str);
 
             $daftar_dosen=$this->DMaster->getDaftarDosen();            
@@ -34,7 +34,8 @@ class CSkripsi extends MainPageMHS {
             
             if (isset($r[1]))
             {
-                $this->txtAddJuduluSkripsi->Text=$r[1]['judul_skripsi'];
+                $this->txtAddJudulSkripsi->Text=$r[1]['judul_skripsi'];
+                $this->txtAddAbstrak->Text=$r[1]['abstrak'];
                 $this->cmbAddDosenPembimbing->Text=$r[1]['iddosen_pembimbing'];
                 $this->cmbAddDosenPembimbing2->Text=$r[1]['iddosen_pembimbing2'];     
                 $this->cmbAddTA->Text=$r[1]['ta'];
@@ -57,23 +58,24 @@ class CSkripsi extends MainPageMHS {
         {
             try {	
                 $nim=$this->Pengguna->getDataUser('nim');
-                $judul_skripsi=strtoupper(addslashes($this->txtAddJuduluSkripsi->Text));						
+                $judul_skripsi=strtoupper(addslashes($this->txtAddJudulSkripsi->Text));						
+                $abstrak=addslashes($this->txtAddAbstrak->Text);						
                 $pembimbing=$this->cmbAddDosenPembimbing->Text;						
                 $pembimbing2=$this->cmbAddDosenPembimbing2->Text;
                 $ta=$this->cmbAddTA->Text;
                 $idsmt=$this->cmbAddSemester->Text;
                 if ($this->DB->checkRecordIsExist('nim','skripsi',$nim)){
-                    $str = "UPDATE skripsi SET judul_skripsi='$judul_skripsi',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',updated_at=NOW() WHERE nim='$nim'";
+                    $str = "UPDATE skripsi SET judul_skripsi='$judul_skripsi',abstrak='$abstrak',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',updated_at=NOW() WHERE nim='$nim'";
                     $this->DB->updateRecord($str);
                 }else{
-                    $str = "INSERT skripsi SET nim='$nim',judul_skripsi='$judul_skripsi',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',ta='$ta',idsmt='$idsmt',file_skripsi='',created_at=NOW(),updated_at=NOW()";
+                    $str = "INSERT skripsi SET nim='$nim',judul_skripsi='$judul_skripsi',abstrak='$abstrak',iddosen_pembimbing='$pembimbing',iddosen_pembimbing2='$pembimbing2',ta='$ta',idsmt='$idsmt',file_skripsi='',created_at=NOW(),updated_at=NOW()";
                     $this->DB->insertRecord($str);
                 }
                 if ($sender->HasFile)
                 {
                     $mime=$sender->getFileType();
                     if ($mime=='application/pdf')
-                    {
+                    {                        
                         $filename=substr(hash('sha512',rand()),0,8);
                         $name=$sender->FileName;
                         $part=$this->setup->cleanFileNameString($name);            
@@ -94,27 +96,29 @@ class CSkripsi extends MainPageMHS {
                     switch ($sender->ErrorCode){
                         case 1:
                             $err="file size too big (check inside php.ini).";
+                            throw new Exception($err);
                         break;
                         case 2:
                             $err="file size too big (form).";
+                            throw new Exception($err);
                         break;
                         case 3:
                             $err="file upload interrupted.";
-                        break;
-                        case 4:
-                            $err="no file chosen.";
+                            throw new Exception($err);
                         break;
                         case 6:
                             $err="internal problem (missing temporary directory).";
+                            throw new Exception($err);
                         break;
                         case 7:
                             $err="unable to write file on disk.";
+                            throw new Exception($err);
                         break;
                         case 8:
                             $err="file type not accepted.";
+                            throw new Exception($err);
                         break;
-                    }
-                    throw new Exception($err);
+                    }                    
                 }
                 $this->redirect('Skripsi',true);                 
             }catch (Exception $e) {

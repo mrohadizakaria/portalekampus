@@ -1456,6 +1456,7 @@ INSERT INTO `status_mhs` (`k_status`, `n_status`) VALUES
 CREATE TABLE `skripsi` (
   `nim` char(20) NOT NULL,
   `judul_skripsi` varchar(255) NOT NULL,
+  `abstrak` text NOT NULL,
   `iddosen_pembimbing` mediumint(9) NOT NULL,
   `iddosen_pembimbing2` mediumint(9) NOT NULL,
   `ta` year(4) NOT NULL,

@@ -44,14 +44,29 @@
                     <div class="form-group" id="divAddJudulSkripsi">
                         <label class="col-md-2 control-label">Judul Skripsi :</label>
                         <div class="col-md-10">
-                            <com:TTextBox ID="txtAddJuduluSkripsi" TextMode="MultiLine" Columns="50" CssClass="form-control" />
-                            <com:TRequiredFieldValidator ID="FieldAddJudulSkripsi" ControlToValidate="txtAddJuduluSkripsi" ValidationGroup="AddSkripsi" ErrorMessage="Isi Judul Skripsi" Display="Dynamic" CssClass="has-error help-block" FocusOnError="true">	
+                            <com:TTextBox ID="txtAddJudulSkripsi" TextMode="MultiLine" Columns="50" CssClass="form-control" />
+                            <com:TRequiredFieldValidator ID="FieldAddJudulSkripsi" ControlToValidate="txtAddJudulSkripsi" ValidationGroup="AddSkripsi" ErrorMessage="Isi Judul Skripsi" Display="Dynamic" CssClass="has-error help-block" FocusOnError="true">	
                                 <prop:ClientSide.OnValidationError>
                                     $('divAddJudulSkripsi').addClassName('has-error');
                                     jQuery('#<%=$this->FieldAddJudulSkripsi->ClientID%>').removeAttr('style');
                                 </prop:ClientSide.OnValidationError>
                                 <prop:ClientSide.OnValidationSuccess>
                                     $('divAddJudulSkripsi').removeClassName('has-error');
+                                </prop:ClientSide.OnValidationSuccess>
+                            </com:TRequiredFieldValidator>
+                        </div>
+                    </div>                       
+                    <div class="form-group" id="divAddAbstrak">
+                        <label class="col-md-2 control-label">Abstrak :</label>
+                        <div class="col-md-10">
+                            <com:TTextBox ID="txtAddAbstrak" TextMode="MultiLine" Columns="50" CssClass="form-control" />
+                            <com:TRequiredFieldValidator ID="FieldAddAbstrak" ControlToValidate="txtAddAbstrak" ValidationGroup="AddSkripsi" ErrorMessage="Isi Abstrak Skripsi" Display="Dynamic" CssClass="has-error help-block" FocusOnError="true">	
+                                <prop:ClientSide.OnValidationError>
+                                    $('divAddAbstrak').addClassName('has-error');
+                                    jQuery('#<%=$this->FieldAddAbstrak->ClientID%>').removeAttr('style');
+                                </prop:ClientSide.OnValidationError>
+                                <prop:ClientSide.OnValidationSuccess>
+                                    $('divAddAbstrak').removeClassName('has-error');
                                 </prop:ClientSide.OnValidationSuccess>
                             </com:TRequiredFieldValidator>
                         </div>
@@ -109,8 +124,8 @@
                     </div>                    
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <com:TCustomButton ID="btnUpload" CssClass="btn btn-primary" ValidationGroup="AddSkripsi">
-                                <prop:Text><i class="fa fa-upload"></i> Upload</prop:Text>                                
+                            <com:TCustomButton ID="btnSave" CssClass="btn btn-primary" ValidationGroup="AddSkripsi">
+                                <prop:Text><i class="fa fa-save"></i> Simpan</prop:Text>                                
                             </com:TCustomButton>
                         </div>
                     </div>     
