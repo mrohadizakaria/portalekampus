@@ -834,7 +834,7 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                        </li>   
+                                        </li>                                         
                                         <li<%=$this->Page->showSubMenuAkademikNilai==true?' class="active"':''%>>
                                             <a href="#" class="dropdown-toggle">
                                                 <i class="fa fa-file-excel-o"></i>
@@ -863,7 +863,13 @@
                                                     </a> 
                                                 </li> 
                                             </ul>
-                                        </li>                                          
+                                        </li>  
+                                        <li<%=$this->Page->showSkripsi==true?' class="active"':''%>>
+                                            <a href="<%=$this->Page->constructUrl('skripsi',true)%>">
+                                                <i class="fa fa-book"></i>
+                                                <span>Skripsi</span>											
+                                            </a>                                        
+                                        </li>                                         
                                         <li class="nav-header nav-header-first hidden-sm hidden-xs">
                                             KEMAHASISWAAN
                                         </li>  

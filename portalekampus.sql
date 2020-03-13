@@ -1451,6 +1451,21 @@ INSERT INTO `status_mhs` (`k_status`, `n_status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `skripsi`
+--
+CREATE TABLE `skripsi` (
+  `nim` char(20) NOT NULL,
+  `judul_skripsi` varchar(255) NOT NULL,
+  `iddosen_pembimbing` mediumint(9) NOT NULL,
+  `iddosen_pembimbing2` mediumint(9) NOT NULL,
+  `ta` year(4) NOT NULL,
+  `idsmt` tinyint(1) NOT NULL,
+  `file_skripsi` varchar(255) NOT NULL,
+  `created_at` DATE NOT NULL,
+  `updated_at` DATE NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `ta`
 --
 
@@ -2459,6 +2474,13 @@ ALTER TABLE `status_mhs`
   ADD PRIMARY KEY (`k_status`);
 
 --
+-- Indexes for table `skripsi`
+--
+ALTER TABLE `skripsi`
+  ADD PRIMARY KEY (`nim`),
+  ADD KEY `iddosen_pembimbing` (`iddosen_pembimbing`);
+
+--
 -- Indexes for table `ta`
 --
 ALTER TABLE `ta`
@@ -3305,6 +3327,13 @@ ALTER TABLE `quiz_mk`
 ALTER TABLE `register_mahasiswa`
   ADD CONSTRAINT `register_mahasiswa_ibfk_1` FOREIGN KEY (`kjur`) REFERENCES `program_studi` (`kjur`),
   ADD CONSTRAINT `register_mahasiswa_ibfk_2` FOREIGN KEY (`no_formulir`) REFERENCES `formulir_pendaftaran` (`no_formulir`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `skripsi`
+--
+ALTER TABLE `skripsi`
+  ADD CONSTRAINT `skripsi_ibfk_1` FOREIGN KEY (`nim`) REFERENCES `register_mahasiswa` (`nim`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `skripsi_ibfk_2` FOREIGN KEY (`iddosen_pembimbing`) REFERENCES `dosen` (`iddosen`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transaksi_cuti`

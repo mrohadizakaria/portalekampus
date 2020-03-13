@@ -3,7 +3,11 @@ class MainPageMHS extends MainPage {
     /**     
      * show daftar konsentrasi [akademik]
      */
-    public $showDaftarKonsentrasi=false;   
+    public $showDaftarKonsentrasi=false;  
+    /**     
+     * show skripsi [akademik]
+     */
+    public $showSkripsi=false;   
     /**
      * show page konversi sementara [akademik nilai]
      */
