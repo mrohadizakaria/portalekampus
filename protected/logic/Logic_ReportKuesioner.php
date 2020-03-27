@@ -138,11 +138,11 @@ class Logic_ReportKuesioner extends Logic_Report {
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:I7");
+                $sheet->mergeCells("A7:J7");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DATA KUESIONER DOSEN T.A $nama_tahun SEMESTER $nama_semester");                                
                 
-                $sheet->mergeCells("A8:I8");
+                $sheet->mergeCells("A8:J8");
                 $sheet->setCellValue("A8","MATAKULIAH $nmatkul");                                
                 $sheet->getRowDimension(8)->setRowHeight(20);
                 $styleArray=array(
@@ -151,7 +151,7 @@ class Logic_ReportKuesioner extends Logic_Report {
 								'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 							);
-                $sheet->getStyle("A7:I8")->applyFromArray($styleArray);
+                $sheet->getStyle("A7:J8")->applyFromArray($styleArray);
                 
                 
                 
@@ -191,7 +191,7 @@ class Logic_ReportKuesioner extends Logic_Report {
                 
                 $sheet->getStyle("G10:G16")->applyFromArray($styleArray); 
                 
-                $sheet->getRowDimension(18)->setRowHeight(20);                              
+                $sheet->getRowDimension(18)->setRowHeight(23);                              
                 $sheet->getColumnDimension('B')->setWidth(10);
                 $sheet->getColumnDimension('C')->setWidth(60);
                 $sheet->getColumnDimension('D')->setWidth(13);
@@ -199,7 +199,8 @@ class Logic_ReportKuesioner extends Logic_Report {
                 $sheet->getColumnDimension('F')->setWidth(13);                
                 $sheet->getColumnDimension('G')->setWidth(13);
                 $sheet->getColumnDimension('H')->setWidth(13);
-                $sheet->getColumnDimension('I')->setWidth(10);                
+                $sheet->getColumnDimension('I')->setWidth(11);                
+                $sheet->getColumnDimension('J')->setWidth(11);                
                                 
                 $sheet->setCellValue('A18','NO');				
                 $sheet->setCellValue('B18','URUT');
@@ -209,7 +210,8 @@ class Logic_ReportKuesioner extends Logic_Report {
                 $sheet->setCellValue('F18','INDIKATOR KE 3');				
                 $sheet->setCellValue('G18','INDIKATOR KE 4');				
                 $sheet->setCellValue('H18','INDIKATOR KE 5');				                
-                $sheet->setCellValue('I18','TOTAL');				                                    
+                $sheet->setCellValue('I18','TOTAL MHS');				                                    
+                $sheet->setCellValue('J18','RATA-RATA HITUNG');				                                    
                 
                 $styleArray=array(								
                                     'font' => array('bold' => true),
@@ -217,17 +219,12 @@ class Logic_ReportKuesioner extends Logic_Report {
                                                        'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
                                     'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
                                 );																					 
-                $sheet->getStyle("A18:I18")->applyFromArray($styleArray);
-                $sheet->getStyle("A18:I18")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A18:J18")->applyFromArray($styleArray);
+                $sheet->getStyle("A18:J18")->getAlignment()->setWrapText(true);
                 
                 $idpengampu_penyelenggaraan=$this->dataReport['idpengampu_penyelenggaraan'];                
                 $row=19;  
-                $kelompok_pertanyaan=$this->dataReport['kelompok_pertanyaan'];
-                $TotalIndikator1=0;
-                $TotalIndikator2=0;
-                $TotalIndikator3=0;
-                $TotalIndikator4=0;
-                $TotalIndikator5=0;
+                $kelompok_pertanyaan=$this->dataReport['kelompok_pertanyaan'];                
                 while (list($idkelompok_pertanyaan,$nama_kelompok)=each($kelompok_pertanyaan)) {
                     $str = "SELECT idkuesioner,idkelompok_pertanyaan,pertanyaan,`orders`,date_added FROM kuesioner k WHERE tahun='$ta' AND idsmt='$idsmt' AND idkelompok_pertanyaan=$idkelompok_pertanyaan ORDER BY (orders+0) ASC";
                     $this->db->setFieldTable(array('idkuesioner','idkelompok_pertanyaan','pertanyaan','orders','date_added'));
@@ -237,12 +234,12 @@ class Logic_ReportKuesioner extends Logic_Report {
                         $sheet->mergeCells("A$row:I$row");
                         $styleArray=array(								
                                     'font' => array('bold' => true));
-                        $sheet->getStyle("A$row:I$row")->applyFromArray($styleArray);                        
+                        $sheet->getStyle("A$row:J$row")->applyFromArray($styleArray);                        
                         $sheet->setCellValue("A$row",$nama_kelompok);
                         $row+=1;   
                         
                         $idkuesioner=$r[1]['idkuesioner'];                
-                        $str="SELECT nilai_indikator,SUM(nilai_indikator) AS jumlah FROM kuesioner_jawaban kj,kuesioner_indikator ki WHERE ki.idindikator=kj.idindikator AND kj.idpengampu_penyelenggaraan=$idpengampu_penyelenggaraan AND kj.idkuesioner=$idkuesioner GROUP BY nilai_indikator";
+                        $str="SELECT nilai_indikator,COUNT(idkrsmatkul) AS jumlah FROM kuesioner_jawaban kj,kuesioner_indikator ki WHERE ki.idindikator=kj.idindikator AND kj.idpengampu_penyelenggaraan=$idpengampu_penyelenggaraan AND kj.idkuesioner=$idkuesioner GROUP BY nilai_indikator";
                         $this->db->setFieldTable(array('nilai_indikator','jumlah'));
                         $hasil_indikator=$this->db->getRecord($str);
                         $indikator1=0;
@@ -280,16 +277,13 @@ class Logic_ReportKuesioner extends Logic_Report {
                         $sheet->setCellValue("H$row",$indikator5);	                        
                         $total=$indikator1+$indikator2+$indikator3+$indikator4+$indikator5;
                         $sheet->setCellValue("I$row",$total);
-                        $TotalIndikator1+=$indikator1;
-                        $TotalIndikator2+=$indikator2;
-                        $TotalIndikator3+=$indikator3;
-                        $TotalIndikator4+=$indikator4;
-                        $TotalIndikator5+=$indikator5;
+                        $rata2hitung = number_format((($indikator1*1)+($indikator2*2)+($indikator3*3)+($indikator4*4)+($indikator5*5))/$total,2);
+                        $sheet->setCellValue("J$row",$rata2hitung);
                         next($r);         
                         $row+=1;
                         while (list($k,$v)=each($r)) {
                             $idkuesioner=$v['idkuesioner'];
-                            $str="SELECT nilai_indikator,SUM(nilai_indikator) AS jumlah FROM kuesioner_jawaban kj,kuesioner_indikator ki WHERE ki.idindikator=kj.idindikator AND kj.idpengampu_penyelenggaraan=$idpengampu_penyelenggaraan AND kj.idkuesioner=$idkuesioner GROUP BY nilai_indikator";
+                            $str="SELECT nilai_indikator,COUNT(idkrsmatkul) AS jumlah FROM kuesioner_jawaban kj,kuesioner_indikator ki WHERE ki.idindikator=kj.idindikator AND kj.idpengampu_penyelenggaraan=$idpengampu_penyelenggaraan AND kj.idkuesioner=$idkuesioner GROUP BY nilai_indikator";
                             $this->db->setFieldTable(array('nilai_indikator','jumlah'));
                             $hasil_indikator=$this->db->getRecord($str);
                             $indikator1=0;
@@ -326,34 +320,21 @@ class Logic_ReportKuesioner extends Logic_Report {
                             $sheet->setCellValue("G$row",$indikator4);	                        
                             $sheet->setCellValue("H$row",$indikator5);	                        
                             $total=$indikator1+$indikator2+$indikator3+$indikator4+$indikator5;
-                            $TotalIndikator1+=$indikator1;
-                            $TotalIndikator2+=$indikator2;
-                            $TotalIndikator3+=$indikator3;
-                            $TotalIndikator4+=$indikator4;
-                            $TotalIndikator5+=$indikator5;
-                            $sheet->setCellValue("I$row",$total);	  
+                            $sheet->setCellValue("I$row",$total);	
+                            $rata2hitung = number_format((($indikator1*1)+($indikator2*2)+($indikator3*3)+($indikator4*4)+($indikator5*5))/$total,2);
+                            $sheet->setCellValue("J$row",$rata2hitung);  
                             $row+=1;
                         }                
                     }            
                 }
-                $sheet->getRowDimension($row)->setRowHeight(23);  
-                $sheet->mergeCells("A$row:C$row");
-                $sheet->setCellValue("A$row",'TOTAL');				                                                   
-                $sheet->setCellValue("D$row",$TotalIndikator1);	                        
-                $sheet->setCellValue("E$row",$TotalIndikator2);	                        
-                $sheet->setCellValue("F$row",$TotalIndikator3);	                        
-                $sheet->setCellValue("G$row",$TotalIndikator4);	                        
-                $sheet->setCellValue("H$row",$TotalIndikator5);	                        
-                $total=$TotalIndikator1+$TotalIndikator2+$TotalIndikator3+$TotalIndikator4+$TotalIndikator5;                
-                $sheet->setCellValue("I$row",$total);
-                
+                $row-=1;
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
                                                        'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
                                     'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
                                 );																					 
-                $sheet->getStyle("A19:I$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A19:I$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A19:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A19:J$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
@@ -363,27 +344,38 @@ class Logic_ReportKuesioner extends Logic_Report {
                 $row+=2;
                 $skor_terendah=$this->dataReport['skor_terendah'];
                 $interval=$this->dataReport['intervals'];
-                $maks_sangatburuk=$skor_terendah+$interval;
-                $maks_buruk=$maks_sangatburuk+$interval;
-                $maks_sedang=$maks_buruk+$interval;
-                $maks_baik=$maks_sedang+$interval;
-                $maks_sangatbaik=$maks_baik+$maks_baik;
+                
+
+                $low_sangatburuk=$skor_terendah;
+                $maks_sangatburuk=$low_sangatburuk+($interval-1);
+
+                $low_buruk=$maks_sangatburuk+1;
+                $maks_buruk=$low_buruk+($interval-1);
+
+                $low_sedang=$maks_buruk+1;
+                $maks_sedang=$low_sedang+($interval-1);
+
+                $low_baik=$maks_sedang+1;
+                $maks_baik=$low_baik+($interval-1);
+
+                $low_sangatbaik=$maks_baik+1;
+                $maks_sangatbaik=$low_sangatbaik+($interval-1);
                 
                 $sheet->setCellValue("C$row","Interval yang terbentuk :");
                 $row+=1;
-                $sheet->setCellValue("C$row","SANGAT BURUK : $skor_terendah - $maks_sangatburuk");
+                $sheet->setCellValue("C$row","SANGAT BURUK : $low_sangatburuk - $maks_sangatburuk");
                 $row+=1;
-                $maks_sangatburuk+=1;
-                $sheet->setCellValue("C$row","BURUK : $maks_sangatburuk - $maks_buruk");
+                
+                $sheet->setCellValue("C$row","BURUK : $low_buruk - $maks_buruk");
                 $row+=1;
-                $maks_buruk+=1;
-                $sheet->setCellValue("C$row","SEDANG: $maks_buruk - $maks_sedang");
+                
+                $sheet->setCellValue("C$row","SEDANG: $low_sedang - $maks_sedang");
                 $row+=1;
-                $maks_sedang+=1;
-                $sheet->setCellValue("C$row","BAIK: $maks_sedang - $maks_baik");
+                
+                $sheet->setCellValue("C$row","BAIK: $low_baik - $maks_baik");
                 $row+=1;
-                $maks_baik+=1;
-                $sheet->setCellValue("C$row","SANGAT BAIK: $maks_baik - $maks_sangatbaik");
+                
+                $sheet->setCellValue("C$row","SANGAT BAIK: $low_sangatbaik - $maks_sangatbaik");
                 
                 $this->printOut("datakuesionerdosen_$idpengampu_penyelenggaraan");
             break;

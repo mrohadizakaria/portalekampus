@@ -24,13 +24,22 @@ class Logic_Kuesioner extends Logic_Akademik {
         $jumlahsoal=$this->db->getCountRowsOfTable($str,'idkuesioner');
         $skor_tertinggi=$jumlahsoal*$jumlah_mhs*5;
         $skor_terendah=$jumlahsoal*$jumlah_mhs*1;
-        $interval=($skor_tertinggi-$skor_terendah)/5;
+        $interval=round(($skor_tertinggi-$skor_terendah)/5);
         
-        $maks_sangatburuk=$skor_terendah+$interval;
-        $maks_buruk=$maks_sangatburuk+$interval;
-        $maks_sedang=$maks_buruk+$interval;
-        $maks_baik=$maks_sedang+$interval;
-        $maks_sangatbaik=$maks_baik+$interval;
+        $low_sangatburuk=$skor_terendah;
+        $maks_sangatburuk=$low_sangatburuk+($interval-1);
+
+        $low_buruk=$maks_sangatburuk+1;
+        $maks_buruk=$low_buruk+($interval-1);
+
+        $low_sedang=$maks_buruk+1;
+        $maks_sedang=$low_sedang+($interval-1);
+
+        $low_baik=$maks_sedang+1;
+        $maks_baik=$low_baik+($interval-1);
+
+        $low_sangatbaik=$maks_baik+1;
+        $maks_sangatbaik=$low_sangatbaik+($interval-1);
         
         if ($totalnilai >= $skor_terendah && $totalnilai < $maks_sangatburuk) {
             $n_kuan=1;
