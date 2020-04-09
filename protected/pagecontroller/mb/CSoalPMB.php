@@ -68,6 +68,11 @@ class CSoalPMB extends MainPageMB {
                     }
                 }else{
                     $this->idProcess='add';
+                    $str = "SELECT no_pin FROM pin WHERE no_formulir='$no_formulir'";
+                    $this->DB->setFieldTable(array('no_pin')); 
+                    $r=$this->DB->getRecord($str); 
+
+                    $this->txtAddPIN->Text=$r[1]['no_pin'];
                 }                                                   
             }catch (Exception $e) {
                 $this->idProcess='view';
