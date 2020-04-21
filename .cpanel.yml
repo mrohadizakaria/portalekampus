@@ -10,4 +10,5 @@ deployment:
     - /bin/rm -rf $DEPLOYPATH2/app
     - /bin/rm -rf $DEPLOYPATH2/database
     - /bin/cp -R backend/* $DEPLOYPATH2
+    - /bin/cp -R backend/.env.example $DEPLOYPATH2
     - /usr/bin/git push origin v3 -u
