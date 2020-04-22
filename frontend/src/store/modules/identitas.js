@@ -1,7 +1,8 @@
 //state
 const getDefaultState = () => 
 {
-    return {        
+    return {      
+        loaded:false,  
         nama_pt_alias:'',
     }
 }
@@ -9,26 +10,43 @@ const state = getDefaultState();
 
 //mutations
 const mutations = {
+    setLoaded(state,loaded)
+    {
+        state.loaded=loaded;
+    },
     setNamaPTAlias(state,nama)
     {
         state.nama_pt_alias = nama;
-    },
+    },    
     resetState (state) {
         Object.assign(state, getDefaultState())
     }
 }
-const actions = {
-    getAll: async function ({commit},ajax)
+const getters= {
+    isLoaded : state => {
+        return state.loaded;
+    },
+    getNamaPTAlias: state => 
     {
-        commit('setNamaPTAlias','Test');
-        await ajax.get('/setting/identitas/namaptalias').then(({data})=>{
-            console.log(data);
-        })
+        return state.nama_pt_alias;
+    }
+}
+const actions = {
+    init: async function ({commit,state},ajax)
+    {
+        if (!state.loaded)
+        {
+            await ajax.get('/setting/identitas/namaptalias').then(({data})=>{            
+                commit('setNamaPTAlias',data.result);
+                commit('setLoaded',true);
+            })
+        }
     }
 }
 export default {
     namespaced: true,
     state,        
     mutations,
+    getters,
     actions
 }

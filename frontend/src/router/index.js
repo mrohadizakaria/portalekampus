@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index'
+import NotFoundComponent from '../components/404'
 
 Vue.use(VueRouter)
 const routes = [
@@ -11,6 +12,26 @@ const routes = [
 			title: "DASHBOARD"
 		},
 		component: () => import('../views/pages/front/Home.vue')
+	},
+	{
+		path: '/login',
+		name: 'FrontLogin',
+		meta:{
+			title: "LOGIN"
+		},
+		component: () => import('../views/pages/front/Login.vue')
+	},
+	{
+		path: '/404',
+		name: 'NotFoundComponent',
+		meta:{
+            title: "PAGE NOT FOUND"
+        },
+		component: NotFoundComponent
+	},
+	{ 
+		path: '*', 
+		redirect: '/404' 
 	},
 ]
 

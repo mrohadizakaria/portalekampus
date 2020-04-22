@@ -4,6 +4,10 @@
             <v-toolbar-title>
                 <span class="hidden-sm-and-down">{{namaPTAlias}}</span>
             </v-toolbar-title>
+            <v-spacer />
+            <v-btn to="/login" link>
+                Login
+            </v-btn>
         </v-app-bar>
         <v-content>
             <slot/>
@@ -11,17 +15,18 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
     name:'FrontLayout',
     created ()
     {
-        this.$store.dispatch('identitas/getAll',this.$ajax);
+        this.$store.dispatch('identitas/init',this.$ajax);   
+             
     },
     computed :{
-        ...mapState({
-            namaPTAlias: state => state.nama_pt_alias
+        ...mapGetters('identitas',{
+            namaPTAlias: 'getNamaPTAlias'
         })
     }
 }
