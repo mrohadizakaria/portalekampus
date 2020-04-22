@@ -17,7 +17,25 @@
 	</v-app>
 </template>
 <script>
+import confirm from "./components/Confirm"
 export default {	
 	name: 'PortalEkampus',
+	data ()
+	{
+		return {
+			snackbar_success:false,
+			snackbar_error:false,
+			snackbar_color:'error',
+			page_message:'',
+			page_form_error_message:{}
+		}
+	},
+	mounted()
+	{
+		this.$root.$confirm = this.$refs.confirm;
+	},
+	components:{
+		confirm
+	}
 };
 </script>

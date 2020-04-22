@@ -45,6 +45,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('cors');
 $app->configure('permission');
 $app->configure('jwt');
 
@@ -55,7 +56,7 @@ $app->configure('jwt');
 */
 
 $app->middleware([
-    
+    Fruitcake\Cors\HandleCors::class,
 ]);
 
 $app->routeMiddleware([
@@ -75,6 +76,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
