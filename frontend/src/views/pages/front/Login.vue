@@ -55,7 +55,7 @@ export default {
 	{
 		if (this.$store.getters['auth/Authenticated'])
 		{
-			this.$router.push('/dashboard/'+this.$store.getters.Token);
+			this.$router.push('/dashboard');
 		}
 	},
     data ()

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index'
-import NotFoundComponent from '../components/404'
+import NotFoundComponent from '../components/NotFoundComponent'
 
 Vue.use(VueRouter)
 const routes = [
@@ -51,19 +51,19 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	document.title = to.meta.title;
-	// if (to.matched.some(record => record.meta.requiresAuth))	
-	// {
-	// 	if (store.getters.Authenticated)
-	// 	{
-	// 		next();
-	// 		return;
-	// 	}
-	// 	next('/login');
-	// }
-	// else
-	// {
+	document.title = to.meta.title;	
+	if (to.matched.some(record => record.meta.requiresAuth))	
+	{
+		if (store.getters['auth/Authenticated'])
+		{
+			next();
+			return;
+		}
+		next('/login');
+	}
+	else
+	{
 		next();
-	// }
-});
+	}
+})
 export default router
