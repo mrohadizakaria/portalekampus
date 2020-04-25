@@ -60,8 +60,4 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
-    public function OPD  ()
-    {
-        return $this->hasMany('App\UserOPD');
-    }
 }
