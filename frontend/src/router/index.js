@@ -22,11 +22,10 @@ const routes = [
 		component: () => import('../views/pages/front/Login.vue')
 	},
 	{
-		path: '/dashboard',
+		path: '/dashboard/:token',
 		name: 'AdminDashboard',
 		meta:{
-			title: "DASHBOARD",
-			requiresAuth:true,
+			title: "DASHBOARD",			
         },
 		component: () => import('../views/pages/admin/Dashboard.vue'),		
 	},

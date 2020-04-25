@@ -24,6 +24,32 @@ const getters= {
     Authenticated: state => {
         return state.token != null && state.user != null; 
     },
+    Token : state => {
+        return state.token;
+    }, 
+    User : state => {
+        return state.user;
+    },
+    AtributeUser : (state) => (key) =>
+    {           
+        return state.user == null?'':state.user[key];
+    },
+    can : (state) => (name)=>
+    {
+        if (state.user == null)
+        {
+            return false;
+        }
+        else if (state.user.issuperadmin)
+        {
+            return true;
+        }
+        else
+        {
+            let permissions = state.user.permissions;                
+            return name in permissions ? true : false;                
+        }
+    }
 }
 const actions = {
     afterLoginSuccess ({commit},data)

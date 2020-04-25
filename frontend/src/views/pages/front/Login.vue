@@ -55,7 +55,7 @@ export default {
 	{
 		if (this.$store.getters['auth/Authenticated'])
 		{
-			this.$router.push('/dashboard');
+			this.$router.push('/dashboard/'+this.$store.getters['auth/Token']);
 		}
 	},
     data ()
@@ -100,7 +100,7 @@ export default {
                     });
                     this.btnLoading=false;
                     this.form_error=false;
-                    this.$router.push('/dashboard');
+                    this.$router.push('/dashboard/'+data.token_type+' '+data.access_token);
                 }).catch(() => {                    
                     this.form_error=true;
                     this.btnLoading=false;
