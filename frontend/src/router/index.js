@@ -22,6 +22,15 @@ const routes = [
 		component: () => import('../views/pages/front/Login.vue')
 	},
 	{
+		path: '/dashboard',
+		name: 'AdminDashboard',
+		meta:{
+			title: "DASHBOARD",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/Dashboard.vue'),		
+	},
+	{
 		path: '/404',
 		name: 'NotFoundComponent',
 		meta:{
@@ -43,18 +52,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	document.title = to.meta.title;
-	if (to.matched.some(record => record.meta.requiresAuth))	
-	{
-		if (store.getters.Authenticated)
-		{
-			next();
-			return;
-		}
-		next('/login');
-	}
-	else
-	{
-		next();
-	}
+	// if (to.matched.some(record => record.meta.requiresAuth))	
+	// {
+	// 	if (store.getters.Authenticated)
+	// 	{
+	// 		next();
+	// 		return;
+	// 	}
+	// 	next('/login');
+	// }
+	// else
+	// {
+	// 	next();
+	// }
 });
 export default router
