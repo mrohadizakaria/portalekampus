@@ -55,7 +55,7 @@ export default {
 	{
 		if (this.$store.getters['auth/Authenticated'])
 		{
-			this.$router.push('/dashboard/'+this.$store.getters['auth/Token']);
+			this.$router.push('/dashboard/'+this.$store.getters['auth/AccessToken']);
 		}
 	},
     data ()
@@ -93,14 +93,14 @@ export default {
                     })
                     .then(response => {    
                         var data_user = {
-                            token: data.token_type+' '+data.access_token,
+                            token: data,
                             user:response.data
                         }
                         this.$store.dispatch('auth/afterLoginSuccess',data_user);                          
                     });
                     this.btnLoading=false;
                     this.form_error=false;
-                    this.$router.push('/dashboard/'+data.token_type+' '+data.access_token);
+                    this.$router.push('/dashboard/'+data.access_token);
                 }).catch(() => {                    
                     this.form_error=true;
                     this.btnLoading=false;

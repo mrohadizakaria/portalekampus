@@ -1,8 +1,10 @@
 //state
 const getDefaultState = () => 
 {
-    return {      
-        token:null,        
+    return {              
+        access_token:null,
+        token_type:null,
+        expires_in:null,
         user:null
     }
 }
@@ -10,8 +12,10 @@ const state = getDefaultState();
 
 //mutations
 const mutations = {
-    setToken: (state,token) => {     
-        state.token = token;
+    setToken: (state,token) => {   
+        state.access_token = token.access_token;  
+        state.token_type = token.token_type;  
+        state.expires_in = token.expires_in;          
     },
     setUser: (state,user) => {
         state.user = user;
@@ -22,10 +26,13 @@ const mutations = {
 }
 const getters= {
     Authenticated: state => {
-        return state.token != null && state.user != null; 
+        return state.access_token != null && state.user != null; 
     },
+    AccessToken : state => {
+        return state.access_token;
+    }, 
     Token : state => {
-        return state.token;
+        return state.token_type +' '+state.access_token;
     }, 
     User : state => {
         return state.user;
@@ -56,6 +63,10 @@ const actions = {
     {
         commit('setToken',data.token);
         commit('setUser',data.user);
+    },
+    logout({commit})
+    {
+        commit('resetState');
     }
 }
 export default {

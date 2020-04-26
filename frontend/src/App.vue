@@ -45,10 +45,10 @@ export default {
 				case 401:					
 					if (data.page != 'login')
 					{
-						this.$store.dispatch('resetUIAdminState');
+						this.$store.dispatch('auth/logout');
 						this.snackbar_color='error';
 						this.snackbar_error=true;	
-						this.page_message='('+status+': '+data.error+') Token telah expire mohon login kembali, dengan mengklik tombol logout';	
+						this.page_message='('+status+': '+data.error+') Token telah expire mohon login kembali';	
 					}
 				break;
 				case 403:
