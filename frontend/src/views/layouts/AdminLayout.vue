@@ -48,7 +48,67 @@
                 <v-icon>mdi-filter</v-icon>
 			</v-app-bar-nav-icon>            
         </v-app-bar>    
-        
+        <v-navigation-drawer v-model="drawer" width="300" :temporary="isReportPage" app>
+			<v-list-item>
+				<v-list-item-avatar>
+					<v-img :src="photoUser" @click.stop="toProfile"></v-img>
+				</v-list-item-avatar>
+				<v-list-item-content>					
+					<v-list-item-title class="title">
+						{{AtributeUser('username')}}
+					</v-list-item-title>
+					<v-list-item-subtitle>
+						{{AtributeUser('role').toString()}}
+					</v-list-item-subtitle>
+				</v-list-item-content>
+			</v-list-item>
+			<v-divider></v-divider>
+            <v-list expand>
+                <v-list-item :to="{path:'/dashboard/'+ACCESS_TOKEN}" link>
+                    <v-list-item-icon>
+                        <v-icon>mdi-monitor-dashboard</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>DASHBOARD</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-group group="/settings" prepend-icon="mdi-cog-outline" no-action v-if="CAN_ACCESS('SETTING-SUBMENU')">
+                    <template v-slot:activator>
+                        <v-list-item-content>								
+                            <v-list-item-title>SETTING</v-list-item-title>
+                        </v-list-item-content>							
+                    </template>   
+                    <div>                 						
+                        <v-list-item link v-if="CAN_ACCESS('SETTING-PERMISSIONS')" to="/setting/permissions" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    PERMISSION
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>                    
+                    </div>
+                </v-list-group>
+            </v-list>
+        </v-navigation-drawer>
+        <v-navigation-drawer v-model="drawerRight" width="300" app fixed right temporary>
+			<v-list-item>		
+				<v-list-item-icon>
+					<v-icon>mdi-bookmark</v-icon>
+				</v-list-item-icon>			
+				<v-list-item-content>									
+					<v-list-item-title class="title">
+						FILTER
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-divider></v-divider>
+			<v-list-item>
+				
+			</v-list-item>			
+		</v-navigation-drawer>
     </div>    
 </template>
 <script>
@@ -75,7 +135,7 @@ export default {
                 {},
                 {
                     headers:{
-                        'Authorization': this.Token,
+                        'Authorization': this.TOKEN,
                     }
                 }
             ).then(()=> {     
@@ -90,8 +150,10 @@ export default {
 	},
     computed:{
         ...mapGetters('auth',{
-            Authenticated:'Authenticated',  
-            Token:'Token',          
+            AUTHENTICATED:'Authenticated',  
+            ACCESS_TOKEN:'AccessToken',          
+            TOKEN:'Token',          
+            CAN_ACCESS:'can',         
             AtributeUser:'AtributeUser',          
         }),
         APP_NAME ()
@@ -111,6 +173,17 @@ export default {
 				photo = this.$api.url+'/'+img;	
 			}
 			return photo;
+        },
+        isReportPage ()
+		{
+			if (this.$route.name=='ReportFormBMurni')
+			{
+				return true;
+			}
+			else
+			{
+				return false
+			}
 		},
     },
     watch: {
@@ -121,7 +194,7 @@ export default {
                 if (value >= 0)
                 {
                     setTimeout(() => { 
-                        this.loginTime=this.Authenticated==true?this.loginTime+1:-1;                                                                     
+                        this.loginTime=this.AUTHENTICATED==true?this.loginTime+1:-1;                                                                     
 					}, 1000);
                 }
                 else
