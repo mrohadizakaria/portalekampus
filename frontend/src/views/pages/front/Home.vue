@@ -1,6 +1,6 @@
 <template>
     <FrontLayout>
-        Home
+        
     </FrontLayout>
 </template>
 <script>

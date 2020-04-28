@@ -1,17 +1,25 @@
 <template>
-    <v-container :fluid="isReportPage">
+    <v-container :fluid="isReportPage">        
         <v-row no-gutters>
-            <v-col>
+            <v-col xs="12" sm="12" md="12">
+                <slot name="breadcrumbs"/>
+            </v-col>
+        </v-row>
+        <v-row no-gutters>            
+            <v-col xs="12" sm="12" md="12">
                 <h1 class="subheading grey--text">
-                    <v-icon>
-                        
-                    </v-icon>                    
-                </h1>
+                    <v-icon large>
+                        <slot name="icon" />
+                    </v-icon>
+                    <slot name="name" />
+                </h1>                
             </v-col>
-            <v-col>
-                <slot />
+        </v-row>
+        <v-row no-gutters>
+            <v-col xs="12" sm="12" md="12">
+                <slot name="desc" />
             </v-col>
-        </v-row>        
+        </v-row>
     </v-container>
 </template>
 <script>

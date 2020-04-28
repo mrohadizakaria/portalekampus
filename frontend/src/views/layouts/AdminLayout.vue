@@ -28,10 +28,10 @@
                         </v-list-item-avatar>
                         <v-list-item-content>					
                             <v-list-item-title class="title">
-                                {{AtributeUser('username')}}
+                                {{ATTRIBUTE_USER('username')}}
                             </v-list-item-title>
                             <v-list-item-subtitle>
-                                {{AtributeUser('role').toString()}}
+                                {{ATTRIBUTE_USER('role').toString()}}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>                    
@@ -55,10 +55,10 @@
 				</v-list-item-avatar>
 				<v-list-item-content>					
 					<v-list-item-title class="title">
-						{{AtributeUser('username')}}
+						{{ATTRIBUTE_USER('username')}}
 					</v-list-item-title>
 					<v-list-item-subtitle>
-						{{AtributeUser('role').toString()}}
+						{{ATTRIBUTE_USER('role').toString()}}
 					</v-list-item-subtitle>
 				</v-list-item-content>
 			</v-list-item>
@@ -72,7 +72,7 @@
                         <v-list-item-title>DASHBOARD</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-group group="/settings" prepend-icon="mdi-cog-outline" no-action v-if="CAN_ACCESS('SETTING-SUBMENU')">
+                <v-list-group group="/setting" prepend-icon="mdi-cog-outline" no-action v-if="CAN_ACCESS('SETTING-SUBMENU')">
                     <template v-slot:activator>
                         <v-list-item-content>								
                             <v-list-item-title>SETTING</v-list-item-title>
@@ -85,7 +85,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    PERMISSION
+                                    PERMISSIONS
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -109,6 +109,9 @@
 				
 			</v-list-item>			
 		</v-navigation-drawer>
+        <v-content class="mx-4 mb-4">			
+			<slot />
+		</v-content>
     </div>    
 </template>
 <script>
@@ -154,7 +157,7 @@ export default {
             ACCESS_TOKEN:'AccessToken',          
             TOKEN:'Token',          
             CAN_ACCESS:'can',         
-            AtributeUser:'AtributeUser',          
+            ATTRIBUTE_USER:'AtributeUser',          
         }),
         APP_NAME ()
         {
@@ -162,7 +165,7 @@ export default {
         },
         photoUser()
 		{
-			let img=this.AtributeUser('foto');
+			let img=this.ATTRIBUTE_USER('foto');
 			var photo;
 			if (img == '')
 			{

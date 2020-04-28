@@ -29,6 +29,16 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/Dashboard.vue'),		
 	},
+	//settings
+	{
+		path: '/setting/permissions',
+		name: 'SettingPermissions',
+		meta:{
+			title: "SETTING - PERMISSIONS",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/setting/Permissions.vue'),		
+	},
 	{
 		path: '/404',
 		name: 'NotFoundComponent',
