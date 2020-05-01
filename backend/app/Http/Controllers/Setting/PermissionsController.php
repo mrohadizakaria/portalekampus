@@ -16,7 +16,7 @@ class PermissionsController extends Controller {
      */
     public function index(Request $request)
     { 
-        $this->hasPermissionTo('SETTING-PERMISSIONS_BROWSE');
+        $this->hasPermissionTo('SYSTEM-SETTING-PERMISSIONS_BROWSE');
         $user=$this->guard()->user();
         if ($user->hasRole('superadmin'))
         {
@@ -45,7 +45,7 @@ class PermissionsController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('SETTING-PERMISSIONS_STORE');
+        $this->hasPermissionTo('SYSTEM-SETTING-PERMISSIONS_STORE');
 
         $this->validate($request, [
             'name'=>[
@@ -91,7 +91,7 @@ class PermissionsController extends Controller {
      */
     public function destroy(Request $request,$id)
     {
-        $this->hasPermissionTo('SETTING-PERMISSIONS_DESTROY');
+        $this->hasPermissionTo('SYSTEM-SETTING-PERMISSIONS_DESTROY');
 
         $permissions = Permission::find($id);
         $permission = $permissions->name;

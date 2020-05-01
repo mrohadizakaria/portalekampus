@@ -16,7 +16,7 @@ class RolesController extends Controller {
      */
     public function index(Request $request)
     {   
-        $this->hasPermissionTo('SETTING-ROLES_DESTROY');
+        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_DESTROY');
         $data = Role::all();
         return Response()->json([
                                 'status'=>1,
@@ -33,7 +33,7 @@ class RolesController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('SETTING-ROLES_STORE');
+        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_STORE');
         $this->validate($request, [
             'name'=>'required|unique:roles',
         ],[
@@ -62,7 +62,7 @@ class RolesController extends Controller {
      */
     public function storerolepermissions(Request $request)
     {      
-        $this->hasPermissionTo('SETTING-ROLES_STORE');
+        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_STORE');
 
         $post = $request->all();
         $permissions = isset($post['chkpermission'])?$post['chkpermission']:[];
@@ -89,7 +89,7 @@ class RolesController extends Controller {
      */
     public function revokerolepermissions(Request $request)
     {      
-        $this->hasPermissionTo('SETTING-ROLES_DESTROY');
+        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_DESTROY');
 
         $post = $request->all();
         $name = $post['name'];
@@ -118,7 +118,7 @@ class RolesController extends Controller {
      */
     public function rolepermissions($id)
     {
-        $this->hasPermissionTo('SETTING-ROLES_SHOW');
+        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_SHOW');
         $role=Role::findByID($id);
         return Response()->json([
                                     'status'=>1,
@@ -136,7 +136,7 @@ class RolesController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->hasPermissionTo('SETTING-ROLES_UPDATE');
+        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_UPDATE');
 
         $role = Role::find($id);
 

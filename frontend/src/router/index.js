@@ -31,7 +31,7 @@ const routes = [
 	},
 	//settings
 	{
-		path: '/setting/permissions',
+		path: '/system-setting/permissions',
 		name: 'SettingPermissions',
 		meta:{
 			title: "SETTING - PERMISSIONS",
@@ -40,7 +40,7 @@ const routes = [
 		component: () => import('../views/pages/admin/setting/Permissions.vue'),		
 	},
 	{
-		path: '/setting/roles',
+		path: '/system-setting/roles',
 		name: 'SettingRoles',
 		meta:{
 			title: "SETTING - ROLES",

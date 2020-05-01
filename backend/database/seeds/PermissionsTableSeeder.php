@@ -17,18 +17,18 @@ class PermissionsTableSeeder extends Seeder
         \DB::statement('ALTER TABLE permissions AUTO_INCREMENT = 1;');
         $modules = [
             'DASHBOARD',          
-            'SETTING-PERMISSIONS',
-            'SETTING-ROLES',
-            'SETTING-USERS',
-            'SETTING-USERS-MANAJEMEN',
-            'SETTING-USERS-KEUANGAN',
-            'SETTING-USERS-OPERATOR NILAI',
-            'SETTING-USERS-DOSEN',
-            'SETTING-USERS-DOSEN WALI',
-            'SETTING-USERS-MAHASISWA',
-            'SETTING-USERS-MAHASISWA BARU',
-            'SETTING-USERS-ALUMNI',
-            'SETTING-USERS-ORANG TUA WALI',            
+            'SYSTEM-SETTING-PERMISSIONS',
+            'SYSTEM-SETTING-ROLES',
+            'SYSTEM-USERS-SUPERADMIN',
+            'SYSTEM-USERS-MANAJEMEN',
+            'SYSTEM-USERS-KEUANGAN',
+            'SYSTEM-USERS-OPERATOR NILAI',
+            'SYSTEM-USERS-DOSEN',
+            'SYSTEM-USERS-DOSEN WALI',
+            'SYSTEM-USERS-MAHASISWA',
+            'SYSTEM-USERS-MAHASISWA BARU',
+            'SYSTEM-USERS-ALUMNI',
+            'SYSTEM-USERS-ORANG TUA WALI',            
         ];
         $records=[];
         foreach($modules as $v)
@@ -44,7 +44,14 @@ class PermissionsTableSeeder extends Seeder
         }        
         
         \DB::table('permissions')->insert([
-            'name'=>"SETTING-SUBMENU",
+            'name'=>"SYSTEM-SETTING",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        \DB::table('permissions')->insert([
+            'name'=>"SYSTEM-USERS",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()

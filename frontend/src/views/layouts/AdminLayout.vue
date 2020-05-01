@@ -10,6 +10,69 @@
 			</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-menu 
+                :close-on-content-click="false"
+                origin="center center"
+                transition="scale-transition"
+                :offset-y="true"
+                bottom 
+                left>
+                <template v-slot:activator="{on}">
+                    <v-btn v-on="on" icon>
+                        <v-icon>mdi-cog-outline</v-icon>
+                    </v-btn>
+                </template>
+                <v-list>
+                    <v-list-item>
+                        <v-list-item-avatar>
+                            <v-icon>mdi-cog-outline</v-icon>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title class="title">
+                                KONFIGURASI SISTEM
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                                &nbsp;
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-divider/>
+                    <v-list-group group="/system-setting" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-SETTING')">
+                        <template v-slot:activator>
+                            <v-list-item-content>								
+                                <v-list-item-title>USER</v-list-item-title>
+                            </v-list-item-content>							
+                        </template>   
+                        <div>                 						
+                            <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-PERMISSIONS')" to="/system-setting/permissions" class="ml-5">
+                                <v-list-item-icon class="mr-2">
+                                    <v-icon>mdi-circle-double</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-title>
+                                        PERMISSIONS
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>                    
+                            <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')" to="/system-setting/roles" class="ml-5">
+                                <v-list-item-icon class="mr-2">
+                                    <v-icon>mdi-circle-double</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-title>
+                                        ROLES
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>                    
+                        </div>
+                    </v-list-group>
+                </v-list>
+            </v-menu>
+            <v-divider
+                class="mx-4"
+                inset
+                vertical
+            ></v-divider>
+            <v-menu 
                 :close-on-content-click="true"
                 origin="center center"
                 transition="scale-transition"
@@ -17,7 +80,7 @@
                 bottom 
                 left>
                 <template v-slot:activator="{on}">
-                    <v-avatar>
+                    <v-avatar size="30">
                         <v-img :src="photoUser" v-on="on" />
                     </v-avatar>                    
                 </template>
@@ -44,6 +107,11 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
+            <v-divider
+                class="mx-4"
+                inset
+                vertical
+            ></v-divider>
 			<v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
                 <v-icon>mdi-filter</v-icon>
 			</v-app-bar-nav-icon>            
@@ -72,30 +140,30 @@
                         <v-list-item-title>DASHBOARD</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-group group="/setting" prepend-icon="mdi-cog-outline" no-action v-if="CAN_ACCESS('SETTING-SUBMENU')">
+                <v-list-group group="/system-users" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-USERS')">
                     <template v-slot:activator>
                         <v-list-item-content>								
-                            <v-list-item-title>SETTING</v-list-item-title>
+                            <v-list-item-title>USER SISTEM</v-list-item-title>
                         </v-list-item-content>							
                     </template>   
                     <div>                 						
-                        <v-list-item link v-if="CAN_ACCESS('SETTING-PERMISSIONS')" to="/setting/permissions" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-SUPERADMIN')" to="/system-users/superadmin" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    PERMISSIONS
+                                    SUPERADMIN
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SETTING-ROLES')" to="/setting/roles" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-MANAJEMEN')" to="/system-users/manajemen" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    ROLES
+                                    MANAJEMEN
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    

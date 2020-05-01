@@ -18,7 +18,7 @@ class UsersController extends Controller {
      */
     public function index(Request $request)
     {           
-        $this->hasPermissionTo('SETTING-USERS_BROWSE');
+        $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_BROWSE');
         $data = User::role('superadmin')->get();
         return Response()->json([
                                 'status'=>1,
@@ -35,7 +35,7 @@ class UsersController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('SETTING-USERS_STORE');
+        $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_STORE');
         $this->validate($request, [
             'name'=>'required',
             'email'=>'required|string|email|unique:users',
@@ -142,7 +142,7 @@ class UsersController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->hasPermissionTo('SETTING-USERS_UPDATE');
+        $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_UPDATE');
 
         $user = User::find($id);
         $this->validate($request, [
@@ -219,7 +219,7 @@ class UsersController extends Controller {
      */
     public function destroy(Request $request,$id)
     { 
-        $this->hasPermissionTo('SETTING-USERS_DESTROY');
+        $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_DESTROY');
 
         $user = User::where('isdeleted','t')
                     ->find($id); 

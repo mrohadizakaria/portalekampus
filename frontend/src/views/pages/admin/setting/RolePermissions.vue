@@ -4,37 +4,55 @@
             <span class="headline">ROLE PERMISSIONS</span>
         </v-card-title>
         <v-card-text>
-            <v-container>
-                <v-layout row>
-                    <v-flex md2 class="text-right">
-                        <strong>ID :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{role.id}}
-                    </v-flex>
-                    <v-flex md2 class="text-right">
-                        <strong>CREATED :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{role.created_at|formatTanggal}}
-                    </v-flex>
-                </v-layout> 
-                <v-layout row>
-                    <v-flex md2 class="text-right">
-                        <strong>NAMA :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{role.name}}
-                    </v-flex>
-                    <v-flex md2 class="text-right">
-                        <strong>UPDATED :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{role.updated_at|formatTanggal}}
-                    </v-flex>
-                </v-layout>
-            </v-container>
             <v-container fluid>
+                <v-row class="mb-4" no-gutters>
+                    <v-col xs="12" sm="12" md="12">
+                        <v-card>
+                           <v-card-text>
+                                <v-row no-gutters>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>ID :</v-card-title>
+                                            <v-card-text>
+                                                {{role.id}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>TANGGAL BUAT :</v-card-title>
+                                            <v-card-text>
+                                                {{role.created_at|formatTanggal}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>                           
+                                <v-row no-gutters>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>NAMA ROLE :</v-card-title>
+                                            <v-card-text>
+                                                {{role.name}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>TANGGAL UBAH :</v-card-title>
+                                            <v-card-text>
+                                                {{role.updated_at|formatTanggal}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>
+                           </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
                 <v-row class="mb-4" no-gutters>
                     <v-col cols="12">
                         <v-card>
@@ -89,7 +107,6 @@
             </v-btn>
         </v-card-actions>
     </v-card>
-    
 </template>
 <script>
 import {mapGetters} from 'vuex';
