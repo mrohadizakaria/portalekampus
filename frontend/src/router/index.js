@@ -40,6 +40,15 @@ const routes = [
 		component: () => import('../views/pages/admin/setting/Permissions.vue'),		
 	},
 	{
+		path: '/setting/roles',
+		name: 'SettingRoles',
+		meta:{
+			title: "SETTING - ROLES",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/setting/Roles.vue'),		
+	},
+	{
 		path: '/404',
 		name: 'NotFoundComponent',
 		meta:{

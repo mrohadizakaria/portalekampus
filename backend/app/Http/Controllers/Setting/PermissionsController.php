@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Setting;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -47,12 +48,19 @@ class PermissionsController extends Controller {
         $this->hasPermissionTo('SETTING-PERMISSIONS_STORE');
 
         $this->validate($request, [
-            'name'=>'required',
+            'name'=>[
+                        'required',
+                        function ($attribute,$value,$fail) {
+                            if(Permission::where('name','like',"%$value%")->exists())
+                            {
+                                $fail('Nama Permission telah tersedia, mohon ganti dengan yang lain');
+                            }
+                        }
+                    ]
         ],[
             'name.required'=>'Nama permission mohon untuk di isi',
         ]
-        );
-        $aksi = $request->input('aksi');
+        );        
         $permission = new Permission;        
         $now = \Carbon\Carbon::now()->toDateTimeString();
         $nama = strtoupper($request->input('name'));   
@@ -70,7 +78,7 @@ class PermissionsController extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'permission'=>$permission,                                    
+                                    // 'permission'=>$permission,                                    
                                     'message'=>'Data permission berhasil disimpan.'
                                 ],200); 
     

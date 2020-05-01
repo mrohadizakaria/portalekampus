@@ -2,10 +2,10 @@
     <AdminLayout>
 		<ModuleHeader>
             <template v-slot:icon>
-                mdi-account-key
+                mdi-account-group
             </template>
             <template v-slot:name>
-                PERMISSIONS
+                ROLES
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -21,11 +21,11 @@
                     colored-border
                     type="info"
                     >
-                    Daftar aksi-aksi terhadap sebuah modul. Format penulisan permission, NAMAMODULE atau NAMA MODULE. Nama Permission tighly coupling dengan kode sumber.
+                    Masing-masing user bisa memiliki beberapa role, minimal 1 role untuk bisa menggunakan sistem. Setiap role memiliki permission.
                     </v-alert>
             </template>
-        </ModuleHeader>        
-        <v-container>    
+        </ModuleHeader>  
+         <v-container>    
             <v-row class="mb-4" no-gutters>
                 <v-col xs="12" sm="12" md="12">
                     <v-card>
@@ -45,7 +45,7 @@
                 <v-col xs="12" sm="12" md="12">
                     <v-data-table
                         :headers="headers"
-                        :items="daftar_permissions"
+                        :items="datatable"
                         :search="search"
                         item-key="id"
                         sort-by="name"
@@ -59,7 +59,7 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DAFTAR PERMISSION</v-toolbar-title>
+                                <v-toolbar-title>DAFTAR ROLE</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
@@ -67,22 +67,27 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>
                                 <v-dialog v-model="dialog" max-width="500px" persistent>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn color="primary" dark class="mb-2" v-on="on" :disabled="!CAN_ACCESS('PERMISSIONS_STORE')">TAMBAH</v-btn>
-                                    </template>
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                                         <v-card>
                                             <v-card-title>
                                                 <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
-                                            <v-card-text>                                                
+
+                                            <v-card-text>
+                                                <v-alert
+                                                    color="error"
+                                                    :value="form_error_message.length>0"
+                                                    icon="mdi-close-octagon-outline"
+                                                >
+                                                    {{form_error_message}} 
+                                                </v-alert>
                                                 <v-container>
                                                     <v-row>
                                                         <v-col cols="12" sm="12" md="12">
                                                             <v-text-field 
                                                                 v-model="editedItem.name" 
-                                                                label="NAMA PERMISSION"
-                                                                :rules="rule_permission_name">
+                                                                label="NAMA ROLE"
+                                                                :rules="rule_role_name">
                                                             </v-text-field>
                                                         </v-col>                                            
                                                     </v-row>
@@ -103,16 +108,27 @@
                                         </v-card>
                                     </v-form>
                                 </v-dialog>
+                                <v-dialog v-model="dialogRolePermission" max-width="800px" persistent>                                                                    
+                                    <RolePermissions :role="editedItem" :daftarpermissions="daftar_permissions" :permissionsselected="permissions_selected" v-on:closeRolePermissions="closeRolePermissions" />
+                                </v-dialog>
                             </v-toolbar>
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-icon
                                 small
-                                @click.stop="deleteItem(item)"
+                                class="mr-2"
                                 :loading="btnLoading"
-                                :disabled="!CAN_ACCESS('PERMISSIONS_DESTROY')||btnLoading"
+                                :disabled="btnLoading"
+                                @click.stop="viewItem(item)"
                             >
-                                mdi-delete
+                                mdi-eye
+                            </v-icon>
+                            <v-icon
+                                small
+                                class="mr-2"
+                                @click.stop="editItem(item)"
+                            >
+                                mdi-pencil
                             </v-icon>
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
@@ -135,8 +151,9 @@
 import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
+import RolePermissions from '@/views/pages/admin/setting/RolePermissions';
 export default {
-    name: 'Permissions',
+    name: 'Roles',
     created()
     {
         this.breadcrumbs = [
@@ -151,29 +168,32 @@ export default {
                 href:'#'
             },
             {
-                text:'PERMISSIONS',
+                text:'ROLES',
                 disabled:true,
                 href:'#'
             }
         ];
-        this.initialize();
-    },
+        this.initialize()
+    },    
     data: () => ({
         breadcrumbs:[],
         datatableLoading:false,
-        btnLoading:false,  
+        btnLoading:false,          
         expanded:[],        
+        datatable: [],
         daftar_permissions: [],
+        permissions_selected: [],
         //tables
         headers: [                        
-            { text: 'NAMA PERMISSION', value: 'name' },
+            { text: 'NAMA ROLE', value: 'name' },
             { text: 'GUARD', value: 'guard_name' },            
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
-        search:'',        
+        search:'',
         //form
         form_valid:true,
         dialog: false,
+        dialogRolePermission: false,
         editedIndex: -1,
         editedItem: {
             id:0,
@@ -190,22 +210,27 @@ export default {
             updated_at: '',           
         },
         //form rules        
-        rule_permission_name:[
-            value => !!value||"Mohon untuk di isi nama Permission !!!",  
-            value => /^[a-zA-Z\s]+$/.test(value) || 'Nama Permission hanya boleh string',                
+        rule_role_name:[
+            value => !!value||"Mohon untuk di isi nama Role !!!",  
+            value => /^[A-Za-z]*$/.test(value) || 'Nama Role hanya boleh string',                
         ], 
+        form_error_message:''
     }),
     methods: {
         initialize () 
         {
             this.datatableLoading=true;
-            this.$ajax.get('/setting/permissions',{
+            this.$ajax.get('/setting/roles',{
                 headers: {
                     Authorization:this.TOKEN
                 }
-            }).then(({data})=>{                
-                this.daftar_permissions = data.permissions;
-                this.datatableLoading=false;
+            }).then(({data,status})=>{
+                if (status==200)
+                {
+                    this.datatable = data.roles;
+                    this.datatableLoading=false;
+                }     
+            
             });          
             
         },
@@ -221,27 +246,77 @@ export default {
             }               
         },
         editItem (item) {
-            this.editedIndex = this.daftar_permissions.indexOf(item)
+            this.editedIndex = this.datatable.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dialog = true
+        },
+        viewItem (item) {            
+            this.$ajax.get('/setting/permissions',{
+                headers: {
+                    Authorization:this.TOKEN
+                }
+            }).then(({data,status})=>{
+                if (status==200)
+                {
+                    this.daftar_permissions = data.permissions;
+                }                 
+            });          
+
+            this.$ajax.get('/setting/roles/'+item.id+'/permission',{
+                headers: {
+                    Authorization:this.TOKEN
+                }
+            }).then(({data,status})=>{
+                if (status==200)
+                {
+                    this.permissions_selected = data.permissions;
+                }                 
+            });  
+            this.dialogRolePermission = true;
+            this.editedItem=item;
+        
         },
         close () {
             this.btnLoading=false;
             this.dialog = false;
             this.$refs.frmdata.resetValidation(); 
+            this.form_error_message='';           
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
                 }, 300
             );
         },
+        closeRolePermissions () {    
+            this.permissions_selected=[];
+            this.dialogRolePermission = false;  
+        },
         save () {
+            this.form_error_message='';
             if (this.$refs.frmdata.validate())
             {
-                if (!(this.editedIndex > -1)) 
+                this.btnLoading=true;
+                if (this.editedIndex > -1) 
                 {
-                    this.btnLoading=true;
-                    this.$ajax.post('/setting/permissions/store',
+                    this.$ajax.post('/setting/roles/'+this.editedItem.id,
+                        {
+                            '_method':'PUT',
+                            name:this.editedItem.name.toLowerCase(),
+                        },
+                        {
+                            headers:{
+                                Authorization:this.TOKEN
+                            }
+                        }
+                    ).then(({data})=>{   
+                        Object.assign(this.datatable[this.editedIndex], data.roles);
+                        this.close();
+                    }).catch(()=>{
+                        this.btnLoading=false;
+                    });                    
+                    
+                } else {
+                    this.$ajax.post('/setting/roles/store',
                         {
                             name:this.editedItem.name.toLowerCase()
                         },
@@ -250,49 +325,23 @@ export default {
                                 Authorization:this.TOKEN
                             }
                         }
-                    ).then(()=>{   
-                        this.initialize();
+                    ).then(({data})=>{   
+                        this.datatable.push(data.roles);
                         this.close();
                     }).catch(()=>{
                         this.btnLoading=false;
                     });
                 }
             }
-        },
-        deleteItem (item) {   
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus permission '+item.name+' ?', { color: 'red' }).then((confirm) => {
-                if (confirm)
-                {
-                    this.btnLoading=true;
-                    this.$ajax.post('/setting/permissions/'+item.id,
-                    {
-                        '_method':'DELETE',
-                    },
-                    {
-                        headers:{
-                            Authorization:this.TOKEN
-                        }
-                    }
-                    ).then(()=>{   
-                        const index = this.daftar_permissions.indexOf(item);
-                        this.daftar_permissions.splice(index, 1);
-                        this.btnLoading=false;
-                    }).catch(()=>{
-                        this.btnLoading=false;
-                    });
-                }
-            });      
-        },
+        },        
     },
-    computed:{
+    computed:{        
         formTitle () {
-            return this.editedIndex === -1 ? 'TAMBAH PERMISSION' : 'EDIT PERMISSION'
+            return this.editedIndex === -1 ? 'TAMBAH ROLE' : 'EDIT ROLE'
         },
         ...mapGetters('auth',{            
             ACCESS_TOKEN:'AccessToken',          
-            TOKEN:'Token',          
-            CAN_ACCESS:'can',         
-            ATTRIBUTE_USER:'AtributeUser',          
+            TOKEN:'Token',                                  
         }),
     },
     watch: {
@@ -302,7 +351,10 @@ export default {
     },   
     components:{
 		AdminLayout,
-		ModuleHeader,
+        ModuleHeader,
+        RolePermissions
 	}
+
+
 }
 </script>
