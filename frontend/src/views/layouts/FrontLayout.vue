@@ -5,7 +5,13 @@
                 <span class="hidden-sm-and-down">{{namaPTAlias}}</span>
             </v-toolbar-title>
             <v-spacer />
-            <v-btn to="/login" link>
+            <v-btn to="/" class="mr-2" color="primary" text large>
+                Home
+            </v-btn>
+            <v-btn to="/pmb" class="mr-2" color="primary" text large>
+                PENDAFTARAN
+            </v-btn>
+            <v-btn to="/login" color="primary" text large>
                 Login
             </v-btn>
         </v-app-bar>
