@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('nomor_hp')->unique();
             $table->timestamp('email_verified_at')->nullable();        
             $table->string('theme')->default('default');
             $table->string('foto')->default('storage/images/users/no_photo.png');
