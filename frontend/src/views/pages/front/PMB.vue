@@ -49,8 +49,17 @@
                                     :rules="rule_password"                
                                     outlined 
                                     dense />  
-                            </v-card-text>
+                            </v-card-text>                            
                             <v-card-actions class="justify-center">
+                                <vue-recaptcha 
+                                    ref="recaptcha"
+                                    :sitekey="sitekey" 
+                                    @verify="onVerify"
+                                    @expired="onExpired"
+                                    :loadRecaptchaScript="true">
+                                </vue-recaptcha>                                   
+                            </v-card-actions>
+                            <v-card-actions class="justify-center">                                
                                  <v-btn 
                                     color="primary" 
                                     @click="save" 
@@ -68,6 +77,7 @@
     </FrontLayout>
 </template>
 <script>
+import VueRecaptcha from 'vue-recaptcha';
 import FrontLayout from '@/views/layouts/FrontLayout';
 export default {
     name: 'PMB',
@@ -75,6 +85,8 @@ export default {
         btnLoading:false,
         //form
         form_error:false,
+        sitekey:'6LemEfEUAAAAAOabmlDlsVEv8xXdzNJywGRxiQvN',
+        captcha_response:null,
         formdata: {
             name:'',
             email:'',
@@ -101,37 +113,45 @@ export default {
     methods: {
         save: async function ()
         {
-            if (this.$refs.frmlogin.validate())
-            {
-                this.btnLoading=true;                
-                await this.$ajax.post('/auth/login',{                    
-                    username:this.formdata.username,
-                    password:this.formdata.password
-                }).then(({data})=>{  
-                    this.$ajax.get('/auth/me',{
-                        headers:{
-                            'Authorization': data.token_type+' '+data.access_token,
-                        }
-                    })
-                    .then(response => {    
-                        var data_user = {
-                            token: data,
-                            user:response.data
-                        }
-                        this.$store.dispatch('auth/afterLoginSuccess',data_user);                          
-                    });
-                    this.btnLoading=false;
-                    this.form_error=false;
-                    this.$router.push('/dashboard/'+data.access_token);
-                }).catch(() => {                    
-                    this.form_error=true;
-                    this.btnLoading=false;
-                });                                
-            }
-        }
+            // if (this.$refs.frmlogin.validate())
+            // {
+            //     this.btnLoading=true;                
+            //     await this.$ajax.post('/auth/login',{                    
+            //         username:this.formdata.username,
+            //         password:this.formdata.password
+            //     }).then(({data})=>{  
+            //         this.$ajax.get('/auth/me',{
+            //             headers:{
+            //                 'Authorization': data.token_type+' '+data.access_token,
+            //             }
+            //         })
+            //         .then(response => {    
+            //             var data_user = {
+            //                 token: data,
+            //                 user:response.data
+            //             }
+            //             this.$store.dispatch('auth/afterLoginSuccess',data_user);                          
+            //         });
+            //         this.btnLoading=false;
+            //         this.form_error=false;
+            //         this.$router.push('/dashboard/'+data.access_token);
+            //     }).catch(() => {                    
+            //         this.form_error=true;
+            //         this.btnLoading=false;
+            //     });                                
+            // }
+        },
+        onVerify: function (response) {
+            console.log('Verify: ' + response)
+        },
+        onExpired: function () {
+            console.log('Expired');
+            this.captcha_response='';
+        },
     },
     components: {
-		FrontLayout
+        FrontLayout,
+        VueRecaptcha
 	}  
 }
 </script>
