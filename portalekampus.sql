@@ -1378,7 +1378,14 @@ INSERT INTO `setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (1, 'general', 'default_ta', '2017'),
 (2, 'general', 'default_semester', '2'),
 (3, 'general', 'default_pagesize', '15'),
+(7, 'general', 'minimal_sks_daftar_konsentrasi', '60'),
+(8, 'general', 'jslogger', '0'),
+(9, 'general', 'alamat_pt', 'Jl. Fisabilillah No. 8'),
 (10, 'path', 'config_logo', 'resources/headerLogo.jpg'),
+(11, 'general', 'kota_pt', 'Tanjungpinang'),
+(12, 'general', 'provinsi_pt', 'Kepulauan Riau'),
+(13, 'general', 'recaptcha_key', ''),
+
 (20, 'transkripnilai', 'id_penandatangan_transkrip', '6'),
 (21, 'transkripnilai', 'nama_jabatan_transkrip', 'KETUA'),
 (22, 'transkripnilai', 'nama_penandatangan_transkrip', 'ENDRI SANOPAKA, MPM'),
@@ -1408,11 +1415,6 @@ INSERT INTO `setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (60, 'krs', 'jumlah_sks_krs_setelah_cuti', '12'),
 (61, 'krs', 'jumlah_sks_krs_mhs_baru', '21'),
 (56, 'spmb', 'default_tahun_pendaftaran', '2018'),
-(7, 'general', 'minimal_sks_daftar_konsentrasi', '60'),
-(8, 'general', 'jslogger', '0'),
-(9, 'general', 'alamat_pt', 'Jl. Fisabilillah No. 8'),
-(11, 'general', 'kota_pt', 'Tanjungpinang'),
-(12, 'general', 'provinsi_pt', 'Kepulauan Riau'),
 (200, 'cron', 'kemahasiswaan', '[]');
 
 --
