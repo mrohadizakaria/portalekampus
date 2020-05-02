@@ -4,11 +4,14 @@ namespace App\Http\Controllers\SPMB;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Helpers\Helper;
-use Spatie\Permission\Models\Role;
-use GuzzleHttp\Client;
+use App\Mail\MahasiswaBaruRegistered;
+use App\Mail\VerifyEmailAddress;
+
 class PMBController extends Controller {         
     /**
      * Show the form for creating a new resource.
@@ -40,28 +43,30 @@ class PMBController extends Controller {
             'nomor_hp'=>'required|unique:users',
             'username'=>'required|string|unique:users',
             'password'=>'required',
-            'captcha_response'=>[
-                                'required',
-                                function ($attribute, $value, $fail) 
-                                {
-                                    $client = new Client ();
-                                    $response = $client->post(
-                                        'https://www.google.com/recaptcha/api/siteverify',
-                                        ['form_params'=>
-                                            [
-                                                'secret'=>config('captcha.RECAPTCHA_PRIVATE_KEY'),
-                                                'response'=>$value
-                                            ]
-                                        ]);    
-                                    $body = json_decode((string)$response->getBody());
-                                    if (!$body->success)
-                                    {
-                                        $fail('Token Google Captcha, salah !!!.');
-                                    }
-                                }
-                            ]
+            // 'captcha_response'=>[
+            //                     'required',
+            //                     function ($attribute, $value, $fail) 
+            //                     {
+            //                         $client = new Client ();
+            //                         $response = $client->post(
+            //                             'https://www.google.com/recaptcha/api/siteverify',
+            //                             ['form_params'=>
+            //                                 [
+            //                                     'secret'=>config('captcha.RECAPTCHA_PRIVATE_KEY'),
+            //                                     'response'=>$value
+            //                                 ]
+            //                             ]);    
+            //                         $body = json_decode((string)$response->getBody());
+            //                         if (!$body->success)
+            //                         {
+            //                             $fail('Token Google Captcha, salah !!!.');
+            //                         }
+            //                     }
+            //                 ]
         ]);
-        $now = \Carbon\Carbon::now()->toDateTimeString();        
+        $now = \Carbon\Carbon::now()->toDateTimeString();       
+        $email= $request->input('email');
+        $code=mt_rand(1000,9999);
         $user=User::create([
             'name'=>$request->input('name'),
             'email'=>$request->input('email'),
@@ -69,16 +74,21 @@ class PMBController extends Controller {
             'password'=>Hash::make($request->input('password')),
             'nomor_hp'=>$request->input('nomor_hp'),
             'email_verified_at'=>'',
-            'theme'=>'default',            
+            'theme'=>'default',  
+            'code'=>$code,          
+            'active'=>0,          
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);            
         $role='mahasiswabaru';   
-        $user->assignRole($role);               
-      
+        $user->assignRole($role);             
+        
+        app()->mailer->to($email)->send(new VerifyEmailAddress($code));
+
         return Response()->json([
                                     'status'=>1,
-                                    'pid'=>'store',                                                                                                  
+                                    'pid'=>'store',
+                                    'emailaddress'=>$user->email,                                                                                                  
                                     'message'=>'Data Mahasiswa baru berhasil disimpan.'
                                 ],200); 
 

@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
             'nomor_hp'=>'081214553388',                
             'email'=>'support@yacanet.com',                
             'theme'=>'default',
-            'email_verified_at'=>Carbon::now(),
+            'code'=>0,
             'isdeleted'=>false,
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()

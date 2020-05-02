@@ -48,6 +48,7 @@ $app->configure('captcha');
 $app->configure('cors');
 $app->configure('permission');
 $app->configure('jwt');
+$app->configure('mail');
 
 /*
 |--------------------------------------------------------------------------
@@ -77,14 +78,17 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Fruitcake\Cors\CorsServiceProvider::class);
-
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | alias
 |--------------------------------------------------------------------------
 */
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);
-
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
