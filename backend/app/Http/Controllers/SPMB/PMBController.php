@@ -75,13 +75,7 @@ class PMBController extends Controller {
         ]);            
         $role='mahasiswabaru';   
         $user->assignRole($role);               
-        
-        \App\Models\Setting\ActivityLog::log($request,[
-                                        'object' => 'App\Users', 
-                                        'user_id' => $user->id, 
-                                        'message' => 'Menambah mahasiswa baru ('.$user->username.') berhasil'
-                                    ]);
-
+      
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',                                                                                                  
