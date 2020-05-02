@@ -16,7 +16,8 @@ class PermissionsTableSeeder extends Seeder
         \DB::statement('DELETE FROM permissions');
         \DB::statement('ALTER TABLE permissions AUTO_INCREMENT = 1;');
         $modules = [
-            'DASHBOARD',          
+            'DASHBOARD',     
+            'SPMB-PMB',     
             'SYSTEM-SETTING-PERMISSIONS',
             'SYSTEM-SETTING-ROLES',
             'SYSTEM-USERS-SUPERADMIN',

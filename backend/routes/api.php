@@ -12,6 +12,9 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix'=>'v3'], function () use ($router)
 {
+    //pendaftaran mahasiswa baru
+    $router->post('/spmb/pmb/store',['uses'=>'SPMB\PMBController@store','as'=>'pmb.store']);
+
     $router->get('/setting/identitas/namaptalias',['uses'=>'Setting\IdentitasController@getNamaPTAlias','as'=>'identitas.namaptalias']);
     $router->post('/auth/login',['uses'=>'AuthController@login','as'=>'auth.login']);
 });

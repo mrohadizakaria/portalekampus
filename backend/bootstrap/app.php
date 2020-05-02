@@ -43,8 +43,8 @@ $app->singleton(
 | Register Config Files
 |--------------------------------------------------------------------------
 */
-
 $app->configure('app');
+$app->configure('captcha');
 $app->configure('cors');
 $app->configure('permission');
 $app->configure('jwt');
