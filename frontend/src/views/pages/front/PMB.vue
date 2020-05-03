@@ -195,7 +195,8 @@ export default {
                 });                       
                 this.form_valid=true;                          
                 this.$refs.frmkonfirmasi.resetValidation(); 
-                this.frmkonfirmasi = Object.assign({}, {email:'',code:''})
+                this.frmkonfirmasi = Object.assign({}, {email:'',code:''});
+                this.$router.replace('/login');
             }                           
         },
         onVerify: function (response) {
