@@ -17,10 +17,15 @@ class UsersPMBController extends Controller {
     public function index(Request $request)
     {           
         $this->hasPermissionTo('SYSTEM-USERS-PMB_BROWSE');
-        $data = User::role('pmb')->get();        
+        $data = User::role('pmb')
+                    ->orderBy('username','ASC')
+                    ->get();       
+                    
+        $role = Role::findByName('pmb');
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
+                                'role'=>$role,
                                 'userspmb'=>$data,
                                 'message'=>'Fetch data users PMB berhasil diperoleh'
                             ],200);  

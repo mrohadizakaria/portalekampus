@@ -20,15 +20,16 @@ class PermissionsController extends Controller {
         $user=$this->guard()->user();
         if ($user->hasRole('superadmin'))
         {
-            $data = Permission::all();
+            $data = Permission::orderBy('name','ASC')
+                                ->get();
         }
-        else if ($user->hasRole('bapelitbang'))
+        else if ($user->hasRole('akademik'))
         {
-            $data = Role::findByName('bapelitbang')->permissions;
+            $data = Role::findByName('akademik')->permissions;
         }
-        else if ($user->hasRole('opd'))
+        else if ($user->hasRole('pmb'))
         {
-            $data = Role::findByName('opd')->permissions;
+            $data = Role::findByName('pmb')->permissions;
         }
         return Response()->json([
                                 'status'=>1,

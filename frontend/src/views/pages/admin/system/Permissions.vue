@@ -199,7 +199,7 @@ export default {
         initialize () 
         {
             this.datatableLoading=true;
-            this.$ajax.get('/setting/permissions',{
+            this.$ajax.get('/system/setting/permissions',{
                 headers: {
                     Authorization:this.TOKEN
                 }
@@ -241,7 +241,7 @@ export default {
                 if (!(this.editedIndex > -1)) 
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/setting/permissions/store',
+                    this.$ajax.post('/system/setting/permissions/store',
                         {
                             name:this.editedItem.name.toLowerCase()
                         },
@@ -264,7 +264,7 @@ export default {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/setting/permissions/'+item.id,
+                    this.$ajax.post('/system/setting/permissions/'+item.id,
                     {
                         '_method':'DELETE',
                     },

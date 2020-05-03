@@ -264,7 +264,8 @@ export default {
         this.initialize()
     },  
    
-    data: () => ({  
+    data: () => ({ 
+        role_id:0,
         datatableLoading:false,
         btnLoading:false,      
         //tables
@@ -345,12 +346,13 @@ export default {
         initialize () 
         {
             this.datatableLoading=true;
-            this.$ajax.get('/setting/userspmb',{
+            this.$ajax.get('/system/userspmb',{
                 headers: {
                     Authorization:this.TOKEN
                 }
             }).then(({data})=>{               
                 this.daftar_users = data.userspmb;
+                this.role_id=data.role.id;
                 this.datatableLoading=false;
             });          
             
@@ -378,7 +380,7 @@ export default {
         },
         viewItem: async function (item) {          
             this.btnLoading=true;  
-            await this.$ajax.get('/setting/permissions',{
+            this.$ajax.get('/system/setting/roles/'+this.role_id+'/permission',{
                 headers: {
                     Authorization:this.TOKEN
                 }
@@ -388,7 +390,7 @@ export default {
                 this.btnLoading=false;
             });          
 
-            await this.$ajax.get('/setting/users/'+item.id+'/permission',{
+            await this.$ajax.get('/system/users/'+item.id+'/permission',{
                 headers: {
                     Authorization:this.TOKEN
                 }
@@ -425,7 +427,7 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    this.$ajax.post('/setting/userspmb/'+this.editedItem.id,
+                    this.$ajax.post('/system/userspmb/'+this.editedItem.id,
                         {
                             '_method':'PUT',
                             name:this.editedItem.name,
@@ -447,7 +449,7 @@ export default {
                     });                    
                     
                 } else {
-                    this.$ajax.post('/setting/userspmb/store',
+                    this.$ajax.post('/system/userspmb/store',
                         {
                             name:this.editedItem.name,
                             email:this.editedItem.email,
@@ -474,7 +476,7 @@ export default {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/setting/userspmb/'+item.id,
+                    this.$ajax.post('/system/userspmb/'+item.id,
                         {
                             '_method':'DELETE',
                         },

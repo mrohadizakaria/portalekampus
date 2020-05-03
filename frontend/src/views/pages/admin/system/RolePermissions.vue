@@ -76,6 +76,7 @@
                             :items="daftar_permissions"
                             :search="search"
                             item-key="name"
+                            sort-by="name"
                             show-select
                             class="elevation-1"
                         >
@@ -101,7 +102,7 @@
                 color="blue darken-1" 
                 text 
                 :loading="btnLoading"
-                :disabled="btnLoading"
+                :disabled="btnLoading||!perm_selected.length > 0"
                 @click.stop="save">
                     SIMPAN
             </v-btn>
@@ -127,7 +128,7 @@ export default {
         save()
         {
             this.btnLoading=true;
-            this.$ajax.post('/setting/roles/storerolepermissions',
+            this.$ajax.post('/system/setting/roles/storerolepermissions',
                 {
                     role_id:this.role.id,
                     chkpermission:this.permissions_selected
@@ -147,7 +148,7 @@ export default {
         revoke(item)
         {   
             this.btnLoading=true;         
-            this.$ajax.post('/setting/roles/revokerolepermissions',
+            this.$ajax.post('/system/setting/roles/revokerolepermissions',
                 {
                     role_id:this.role.id,
                     name:item.name

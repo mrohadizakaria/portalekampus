@@ -4,59 +4,95 @@
             <span class="headline">USER PERMISSIONS</span>
         </v-card-title>
         <v-card-text>
-            <v-container>
-                <v-layout row>
-                    <v-flex md2 class="text-right">
-                        <strong>ID :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{user.id}}
-                    </v-flex>
-                    <v-flex md2 class="text-right">
-                        <strong>THEME :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{user.theme}}
-                    </v-flex>
-                </v-layout> 
-                <v-layout row>
-                    <v-flex md2 class="text-right">
-                        <strong>USERNAME :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{user.username}}
-                    </v-flex>
-                    <v-flex md2 class="text-right">
-                        <strong>CREATED :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{user.created_at|formatTanggal}}
-                    </v-flex>
-                </v-layout> 
-                <v-layout row>
-                    <v-flex md2 class="text-right">
-                        <strong>NAMA :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{user.name}}
-                    </v-flex>
-                    <v-flex md2 class="text-right">
-                        <strong>UPDATED :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{user.updated_at|formatTanggal}}
-                    </v-flex>
-                </v-layout>
-                <v-layout row>
-                    <v-flex md2 class="text-right">
-                        <strong>EMAIL :</strong>
-                    </v-flex>
-                    <v-flex md4>
-                        {{user.email}}
-                    </v-flex>                    
-                </v-layout>
-            </v-container>
             <v-container fluid>
+                <v-row class="mb-4" no-gutters>
+                    <v-col xs="12" sm="12" md="12">
+                        <v-card>
+                           <v-card-text>
+                                <v-row no-gutters>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>ID :</v-card-title>
+                                            <v-card-text>
+                                                {{user.id}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>NOMOR HP :</v-card-title>
+                                            <v-card-text>
+                                                {{user.nomor_hp}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>
+                                <v-row no-gutters>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>USERNAME :</v-card-title>
+                                            <v-card-text>
+                                                {{user.username}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>                                   
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>THEME :</v-card-title>
+                                            <v-card-text>
+                                                {{user.theme}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>                                    
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>
+                                <v-row no-gutters>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>NAMA :</v-card-title>
+                                            <v-card-text>
+                                                {{user.name}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                    <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>CREATED :</v-card-title>
+                                            <v-card-text>
+                                                {{user.created_at|formatTanggal}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>
+                                <v-row no-gutters>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>EMAIL :</v-card-title>
+                                            <v-card-text>
+                                                {{user.email}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                   <v-col xs="12" sm="6" md="6">
+                                       <v-card flat>
+                                            <v-card-title>UPDATED :</v-card-title>
+                                            <v-card-text>
+                                                {{user.updated_at|formatTanggal}}
+                                            </v-card-text>
+                                        </v-card>
+                                   </v-col>
+                                   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>
+                           </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>                
                 <v-row class="mb-4" no-gutters>
                     <v-col cols="12">
                         <v-card>
@@ -80,6 +116,7 @@
                             :items="daftar_permissions"
                             :search="search"
                             item-key="name"
+                            sort-by="name"
                             show-select
                             class="elevation-1"
                         >
@@ -105,7 +142,7 @@
                 color="blue darken-1" 
                 text 
                 :loading="btnLoading"
-                :disabled="btnLoading"
+                :disabled="btnLoading||!perm_selected.length > 0"
                 @click.stop="save">
                     SIMPAN
             </v-btn>
@@ -133,7 +170,7 @@ export default {
         save()
         {
             this.btnLoading=true;
-            this.$ajax.post('/setting/users/storeuserpermissions',
+            this.$ajax.post('/system/users/storeuserpermissions',
                 {
                     user_id:this.user.id,
                     chkpermission:this.permissions_selected
@@ -152,7 +189,7 @@ export default {
         revoke(item)
         {   
             this.btnLoading=true;         
-            this.$ajax.post('/setting/users/revokeuserpermissions',
+            this.$ajax.post('/system/users/revokeuserpermissions',
                 {
                     user_id:this.user.id,
                     name:item.name

@@ -220,7 +220,7 @@ export default {
         initialize () 
         {
             this.datatableLoading=true;
-            this.$ajax.get('/setting/roles',{
+            this.$ajax.get('/system/setting/roles',{
                 headers: {
                     Authorization:this.TOKEN
                 }
@@ -251,7 +251,7 @@ export default {
             this.dialog = true
         },
         viewItem (item) {            
-            this.$ajax.get('/setting/permissions',{
+            this.$ajax.get('/system/setting/permissions',{
                 headers: {
                     Authorization:this.TOKEN
                 }
@@ -262,7 +262,7 @@ export default {
                 }                 
             });          
 
-            this.$ajax.get('/setting/roles/'+item.id+'/permission',{
+            this.$ajax.get('/system/setting/roles/'+item.id+'/permission',{
                 headers: {
                     Authorization:this.TOKEN
                 }
@@ -298,7 +298,7 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    this.$ajax.post('/setting/roles/'+this.editedItem.id,
+                    this.$ajax.post('/system/setting/roles/'+this.editedItem.id,
                         {
                             '_method':'PUT',
                             name:this.editedItem.name.toLowerCase(),
@@ -316,7 +316,7 @@ export default {
                     });                    
                     
                 } else {
-                    this.$ajax.post('/setting/roles/store',
+                    this.$ajax.post('/system/setting/roles/store',
                         {
                             name:this.editedItem.name.toLowerCase()
                         },

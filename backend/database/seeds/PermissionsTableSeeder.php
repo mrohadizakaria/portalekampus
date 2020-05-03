@@ -15,8 +15,7 @@ class PermissionsTableSeeder extends Seeder
     {
         \DB::statement('DELETE FROM permissions');
         \DB::statement('ALTER TABLE permissions AUTO_INCREMENT = 1;');
-        $modules = [
-            'DASHBOARD',     
+        $modules = [             
             'SPMB-PMB',     
             'SYSTEM-SETTING-PERMISSIONS',
             'SYSTEM-SETTING-ROLES',
@@ -47,6 +46,13 @@ class PermissionsTableSeeder extends Seeder
             \DB::table('permissions')->insert($records);
         }        
         
+        \DB::table('permissions')->insert([
+            'name'=>"DASHBOARD_SHOW",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
         \DB::table('permissions')->insert([
             'name'=>"SYSTEM-SETTING",
             'guard_name'=>'api',
