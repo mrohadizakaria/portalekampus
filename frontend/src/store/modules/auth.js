@@ -33,7 +33,29 @@ const getters= {
     }, 
     Token : state => {
         return state.token_type +' '+state.access_token;
-    }, 
+    },
+    Role : state => {
+        var role='';
+        if (state.access_token != null && state.user != null)
+        {
+            let roles=state.user.role;
+            for (var i=0; i < roles.length;i++)
+            {
+                switch(roles[i])
+                {
+                    case 'mahasiswabaru':
+                    case 'mahasiswa':
+                        role=role+'[mahasiswa] ';
+                    break;
+                    default:
+                        role=role+'['+roles[i]+'] ';
+                    
+                }
+            }
+        }
+        console.log(role);
+        return role;
+    },
     User : state => {
         return state.user;
     },

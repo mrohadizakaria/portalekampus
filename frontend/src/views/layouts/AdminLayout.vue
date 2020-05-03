@@ -93,8 +93,8 @@
                             <v-list-item-title class="title">
                                 {{ATTRIBUTE_USER('username')}}
                             </v-list-item-title>
-                            <v-list-item-subtitle>
-                                {{ATTRIBUTE_USER('role').toString()}}
+                            <v-list-item-subtitle>                                
+                                {{ROLE}}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>                    
@@ -126,7 +126,7 @@
 						{{ATTRIBUTE_USER('username')}}
 					</v-list-item-title>
 					<v-list-item-subtitle>
-						{{ATTRIBUTE_USER('role').toString()}}
+						{{ROLE}}
 					</v-list-item-subtitle>
 				</v-list-item-content>
 			</v-list-item>
@@ -234,6 +234,7 @@ export default {
             AUTHENTICATED:'Authenticated',  
             ACCESS_TOKEN:'AccessToken',          
             TOKEN:'Token',          
+            ROLE:'Role',
             CAN_ACCESS:'can',         
             ATTRIBUTE_USER:'AtributeUser',          
         }),

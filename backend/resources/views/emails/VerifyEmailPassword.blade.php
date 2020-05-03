@@ -2,7 +2,7 @@
     <tbody>
         <tr>
             <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#707070">
-                STISIPOL RAJA HAJI
+                {{$nama_pt}}
             </td>
         </tr>
         <tr>
@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
-                <span>TIM</span> IT STISIPOL Raja Haji 
+                <span>TIM</span> IT {{$nama_pt}}
             </td>
         </tr>
     </tbody>

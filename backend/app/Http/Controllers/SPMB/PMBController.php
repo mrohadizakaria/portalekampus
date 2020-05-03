@@ -93,4 +93,45 @@ class PMBController extends Controller {
                                 ],200); 
 
     }           
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function konfirmasi(Request $request)
+    {
+        $this->validate($request, [            
+            'email'=>'required|string|email',
+            'code'=>'required|numeric',                        
+        ]);
+        $now = \Carbon\Carbon::now()->toDateTimeString();       
+        $email= $request->input('email');
+        $code= $request->input('code');  
+        
+        $user = \DB::table('users')->where('email',$email)->where('code',$code)->get();        
+        if ($user->count()>0)
+        {
+            $user=User::find($user[0]->id);
+            $user->code=0;
+            $user->active=1;
+            $user->save();            
+            app()->mailer->to($email)->send(new MahasiswaBaruRegistered($user));
+
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'update',                                                                                                                                        
+                                        'message'=>'Email Mahasiswa berhasil diverifikasi.'
+                                    ],200);
+        }
+        else
+        {
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'update',                                                                                                                                        
+                                        'message'=>['Email Registrasi Mahasiswa gagal diverifikasi.']
+                                    ],422);
+        }
+
+    }           
 }

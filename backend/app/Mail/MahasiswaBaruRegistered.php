@@ -2,6 +2,9 @@
 
 namespace App\Mail;
 
+use App\Models\User;
+use App\Models\Setting\SettingModel;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,14 +14,15 @@ class MahasiswaBaruRegistered extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user=$user;
     }
 
     /**
@@ -28,7 +32,10 @@ class MahasiswaBaruRegistered extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.MahasiswaBaruRegistered');
-        
+        $setting = SettingModel::find(4);            
+        return $this->view('emails.MahasiswaBaruRegistered')->with([
+                                                                    'nama_pt'=>$setting->value,
+                                                                    'name'=>$this->user->name
+                                                                ]);        
     }
 }
