@@ -23,7 +23,7 @@ class RolesTableSeeder extends Seeder
                 'updated_at'=>Carbon::now()
             ], 
             [
-                'name'=>'manajemen',
+                'name'=>'akademik',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
@@ -41,7 +41,19 @@ class RolesTableSeeder extends Seeder
                 'updated_at'=>Carbon::now()
             ],    
             [
-                'name'=>'operatornilai',
+                'name'=>'perpustakaan',
+                'guard_name'=>'api',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ],    
+            [
+                'name'=>'lppm',
+                'guard_name'=>'api',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ],    
+            [
+                'name'=>'puslahta',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
@@ -66,6 +78,12 @@ class RolesTableSeeder extends Seeder
             ],             
             [
                 'name'=>'mahasiswabaru',
+                'guard_name'=>'api',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ],             
+            [
+                'name'=>'alumni',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
