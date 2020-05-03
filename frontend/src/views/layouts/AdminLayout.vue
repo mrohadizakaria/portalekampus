@@ -15,7 +15,8 @@
                 transition="scale-transition"
                 :offset-y="true"
                 bottom 
-                left>
+                left
+                 v-if="CAN_ACCESS('SYSTEM-SETTING')">
                 <template v-slot:activator="{on}">
                     <v-btn v-on="on" icon>
                         <v-icon>mdi-cog-outline</v-icon>
@@ -36,7 +37,7 @@
                         </v-list-item-content>
                     </v-list-item>
                     <v-divider/>
-                    <v-list-group group="/system-setting" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-SETTING')">
+                    <v-list-group group="/system-setting" prepend-icon="mdi-account" no-action>
                         <template v-slot:activator>
                             <v-list-item-content>								
                                 <v-list-item-title>USER</v-list-item-title>
