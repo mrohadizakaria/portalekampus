@@ -16,13 +16,13 @@
                 :offset-y="true"
                 bottom 
                 left
-                 v-if="CAN_ACCESS('SYSTEM-SETTING')">
+                v-if="CAN_ACCESS('SYSTEM-SETTING')">
                 <template v-slot:activator="{on}">
                     <v-btn v-on="on" icon>
                         <v-icon>mdi-cog-outline</v-icon>
                     </v-btn>
                 </template>
-                <v-list>
+                <v-list dense>
                     <v-list-item>
                         <v-list-item-avatar>
                             <v-icon>mdi-cog-outline</v-icon>
@@ -37,35 +37,34 @@
                         </v-list-item-content>
                     </v-list-item>
                     <v-divider/>
-                    <v-list-group group="/system-setting" prepend-icon="mdi-account" no-action>
-                        <template v-slot:activator>
-                            <v-list-item-content>								
-                                <v-list-item-title>USER</v-list-item-title>
-                            </v-list-item-content>							
-                        </template>   
-                        <div>                 						
-                            <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-PERMISSIONS')" to="/system-setting/permissions" class="ml-5">
-                                <v-list-item-icon class="mr-2">
-                                    <v-icon>mdi-circle-double</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-content>
-                                    <v-list-item-title>
-                                        PERMISSIONS
-                                    </v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>                    
-                            <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')" to="/system-setting/roles" class="ml-5">
-                                <v-list-item-icon class="mr-2">
-                                    <v-icon>mdi-circle-double</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-content>
-                                    <v-list-item-title>
-                                        ROLES
-                                    </v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>                    
-                        </div>
-                    </v-list-group>
+                    <v-list-item class="teal lighten-5">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>								
+                            <v-list-item-title>USER</v-list-item-title>
+                        </v-list-item-content>		
+                    </v-list-item>
+                    <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-PERMISSIONS')" to="/system-setting/permissions">
+                        <v-list-item-icon>
+                            <v-icon>mdi-circle-double</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                PERMISSIONS
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>                    
+                    <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')" to="/system-setting/roles">
+                        <v-list-item-icon>
+                            <v-icon>mdi-circle-double</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                ROLES
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>          
                 </v-list>
             </v-menu>
             <v-divider
