@@ -37,7 +37,7 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/Dashboard.vue'),		
 	},
-	//settings
+	//system
 	{
 		path: '/system-setting/permissions',
 		name: 'SettingPermissions',
@@ -45,7 +45,7 @@ const routes = [
 			title: "SETTING - PERMISSIONS",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/setting/Permissions.vue'),		
+		component: () => import('../views/pages/admin/system/Permissions.vue'),		
 	},
 	{
 		path: '/system-setting/roles',
@@ -54,7 +54,16 @@ const routes = [
 			title: "SETTING - ROLES",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/setting/Roles.vue'),		
+		component: () => import('../views/pages/admin/system/Roles.vue'),		
+	},
+	{
+		path: '/system-users/pmb',
+		name: 'UsersPMB',
+		meta:{
+			title: "USERS - PMB",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/UsersPMB.vue'),		
 	},
 	{
 		path: '/404',

@@ -151,7 +151,7 @@
 import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
-import RolePermissions from '@/views/pages/admin/setting/RolePermissions';
+import RolePermissions from '@/views/pages/admin/system/RolePermissions';
 export default {
     name: 'Roles',
     created()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Setting;
+namespace App\Http\Controllers\System;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -57,7 +57,7 @@ class UsersController extends Controller {
         $role='superadmin';   
         $user->assignRole($role);               
         
-        \App\Models\Setting\ActivityLog::log($request,[
+        \App\Models\System\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
                                         'user_id' => $this->guard()->user()->id, 
                                         'message' => 'Menambah user ('.$user->username.') berhasil'
@@ -93,7 +93,7 @@ class UsersController extends Controller {
         $user = User::find($user_id);
         $user->givePermissionTo($records);
 
-        \App\Models\Setting\ActivityLog::log($request,[
+        \App\Models\System\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
                                                         'user_id' => $this->guard()->user()->id, 
                                                         'message' => 'Mensetting permission user ('.$user->username.') berhasil'
@@ -122,7 +122,7 @@ class UsersController extends Controller {
         $user = User::find($user_id);
         $user->revokePermissionTo($name);
 
-        \App\Models\Setting\ActivityLog::log($request,[
+        \App\Models\System\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
                                         'user_id' => $this->guard()->user()->id, 
                                         'message' => 'Menghilangkan permission('.$name.') user ('.$user->username.') berhasil'
@@ -163,7 +163,7 @@ class UsersController extends Controller {
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $user->save();
 
-        \App\Models\Setting\ActivityLog::log($request,[
+        \App\Models\System\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
                                                         'user_id' => $this->guard()->user()->id, 
                                                         'message' => 'Mengubah data user ('.$user->username.') berhasil'
@@ -229,7 +229,7 @@ class UsersController extends Controller {
             $username=$user->username;
             $user->delete();
 
-            \App\Models\Setting\ActivityLog::log($request,[
+            \App\Models\System\ActivityLog::log($request,[
                                                                 'object' => $this->guard()->user(), 
                                                                 'user_id' => $this->guard()->user()->id, 
                                                                 'message' => 'Menghapus user ('.$username.') berhasil'

@@ -52,8 +52,7 @@ const getters= {
                     
                 }
             }
-        }
-        console.log(role);
+        }        
         return role;
     },
     User : state => {

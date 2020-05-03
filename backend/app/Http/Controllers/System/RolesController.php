@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Setting;
+namespace App\Http\Controllers\System;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -99,7 +99,7 @@ class RolesController extends Controller {
         $role = Role::find($role_id);
         $role->revokePermissionTo($name);
 
-        \App\Models\Setting\ActivityLog::log($request,[
+        \App\Models\System\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
                                         'user_id' => $this->guard()->user()->id, 
                                         'message' => 'Menghilangkan permission('.$name.') role ('.$role->name.') berhasil'

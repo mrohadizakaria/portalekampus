@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Setting;
+namespace App\Http\Controllers\System;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -99,7 +99,7 @@ class PermissionsController extends Controller {
 
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         
-        \App\Models\Setting\ActivityLog::log($request,[
+        \App\Models\System\ActivityLog::log($request,[
                                                     'object' => $this->guard()->user(), 
                                                     'user_id' => $this->guard()->user()->id, 
                                                     'message' => 'Menghapus permission ('.$permission.') berhasil'

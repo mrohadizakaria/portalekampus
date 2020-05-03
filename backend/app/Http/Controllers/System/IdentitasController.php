@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Setting;
+namespace App\Http\Controllers\System;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Setting\SettingModel;
+use App\Models\System\SettingModel;
 
 
 class IdentitasController extends Controller {    

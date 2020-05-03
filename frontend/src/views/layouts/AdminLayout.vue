@@ -148,7 +148,7 @@
                         </v-list-item-content>							
                     </template>   
                     <div>                 						
-                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-SUPERADMIN')" to="/system-users/superadmin" class="ml-5">
+                        <!-- <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-SUPERADMIN')" to="/system-users/superadmin" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>
@@ -158,13 +158,23 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-MANAJEMEN')" to="/system-users/manajemen" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-AKADEMIK')" to="/system-users/akademik" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    MANAJEMEN
+                                    AKADEMIK
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>                     -->
+                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-PMB')" to="/system-users/pmb" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    PMB
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
