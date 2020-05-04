@@ -37,6 +37,16 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/Dashboard.vue'),		
 	},
+	//spmb	
+	{
+		path: '/spmb/pendaftaranbaru',
+		name: 'SPMBPendaftaranBaru',
+		meta:{
+			title: "SPMB - PENDAFTARAN BARU",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/PendaftaranBaru.vue'),		
+	},
 	//system
 	{
 		path: '/system-setting/permissions',

@@ -11,9 +11,9 @@ Vue.use(api);
 Vue.config.productionTip = false
 
 //filter output
-Vue.filter('formatTanggal', function(value) 
+Vue.filter('formatTanggal', function(value,format='DD/MM/YYYY hh:mm') 
 {
-	var tanggal = moment(String(value)).format('DD/MM/YYYY hh:mm');    
+	var tanggal = moment(String(value)).format(format);    
     return tanggal;
 });
 Vue.filter('formatUang', function(value) 

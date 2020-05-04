@@ -21,15 +21,16 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('nomor_hp')->unique();
+            $table->year('ta')->default(0);
             $table->integer('code')->default(0);        
             $table->string('theme')->default('default');
             $table->string('foto')->default('storage/images/users/no_photo.png');
             $table->boolean('active')->default(1);
             $table->boolean('isdeleted')->default(1);
             $table->boolean('locked')->default(0);                          
-            $table->rememberToken();            
-            $table->timestamps();
             
+            $table->timestamps();
+            $table->index('ta');
         });
     }
 

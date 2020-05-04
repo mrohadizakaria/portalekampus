@@ -27,8 +27,12 @@ $router->group(['prefix'=>'v3','middleware'=>'auth:api'], function () use ($rout
     $router->get('/auth/refresh',['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
     $router->get('/auth/me',['uses'=>'AuthController@me','as'=>'auth.me']);
 
+    //spmb - pendaftaran mahasiswa baru
+    $router->post('/spmb/pmb',['middleware'=>['role:superadmin|pmb'],'uses'=>'SPMB\PMBController@index','as'=>'pmb.index']);    
+    $router->delete('/spmb/pmb/{id}',['middleware'=>['role:superadmin|pmb'],'uses'=>'SPMB\PMBController@destroy','as'=>'pmb.destroy']);    
+
     //setting - permissions
-    $router->get('/system/setting/permissions',['middleware'=>['role:superadmin|manajemen'],'uses'=>'System\PermissionsController@index','as'=>'permissions.index']);    
+    $router->get('/system/setting/permissions',['middleware'=>['role:superadmin|akademik|pmb'],'uses'=>'System\PermissionsController@index','as'=>'permissions.index']);    
     $router->post('/system/setting/permissions/store',['middleware'=>['role:superadmin'],'uses'=>'System\PermissionsController@store','as'=>'permissions.store']);    
     $router->delete('/system/setting/permissions/{id}',['middleware'=>['role:superadmin'],'uses'=>'System\PermissionsController@destroy','as'=>'permissions.destroy']);
 

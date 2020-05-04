@@ -220,7 +220,7 @@
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
-                                <v-col cols="12" class="mb1">
+                                <v-col cols="12">
                                     <strong>ID:</strong>{{ item.id }}
                                     <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
                                     <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
@@ -271,10 +271,10 @@ export default {
         //tables
         headers: [                        
             { text: '', value: 'foto' },
-            { text: 'USERNAME', value: 'username' },
-            { text: 'NAME', value: 'name' },
-            { text: 'EMAIL', value: 'email' },     
-            { text: 'NOMOR HP', value: 'nomor_hp' },     
+            { text: 'USERNAME', value: 'username',sortable:true },
+            { text: 'NAME', value: 'name',sortable:true },
+            { text: 'EMAIL', value: 'email',sortable:true },     
+            { text: 'NOMOR HP', value: 'nomor_hp',sortable:true },     
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         expanded:[],
@@ -343,10 +343,10 @@ export default {
         ], 
     }),
     methods: {
-        initialize () 
+        initialize:async function () 
         {
             this.datatableLoading=true;
-            this.$ajax.get('/system/userspmb',{
+            await this.$ajax.get('/system/userspmb',{
                 headers: {
                     Authorization:this.TOKEN
                 }

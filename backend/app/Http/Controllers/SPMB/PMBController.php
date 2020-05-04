@@ -19,14 +19,24 @@ class PMBController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {           
+    {   
         $this->hasPermissionTo('SPMB-PMB_BROWSE');
-        $data = User::role('superadmin')->get();
+
+        $this->validate($request, [           
+            'TA'=>'required'
+        ]);
+        
+        $ta=$request->input('TA');
+
+        $data = User::role('mahasiswabaru')
+                    ->where('ta',$ta)
+                    ->get();
+        
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
-                                'users'=>$data,
-                                'message'=>'Fetch data users berhasil diperoleh'
+                                'pmb'=>$data,
+                                'message'=>'Fetch data calon mahasiswa baru berhasil diperoleh'
                             ],200);  
     }    
     /**
@@ -73,6 +83,7 @@ class PMBController extends Controller {
             'username'=> $request->input('username'),
             'password'=>Hash::make($request->input('password')),
             'nomor_hp'=>$request->input('nomor_hp'),
+            'ta'=>\DB::table('setting')->where('setting_id',56)->value('value'),
             'email_verified_at'=>'',
             'theme'=>'default',  
             'code'=>$code,          
@@ -133,5 +144,45 @@ class PMBController extends Controller {
                                     ],422);
         }
 
-    }           
+    }        
+    /**
+     * Menghapus calon mahasiwa baru
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request,$id)
+    { 
+        $this->hasPermissionTo('SPMB-PMB_DESTROY');
+
+        $user = User::where('isdeleted','1')
+                    ->find($id); 
+        
+        if (is_null($user))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'destroy',                
+                                    'message'=>"Calon Mahasiswa Baru dengan ID ($id) gagal dihapus"
+                                ],200); 
+        }
+        else
+        {
+            $name=$user->name;
+            $user->delete();
+
+            \App\Models\System\ActivityLog::log($request,[
+                                                                'object' => $this->guard()->user(), 
+                                                                'user_id' => $this->guard()->user()->id, 
+                                                                'message' => 'Menghapus Mahasiswa Baru ('.$name.') berhasil'
+                                                            ]);
+        
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'destroy',                
+                                        'message'=>"Mahasiswa Baru ($name) berhasil dihapus"
+                                    ],200);         
+        }
+                  
+    }   
 }
