@@ -15,6 +15,14 @@ class PermissionsTableSeeder extends Seeder
     {
         \DB::statement('DELETE FROM permissions');
         \DB::statement('ALTER TABLE permissions AUTO_INCREMENT = 1;');
+
+        \DB::table('permissions')->insert([
+            'name'=>"DASHBOARD_SHOW",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
         $modules = [             
             'SPMB-PMB',     
             'SYSTEM-SETTING-PERMISSIONS',
@@ -47,21 +55,21 @@ class PermissionsTableSeeder extends Seeder
         }        
         
         \DB::table('permissions')->insert([
-            'name'=>"DASHBOARD_SHOW",
+            'name'=>"SPMB-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"SYSTEM-SETTING",
+            'name'=>"SYSTEM-SETTING-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"SYSTEM-USERS",
+            'name'=>"SYSTEM-USERS-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()

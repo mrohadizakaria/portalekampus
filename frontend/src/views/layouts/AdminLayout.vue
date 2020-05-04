@@ -16,7 +16,7 @@
                 :offset-y="true"
                 bottom 
                 left
-                v-if="CAN_ACCESS('SYSTEM-SETTING')">
+                v-if="CAN_ACCESS('SYSTEM-SETTING-GROUP')">
                 <template v-slot:activator="{on}">
                     <v-btn v-on="on" icon>
                         <v-icon>mdi-cog-outline</v-icon>
@@ -140,7 +140,7 @@
                         <v-list-item-title>DASHBOARD</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-group group="/spmb" prepend-icon="mdi-account-plus" no-action v-if="CAN_ACCESS('SPMB')">
+                <v-list-group group="/spmb" prepend-icon="mdi-account-plus" no-action v-if="CAN_ACCESS('SPMB-GROUP')">
                     <template v-slot:activator>
                         <v-list-item-content>								
                             <v-list-item-title>SPMB</v-list-item-title>
@@ -159,7 +159,7 @@
                         </v-list-item>                    
                     </div>
                 </v-list-group>
-                <v-list-group group="/system-users" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-USERS')">
+                <v-list-group group="/system-users" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-USERS-GROUP')">
                     <template v-slot:activator>
                         <v-list-item-content>								
                             <v-list-item-title>USER SISTEM</v-list-item-title>
