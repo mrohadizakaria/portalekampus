@@ -1384,7 +1384,8 @@ INSERT INTO `setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (10, 'path', 'config_logo', 'resources/headerLogo.jpg'),
 (11, 'general', 'kota_pt', 'Tanjungpinang'),
 (12, 'general', 'provinsi_pt', 'Kepulauan Riau'),
-(13, 'general', 'recaptcha_key', ''),
+(401, 'general', 'captcha_public_key', '$'),
+(402, 'general', 'captcha_private_key', '$'),
 
 (20, 'transkripnilai', 'id_penandatangan_transkrip', '6'),
 (21, 'transkripnilai', 'nama_jabatan_transkrip', 'KETUA'),
