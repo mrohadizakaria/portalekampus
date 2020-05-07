@@ -44,7 +44,6 @@ $app->singleton(
 |--------------------------------------------------------------------------
 */
 $app->configure('app');
-$app->configure('captcha');
 $app->configure('cors');
 $app->configure('permission');
 $app->configure('jwt');
