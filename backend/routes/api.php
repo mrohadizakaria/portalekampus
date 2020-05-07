@@ -16,7 +16,9 @@ $router->group(['prefix'=>'v3'], function () use ($router)
     $router->post('/spmb/pmb/store',['uses'=>'SPMB\PMBController@store','as'=>'pmb.store']);
     $router->post('/spmb/pmb/konfirmasi',['uses'=>'SPMB\PMBController@konfirmasi','as'=>'pmb.konfirmasi']);
 
-    $router->get('/system/setting/uifront',['uses'=>'System\UIController@index','as'=>'uifront.index']);    
+    //untuk uifront
+    $router->get('/system/setting/uifront',['uses'=>'System\UIController@frontend','as'=>'uifront.frontend']);    
+
     $router->post('/auth/login',['uses'=>'AuthController@login','as'=>'auth.login']);
 });
 
@@ -68,5 +70,8 @@ $router->group(['prefix'=>'v3','middleware'=>'auth:api'], function () use ($rout
     $router->put('/system/userspmb/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPMBController@update','as'=>'userspmb.update']);
     $router->put('/system/userspmb/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPMBController@update','as'=>'userspmb.update']);
     $router->delete('/system/userspmb/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPMBController@destroy','as'=>'userspmb.destroy']);    
+
+    //untuk ui admin
+    $router->get('/system/setting/uiadmin',['uses'=>'System\UIController@admin','as'=>'ui.admin']);    
     
 });
