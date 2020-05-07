@@ -27,11 +27,10 @@ export default {
     name:'FrontLayout',
     created ()
     {
-        this.$store.dispatch('identitas/init',this.$ajax);   
-             
+        this.$store.dispatch('uifront/init',this.$ajax);           
     },
     computed :{
-        ...mapGetters('identitas',{
+        ...mapGetters('uifront',{
             namaPTAlias: 'getNamaPTAlias'
         })
     }

@@ -27,6 +27,7 @@ class PermissionsTableSeeder extends Seeder
             'SPMB-PMB',     
             'SYSTEM-SETTING-PERMISSIONS',
             'SYSTEM-SETTING-ROLES',
+            'SYSTEM-SETTING-VARIABLES',
             'SYSTEM-USERS-SUPERADMIN',
             'SYSTEM-USERS-AKADEMIK',
             'SYSTEM-USERS-PMB',

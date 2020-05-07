@@ -67,6 +67,15 @@ const routes = [
 		component: () => import('../views/pages/admin/system/Roles.vue'),		
 	},
 	{
+		path: '/system-setting/captcha',
+		name: 'SettingCaptcha',
+		meta:{
+			title: "SETTING - CAPTCHA",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/Captcha.vue'),		
+	},
+	{
 		path: '/system-users/pmb',
 		name: 'UsersPMB',
 		meta:{

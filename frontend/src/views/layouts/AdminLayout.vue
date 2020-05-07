@@ -65,6 +65,24 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>          
+                    <v-list-item class="teal lighten-5">
+                        <v-list-item-icon>
+                            <v-icon>mdi-server-network</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>								
+                            <v-list-item-title>SERVER</v-list-item-title>
+                        </v-list-item-content>		
+                    </v-list-item>
+                    <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-VARIABLES')" to="/system-setting/captcha">
+                        <v-list-item-icon>
+                            <v-icon>mdi-circle-double</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                CAPTCHA
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>  
                 </v-list>
             </v-menu>
             <v-divider
@@ -250,10 +268,12 @@ export default {
                 }
             ).then(()=> {     
                 this.$store.dispatch('auth/logout');	
+                this.$store.dispatch('uifront/reinit');	
                 this.$router.push('/');
             })
             .catch(() => {
                 this.$store.dispatch('auth/logout');	
+                this.$store.dispatch('uifront/reinit');	
                 this.$router.push('/');
             });
         }

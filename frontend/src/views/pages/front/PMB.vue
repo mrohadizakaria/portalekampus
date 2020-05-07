@@ -102,6 +102,7 @@
     </FrontLayout>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import VueRecaptcha from 'vue-recaptcha';
 import FrontLayout from '@/views/layouts/FrontLayout';
 export default {
@@ -110,8 +111,7 @@ export default {
         btnLoading:false,
         //form
         form_valid:true,                 
-        dialogkonfirmasiemail:false,        
-        sitekey:'6LemEfEUAAAAAOabmlDlsVEv8xXdzNJywGRxiQvN',        
+        dialogkonfirmasiemail:false,                     
         formdata: {
             name:'',
             email:'',
@@ -210,6 +210,11 @@ export default {
             this.$refs.recaptcha.reset();  
             this.formdata.captcha_response='';
         }
+    },
+    computed :{
+        ...mapGetters('uifront',{
+            sitekey: 'getCaptchaKey'
+        })
     },
     components: {
         FrontLayout,

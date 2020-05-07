@@ -3,6 +3,7 @@
 namespace App\Models\System;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class SettingModel extends Model {    
      /**
@@ -37,4 +38,23 @@ class SettingModel extends Model {
      * @var string
      */
     public $timestamps = false;
+
+    //digunakan untuk menyimpan ke cache
+    public static function toCache()
+    {
+        $setting = SettingModel::all()->pluck('value','key'); 
+        Cache::put('setting', $setting);
+    }
+    public static function getCache($idx=null)
+    {
+        if ($idx == null)
+        {
+            return Cache::get('setting');
+        }
+        else
+        {
+            $setting=Cache::get('setting');
+            return $setting[$idx];
+        }
+    }
 }

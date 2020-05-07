@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\System\SettingModel;
 use App\Helpers\Helper;
 use App\Mail\MahasiswaBaruRegistered;
 use App\Mail\VerifyEmailAddress;
@@ -62,7 +63,7 @@ class PMBController extends Controller {
                                         'https://www.google.com/recaptcha/api/siteverify',
                                         ['form_params'=>
                                             [
-                                                'secret'=>config('captcha.RECAPTCHA_PRIVATE_KEY'),
+                                                'secret'=>SettingModel::getCache('captcha_private_key'),
                                                 'response'=>$value
                                             ]
                                         ]);    

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import Identitas from './modules/identitas'
+import Uifront from './modules/uifront'
 import Auth from './modules/auth'
 
 const vuexStorage = new VuexPersistence({
@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
-		identitas:Identitas,
+		uifront:Uifront,
 		auth:Auth,
 	},
 	plugins: [vuexStorage.plugin]
