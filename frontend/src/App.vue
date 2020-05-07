@@ -47,6 +47,7 @@ export default {
 					{
 						this.$store.dispatch('auth/logout');
 						this.$store.dispatch('uifront/reinit');	
+						this.$store.dispatch('uiadmin/reinit');	
 						this.snackbar_color='error';
 						this.snackbar_error=true;	
 						this.page_message='('+status+': '+data.error+') Token telah expire mohon login kembali';	

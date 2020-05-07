@@ -69,10 +69,10 @@ const actions = {
             })
         }
     },
-    reinit({commit})
+    reinit ({ commit }) 
     {
-        commit('setLoaded',false);
-    }
+        commit('resetState');
+    },
 }
 export default {
     namespaced: true,

@@ -230,8 +230,8 @@
 				</v-list-item-content>
 			</v-list-item>
 			<v-divider></v-divider>
-			<v-list-item>
-				
+			<v-list-item v-if="filterTahunMasuk">
+				test
 			</v-list-item>			
 		</v-navigation-drawer>
         <v-content class="mx-4 mb-4">			
@@ -245,7 +245,7 @@ export default {
     name:'AdminLayout',
     created()
     {
-        
+        this.$store.dispatch('uiadmin/init',this.$ajax);           
     },
     data ()
     {
@@ -269,11 +269,13 @@ export default {
             ).then(()=> {     
                 this.$store.dispatch('auth/logout');	
                 this.$store.dispatch('uifront/reinit');	
+                this.$store.dispatch('uiadmin/reinit');	
                 this.$router.push('/');
             })
             .catch(() => {
                 this.$store.dispatch('auth/logout');	
                 this.$store.dispatch('uifront/reinit');	
+                this.$store.dispatch('uiadmin/reinit');	
                 this.$router.push('/');
             });
         }
@@ -315,7 +317,18 @@ export default {
 			{
 				return false
 			}
-		},
+        },
+        filterTahunMasuk()
+        {
+            var bool=false;
+            switch(this.$route.name)
+            {
+                case 'SPMBPendaftaranBaru' :
+                    bool = true;                    
+                break;
+            }   
+            return bool;         
+        }
     },
     watch: {
         loginTime:{
