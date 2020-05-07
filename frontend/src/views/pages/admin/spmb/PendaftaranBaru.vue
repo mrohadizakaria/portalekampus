@@ -85,10 +85,17 @@
                                 mdi-delete
                             </v-icon>
                         </template>
-                        <template v-slot:item.foto="{ item }">                            
-                            <v-avatar size="30">
-                                <v-img :src="$api.url+'/'+item.foto" />                                
-                            </v-avatar>                                                                                                  
+                        <template v-slot:item.foto="{ item }">    
+                            <v-badge
+                                    bordered
+                                    :color="badgeColor(item)"
+                                    :icon="badgeIcon(item)"
+                                    overlap
+                                >                
+                                    <v-avatar size="30">                                        
+                                        <v-img :src="$api.url+'/'+item.foto" />                                                                     
+                                    </v-avatar>                                                                                                  
+                            </v-badge>
                         </template>
                         <template v-slot:item.created_at="{ item }">                            
                             {{item.created_at|formatTanggal}}
@@ -170,7 +177,15 @@ export default {
                 this.datatable = data.pmb;                
                 this.datatableLoading=false;
             });          
+        },  
+        badgeColor(item)
+        {
+            return item.active == 1 ? 'success':'error'
         },
+        badgeIcon(item)
+        {
+            return item.active == 1 ? 'mdi-check-bold':'mdi-close-thick'
+        },      
         dataTableRowClicked(item)
         {
             if ( item === this.expanded[0])
@@ -217,7 +232,7 @@ export default {
         ...mapGetters('auth',{            
             ACCESS_TOKEN:'AccessToken',          
             TOKEN:'Token',                                  
-        }),
+        }), 
     },
     components:{
         AdminLayout,
