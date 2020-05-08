@@ -253,8 +253,7 @@ import {mapGetters} from 'vuex';
 export default {
     name:'AdminLayout',
     created()
-    {
-        this.$store.dispatch('uiadmin/init',this.$ajax); 
+    {     
         switch(this.$route.name)
         {
             case 'SPMBPendaftaranBaru' :                                    

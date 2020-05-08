@@ -7,6 +7,7 @@ const getDefaultState = () =>
         pages:[],
         daftar_ta:[],
         tahun_masuk:0,
+        default_dashboard:null
     }
 }
 const state = getDefaultState();
@@ -37,6 +38,10 @@ const mutations = {
     {
         state.loaded=loaded;
     },
+    setDashboard(state,name)
+    {
+        state.default_dashboard=name;
+    },
     setDaftarTA(state,daftar)
     {
         state.daftar_ta=daftar;
@@ -50,6 +55,10 @@ const mutations = {
     }
 }
 const getters= {
+    getDefaultDashboard: state => 
+    {   
+        return state.default_dashboard;
+    },
     getDaftarTA: state => 
     {   
         return state.daftar_ta;
@@ -64,7 +73,6 @@ const actions = {
     {   
         if (!state.loaded && rootGetters['auth/Authenticated'])
         {   
-            console.log(state.tahun_masuk);
             commit('setTahunMasuk',rootGetters['uifront/getTahunPendaftaran']);   
             let token=rootGetters['auth/Token'];                                                     
             await ajax.get('/system/setting/uiadmin',               
@@ -79,6 +87,10 @@ const actions = {
             });      
         }
     }, 
+    changeDashboard({commit},name)
+    {        
+        commit('setDashboard',name);
+    },
     addToPages ({commit,state},page)
     {
         let found = state.pages.find(halaman => halaman.name==page.name);
