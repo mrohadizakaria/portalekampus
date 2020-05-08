@@ -34,7 +34,8 @@ class UIController extends Controller {
     public function admin ()
     {
         $setting = SettingModel::getCache();
-        $daftar_ta=TAModel::all()->pluck('tahun_akademik','tahun');
+        $daftar_ta=TAModel::all();
+        
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  

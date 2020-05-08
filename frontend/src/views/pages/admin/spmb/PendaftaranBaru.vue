@@ -5,7 +5,10 @@
                 mdi-account-plus
             </template>
             <template v-slot:name>
-                PENDAFTARAN MAHASISWA BARU
+                PENDAFTARAN MAHASISWA BARU 
+            </template>
+            <template v-slot:subtitle>
+                TAHUN {{tahunmasuk}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -145,9 +148,12 @@ export default {
         ];
         this.initialize()
     },     
+    props:[
+        'tahun_masuk'
+    ],
     data: () => ({ 
         datatableLoading:false,
-        btnLoading:false,      
+        btnLoading:false,              
         //tables
         headers: [                        
             { text: '', value: 'foto' },            
@@ -167,7 +173,7 @@ export default {
             this.datatableLoading=true;
             await this.$ajax.post('/spmb/pmb',
             {
-                TA:2020,
+                TA:this.tahunmasuk,
             },
             {
                 headers: {
@@ -233,6 +239,10 @@ export default {
             ACCESS_TOKEN:'AccessToken',          
             TOKEN:'Token',                                  
         }), 
+        tahunmasuk()
+        {
+            return this.$store.getters['uiadmin/getTahunMasuk'];
+        }
     },
     components:{
         AdminLayout,

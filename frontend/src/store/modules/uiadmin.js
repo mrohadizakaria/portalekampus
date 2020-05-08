@@ -3,7 +3,8 @@ const getDefaultState = () =>
 {
     return {      
         loaded:false,  
-        daftar_ta:[]
+        daftar_ta:[],
+        tahun_masuk:0,
     }
 }
 const state = getDefaultState();
@@ -18,6 +19,10 @@ const mutations = {
     {
         state.daftar_ta=daftar;
     },
+    setTahunMasuk(state,tahun)
+    {
+        state.tahun_masuk=tahun;
+    },    
     resetState (state) {
         Object.assign(state, getDefaultState())
     }
@@ -27,15 +32,18 @@ const getters= {
     {   
         return state.daftar_ta;
     },
+    getTahunMasuk: state =>
+    {
+        return parseInt(state.tahun_masuk);
+    }
 }
 const actions = {    
     init: async function ({commit,state,rootGetters},ajax)
-    {
-        let token=rootGetters['auth/Token'];  
-        // console.log(token)                   
-        if (!state.loaded)
+    {       
+        commit('setTahunMasuk',rootGetters['uifront/getTahunPendaftaran']);
+        if (!state.loaded && rootGetters['auth/Authenticated'])
         {   
-            // await ajax.get();               
+            let token=rootGetters['auth/Token'];                                                     
             await ajax.get('/system/setting/uiadmin',               
                 {
                     headers:{
@@ -43,8 +51,7 @@ const actions = {
                     }
                 }
             ).then(({data})=>{                   
-                commit('setDaftarTA',data.daftar_ta);
-                // commit('setDaftarTA',[]);
+                commit('setDaftarTA',data.daftar_ta);            
                 commit('setLoaded',false);              
             });      
         }

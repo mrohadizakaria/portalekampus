@@ -231,7 +231,16 @@
 			</v-list-item>
 			<v-divider></v-divider>
 			<v-list-item v-if="filterTahunMasuk">
-				test
+				<v-list-item-content>
+                    <v-select
+                        v-model="tahun_masuk"
+                        :items="daftar_ta"
+                        item-text="tahun_akademik"
+                        item-value="tahun"
+                        label="TAHUN PENDAFTARAN"
+                        outlined
+                    ></v-select>	
+				</v-list-item-content>
 			</v-list-item>			
 		</v-navigation-drawer>
         <v-content class="mx-4 mb-4">			
@@ -245,16 +254,24 @@ export default {
     name:'AdminLayout',
     created()
     {
-        this.$store.dispatch('uiadmin/init',this.$ajax);           
-    },
-    data ()
-    {
-        return {
-            loginTime:0,
-            drawer:null,
-			drawerRight:null,
-        }
-    },
+        this.$store.dispatch('uiadmin/init',this.$ajax); 
+        switch(this.$route.name)
+        {
+            case 'SPMBPendaftaranBaru' :                                    
+                this.daftar_ta=this.$store.getters['uiadmin/getDaftarTA'];  
+                this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];       
+            break;
+        }            
+    }, 
+    data:()=>({
+        loginTime:0,
+        drawer:null,
+        drawerRight:null,
+        
+        //filter
+        daftar_ta:[],
+        tahun_masuk:2020
+    }),       
     methods: {
         logout ()
         {
@@ -287,7 +304,7 @@ export default {
             TOKEN:'Token',          
             ROLE:'Role',
             CAN_ACCESS:'can',         
-            ATTRIBUTE_USER:'AtributeUser',          
+            ATTRIBUTE_USER:'AtributeUser',               
         }),
         APP_NAME ()
         {
@@ -324,7 +341,7 @@ export default {
             switch(this.$route.name)
             {
                 case 'SPMBPendaftaranBaru' :
-                    bool = true;                    
+                    bool = true;                       
                 break;
             }   
             return bool;         
