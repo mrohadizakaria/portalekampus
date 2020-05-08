@@ -54,26 +54,26 @@ class PMBController extends Controller {
             'nomor_hp'=>'required|unique:users',
             'username'=>'required|string|unique:users',
             'password'=>'required',
-            'captcha_response'=>[
-                                'required',
-                                function ($attribute, $value, $fail) 
-                                {
-                                    $client = new Client ();
-                                    $response = $client->post(
-                                        'https://www.google.com/recaptcha/api/siteverify',
-                                        ['form_params'=>
-                                            [
-                                                'secret'=>SettingModel::getCache('captcha_private_key'),
-                                                'response'=>$value
-                                            ]
-                                        ]);    
-                                    $body = json_decode((string)$response->getBody());
-                                    if (!$body->success)
-                                    {
-                                        $fail('Token Google Captcha, salah !!!.');
-                                    }
-                                }
-                            ]
+            // 'captcha_response'=>[
+            //                     'required',
+            //                     function ($attribute, $value, $fail) 
+            //                     {
+            //                         $client = new Client ();
+            //                         $response = $client->post(
+            //                             'https://www.google.com/recaptcha/api/siteverify',
+            //                             ['form_params'=>
+            //                                 [
+            //                                     'secret'=>SettingModel::getCache('captcha_private_key'),
+            //                                     'response'=>$value
+            //                                 ]
+            //                             ]);    
+            //                         $body = json_decode((string)$response->getBody());
+            //                         if (!$body->success)
+            //                         {
+            //                             $fail('Token Google Captcha, salah !!!.');
+            //                         }
+            //                     }
+            //                 ]
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();       
         $email= $request->input('email');
@@ -93,7 +93,9 @@ class PMBController extends Controller {
             'updated_at'=>$now
         ]);            
         $role='mahasiswabaru';   
-        $user->assignRole($role);             
+        $user->assignRole($role);
+        $permission=Role::findByName('mahasiswabaru')->permissions;
+        $user->givePermissionTo($permission->pluck('name'));             
         
         app()->mailer->to($email)->send(new VerifyEmailAddress($code));
 
