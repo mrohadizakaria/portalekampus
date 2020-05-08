@@ -44,6 +44,8 @@ const getters= {
                 switch(roles[i])
                 {
                     case 'mahasiswabaru':
+                        role=role+'[mahasiswabaru] ';
+                    break;
                     case 'mahasiswa':
                         role=role+'[mahasiswa] ';
                     break;

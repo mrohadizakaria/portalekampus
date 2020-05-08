@@ -2,7 +2,9 @@
 const getDefaultState = () => 
 {
     return {      
-        loaded:false,  
+        loaded:false, 
+        //page
+        pages:[],
         daftar_ta:[],
         tahun_masuk:0,
     }
@@ -10,7 +12,27 @@ const getDefaultState = () =>
 const state = getDefaultState();
 
 //mutations
-const mutations = {    
+const mutations = {   
+    setNewPage(state, page)
+    {
+        state.pages.push(page);                
+    },
+    replacePage (state,page,index)
+    {
+        state.pages[index]=page;            
+    },
+    removePage(state,page)
+    {
+        var i;
+        for (i = 0;i < state.pages.length;i++)
+        {                
+            if(state.pages[i].name==page.name)
+            {
+                state.pages.splice(i,1);
+                break;
+            }
+        }
+    },  
     setLoaded(state,loaded)
     {
         state.loaded=loaded;
@@ -39,10 +61,11 @@ const getters= {
 }
 const actions = {    
     init: async function ({commit,state,rootGetters},ajax)
-    {       
-        commit('setTahunMasuk',rootGetters['uifront/getTahunPendaftaran']);
+    {   
         if (!state.loaded && rootGetters['auth/Authenticated'])
         {   
+            console.log(state.tahun_masuk);
+            commit('setTahunMasuk',rootGetters['uifront/getTahunPendaftaran']);   
             let token=rootGetters['auth/Token'];                                                     
             await ajax.get('/system/setting/uiadmin',               
                 {
@@ -52,10 +75,34 @@ const actions = {
                 }
             ).then(({data})=>{                   
                 commit('setDaftarTA',data.daftar_ta);            
-                commit('setLoaded',false);              
+                commit('setLoaded',true);              
             });      
         }
-    },     
+    }, 
+    addToPages ({commit,state},page)
+    {
+        let found = state.pages.find(halaman => halaman.name==page.name);
+        if (!found)
+        {
+            commit('setNewPage',page);
+        }
+    },
+    updatePage ({commit,state},page)
+    {
+        var i;
+        for (i = 0;i < state.pages.length;i++)
+        {                
+            if(state.pages[i].name==page.name)
+            {
+                break;
+            }
+        }
+        commit('replacePage',page,i)
+    }, 
+    updateTahunMasuk({commit},tahun)
+    {
+        commit('setTahunMasuk',tahun);
+    },
     reinit ({ commit }) 
     {
         commit('resetState');

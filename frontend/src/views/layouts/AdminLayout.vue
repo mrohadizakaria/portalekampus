@@ -165,7 +165,7 @@
                         </v-list-item-content>							
                     </template>   
                     <div>              
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PENDAFTARAN-BARU')" to="/spmb/pendaftaranbaru" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB_BROWSE')" to="/spmb/pendaftaranbaru" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>
@@ -365,6 +365,10 @@ export default {
                 }
             },
             immediate:true
+        },
+        tahun_masuk(val)
+        {
+            this.$store.dispatch('uiadmin/updateTahunMasuk',val);
         }
     }
 }
