@@ -22,6 +22,13 @@ class PermissionsTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
+        
+        \DB::table('permissions')->insert([
+            'name'=>"KEMAHASISWAAN-STATUS_UPDATE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
 
         $modules = [             
             'SPMB-PMB',     

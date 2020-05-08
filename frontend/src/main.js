@@ -16,6 +16,11 @@ Vue.filter('formatTanggal', function(value,format='DD/MM/YYYY hh:mm')
 	var tanggal = moment(String(value)).format(format);    
     return tanggal;
 });
+Vue.filter('formatTA', function(value) 
+{
+	value = parseInt(value);
+	return value+'/'+(value+1);
+});
 Vue.filter('formatUang', function(value) 
 {
 	var num = new Number(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1.');

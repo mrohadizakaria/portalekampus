@@ -8,7 +8,7 @@
                 PENDAFTARAN MAHASISWA BARU 
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahunmasuk}}
+                TAHUN {{tahunmasuk|formatTA}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -104,12 +104,22 @@
                             {{item.created_at|formatTanggal}}
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
-                            <td :colspan="headers.length" class="text-center">
-                                <v-col cols="12">
+                            <td colspan="3">
                                     <strong>ID:</strong>{{ item.id }}
                                     <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
                                     <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
-                                </v-col>                                
+                            </td>
+                            <td colspan="4" class="text-right">
+                                <v-btn 
+                                    icon 
+                                    color="warning" 
+                                    title="aktifkan"
+                                    :loading="btnLoading"
+                                    :disabled="btnLoading" 
+                                    @click.stop="aktifkan(item.id)"
+                                    v-if="item.active==0">
+                                    <v-icon>mdi-account-check</v-icon>
+                                </v-btn>
                             </td>
                         </template>
                         <template v-slot:no-data>
@@ -203,6 +213,25 @@ export default {
                 this.expanded=[item];
             }               
         },
+        aktifkan(id)
+        {
+            this.btnLoading=true;
+            this.$ajax.post('/kemahasiswaan/updatestatus/'+id,
+                {
+                    'active':1
+                },
+                {
+                    headers:{
+                        Authorization:this.TOKEN
+                    }
+                }
+            ).then(()=>{   
+                this.initialize();
+                this.btnLoading=false;
+            }).catch(()=>{
+                this.btnLoading=false;
+            });
+        },
         viewItem (item) {           
             console.log(item);
         },
@@ -242,6 +271,12 @@ export default {
         tahunmasuk()
         {
             return this.$store.getters['uiadmin/getTahunMasuk'];
+        }
+    },
+    watch:{
+        tahunmasuk()
+        {
+            this.initialize();
         }
     },
     components:{

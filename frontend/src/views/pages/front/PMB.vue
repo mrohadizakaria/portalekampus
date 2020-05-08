@@ -7,7 +7,7 @@
                         PENDAFTARAN MAHASISWA BARU
                     </h1>    
                     <h4 class="text-center title font-weight-black primary--text">
-                        TAHUN AKADEMIK {{tahunPendaftaran}}/{{tahunPendaftaran+1}}
+                        TAHUN AKADEMIK {{tahunPendaftaran|formatTA}}
                     </h4>
                     <v-form ref="frmpendaftaran" v-model="form_valid" lazy-validation>
                         <v-card outlined>
