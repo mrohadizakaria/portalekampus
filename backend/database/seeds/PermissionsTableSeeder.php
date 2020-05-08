@@ -24,6 +24,12 @@ class PermissionsTableSeeder extends Seeder
         ]);
         
         \DB::table('permissions')->insert([
+            'name'=>"KEMAHASISWAAN-STATUS_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        \DB::table('permissions')->insert([
             'name'=>"KEMAHASISWAAN-STATUS_UPDATE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
