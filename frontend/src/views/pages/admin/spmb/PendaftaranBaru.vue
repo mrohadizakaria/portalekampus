@@ -118,7 +118,7 @@
                                     :disabled="btnLoading" 
                                     @click.stop="aktifkan(item.id)"
                                     v-if="item.active==0">
-                                    <v-icon>mdi-account-check</v-icon>
+                                    <v-icon>mdi-email-check</v-icon>
                                 </v-btn>
                             </td>
                         </template>
@@ -157,10 +157,7 @@ export default {
             }
         ];
         this.initialize()
-    },     
-    props:[
-        'tahun_masuk'
-    ],
+    },
     data: () => ({ 
         datatableLoading:false,
         btnLoading:false,              

@@ -26,11 +26,12 @@
             </template>
         </ModuleHeader>   	
         <v-container v-if="dashboard=='mahasiswabaru'">
-            test
+            <DashboardMB />
         </v-container>
     </AdminLayout>
 </template>
 <script>
+import DashboardMB from '@/components/DashboardMahasiswaBaru';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
@@ -85,7 +86,8 @@ export default {
 	},
     components:{
 		AdminLayout,
-		ModuleHeader,
+        ModuleHeader,
+        DashboardMB
 	}
 }
 </script>

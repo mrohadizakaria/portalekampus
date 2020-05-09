@@ -175,6 +175,16 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB_BROWSE')" to="/spmb/konfirmasipembayaran" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-account-cash</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    KONFIRM. PEMBAYARAN
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>                    
                     </div>
                 </v-list-group>
                 <v-list-group group="/system-users" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-USERS-GROUP')">
