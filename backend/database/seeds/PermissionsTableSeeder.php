@@ -38,6 +38,13 @@ class PermissionsTableSeeder extends Seeder
 
         $modules = [             
             'SPMB-PMB',     
+            'SPMB-PMB-KONFIRMASI-PEMBAYARAN',     
+            'SPMB-PMB-FORMULIR-PENDAFTARAN',     
+            'SPMB-PMB-SOAL',     
+            'SPMB-PMB-JADWAL-UJIAN',     
+            'SPMB-PMB-PASSING-GRADE',     
+            'SPMB-PMB-UJIAN-ONLINE',     
+            'SPMB-PMB-NILAI-UJIAN',     
             'SYSTEM-SETTING-PERMISSIONS',
             'SYSTEM-SETTING-ROLES',
             'SYSTEM-SETTING-VARIABLES',
