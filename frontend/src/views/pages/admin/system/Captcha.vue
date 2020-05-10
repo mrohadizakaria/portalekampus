@@ -35,10 +35,10 @@
                             </v-card-title>
                             <v-card-text>
                                 <v-text-field 
-                                    v-model="formdata.publicKey" 
-                                    label="PUBLIC KEY"
+                                    v-model="formdata.siteKey" 
+                                    label="SITE KEY"
                                     filled
-                                    :rules="rule_public_key">
+                                    :rules="rule_site_key">
                                 </v-text-field>                                                                                               
                                 <v-text-field 
                                     v-model="formdata.privateKey" 
@@ -97,12 +97,12 @@ export default {
         //form
         form_valid:true,   
         formdata: {
-            publicKey:'',
+            siteKey:'',
             privateKey:''
         },
         //form rules        
-        rule_public_key:[
-            value => !!value||"Mohon untuk di isi public key !!!",             
+        rule_site_key:[
+            value => !!value||"Mohon untuk di isi site key !!!",             
         ], 
         rule_private_key:[
             value => !!value||"Mohon untuk di isi private key !!!",              
@@ -119,8 +119,8 @@ export default {
                 }
             }).then(({data})=>{  
                 let setting = data.setting;             
-                this.formdata.publicKey=setting.captcha_public_key;
-                this.formdata.privateKey=setting.captcha_private_key;
+                this.formdata.siteKey=setting.CAPTCHA_SITE_KEY;
+                this.formdata.privateKey=setting.CAPTCHA_SITE_KEY;
             });          
             
         },
@@ -133,8 +133,8 @@ export default {
                         '_method':'PUT', 
                         'pid':'captcha google',
                         setting:JSON.stringify({
-                            401:this.formdata.publicKey,
-                            402:this.formdata.privateKey,
+                            901:this.formdata.siteKey,
+                            902:this.formdata.privateKey,
                         }),                                                                                                                            
                     },
                     {
@@ -142,8 +142,7 @@ export default {
                             Authorization:this.TOKEN
                         }
                     }
-                ).then(({data})=>{   
-                    console.log(data);
+                ).then(()=>{                       
                     this.btnLoading=false;
                 }).catch(()=>{
                     this.btnLoading=false;

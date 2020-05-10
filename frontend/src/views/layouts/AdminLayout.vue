@@ -177,7 +177,7 @@
                         </v-list-item>                    
                         <v-list-item link v-if="CAN_ACCESS('SPMB-PMB_BROWSE')" to="/spmb/konfirmasipembayaran" class="ml-5">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-account-cash</v-icon>
+                                <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -267,6 +267,7 @@ export default {
         switch(this.$route.name)
         {
             case 'SPMBPendaftaranBaru' :                                    
+            case 'SPMBKonfirmasiPembayaran' :
                 this.daftar_ta=this.$store.getters['uiadmin/getDaftarTA'];  
                 this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];       
             break;
@@ -350,6 +351,7 @@ export default {
             switch(this.$route.name)
             {
                 case 'SPMBPendaftaranBaru' :
+                case 'SPMBKonfirmasiPembayaran' :
                     bool = true;                       
                 break;
             }   

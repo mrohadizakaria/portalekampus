@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-use App\Models\System\SettingModel;
+use App\Models\System\ConfigurationModel;
 
 class AuthController extends Controller
 {
@@ -31,7 +31,7 @@ class AuthController extends Controller
                                                         'message' => 'user '.$credentials['username'].' berhasil login'
                                                     ]);
 
-        SettingModel::toCache();
+        ConfigurationModel::toCache();
         return $this->respondWithToken($token);
     }
     /**

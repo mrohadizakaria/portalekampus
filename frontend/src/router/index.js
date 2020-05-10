@@ -47,6 +47,15 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/spmb/PendaftaranBaru.vue'),		
 	},
+	{
+		path: '/spmb/konfirmasipembayaran',
+		name: 'SPMBKonfirmasiPembayaran',
+		meta:{
+			title: "SPMB - KONFIRMASI PEMBAYARAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/KonfirmasiPembayaran.vue'),		
+	},
 	//system
 	{
 		path: '/system-setting/permissions',

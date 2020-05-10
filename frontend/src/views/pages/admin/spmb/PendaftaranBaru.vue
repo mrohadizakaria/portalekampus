@@ -24,7 +24,7 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini berisi informasi pendaftaran mahasiswa baru, mohon disesuiakan di filter tahun akademik, kemudian tekan refresh.
+                        Halaman ini berisi informasi pendaftaran mahasiswa baru, mohon disesuaikan di filter tahun akademik, kemudian tekan refresh.
                     </v-alert>
             </template>
         </ModuleHeader>  

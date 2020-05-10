@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use App\Models\User;
-use App\Models\System\SettingModel;
+use App\Models\System\ConfigurationModel;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,9 +32,9 @@ class MahasiswaBaruRegistered extends Mailable
      */
     public function build()
     {
-        $setting = SettingModel::find(4);            
+        $config = ConfigurationModel::find(101);            
         return $this->view('emails.MahasiswaBaruRegistered')->with([
-                                                                    'nama_pt'=>$setting->value,
+                                                                    'nama_pt'=>$config->config_value,
                                                                     'name'=>$this->user->name
                                                                 ]);        
     }

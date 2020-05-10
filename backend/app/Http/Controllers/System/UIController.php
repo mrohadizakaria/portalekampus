@@ -4,7 +4,7 @@ namespace App\Http\Controllers\System;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\System\SettingModel;
+use App\Models\System\ConfigurationModel;
 use App\Models\DMaster\TAModel;
 
 
@@ -14,15 +14,15 @@ class UIController extends Controller {
      */
     public function frontend ()
     {
-        $setting = SettingModel::getCache();
-        $captcha_public_key = $setting['captcha_public_key'];
-        $tahun_pendaftaran = $setting['default_tahun_pendaftaran'];
-        $identitas['nama_pt']=$setting['nama_pt'];
-        $identitas['nama_pt_alias']=$setting['nama_pt_alias'];
+        $config = ConfigurationModel::getCache();
+        $captcha_site_key = $config['CAPTCHA_SITE_KEY'];
+        $tahun_pendaftaran = $config['DEFAULT_TAHUN_PENDAFTARAN'];
+        $identitas['nama_pt']=$config['NAMA_PT'];
+        $identitas['nama_pt_alias']=$config['NAMA_PT_ALIAS'];
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',
-                                    'captcha_public_key'=>$captcha_public_key,
+                                    'captcha_site_key'=>$captcha_site_key,
                                     'tahun_pendaftaran'=>$tahun_pendaftaran,
                                     'identitas'=>$identitas,
                                     'message'=>'Fetch data ui untuk front berhasil diperoleh'
@@ -33,7 +33,7 @@ class UIController extends Controller {
      */
     public function admin ()
     {
-        $setting = SettingModel::getCache();
+        $config = ConfigurationModel::getCache();
         $daftar_ta=TAModel::all();
         
         return Response()->json([

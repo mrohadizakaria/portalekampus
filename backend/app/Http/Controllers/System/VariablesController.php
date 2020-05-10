@@ -4,7 +4,7 @@ namespace App\Http\Controllers\System;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\System\SettingModel;
+use App\Models\System\ConfigurationModel;
 
 class VariablesController extends Controller {    
     /**
@@ -18,7 +18,7 @@ class VariablesController extends Controller {
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
-                                'setting'=>SettingModel::getCache(),
+                                'setting'=>ConfigurationModel::getCache(),
                                 'message'=>'Fetch data seluruh setting variabel'
                             ],200); 
 
@@ -43,14 +43,14 @@ class VariablesController extends Controller {
             'name.required'=>'Setting mohon untuk di isi',
         ]);        
         $pid = $request->input('pid');
-        $setting=json_decode($request->input('setting'),true);
+        $config=json_decode($request->input('setting'),true);
         
-        foreach($setting as $k=>$v)
+        foreach($config as $k=>$v)
         {
-            \DB::table('setting')->where('setting_id',$k)->update(['value'=>$v]);
+            \DB::table('pe3_configuration')->where('config_id',$k)->update(['config_value'=>$v]);
         }
 
-        SettingModel::toCache();
+        ConfigurationModel::toCache();
 
         return Response()->json([
                                     'status'=>1,

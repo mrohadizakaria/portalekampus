@@ -107,13 +107,22 @@
                                             </v-card-actions>
                                         </v-card>
                                     </v-form>
-                                </v-dialog>
+                                </v-dialog>                                
                                 <v-dialog v-model="dialogRolePermission" max-width="800px" persistent>                                                                    
                                     <RolePermissions :role="editedItem" :daftarpermissions="daftar_permissions" :permissionsselected="permissions_selected" v-on:closeRolePermissions="closeRolePermissions" />
                                 </v-dialog>
                             </v-toolbar>
                         </template>
                         <template v-slot:item.actions="{ item }">
+                            <v-icon
+                                small
+                                class="mr-2"
+                                :loading="btnLoading"
+                                :disabled="btnLoading"
+                                @click.stop="setPermission(item)"
+                            >
+                                mdi-axis-arrow-lock
+                            </v-icon>
                             <v-icon
                                 small
                                 class="mr-2"
@@ -141,8 +150,76 @@
                         <template v-slot:no-data>
                             Data belum tersedia
                         </template>
-                    </v-data-table>
+                    </v-data-table>                    
                 </v-col>
+                <v-dialog v-model="dialogdetail" width="800px">                                    
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">DETAIL ROLE</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container fluid>
+                                <v-row no-gutters>
+                                    <v-col xs="12" sm="6" md="6">
+                                        <v-card flat>
+                                            <v-card-title>ID :</v-card-title>
+                                            <v-card-subtitle>
+                                                {{editedItem.id}}
+                                            </v-card-subtitle>
+                                        </v-card>
+                                    </v-col>
+                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                    <v-col xs="12" sm="6" md="6">
+                                        <v-card flat>
+                                            <v-card-title>
+                                                TANGGAL BUAT :
+                                            </v-card-title>
+                                            <v-card-subtitle>
+                                                {{editedItem.created_at|formatTanggal}}
+                                            </v-card-subtitle>
+                                        </v-card>
+                                    </v-col>
+                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>  
+                                <v-row no-gutters>
+                                    <v-col xs="12" sm="6" md="6">
+                                        <v-card flat>
+                                            <v-card-title>NAMA ROLE :</v-card-title>
+                                            <v-card-subtitle>
+                                                {{editedItem.name}}
+                                            </v-card-subtitle>
+                                        </v-card>
+                                    </v-col>
+                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                    <v-col xs="12" sm="6" md="6">
+                                        <v-card flat>
+                                            <v-card-title>TANGGAL UBAH :</v-card-title>
+                                            <v-card-subtitle>
+                                                {{editedItem.updated_at|formatTanggal}}
+                                            </v-card-subtitle>
+                                        </v-card>
+                                    </v-col>
+                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                </v-row>  
+                                <v-row no-gutters>
+                                    <v-col cols="12">
+                                        <v-data-table                                                        
+                                            :headers="headersdetail"
+                                            :items="permissions_selected"
+                                            item-key="name"
+                                            sort-by="name"                                            
+                                            class="elevation-1"
+                                        >
+                                        </v-data-table>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                            
+                        </v-card-actions>
+                    </v-card>                                    
+                </v-dialog>
             </v-row>
         </v-container>
     </AdminLayout>
@@ -187,12 +264,18 @@ export default {
         headers: [                        
             { text: 'NAMA ROLE', value: 'name' },
             { text: 'GUARD', value: 'guard_name' },            
-            { text: 'AKSI', value: 'actions', sortable: false,width:100 },
+            { text: 'AKSI', value: 'actions', sortable: false,width:130 },
+        ],
+        //tables
+        headersdetail: [                        
+            { text: 'NAMA PERMISSION', value: 'name' },
+            { text: 'GUARD', value: 'guard_name' },                          
         ],
         search:'',
         //form
         form_valid:true,
         dialog: false,
+        dialogdetail: false,
         dialogRolePermission: false,
         editedIndex: -1,
         editedItem: {
@@ -245,12 +328,29 @@ export default {
                 this.expanded=[item];
             }               
         },
+        viewItem (item) {
+            this.editedIndex = this.datatable.indexOf(item);
+            this.editedItem = Object.assign({}, item);
+
+            this.$ajax.get('/system/setting/roles/'+item.id+'/permission',{
+                headers: {
+                    Authorization:this.TOKEN
+                }
+            }).then(({data,status})=>{
+                if (status==200)
+                {
+                    this.permissions_selected = data.permissions;
+                }                 
+            });  
+            
+            this.dialogdetail = true;
+        },
         editItem (item) {
             this.editedIndex = this.datatable.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dialog = true
         },
-        viewItem (item) {            
+        setPermission (item) {            
             this.$ajax.get('/system/setting/permissions',{
                 headers: {
                     Authorization:this.TOKEN

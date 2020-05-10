@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
@@ -95,5 +96,16 @@ class RolesTableSeeder extends Seeder
                 'updated_at'=>Carbon::now()
             ],             
         ]);
+
+        $role = Role::findByName('mahasiswabaru');
+        $records=[
+            'DASHBOARD_SHOW',
+            'SPMB-GROUP',
+            'SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE',
+            'SPMB-PMB-FORMULIR-PENDAFTARAN_SHOW',
+            'SPMB-PMB-FORMULIR-PENDAFTARAN_STORE',
+            'SPMB-PMB-FORMULIR-PENDAFTARAN_UPDATE',            
+        ];
+        $role->syncPermissions($records);
     }
 }

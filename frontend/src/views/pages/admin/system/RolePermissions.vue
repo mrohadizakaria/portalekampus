@@ -13,18 +13,18 @@
                                    <v-col xs="12" sm="6" md="6">
                                        <v-card flat>
                                             <v-card-title>ID :</v-card-title>
-                                            <v-card-text>
+                                            <v-card-subtitle>
                                                 {{role.id}}
-                                            </v-card-text>
+                                            </v-card-subtitle>
                                         </v-card>
                                    </v-col>
                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                    <v-col xs="12" sm="6" md="6">
                                        <v-card flat>
                                             <v-card-title>TANGGAL BUAT :</v-card-title>
-                                            <v-card-text>
+                                            <v-card-subtitle>
                                                 {{role.created_at|formatTanggal}}
-                                            </v-card-text>
+                                            </v-card-subtitle>
                                         </v-card>
                                    </v-col>
                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
@@ -33,18 +33,18 @@
                                    <v-col xs="12" sm="6" md="6">
                                        <v-card flat>
                                             <v-card-title>NAMA ROLE :</v-card-title>
-                                            <v-card-text>
+                                            <v-card-subtitle>
                                                 {{role.name}}
-                                            </v-card-text>
+                                            </v-card-subtitle>
                                         </v-card>
                                    </v-col>
                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                    <v-col xs="12" sm="6" md="6">
                                        <v-card flat>
                                             <v-card-title>TANGGAL UBAH :</v-card-title>
-                                            <v-card-text>
+                                            <v-card-subtitle>
                                                 {{role.updated_at|formatTanggal}}
-                                            </v-card-text>
+                                            </v-card-subtitle>
                                         </v-card>
                                    </v-col>
                                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>

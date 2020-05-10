@@ -35,7 +35,14 @@ class PermissionsTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-
+        
+        \DB::table('permissions')->insert([
+            'name'=>"SPMB-GROUP",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
         $modules = [             
             'SPMB-PMB',     
             'SPMB-PMB-KONFIRMASI-PEMBAYARAN',     
@@ -74,13 +81,6 @@ class PermissionsTableSeeder extends Seeder
             );            
             \DB::table('permissions')->insert($records);
         }        
-        
-        \DB::table('permissions')->insert([
-            'name'=>"SPMB-GROUP",
-            'guard_name'=>'api',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now()
-        ]);
 
         \DB::table('permissions')->insert([
             'name'=>"SYSTEM-SETTING-GROUP",

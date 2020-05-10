@@ -3,7 +3,7 @@ const getDefaultState = () =>
 {
     return {      
         loaded:false,  
-        captcha_public_key:'',
+        captcha_site_key:'',
         tahun_pendaftaran:new Date().getFullYear(),
         identitas:{
             nama_pt:'',
@@ -19,9 +19,9 @@ const mutations = {
     {
         state.loaded=loaded;
     },
-    setCaptchaPublicKey(state,key)
+    setCaptchaSiteKey(state,key)
     {
-        state.captcha_public_key = key;
+        state.captcha_site_key = key;
     },    
     setTahunPendaftaran(state,tahun)
     {
@@ -41,7 +41,7 @@ const getters= {
     },
     getCaptchaKey: state => 
     {   
-        return state.captcha_public_key;
+        return state.captcha_site_key;
     },
     getTahunPendaftaran: state => 
     {             
@@ -61,8 +61,8 @@ const actions = {
     {        
         if (!state.loaded)
         {            
-            await ajax.get('/system/setting/uifront').then(({data})=>{                        
-                commit('setCaptchaPublicKey',data.captcha_public_key);                                         
+            await ajax.get('/system/setting/uifront').then(({data})=>{                  
+                commit('setCaptchaSiteKey',data.captcha_site_key);                                         
                 commit('setTahunPendaftaran',data.tahun_pendaftaran);                                         
                 commit('setIdentitas',data.identitas);                                                         
                 commit('setLoaded',true);
