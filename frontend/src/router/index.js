@@ -56,6 +56,15 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/spmb/KonfirmasiPembayaran.vue'),		
 	},
+	{
+		path: '/spmb/formulirpendaftaran',
+		name: 'SPMBFormulirPendaftaran',
+		meta:{
+			title: "SPMB - FORMULIR PENDAFTARAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/FormulirPendaftaran.vue'),		
+	},
 	//system
 	{
 		path: '/system-setting/permissions',

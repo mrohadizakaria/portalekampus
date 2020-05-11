@@ -2,17 +2,41 @@
     <v-row no-gutters>
         <v-col cols="12">
             <v-timeline align-top :dense="$vuetify.breakpoint.smAndDown">
+                <v-timeline-item color="deep-orange lighten-2" icon="mdi-email-alert" fill-dot>
+                    <v-card color="deep-orange lighten-2" dark>
+                        <v-card-title class="title">Verifikasi Email</v-card-title>
+                        <v-card-text class="white text--primary">
+                            <p>Email belum diverifikasi, silahkan diverifikasi !!!.</p>
+                            <v-btn
+                                color="deep-orange lighten-2"
+                                class="mx-0"
+                                outlined
+                            >
+                                Kirim Ulang
+                            </v-btn>
+                        </v-card-text>                    
+                    </v-card>
+                </v-timeline-item>
                 <v-timeline-item color="purple darken-1" icon="mdi-book-variant" fill-dot>
                     <v-card color="purple darken-1" dark>
                         <v-card-title class="title">Formulir Pendaftaran</v-card-title>
                         <v-card-text class="white text--primary">
-                            <p>Melengkapi formulir pendaftaran</p>
+                            <p>
+                                Isi formulir pendaftaran dan lengkapi persyaratannya yaitu:
+                                <ul>
+                                    <li>Scan Pas Foto</li>
+                                    <li>Scan Ijazah Terakhir</li>
+                                    <li>Scan KTP</li>
+                                    <li>Scan Kartu Keluarga</li>
+                                </ul>
+                            </p>                            
                             <v-btn
                                 color="purple darken-1"
                                 class="mx-0"
                                 outlined
+                                to="/spmb/formulirpendaftaran"
                             >
-                                Button
+                                Isi
                             </v-btn>
                         </v-card-text>                    
                     </v-card>

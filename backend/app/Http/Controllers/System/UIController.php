@@ -19,6 +19,7 @@ class UIController extends Controller {
         $tahun_pendaftaran = $config['DEFAULT_TAHUN_PENDAFTARAN'];
         $identitas['nama_pt']=$config['NAMA_PT'];
         $identitas['nama_pt_alias']=$config['NAMA_PT_ALIAS'];
+        $identitas['bentuk_pt']=$config['BENTUK_PT'];
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',

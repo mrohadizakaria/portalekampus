@@ -84,7 +84,7 @@ class PMBController extends Controller {
             'username'=> $request->input('username'),
             'password'=>Hash::make($request->input('password')),
             'nomor_hp'=>$request->input('nomor_hp'),
-            'ta'=>\DB::table('setting')->where('setting_id',56)->value('value'),
+            'ta'=>\DB::table('pe3_configuration')->where('config_id',201)->value('config_value'),
             'email_verified_at'=>'',
             'theme'=>'default',  
             'code'=>$code,          
