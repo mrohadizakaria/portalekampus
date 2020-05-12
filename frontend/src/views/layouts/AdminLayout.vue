@@ -42,6 +42,24 @@
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>								
+                            <v-list-item-title>PERGURUAN TINGGI</v-list-item-title>
+                        </v-list-item-content>		
+                    </v-list-item>
+                    <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-IDENTITAS-DIRI')" to="/system-setting/identitasdiri">
+                        <v-list-item-icon>
+                            <v-icon>mdi-circle-double</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                IDENTITAS DIRI
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>                    
+                    <v-list-item class="teal lighten-5">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>								
                             <v-list-item-title>USER</v-list-item-title>
                         </v-list-item-content>		
                     </v-list-item>

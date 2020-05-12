@@ -67,6 +67,15 @@ const routes = [
 	},
 	//system
 	{
+		path: '/system-setting/identitasdiri',
+		name: 'SettingIdentitasDiri',
+		meta:{
+			title: "SETTING - IDENTITAS DIRI",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/IdentitasDiri.vue'),		
+	},
+	{
 		path: '/system-setting/permissions',
 		name: 'SettingPermissions',
 		meta:{

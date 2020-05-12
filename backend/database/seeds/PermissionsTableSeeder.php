@@ -54,6 +54,7 @@ class PermissionsTableSeeder extends Seeder
             'SPMB-PMB-NILAI-UJIAN',     
             'SYSTEM-SETTING-PERMISSIONS',
             'SYSTEM-SETTING-ROLES',
+            'SYSTEM-SETTING-IDENTITAS-DIRI',
             'SYSTEM-SETTING-VARIABLES',
             'SYSTEM-USERS-SUPERADMIN',
             'SYSTEM-USERS-AKADEMIK',
