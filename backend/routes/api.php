@@ -12,6 +12,14 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix'=>'v3'], function () use ($router)
 {
+    //dmaster - provinsi
+    $router->get('/dmaster/provinsi',['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);            
+    $router->get('/dmaster/provinsi/{id}/kabupaten',['uses'=>'DMaster\ProvinsiController@kabupaten','as'=>'provinsi.kabupaten']);            
+    
+    //dmaster - kabupaten
+    $router->get('/dmaster/kabupaten',['uses'=>'DMaster\KecamatanController@index','as'=>'kabupaten.index']);            
+    $router->get('/dmaster/kabupaten/{id}/kecamatan',['uses'=>'DMaster\KabupatenController@kecamatan','as'=>'kabupaten.kecamatan']);            
+
     //pendaftaran mahasiswa baru
     $router->post('/spmb/pmb/store',['uses'=>'SPMB\PMBController@store','as'=>'pmb.store']);
     $router->post('/spmb/pmb/konfirmasi',['uses'=>'SPMB\PMBController@konfirmasi','as'=>'pmb.konfirmasi']);

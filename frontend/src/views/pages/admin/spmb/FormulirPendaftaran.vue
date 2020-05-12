@@ -2,7 +2,7 @@
     <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
-                mdi-account-cash
+                mdi-file-document-edit-outline
             </template>
             <template v-slot:name>
                 FORMULIR PENDAFTARAN
