@@ -193,7 +193,7 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>           
-                        <v-list-item link v-if="CAN_ACCESS('DMASTER-PRODI_BROWSE')" to="/dmaster/prodi" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('DMASTER-PRODI_BROWSE')" to="/dmaster/programstudi" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>

@@ -48,7 +48,7 @@
                         :items="datatable"
                         :search="search"
                         item-key="kode_fakultas"
-                        sort-by="nama_fakultas"
+                        sort-by="kode_fakultas"
                         show-expand
                         :expanded.sync="expanded"
                         :single-expand="true"
@@ -59,7 +59,7 @@
 
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DATA TABLE</v-toolbar-title>
+                                <v-toolbar-title>DAFTAR FAKULTAS</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
@@ -220,6 +220,7 @@ export default {
 
         //form data   
         form_valid:true,         
+        kode_fakultas:'',
         formdata: {
             kode_fakultas:'',                        
             nama_fakultas:'',          
@@ -269,16 +270,10 @@ export default {
         },
         viewItem (item) {
             this.formdata=item;      
-            this.dialogdetailitem=true;              
-            // this.$ajax.get('/datamaster/fakultas/'+item.kode_fakultas,{
-            //     headers: {
-            //         Authorization:this.$store.getters.Token
-            //     }
-            // }).then(({data})=>{               
-                                           
-            // });                      
+            this.dialogdetailitem=true;                        
         },    
         editItem (item) {
+            this.kode_fakultas=item.kode_fakultas;
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
             this.dialogfrm = true
@@ -289,7 +284,7 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    await this.$ajax.post('/datamaster/fakultas/'+this.formdata.kode_fakultas,
+                    await this.$ajax.post('/datamaster/fakultas/'+this.kode_fakultas,
                         {
                             '_method':'PUT',
                             kode_fakultas:this.formdata.kode_fakultas,                            

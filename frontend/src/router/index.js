@@ -46,6 +46,16 @@ const routes = [
 			requiresAuth:true,
         },
 		component: () => import('../views/pages/admin/dmaster/Fakultas.vue'),		
+		beforeEnter: (to, from, next) => {
+			if(store.getters['uifront/getBentukPT']=='sekolahtinggi')
+			{
+				next('/dashboard/'+store.getters['auth/AccessToken']);
+			}
+			else
+			{
+				next();
+			}			
+		}
 	},
 	{
 		path: '/dmaster/programstudi',

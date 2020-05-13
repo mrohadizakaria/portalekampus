@@ -553,3 +553,4 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('9436', '94', 'Kab. Deiyai'),
 ('9471', '94', 'Kota Jayapura');
 
+SET FOREIGN_KEY_CHECKS=1;

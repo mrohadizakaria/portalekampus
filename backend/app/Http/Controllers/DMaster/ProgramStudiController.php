@@ -5,20 +5,21 @@ namespace App\Http\Controllers\DMaster;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Models\DMaster\FakultasModel;
+use App\Models\DMaster\ProgramStudiModel;
+use App\Models\System\ConfigurationModel;
 
-class FakultasController extends Controller {  
+class ProgramStudiController extends Controller {  
     /**
-     * daftar fakultas
+     * daftar program studi
      */
     public function index(Request $request)
     {
-        $fakultas=FakultasModel::all();
+        $prodi=ProgramStudiModel::all();
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
-                                    'fakultas'=>$fakultas,                                                                                                                                   
-                                    'message'=>'Fetchs data fakultas berhasil.'
+                                    'prodi'=>$prodi,                                                                                                                                   
+                                    'message'=>'Fetchs data program studi berhasil.'
                                 ],200);     
     }
     /**
@@ -29,30 +30,46 @@ class FakultasController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('DMASTER-FAKULTAS_STORE');
+        $this->hasPermissionTo('DMASTER-PRODI_STORE');
 
-        $this->validate($request, [            
-            'kode_fakultas'=>'required|numeric|unique:pe3_fakultas',
-            'nama_fakultas'=>'required|string|unique:pe3_fakultas',            
-        ]);
+        $bentuk_pt=ConfigurationModel::getCache('BENTUK_PT');
+        if ($bentuk_pt=='sekolahtinggi')
+        {
+            $rule=[            
+                'kode_prodi'=>'required|numeric|unique:pe3_prodi',
+                'nama_prodi'=>'required|string|unique:pe3_prodi',            
+            ];
+            $kode_fakultas=null;
+        }
+        else
+        {
+            $rule=[            
+                'kode_prodi'=>'required|numeric|unique:pe3_prodi',
+                'kode_fakultas'=>'required|exists:pe3_fakultas,kode_fakultas',
+                'nama_prodi'=>'required|string|unique:pe3_prodi',            
+            ];
+            $kode_fakultas=$request->input('kode_fakultas');
+        }
+        $this->validate($request, $rule);
              
-        $fakultas=FakultasModel::create([
-            'kode_fakultas'=>$request->input('kode_fakultas'),
-            'nama_fakultas'=>$request->input('nama_fakultas'),            
+        $prodi=ProgramStudiModel::create([
+            'kode_prodi'=>$request->input('kode_prodi'),
+            'kode_fakultas'=>$kode_fakultas,
+            'nama_prodi'=>$request->input('nama_prodi'),            
         ]);                      
         
         \App\Models\System\ActivityLog::log($request,[
-                                        'object' => $fakultas,
-                                        'object_id'=>$fakultas->kode_fakultas, 
+                                        'object' => $prodi,
+                                        'object_id'=>$prodi->kode_prodi, 
                                         'user_id' => $this->guard()->user()->id, 
-                                        'message' => 'Menambah fakultas baru berhasil'
+                                        'message' => 'Menambah program studi baru berhasil'
                                     ]);
 
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'fakultas'=>$fakultas,                                    
-                                    'message'=>'Data fakultas berhasil disimpan.'
+                                    'prodi'=>$prodi,                                    
+                                    'message'=>'Data program studi berhasil disimpan.'
                                 ],200); 
 
     }
@@ -65,48 +82,48 @@ class FakultasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->hasPermissionTo('DMASTER-FAKULTAS_UPDATE');
+        $this->hasPermissionTo('DMASTER-PRODI_UPDATE');
 
-        $fakultas = FakultasModel::find($id);
-        if (is_null($fakultas))
+        $prodi = ProgramStudiModel::find($id);
+        if (is_null($prodi))
         {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',                
-                                    'message'=>"Kode Fakultas ($id) gagal diupdate"
+                                    'message'=>"Kode Program Studi ($id) gagal diupdate"
                                 ],200); 
         }
         else
         {
             $this->validate($request, [
-                                        'kode_fakultas'=>[
+                                        'kode_prodi'=>[
                                                         'required',                                                        
-                                                        Rule::unique('pe3_fakultas')->ignore($fakultas->kode_fakultas,'kode_fakultas')
+                                                        Rule::unique('pe3_prodi')->ignore($prodi->kode_prodi,'kode_prodi')
                                                     ],           
                                         
-                                        'nama_fakultas'=>[
+                                        'nama_prodi'=>[
                                                         'required',
-                                                        Rule::unique('pe3_fakultas')->ignore($fakultas->nama_fakultas,'nama_fakultas')
+                                                        Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi,'nama_prodi')
                                                     ],           
                                         
                                     ]); 
                                     
-            $fakultas->kode_fakultas = $request->input('kode_fakultas');
-            $fakultas->nama_fakultas = $request->input('nama_fakultas');            
-            $fakultas->save();
+            $prodi->kode_prodi = $request->input('kode_prodi');
+            $prodi->nama_prodi = $request->input('nama_prodi');            
+            $prodi->save();
 
             \App\Models\System\ActivityLog::log($request,[
-                                                        'object' => $fakultas,
-                                                        'object_id'=>$fakultas->kode_fakultas, 
+                                                        'object' => $prodi,
+                                                        'object_id'=>$prodi->kode_prodi, 
                                                         'user_id' => $this->guard()->user()->id, 
-                                                        'message' => 'Mengubah data fakultas ('.$fakultas->nama_fakultas.') berhasil'
+                                                        'message' => 'Mengubah data program studi ('.$prodi->nama_prodi.') berhasil'
                                                     ]);
 
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
-                                    'fakultas'=>$fakultas,      
-                                    'message'=>'Data fakultas '.$fakultas->username.' berhasil diubah.'
+                                    'prodi'=>$prodi,      
+                                    'message'=>'Data program studi '.$prodi->username.' berhasil diubah.'
                                 ],200); 
         }
     }
@@ -115,23 +132,23 @@ class FakultasController extends Controller {
      */
     public function programstudi(Request $request,$id)
     {
-        $fakultas=FakultasModel::find($id);
-        if (is_null($fakultas))
+        $prodi=ProgramStudiModel::find($id);
+        if (is_null($prodi))
         {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',                
-                                    'message'=>"Fetch data program studi berdasarkan id fakultas gagal"
+                                    'message'=>"Fetch data program studi berdasarkan id program studi gagal"
                                 ],200); 
         }
         else
         {
-            $programstudi = $fakultas->programstudi;
+            $programstudi = $prodi->programstudi;
             return Response()->json([
                                         'status'=>1,
                                         'pid'=>'fetchdata',  
                                         'programstudi'=>$programstudi,                                                                                                                                   
-                                        'message'=>'Fetchs data program studi berdasarkan id fakultas berhasil.'
+                                        'message'=>'Fetchs data program studi berdasarkan id program studi berhasil.'
                                     ],200);     
 
         }
@@ -144,31 +161,31 @@ class FakultasController extends Controller {
      */
     public function destroy(Request $request,$id)
     { 
-        $this->hasPermissionTo('DMASTER-FAKULTAS_DESTROY');
+        $this->hasPermissionTo('DMASTER-PRODI_DESTROY');
 
-        $fakultas = FakultasModel::find($id); 
+        $prodi = ProgramStudiModel::find($id); 
         
-        if (is_null($fakultas))
+        if (is_null($prodi))
         {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"Kode fakultas ($id) gagal dihapus"
+                                    'message'=>"Kode program studi ($id) gagal dihapus"
                                 ],200); 
         }
         else
         {
             \App\Models\System\ActivityLog::log($request,[
-                                                                'object' => $fakultas, 
-                                                                'object_id' => $fakultas->kode_fakultas, 
+                                                                'object' => $prodi, 
+                                                                'object_id' => $prodi->kode_prodi, 
                                                                 'user_id' => $this->guard()->user()->id, 
-                                                                'message' => 'Menghapus Kode Fakultas ('.$id.') berhasil'
+                                                                'message' => 'Menghapus Kode Program Studi ('.$id.') berhasil'
                                                             ]);
-            $fakultas->delete();
+            $prodi->delete();
             return Response()->json([
                                         'status'=>1,
                                         'pid'=>'destroy',                
-                                        'message'=>"Fakultas dengan kode ($id) berhasil dihapus"
+                                        'message'=>"Program Studi dengan kode ($id) berhasil dihapus"
                                     ],200);         
         }
                   
