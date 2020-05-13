@@ -37,6 +37,25 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/Dashboard.vue'),		
 	},
+	//dmaster	
+	{
+		path: '/dmaster/fakultas',
+		name: 'DMasterFakultas',
+		meta:{
+			title: "DATA MASTER - FAKULTAS",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/dmaster/Fakultas.vue'),		
+	},
+	{
+		path: '/dmaster/programstudi',
+		name: 'DMasterProgramStudi',
+		meta:{
+			title: "DATA MASTER - PROGRAM STUDI",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/dmaster/ProgramStudi.vue'),		
+	},
 	//spmb	
 	{
 		path: '/spmb/pendaftaranbaru',

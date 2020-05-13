@@ -176,6 +176,35 @@
                         <v-list-item-title>DASHBOARD</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-group group="/dmaster" prepend-icon="mdi-home-floor-b" no-action v-if="CAN_ACCESS('DMASTER-GROUP')">
+                    <template v-slot:activator>
+                        <v-list-item-content>								
+                            <v-list-item-title>DATA MASTER</v-list-item-title>
+                        </v-list-item-content>							
+                    </template>   
+                    <div>              
+                        <v-list-item link v-if="CAN_ACCESS('DMASTER-FAKULTAS_BROWSE') && isBentukPT('universitas')" to="/dmaster/fakultas" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    FAKULTAS
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>           
+                        <v-list-item link v-if="CAN_ACCESS('DMASTER-PRODI_BROWSE')" to="/dmaster/prodi" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    PROGRAM STUDI
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>           
+                    </div>
+                </v-list-group>
                 <v-list-group group="/spmb" prepend-icon="mdi-account-plus" no-action v-if="CAN_ACCESS('SPMB-GROUP')">
                     <template v-slot:activator>
                         <v-list-item-content>								
@@ -333,6 +362,10 @@ export default {
                 this.$store.dispatch('uiadmin/reinit');	
                 this.$router.push('/');
             });
+        },
+        isBentukPT (bentuk_pt)
+        {
+            return this.$store.getters['uifront/getBentukPT']==bentuk_pt?true:false;
         }
 	},
     computed:{
@@ -384,7 +417,7 @@ export default {
                 break;
             }   
             return bool;         
-        }
+        },        
     },
     watch: {
         loginTime:{

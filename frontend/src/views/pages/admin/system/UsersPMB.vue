@@ -22,7 +22,7 @@
                     type="info"
                     >
                      User dengan role PMB bertanggungjawab terhadap proses penerimaan mahasiswa baru.
-                    </v-alert>
+                </v-alert>
             </template>
         </ModuleHeader>        
         <v-container>    

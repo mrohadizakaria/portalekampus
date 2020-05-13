@@ -27,6 +27,7 @@ class AuthController extends Controller
         //log user loggin
         \App\Models\System\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
+                                                        'object_id'=>$this->guard()->user()->id, 
                                                         'user_id' => $this->guard()->user()->id, 
                                                         'message' => 'user '.$credentials['username'].' berhasil login'
                                                     ]);
@@ -56,7 +57,8 @@ class AuthController extends Controller
     {
         //log user logout
         \App\Models\System\ActivityLog::log($request,[
-            'object' => $this->guard()->user(), 
+            'object' => $this->guard()->user(),             
+            'object_id' => $this->guard()->user()->id, 
             'user_id' => $this->guard()->user()->id, 
             'message' => 'user '.$this->guard()->user()->username.' berhasil logout'
         ],1);

@@ -42,8 +42,17 @@ class PermissionsTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
+
+        \DB::table('permissions')->insert([
+            'name'=>"DMASTER-GROUP",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
         
         $modules = [             
+            'DMASTER-FAKULTAS',     
+            'DMASTER-PRODI',     
             'SPMB-PMB',     
             'SPMB-PMB-KONFIRMASI-PEMBAYARAN',     
             'SPMB-PMB-FORMULIR-PENDAFTARAN',     

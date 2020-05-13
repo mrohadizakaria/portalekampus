@@ -101,7 +101,8 @@ class PermissionsController extends Controller {
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         
         \App\Models\System\ActivityLog::log($request,[
-                                                    'object' => $this->guard()->user(), 
+                                                    'object' => $permission, 
+                                                    'object_id'=>$permission->id, 
                                                     'user_id' => $this->guard()->user()->id, 
                                                     'message' => 'Menghapus permission ('.$permission.') berhasil'
                                                 ]);                                                                 

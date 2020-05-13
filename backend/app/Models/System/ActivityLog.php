@@ -56,7 +56,7 @@ class ActivityLog extends Model
         self::create([
             'user_id' => $user_id,
             'object' => get_class($data['object']),
-            'object_id' => $data['object']->id,
+            'object_id' => $data['object_id'],
             'method' => $request->getMethod(),
             'endpoint' => $request->getUri(),
             'status_code' => $status_code,

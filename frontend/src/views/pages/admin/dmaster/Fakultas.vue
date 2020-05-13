@@ -2,10 +2,10 @@
     <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
-                mdi-file
+                mdi-home
             </template>
             <template v-slot:name>
-                PAGE
+                FAKULTAS
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -21,23 +21,11 @@
                     colored-border
                     type="info"
                     >
-                    Text
+                    Halaman untuk mengelola nama-nama fakultas pada perguruan tinggi
                 </v-alert>
             </template>
         </ModuleHeader>   
-        <v-container> 
-            <v-row class="mb-4" no-gutters>
-                <v-col cols="12">
-                    <v-card>
-                        <v-card-title>
-                            FILTER
-                        </v-card-title>
-                        <v-card-text>
-                        
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>    
+        <v-container>             
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-card>
@@ -59,8 +47,8 @@
                         :headers="headers"
                         :items="datatable"
                         :search="search"
-                        item-key="id"
-                        sort-by="name"
+                        item-key="kode_fakultas"
+                        sort-by="nama_fakultas"
                         show-expand
                         :expanded.sync="expanded"
                         :single-expand="true"
@@ -85,21 +73,21 @@
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                                         <v-card>
                                             <v-card-title>
-                                                <span class="headline">{{ formtitle }}</span>
+                                                <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
                                             <v-card-text>
-                                                <v-container>
-                                                    <v-row>
-                                                        <v-col cols="12" sm="12" md="12">
-                                                            <v-text-field 
-                                                                v-model="formdata.name" 
-                                                                label="NAME"
-                                                                filled
-                                                                :rules="rule_name">
-                                                            </v-text-field>
-                                                        </v-col>                                    
-                                                    </v-row>
-                                                </v-container>
+                                                <v-text-field 
+                                                    v-model="formdata.kode_fakultas" 
+                                                    label="KODE FAKULTAS"
+                                                    filled
+                                                    :rules="rule_kode_fakultas">
+                                                </v-text-field>
+                                                <v-text-field 
+                                                    v-model="formdata.nama_fakultas" 
+                                                    label="NAMA FAKULTAS"
+                                                    filled
+                                                    :rules="rule_nama_fakultas">
+                                                </v-text-field>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -125,43 +113,23 @@
                                             <v-row no-gutters>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>ID :</v-card-title>
+                                                        <v-card-title>KODE FAKULTAS :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.id}}
+                                                            {{formdata.kode_fakultas}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>CREATED :</v-card-title>
+                                                        <v-card-title>NAMA FAKULTAS :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.created_at|formatTanggal}}
+                                                            {{formdata.nama_fakultas}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                                            </v-row>
-                                            <v-row no-gutters>
-                                                <v-col xs="12" sm="6" md="6">
-                                                    <v-card flat>
-                                                            <v-card-title>NAME :</v-card-title>
-                                                            <v-card-subtitle>
-                                                                {{formdata.name}}
-                                                            </v-card-subtitle>
-                                                        </v-card>
-                                                </v-col>
-                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                                                <v-col xs="12" sm="6" md="6">
-                                                    <v-card flat>
-                                                            <v-card-title>CREATED :</v-card-title>
-                                                            <v-card-subtitle>
-                                                                {{formdata.updated_at|formatTanggal}}
-                                                            </v-card-subtitle>
-                                                        </v-card>
-                                                </v-col>
-                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                                            </v-row>
+                                            </v-row>                                            
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
@@ -195,9 +163,7 @@
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12">
-                                    <strong>ID:</strong>{{ item.id }}
-                                    <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
-                                    <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
+                                    <strong>ID:</strong>{{ item.kode_fakultas }}                                   
                                 </v-col>                                
                             </td>
                         </template>
@@ -224,12 +190,12 @@ export default {
                 href:'/dashboard/'+this.ACCESS_TOKEN
             },
             {
-                text:'PAGE_GROUP',
+                text:'DATA MASTER',
                 disabled:false,
                 href:'#'
             },
             {
-                text:'PAGE',
+                text:'FAKULTAS',
                 disabled:true,
                 href:'#'
             }
@@ -242,7 +208,8 @@ export default {
         expanded:[],
         datatable:[],
         headers: [                        
-            { text: 'ID', value: 'id' },   
+            { text: 'KODE FAKULTAS', value: 'kode_fakultas', width:150 },   
+            { text: 'NAMA FAKULTAS', value: 'nama_fakultas' },   
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         search:'',    
@@ -254,40 +221,36 @@ export default {
         //form data   
         form_valid:true,         
         formdata: {
-            id:0,                        
-            name:'',                        
-            created_at: '',           
-            updated_at: '',           
+            kode_fakultas:'',                        
+            nama_fakultas:'',          
 
         },
         formdefault: {
-            id:0,           
-            name:'',                                     
-            created_at: '',           
-            updated_at: '',       
+            kode_fakultas:'',                        
+            nama_fakultas:'',         
         },
         editedIndex: -1,
 
         //form rules  
-        rule_user_nomorhp:[
-            value => !!value||"Kode mohon untuk diisi !!!",
-            value => /^\+[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode hanya boleh angka',
+        rule_kode_fakultas:[
+            value => !!value||"Kode Fakultas mohon untuk diisi !!!",
+            value => /^[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode Fakultas hanya boleh angka',
         ], 
-        rule_name:[
-            value => !!value||"Mohon untuk di isi name !!!",  
-            value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
+        rule_nama_fakultas:[
+            value => !!value||"Mohon Nama Fakultas untuk di isi !!!",  
+            value => /^[A-Za-z\s]*$/.test(value) || 'Nama Fakultas hanya boleh string dan spasi',                
         ], 
     }),
     methods: {
         initialize:async function () 
         {
             this.datatableLoading=true;
-            await this.$ajax.get('/path',{
+            await this.$ajax.get('/datamaster/fakultas',{
                 headers: {
                     Authorization:this.TOKEN
                 }
             }).then(({data})=>{               
-                this.datatable = data.object;
+                this.datatable = data.fakultas;
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
@@ -307,7 +270,7 @@ export default {
         viewItem (item) {
             this.formdata=item;      
             this.dialogdetailitem=true;              
-            // this.$ajax.get('/path/'+item.id,{
+            // this.$ajax.get('/datamaster/fakultas/'+item.kode_fakultas,{
             //     headers: {
             //         Authorization:this.$store.getters.Token
             //     }
@@ -326,10 +289,11 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    await this.$ajax.post('/path/'+this.formdata.id,
+                    await this.$ajax.post('/datamaster/fakultas/'+this.formdata.kode_fakultas,
                         {
                             '_method':'PUT',
-                            name:this.formdata.name,                       
+                            kode_fakultas:this.formdata.kode_fakultas,                            
+                            nama_fakultas:this.formdata.nama_fakultas,                                                        
                         },
                         {
                             headers:{
@@ -337,17 +301,18 @@ export default {
                             }
                         }
                     ).then(({data})=>{   
-                        Object.assign(this.datatable[this.editedIndex], data.object);
+                        Object.assign(this.datatable[this.editedIndex], data.fakultas);
                         this.closedialogfrm();
                         this.btnLoading=false;
                     }).catch(()=>{
                         this.btnLoading=false;
                     });                 
                     
-                } else {
-                    await this.$ajax.post('/path/store',
+                } else {                    
+                    await this.$ajax.post('/datamaster/fakultas/store',
                         {
-                            name:this.formdata.name,                            
+                            kode_fakultas:this.formdata.kode_fakultas,                            
+                            nama_fakultas:this.formdata.nama_fakultas,                                                        
                         },
                         {
                             headers:{
@@ -355,9 +320,9 @@ export default {
                             }
                         }
                     ).then(({data})=>{   
-                        this.datatable.push(data.object);
-                        this.closedialogfrm();
+                        this.datatable.push(data.fakultas);                        
                         this.btnLoading=false;
+                        this.closedialogfrm();
                     }).catch(()=>{
                         this.btnLoading=false;
                     });
@@ -365,11 +330,11 @@ export default {
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data dengan ID '+item.id+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data fakultas dengan kode '+item.kode_fakultas+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/path/'+item.id,
+                    this.$ajax.post('/datamaster/fakultas/'+item.kode_fakultas,
                         {
                             '_method':'DELETE',
                         },

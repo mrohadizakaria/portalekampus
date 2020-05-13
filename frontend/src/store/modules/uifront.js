@@ -50,11 +50,15 @@ const getters= {
     getNamaPT: state => 
     {             
         return state.identitas.nama_pt;
-    },
+    },    
     getNamaPTAlias: state => 
     {
         return state.identitas.nama_pt_alias;
-    }
+    },
+    getBentukPT: state => 
+    {             
+        return state.identitas.bentuk_pt;
+    },
 }
 const actions = {
     init: async function ({commit,state},ajax)

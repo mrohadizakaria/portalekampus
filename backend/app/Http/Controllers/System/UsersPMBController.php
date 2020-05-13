@@ -62,6 +62,7 @@ class UsersPMBController extends Controller {
         
         \App\Models\System\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
+                                        'object_id' => $this->guard()->user()->id, 
                                         'user_id' => $this->guard()->user()->id, 
                                         'message' => 'Menambah user PMB('.$user->username.') berhasil'
                                     ]);
@@ -118,6 +119,7 @@ class UsersPMBController extends Controller {
 
             \App\Models\System\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
+                                                        'object_id' => $this->guard()->user()->id, 
                                                         'user_id' => $this->guard()->user()->id, 
                                                         'message' => 'Mengubah data user PMB ('.$user->username.') berhasil'
                                                     ]);
@@ -158,6 +160,7 @@ class UsersPMBController extends Controller {
 
             \App\Models\System\ActivityLog::log($request,[
                                                                 'object' => $this->guard()->user(), 
+                                                                'object_id' => $this->guard()->user()->id, 
                                                                 'user_id' => $this->guard()->user()->id, 
                                                                 'message' => 'Menghapus user PMB ('.$username.') berhasil'
                                                             ]);
