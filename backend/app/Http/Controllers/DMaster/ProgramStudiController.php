@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\DMaster\ProgramStudiModel;
+use App\Models\DMaster\JenjangStudiModel;
 use App\Models\System\ConfigurationModel;
 
 class ProgramStudiController extends Controller {  
@@ -14,7 +15,10 @@ class ProgramStudiController extends Controller {
      */
     public function index(Request $request)
     {
-        $prodi=ProgramStudiModel::all();
+        $prodi=ProgramStudiModel::select(\DB::raw('kode_prodi,nama_prodi,kode_jenjang,nama_jenjang,nama_fakultas'))
+                                ->leftJoin('pe3_fakultas','pe3_fakultas.kode_fakultas','pe3_prodi.kode_fakultas')
+                                ->get();
+
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
@@ -38,6 +42,8 @@ class ProgramStudiController extends Controller {
             $rule=[            
                 'kode_prodi'=>'required|numeric|unique:pe3_prodi',
                 'nama_prodi'=>'required|string|unique:pe3_prodi',            
+                'kode_jenjang'=>'required|exists:pe3_jenjang_studi,kode_jenjang',            
+                'nama_jenjang'=>'required',            
             ];
             $kode_fakultas=null;
         }
@@ -46,7 +52,9 @@ class ProgramStudiController extends Controller {
             $rule=[            
                 'kode_prodi'=>'required|numeric|unique:pe3_prodi',
                 'kode_fakultas'=>'required|exists:pe3_fakultas,kode_fakultas',
-                'nama_prodi'=>'required|string|unique:pe3_prodi',            
+                'nama_prodi'=>'required|string|unique:pe3_prodi',         
+                'kode_jenjang'=>'required|exists:pe3_jenjang_studi,kode_jenjang',            
+                'nama_jenjang'=>'required',               
             ];
             $kode_fakultas=$request->input('kode_fakultas');
         }
@@ -56,6 +64,8 @@ class ProgramStudiController extends Controller {
             'kode_prodi'=>$request->input('kode_prodi'),
             'kode_fakultas'=>$kode_fakultas,
             'nama_prodi'=>$request->input('nama_prodi'),            
+            'kode_jenjang'=>$request->input('kode_jenjang'),            
+            'nama_jenjang'=>$request->input('nama_jenjang'),            
         ]);                      
         
         \App\Models\System\ActivityLog::log($request,[
@@ -72,6 +82,19 @@ class ProgramStudiController extends Controller {
                                     'message'=>'Data program studi berhasil disimpan.'
                                 ],200); 
 
+    }
+    /**
+     * digunakan untuk mendapatkan daftar jenjang studi program studi
+     */
+    public function jenjangstudi ()
+    {
+        $jenjangstudi = JenjangStudiModel::all();
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',
+                                    'jenjangstudi'=>$jenjangstudi,                                    
+                                    'message'=>'Jenjang studi berhasil diperoleh.'
+                                ],200);
     }
     /**
      * Update the specified resource in storage.

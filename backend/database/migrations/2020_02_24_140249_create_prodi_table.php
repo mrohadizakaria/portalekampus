@@ -18,16 +18,26 @@ class CreateProdiTable extends Migration
             $table->string('kode_prodi',5);                        
             $table->string('kode_fakultas',10)->nullable();                        
             $table->string('nama_prodi',50);
+            $table->string('kode_jenjang',1);
+            $table->string('nama_jenjang',15);
             $table->string('config')->nullable();
             
             $table->primary('kode_prodi');              
             $table->index('kode_fakultas'); 
+            $table->index('kode_jenjang'); 
             
             $table->foreign('kode_fakultas')
                 ->references('kode_fakultas')
                 ->on('pe3_fakultas')
                 ->onDelete('cascade') 
                 ->onUpdate('cascade');  
+
+            $table->foreign('kode_jenjang')
+                ->references('kode_jenjang')
+                ->on('pe3_jenjang_studi')
+                ->onDelete('cascade') 
+                ->onUpdate('cascade');  
+
         });
     }
 

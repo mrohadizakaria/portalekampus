@@ -66,16 +66,24 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-dialog v-model="dialogfrm" max-width="500px" persistent>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn color="primary" dark class="mb-2" v-on="on">TAMBAH</v-btn>
-                                    </template>
+                                <v-btn color="primary" dark class="mb-2" @click.stop="tambahItem">TAMBAH</v-btn>
+                                <v-dialog v-model="dialogfrm" max-width="500px" persistent>                                    
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                                         <v-card>
                                             <v-card-title>
                                                 <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
                                             <v-card-text>
+                                                 <v-select 
+                                                    v-model="formdata.kode_fakultas" 
+                                                    label="FAKULTAS"
+                                                    :items="daftar_fakultas"
+                                                    item-text="nama_fakultas"
+                                                    item-value="kode_fakultas"                                                    
+                                                    filled
+                                                    :rules="rule_kode_fakultas"
+                                                    v-if="$store.getters['uifront/getBentukPT']=='universitas'">
+                                                </v-select>
                                                 <v-text-field 
                                                     v-model="formdata.kode_prodi" 
                                                     label="KODE PROGRAM STUDI"
@@ -88,6 +96,16 @@
                                                     filled
                                                     :rules="rule_nama_prodi">
                                                 </v-text-field>
+                                                <v-select 
+                                                    v-model="jenjang_studi" 
+                                                    label="JENJANG"
+                                                    :items="daftar_jenjang"
+                                                    item-text="nama_jenjang"
+                                                    item-value="kode_jenjang"
+                                                    return-object
+                                                    filled
+                                                    :rules="rule_kode_jenjang">
+                                                </v-select>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -215,25 +233,41 @@ export default {
 
         //form data   
         form_valid:true,   
-        kode_prodi:'',      
+        daftar_fakultas:[],           
+
+        daftar_jenjang:[],      
+        jenjang_studi:'',          
+        kode_prodi:'',          
         formdata: {
+            kode_fakultas:'',                        
             kode_prodi:'',                        
             nama_prodi:'', 
+            kode_jenjang:'', 
+            nama_jenjang:'', 
         },
         formdefault: {
+            kode_fakultas:'',   
             kode_prodi:'',                        
             nama_prodi:'',         
+            kode_jenjang:'', 
+            nama_jenjang:'', 
         },
         editedIndex: -1,
 
-        //form rules  
+        //form rules 
+        rule_kode_fakultas:[
+            value => !!value||"Mohon fakultas untuk dipilih !!!",              
+        ],  
         rule_kode_prodi:[
             value => !!value||"Kode Program Studi mohon untuk diisi !!!",
             value => /^[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode Program Studi hanya boleh angka',
         ], 
         rule_nama_prodi:[
-            value => !!value||"Mohon Nama Program Studi untuk di isi !!!",  
+            value => !!value||"Mohon Nama Program Studi untuk diisi !!!",  
             value => /^[A-Za-z\s]*$/.test(value) || 'Nama Program Studi hanya boleh string dan spasi',                
+        ], 
+        rule_kode_jenjang:[
+            value => !!value||"Mohon Jenjang Studi untuk dipilih !!!",              
         ], 
     }),
     methods: {
@@ -262,14 +296,46 @@ export default {
                 this.expanded=[item];
             }               
         },
+        tambahItem:async function()
+        {   
+            if (this.$store.getters['uifront/getBentukPT']=='universitas')
+            {                
+                await this.$ajax.get('/datamaster/fakultas').then(({data})=>{
+                    console.log(data);
+                    this.daftar_fakultas=data.fakultas;
+                });
+            }
+            await this.$ajax.get('/datamaster/programstudi/jenjangstudi').then(({data})=>{
+                this.daftar_jenjang=data.jenjangstudi;
+            });
+
+            this.dialogfrm=true;
+        },
         viewItem (item) {
             this.formdata=item;      
             this.dialogdetailitem=true;                        
         },    
-        editItem (item) {
+        editItem:async function (item) {
             this.kode_prodi=item.kode_prodi;
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
+
+            if (this.$store.getters['uifront/getBentukPT']=='universitas')
+            {                
+                await this.$ajax.get('/datamaster/fakultas').then(({data})=>{                    
+                    this.daftar_fakultas=data.fakultas;
+                    this.kode_fakultas=item.kode_fakultas;
+                });
+            }
+
+            await this.$ajax.get('/datamaster/programstudi/jenjangstudi').then(({data})=>{
+                this.daftar_jenjang=data.jenjangstudi;
+            });
+
+            this.jenjang_studi={
+                kode_jenjang:item.kode_jenjang,
+                nama_jenjang:item.nama_jenjang
+            }
             this.dialogfrm = true
         },    
         save:async function () {
@@ -281,8 +347,11 @@ export default {
                     await this.$ajax.post('/datamaster/programstudi/'+this.kode_prodi,
                         {
                             '_method':'PUT',
+                            kode_fakultas:this.formdata.kode_fakultas,                            
                             kode_prodi:this.formdata.kode_prodi,                            
                             nama_prodi:this.formdata.nama_prodi,                                                        
+                            kode_jenjang:this.formdata.kode_jenjang,                                                        
+                            nama_jenjang:this.formdata.nama_jenjang,                                                                                                             
                         },
                         {
                             headers:{
@@ -300,8 +369,11 @@ export default {
                 } else {                    
                     await this.$ajax.post('/datamaster/programstudi/store',
                         {
+                            kode_fakultas:this.formdata.kode_fakultas,                            
                             kode_prodi:this.formdata.kode_prodi,                            
-                            nama_prodi:this.formdata.nama_prodi,                                                        
+                            nama_prodi:this.formdata.nama_prodi,   
+                            kode_jenjang:this.formdata.kode_jenjang,                                                        
+                            nama_jenjang:this.formdata.nama_jenjang,                                                                                                             
                         },
                         {
                             headers:{
@@ -370,11 +442,32 @@ export default {
         },        
         headers()
         {
-            return [                        
-                { text: 'KODE PROGRAM STUDI', value: 'kode_prodi', width:250 },   
-                { text: 'NAMA PROGRAM STUDI', value: 'nama_prodi' },   
-                { text: 'AKSI', value: 'actions', sortable: false,width:100 },
-            ];
+            if (this.$store.getters['uifront/getBentukPT']=='universitas')
+            {
+                return [                        
+                    { text: 'KODE PROGRAM STUDI', value: 'kode_prodi', width:250 },   
+                    { text: 'NAMA PROGRAM STUDI', value: 'nama_prodi' },   
+                    { text: 'FAKULTAS', value: 'nama_fakultas',width:200  },   
+                    { text: 'JENJANG', value: 'nama_jenjang',width:50 },   
+                    { text: 'AKSI', value: 'actions', sortable: false,width:100 },
+                ];
+            }
+            else
+            {
+                return [                        
+                    { text: 'KODE PROGRAM STUDI', value: 'kode_prodi', width:250 },   
+                    { text: 'NAMA PROGRAM STUDI', value: 'nama_prodi' },   
+                    { text: 'JENJANG', value: 'nama_jenjang',width:50 },   
+                    { text: 'AKSI', value: 'actions', sortable: false,width:100 },
+                ];
+            }
+        },
+    },
+    watch:{
+        jenjang_studi(val)
+        {
+            this.formdata.kode_jenjang=val.kode_jenjang;
+            this.formdata.nama_jenjang=val.nama_jenjang;            
         }
     },
     components:{

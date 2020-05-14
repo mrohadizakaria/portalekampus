@@ -25,6 +25,7 @@ $router->group(['prefix'=>'v3'], function () use ($router)
 
     //data master - program studi
     $router->get('/datamaster/programstudi',['uses'=>'DMaster\ProgramStudiController@index','as'=>'programstudi.index']);
+    $router->get('/datamaster/programstudi/jenjangstudi',['uses'=>'DMaster\ProgramStudiController@jenjangstudi','as'=>'programstudi.jenjangstudi']);
 
     //pendaftaran mahasiswa baru
     $router->post('/spmb/pmb/store',['uses'=>'SPMB\PMBController@store','as'=>'pmb.store']);

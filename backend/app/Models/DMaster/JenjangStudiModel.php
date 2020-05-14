@@ -4,26 +4,26 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProgramStudiModel extends Model {    
+class JenjangStudiModel extends Model {    
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'pe3_prodi';
+    protected $table = 'pe3_jenjang_studi';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'kode_prodi';
+    protected $primaryKey = 'kode_jenjang';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'kode_prodi', 'nama_prodi','kode_fakultas','kode_jenjang','nama_jenjang','config'
+        'kode_jenjang', 'nama_jenjang'
     ];
     /**
      * enable auto_increment.
