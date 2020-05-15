@@ -380,8 +380,8 @@ export default {
                                 Authorization:this.TOKEN
                             }
                         }
-                    ).then(({data})=>{   
-                        this.datatable.push(data.prodi);                        
+                    ).then(()=>{   
+                        this.initialize();                  
                         this.btnLoading=false;
                         this.closedialogfrm();
                     }).catch(()=>{
@@ -424,10 +424,10 @@ export default {
         },
         closedialogfrm () {
             this.dialogfrm = false;
-            this.$refs.frmdata.resetValidation(); 
-            this.daftar_jenjang=[];
+            this.$refs.frmdata.resetValidation();             
             setTimeout(() => {
-                this.formdata = Object.assign({}, this.formdefault)
+                this.formdata = Object.assign({}, this.formdefault);
+                this.daftar_jenjang = Object.assign({}, []);
                 this.editedIndex = -1
                 }, 300
             );
