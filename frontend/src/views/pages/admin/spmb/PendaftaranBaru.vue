@@ -104,12 +104,13 @@
                             {{item.created_at|formatTanggal}}
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
-                            <td colspan="3">
+                            <td colspan="5">
                                     <strong>ID:</strong>{{ item.id }}
+                                    <strong>Username:</strong>{{ item.username }}
                                     <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
                                     <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
                             </td>
-                            <td colspan="4" class="text-right">
+                            <td colspan="2" class="text-right">
                                 <v-btn 
                                     icon 
                                     color="warning" 

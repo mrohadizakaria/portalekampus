@@ -47,8 +47,8 @@
                         :headers="headers"
                         :items="datatable"
                         :search="search"
-                        item-key="kode_prodi"
-                        sort-by="kode_prodi"
+                        item-key="id"
+                        sort-by="nama_prodi"
                         show-expand
                         :expanded.sync="expanded"
                         :single-expand="true"
@@ -181,7 +181,7 @@
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12">
-                                    <strong>ID:</strong>{{ item.kode_prodi }}                                   
+                                    <strong>ID:</strong>{{ item.id }}                                                                                                       
                                 </v-col>                                
                             </td>
                         </template>
@@ -239,6 +239,7 @@ export default {
         jenjang_studi:'',          
         kode_prodi:'',          
         formdata: {
+            id:0,                        
             kode_fakultas:'',                        
             kode_prodi:'',                        
             nama_prodi:'', 
@@ -246,6 +247,7 @@ export default {
             nama_jenjang:'', 
         },
         formdefault: {
+            id:0,                        
             kode_fakultas:'',   
             kode_prodi:'',                        
             nama_prodi:'',         
@@ -301,7 +303,6 @@ export default {
             if (this.$store.getters['uifront/getBentukPT']=='universitas')
             {                
                 await this.$ajax.get('/datamaster/fakultas').then(({data})=>{
-                    console.log(data);
                     this.daftar_fakultas=data.fakultas;
                 });
             }
@@ -315,8 +316,7 @@ export default {
             this.formdata=item;      
             this.dialogdetailitem=true;                        
         },    
-        editItem:async function (item) {
-            this.kode_prodi=item.kode_prodi;
+        editItem:async function (item) {            
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
 
@@ -344,7 +344,7 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    await this.$ajax.post('/datamaster/programstudi/'+this.kode_prodi,
+                    await this.$ajax.post('/datamaster/programstudi/'+this.formdata.id,
                         {
                             '_method':'PUT',
                             kode_fakultas:this.formdata.kode_fakultas,                            
@@ -358,10 +358,10 @@ export default {
                                 Authorization:this.TOKEN
                             }
                         }
-                    ).then(({data})=>{   
-                        Object.assign(this.datatable[this.editedIndex], data.prodi);
-                        this.closedialogfrm();
+                    ).then(()=>{   
+                        this.initialize();
                         this.btnLoading=false;
+                        this.closedialogfrm();                        
                     }).catch(()=>{
                         this.btnLoading=false;
                     });                 
@@ -395,7 +395,7 @@ export default {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/datamaster/programstudi/'+item.kode_prodi,
+                    this.$ajax.post('/datamaster/programstudi/'+item.id,
                         {
                             '_method':'DELETE',
                         },
@@ -425,6 +425,7 @@ export default {
         closedialogfrm () {
             this.dialogfrm = false;
             this.$refs.frmdata.resetValidation(); 
+            this.daftar_jenjang=[];
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault)
                 this.editedIndex = -1

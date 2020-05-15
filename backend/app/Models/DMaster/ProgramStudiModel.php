@@ -16,21 +16,21 @@ class ProgramStudiModel extends Model {
      *
      * @var string
      */
-    protected $primaryKey = 'kode_prodi';
+    protected $primaryKey = 'id';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'kode_prodi', 'nama_prodi','kode_fakultas','kode_jenjang','nama_jenjang','config'
+        'id','kode_prodi', 'nama_prodi','kode_fakultas','kode_jenjang','nama_jenjang','config'
     ];
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = false;
+    public $incrementing = true;
     /**
      * activated timestamps.
      *

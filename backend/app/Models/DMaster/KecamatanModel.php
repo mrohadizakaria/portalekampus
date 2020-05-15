@@ -37,4 +37,10 @@ class KecamatanModel extends Model {
      * @var string
      */
     public $timestamps = false;
+
+    public function desa ()
+    {
+        return $this->hasMany('App\Models\DMaster\DesaModel','kecamatan_id','id');
+    }
+
 }

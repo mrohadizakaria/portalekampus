@@ -15,7 +15,7 @@ class ProgramStudiController extends Controller {
      */
     public function index(Request $request)
     {
-        $prodi=ProgramStudiModel::select(\DB::raw('kode_prodi,nama_prodi,kode_jenjang,nama_jenjang,nama_fakultas'))
+        $prodi=ProgramStudiModel::select(\DB::raw('id,kode_prodi,nama_prodi,CONCAT(nama_prodi,\' (\',nama_jenjang,\')\') AS nama_prodi2,kode_jenjang,nama_jenjang,nama_fakultas'))
                                 ->leftJoin('pe3_fakultas','pe3_fakultas.kode_fakultas','pe3_prodi.kode_fakultas')
                                 ->get();
 
@@ -50,7 +50,7 @@ class ProgramStudiController extends Controller {
         else
         {
             $rule=[            
-                'kode_prodi'=>'required|numeric|unique:pe3_prodi',
+                'kode_prodi'=>'required|numeric',
                 'kode_fakultas'=>'required|exists:pe3_fakultas,kode_fakultas',
                 'nama_prodi'=>'required|string|unique:pe3_prodi',         
                 'kode_jenjang'=>'required|exists:pe3_jenjang_studi,kode_jenjang',            
@@ -70,7 +70,7 @@ class ProgramStudiController extends Controller {
         
         \App\Models\System\ActivityLog::log($request,[
                                         'object' => $prodi,
-                                        'object_id'=>$prodi->kode_prodi, 
+                                        'object_id'=>$prodi->id, 
                                         'user_id' => $this->guard()->user()->id, 
                                         'message' => 'Menambah program studi baru berhasil'
                                     ]);
@@ -118,26 +118,51 @@ class ProgramStudiController extends Controller {
         }
         else
         {
-            $this->validate($request, [
-                                        'kode_prodi'=>[
-                                                        'required',                                                        
-                                                        Rule::unique('pe3_prodi')->ignore($prodi->kode_prodi,'kode_prodi')
-                                                    ],           
-                                        
-                                        'nama_prodi'=>[
-                                                        'required',
-                                                        Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi,'nama_prodi')
-                                                    ],           
-                                        
-                                    ]); 
-                                    
+            $bentuk_pt=ConfigurationModel::getCache('BENTUK_PT');
+            if ($bentuk_pt=='sekolahtinggi')
+            {
+                $this->validate($request, [
+                                            'kode_prodi'=>[
+                                                            'required',                                                        
+                                                            'numeric'                                                       
+                                                        ],           
+                                            
+                                            'nama_prodi'=>[
+                                                            'required',
+                                                            'string',
+                                                            Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi,'nama_prodi')
+                                                        ],           
+                                            
+                                        ]); 
+            }
+            else
+            {
+                $this->validate($request, [
+                                            'kode_fakultas'=>[
+                                                'required',
+                                                'exists:pe3_fakultas,kode_fakultas',                                                     
+                                            ],
+                                            'kode_prodi'=>[
+                                                            'required',                                                        
+                                                            'numeric'                                                       
+                                                        ],           
+                                            
+                                            'nama_prodi'=>[
+                                                            'required',
+                                                            'string',
+                                                            Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi,'nama_prodi')
+                                                        ],           
+                                            
+                                        ]); 
+            }                       
+            $prodi->kode_fakultas = $request->input('kode_fakultas');
             $prodi->kode_prodi = $request->input('kode_prodi');
             $prodi->nama_prodi = $request->input('nama_prodi');            
             $prodi->save();
 
             \App\Models\System\ActivityLog::log($request,[
                                                         'object' => $prodi,
-                                                        'object_id'=>$prodi->kode_prodi, 
+                                                        'object_id'=>$prodi->id, 
                                                         'user_id' => $this->guard()->user()->id, 
                                                         'message' => 'Mengubah data program studi ('.$prodi->nama_prodi.') berhasil'
                                                     ]);

@@ -40,6 +40,7 @@ class FakultasModel extends Model {
 
     public function programstudi()
     {
-        return $this->hasMany('App\Models\DMaster\ProgramStudiModel','kode_fakultas','kode_fakultas');
+        return $this->hasMany('App\Models\DMaster\ProgramStudiModel','kode_fakultas','kode_fakultas')
+                    ->select(\DB::raw('id,kode_prodi,nama_prodi,CONCAT(nama_prodi,\' (\',nama_jenjang,\')\') AS nama_prodi2,kode_jenjang,nama_jenjang'));
     }
 }

@@ -15,6 +15,7 @@ class CreateProdiTable extends Migration
     {   
         Schema::defaultStringLength(191);
         Schema::create('pe3_prodi', function (Blueprint $table) {
+            $table->increments('id');                        
             $table->string('kode_prodi',5);                        
             $table->string('kode_fakultas',10)->nullable();                        
             $table->string('nama_prodi',50);
@@ -22,7 +23,6 @@ class CreateProdiTable extends Migration
             $table->string('nama_jenjang',15);
             $table->string('config')->nullable();
             
-            $table->primary('kode_prodi');              
             $table->index('kode_fakultas'); 
             $table->index('kode_jenjang'); 
             
