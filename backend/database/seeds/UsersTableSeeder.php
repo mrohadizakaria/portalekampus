@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\User;
 
+use Ramsey\Uuid\Uuid;
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -14,9 +16,9 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {   
-        \DB::statement('DELETE FROM users');
-        \DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
+        \DB::statement('DELETE FROM users');        
         $user=User::create([
+            'id'=>Uuid::uuid4()->toString(),
             'username'=>'admin',
             'password'=>Hash::make('1234'),                
             'name'=>'Mochammad Rizki Romdoni',                

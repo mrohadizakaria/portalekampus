@@ -18,9 +18,9 @@ class ActivityLog extends Migration
     {
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->nullable(false)->index('idx_user_id');
+            $table->uuid('user_id')->nullable(false)->index('idx_user_id');
             $table->string('object');
-            $table->unsignedInteger('object_id');
+            $table->uuid('object_id');
 
             $table->string('method');
             $table->string('endpoint');

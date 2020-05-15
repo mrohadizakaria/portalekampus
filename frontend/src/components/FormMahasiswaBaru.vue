@@ -274,7 +274,7 @@ export default {
                     this.btnLoading=false;
                 // });                                    
                 // this.form_valid=true;                                                                                        
-                // this.$refs.frmpendaftaran.resetValidation(); 
+                // this.$refs.frmpendaftaran.reset(); 
                 // this.formdata = Object.assign({}, this.formdefault)
             }                             
         },

@@ -29,7 +29,32 @@
                                     label="EMAIL" 
                                     :rules="rule_email"
                                     outlined 
-                                    dense />                               
+                                    dense /> 
+                                <v-text-field 
+                                    v-model="formdata.email"
+                                    label="NAMA IBU KANDUNG" 
+                                    :rules="rule_email"
+                                    outlined 
+                                    dense /> 
+                                <v-select
+                                    v-model="kode_fakultas"
+                                    label="FAKULTAS"
+                                    outlined
+                                    :rules="rule_fakultas"
+                                    :items="daftar_fakultas"
+                                    item-text="nama_fakultas"
+                                    item-value="kode_fakultas"
+                                    :loading="btnLoadingFakultas"
+                                    v-if="$store.getters['uifront/getBentukPT']=='universitas'"
+                                />
+                                <v-select
+                                    label="PROGRAM STUDI"
+                                    :items="daftar_prodi"
+                                    item-text="nama_prodi2"
+                                    item-value="id"
+                                    :rules="rule_prodi"
+                                    outlined
+                                />
                                 <v-text-field 
                                     v-model="formdata.username"
                                     label="USERNAME" 
@@ -177,7 +202,7 @@ export default {
                     this.btnLoading=false;
                 });                                    
                 this.form_valid=true;                                                                                        
-                this.$refs.frmpendaftaran.resetValidation(); 
+                this.$refs.frmpendaftaran.reset(); 
                 this.formdata = Object.assign({}, this.formdefault)
             }
             this.resetRecaptcha();                        
@@ -197,7 +222,7 @@ export default {
                     this.btnLoading=false;
                 });                       
                 this.form_valid=true;                          
-                this.$refs.frmkonfirmasi.resetValidation(); 
+                this.$refs.frmkonfirmasi.reset(); 
                 this.frmkonfirmasi = Object.assign({}, {email:'',code:''});
                 this.$router.replace('/login');
             }                           

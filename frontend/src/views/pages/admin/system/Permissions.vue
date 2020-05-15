@@ -228,7 +228,7 @@ export default {
         close () {
             this.btnLoading=false;
             this.dialog = false;
-            this.$refs.frmdata.resetValidation(); 
+            this.$refs.frmdata.reset(); 
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1

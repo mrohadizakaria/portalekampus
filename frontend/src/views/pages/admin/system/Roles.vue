@@ -379,7 +379,7 @@ export default {
         close () {
             this.btnLoading=false;
             this.dialog = false;
-            this.$refs.frmdata.resetValidation(); 
+            this.$refs.frmdata.reset(); 
             this.form_error_message='';           
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)

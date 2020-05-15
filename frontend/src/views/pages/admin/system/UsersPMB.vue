@@ -406,7 +406,7 @@ export default {
         
         },
         close () {
-            this.$refs.frmdata.resetValidation(); 
+            this.$refs.frmdata.reset(); 
             this.btnLoading=false;
             this.dialog = false;
             this.dialogEdit = false;            

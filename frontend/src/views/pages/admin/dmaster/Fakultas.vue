@@ -358,7 +358,7 @@ export default {
         },
         closedialogfrm () {
             this.dialogfrm = false;
-            this.$refs.frmdata.resetValidation(); 
+            this.$refs.frmdata.reset(); 
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault)
                 this.editedIndex = -1

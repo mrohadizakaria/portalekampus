@@ -22,6 +22,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
+        'id', 
         'username', 
         'password', 
         'name', 
@@ -44,7 +45,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
-    
+    /**
+     * enable auto_increment.
+     *
+     * @var string
+     */
+    public $incrementing = false;
     /**
      * activated timestamps.
      *

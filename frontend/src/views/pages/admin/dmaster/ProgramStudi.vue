@@ -236,7 +236,7 @@ export default {
         daftar_fakultas:[],           
 
         daftar_jenjang:[],      
-        jenjang_studi:'',          
+        jenjang_studi:null,          
         kode_prodi:'',          
         formdata: {
             id:0,                        
@@ -423,11 +423,10 @@ export default {
             );
         },
         closedialogfrm () {
-            this.dialogfrm = false;
-            this.$refs.frmdata.resetValidation();             
+            this.dialogfrm = false;            
             setTimeout(() => {
-                this.formdata = Object.assign({}, this.formdefault);
-                this.daftar_jenjang = Object.assign({}, []);
+                this.formdata = Object.assign({}, this.formdefault);                
+                this.$refs.frmdata.reset();                                 
                 this.editedIndex = -1
                 }, 300
             );
