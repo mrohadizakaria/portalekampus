@@ -31,9 +31,9 @@
                                     outlined 
                                     dense /> 
                                 <v-text-field 
-                                    v-model="formdata.email"
+                                    v-model="formdata.nama_ibukandung"
                                     label="NAMA IBU KANDUNG" 
-                                    :rules="rule_email"
+                                    :rules="rule_nama_ibukandung"
                                     outlined 
                                     dense /> 
                                 <v-select
@@ -135,14 +135,23 @@ import VueRecaptcha from 'vue-recaptcha';
 import FrontLayout from '@/views/layouts/FrontLayout';
 export default {
     name: 'PMB',
+    created()
+    {
+        this.initialize();
+    },
     data: () => ({            
         btnLoading:false,
         //form
         form_valid:true,                 
-        dialogkonfirmasiemail:false,                     
+        dialogkonfirmasiemail:false,  
+        daftar_fakultas:[],
+        kode_fakultas:'',
+        daftar_prodi:[],
+        prodi_id:'',                  
         formdata: {
             name:'',
             email:'',
+            nama_ibukandung:'',
             nomor_hp:'',
             username:'',
             password:'',
@@ -151,6 +160,7 @@ export default {
         formdefault: {
             name:'',
             email:'',
+            nama_ibukandung:'',
             nomor_hp:'',
             username:'',
             password:'',
@@ -161,7 +171,8 @@ export default {
             code:''
         },
         rule_name:[
-            value => !!value||"Nama Mahasiswa mohon untuk diisi !!!"
+            value => !!value||"Nama Mahasiswa mohon untuk diisi !!!",
+            value => /^[A-Za-z\s\\,\\.]*$/.test(value) || 'Nama Mahasiswa hanya boleh string dan spasi',
         ], 
         rule_nomorhp:[
             value => !!value||"Nomor HP mohon untuk diisi !!!",
@@ -171,6 +182,16 @@ export default {
             value => !!value||"Email mohon untuk diisi !!!",
             v => /.+@.+\..+/.test(v) || 'Format E-mail mohon di isi dengan benar',
         ],
+        rule_nama_ibukandung:[
+            value => !!value||"Nama Ibu Kandung mohon untuk diisi !!!",
+            value => /^[A-Za-z\s\\,\\.]*$/.test(value) || 'Nama Ibu Kandung hanya boleh string dan spasi',
+        ],
+        rule_fakultas:[
+            value => !!value||"Fakultas mohon untuk dipilih !!!"
+        ], 
+        rule_prodi:[
+            value => !!value||"Program studi mohon untuk dipilih !!!"
+        ], 
         rule_username:[
             value => !!value||"Username mohon untuk diisi !!!"
         ], 
@@ -182,6 +203,21 @@ export default {
         ]
     }),
     methods: {
+        initialize:async function ()
+        {
+            if (this.$store.getters['uifront/getBentukPT']=='universitas')
+            {                
+                await this.$ajax.get('/datamaster/fakultas').then(({data})=>{                    
+                    this.daftar_fakultas=data.fakultas;
+                });
+            }
+            else
+            {
+                await this.$ajax.get('/datamaster/programstudi').then(({data})=>{
+                    this.daftar_prodi=data.prodi;
+                });
+            }                       
+        }, 
         save: async function ()
         {
             if (this.$refs.frmpendaftaran.validate())
@@ -189,9 +225,11 @@ export default {
                 this.btnLoading=true;                
                 await this.$ajax.post('/spmb/pmb/store',{                    
                     name:this.formdata.name,
-                    email:this.formdata.email,
+                    email:this.formdata.email,                    
                     nomor_hp:this.formdata.nomor_hp,
                     username:this.formdata.username,
+                    nama_ibu_kandung:this.formdata.nama_ibukandung,                    
+                    prodi_id:this.formdata.prodi_id,
                     password:this.formdata.password,
                     captcha_response:this.formdata.captcha_response,
                 }).then(({data})=>{

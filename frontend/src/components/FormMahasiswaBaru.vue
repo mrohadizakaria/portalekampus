@@ -203,7 +203,8 @@ export default {
 
         },
         rule_name:[
-            value => !!value||"Nama Mahasiswa mohon untuk diisi !!!"
+            value => !!value||"Nama Mahasiswa mohon untuk diisi !!!",
+            value => /^[A-Za-z\s\\,\\.]*$/.test(value) || 'Nama Mahasiswa hanya boleh string dan spasi',
         ],         
         rule_tempat_lahir:[
             value => !!value||"Tempat Lahir mohon untuk diisi !!!"

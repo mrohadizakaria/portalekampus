@@ -8,10 +8,13 @@ use Spatie\Permission\Models\Role;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Kemahasiswaan\MahasiswaModel;
 use App\Models\System\ConfigurationModel;
 use App\Helpers\Helper;
 use App\Mail\MahasiswaBaruRegistered;
 use App\Mail\VerifyEmailAddress;
+
+use Ramsey\Uuid\Uuid;
 
 class PMBController extends Controller {         
     /**
@@ -52,6 +55,8 @@ class PMBController extends Controller {
             'name'=>'required',            
             'email'=>'required|string|email|unique:users',
             'nomor_hp'=>'required|unique:users',
+            'nama_ibu_kandung'=>'required',
+            'prodi_id'=>'prodi_id',
             'username'=>'required|string|unique:users',
             'password'=>'required',
             'captcha_response'=>[
@@ -79,6 +84,7 @@ class PMBController extends Controller {
         $email= $request->input('email');
         $code=mt_rand(1000,9999);
         $user=User::create([
+            'id'=>Uuid::uuid4()->toString(),
             'name'=>$request->input('name'),
             'email'=>$request->input('email'),
             'username'=> $request->input('username'),
@@ -97,6 +103,9 @@ class PMBController extends Controller {
         $permission=Role::findByName('mahasiswabaru')->permissions;
         $user->givePermissionTo($permission->pluck('name'));             
         
+        MahasiswaModel::create([
+            'user_id'=>$user->id,
+        ]);
         app()->mailer->to($email)->send(new VerifyEmailAddress($code));
 
         return Response()->json([

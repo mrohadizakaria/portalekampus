@@ -15,9 +15,8 @@ class CreateFormulirPendaftaranTable extends Migration
     {   
         Schema::defaultStringLength(191);
 
-        Schema::create('pe3_formulir_pendaftaran', function (Blueprint $table) {                                   
-            $table->uuid('id')->primary();                        
-            $table->uuid('user_id');                        
+        Schema::create('pe3_formulir_pendaftaran', function (Blueprint $table) {                                                                  
+            $table->uuid('user_id')->primary();                        
             $table->string('no_formulir',11)->nullable();
             $table->string('nama_mhs')->nullable(); 
             $table->string('tempat_lahir')->nullable(); 
@@ -66,8 +65,7 @@ class CreateFormulirPendaftaranTable extends Migration
             $table->tinyInteger('idsmt')->default(1);
 
             $table->string('descr')->nullable(); 
-            $table->timestamps();
-            $table->unique('user_id'); 
+            $table->timestamps();            
             
             $table->foreign('user_id')
                 ->references('id')

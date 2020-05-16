@@ -22,8 +22,7 @@ class MahasiswaModel extends Model {
      *
      * @var array
      */
-    protected $fillable = [
-        'id',
+    protected $fillable = [        
         'user_id',                      
         'no_formulir',    
         'nama_mhs', 
