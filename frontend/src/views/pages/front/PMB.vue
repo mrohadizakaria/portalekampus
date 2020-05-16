@@ -20,7 +20,7 @@
                                     dense />                               
                                 <v-text-field 
                                     v-model="formdata.nomor_hp"
-                                    label="NOMOR HP" 
+                                    label="NOMOR HP (ex: +628123456789)" 
                                     :rules="rule_nomorhp"
                                     outlined 
                                     dense />                               
@@ -49,6 +49,7 @@
                                 />
                                 <v-select
                                     label="PROGRAM STUDI"
+                                    v-model="prodi_id"
                                     :items="daftar_prodi"
                                     item-text="nama_prodi2"
                                     item-value="id"
@@ -141,6 +142,7 @@ export default {
     },
     data: () => ({            
         btnLoading:false,
+        btnLoadingFakultas:false,
         //form
         form_valid:true,                 
         dialogkonfirmasiemail:false,  
@@ -229,7 +231,7 @@ export default {
                     nomor_hp:this.formdata.nomor_hp,
                     username:this.formdata.username,
                     nama_ibu_kandung:this.formdata.nama_ibukandung,                    
-                    prodi_id:this.formdata.prodi_id,
+                    prodi_id:this.prodi_id,
                     password:this.formdata.password,
                     captcha_response:this.formdata.captcha_response,
                 }).then(({data})=>{
@@ -283,9 +285,21 @@ export default {
             tahunPendaftaran: 'getTahunPendaftaran',
         })
     },
+    watch:{
+        kode_fakultas (val)
+        {
+            this.btnLoadingFakultas=true;
+            this.$ajax.get('/datamaster/fakultas/'+val+'/programstudi').then(({data})=>{                                
+                this.daftar_prodi=data.programstudi;
+                this.btnLoadingFakultas=false;
+            });
+        }
+    },  
     components: {
         FrontLayout,
         VueRecaptcha
-	}  
+    },
+    
+    
 }
 </script>

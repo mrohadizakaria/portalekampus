@@ -133,6 +133,7 @@
                         />
                         <v-select
                             label="PROGRAM STUDI"
+                            v-model="prodi_id"
                             :items="daftar_prodi"
                             item-text="nama_prodi2"
                             item-value="id"

@@ -56,7 +56,7 @@ class PMBController extends Controller {
             'email'=>'required|string|email|unique:users',
             'nomor_hp'=>'required|unique:users',
             'nama_ibu_kandung'=>'required',
-            'prodi_id'=>'prodi_id',
+            'prodi_id'=>'required',
             'username'=>'required|string|unique:users',
             'password'=>'required',
             'captcha_response'=>[
@@ -80,33 +80,45 @@ class PMBController extends Controller {
                                 }
                             ]
         ]);
-        $now = \Carbon\Carbon::now()->toDateTimeString();       
-        $email= $request->input('email');
-        $code=mt_rand(1000,9999);
-        $user=User::create([
-            'id'=>Uuid::uuid4()->toString(),
-            'name'=>$request->input('name'),
-            'email'=>$request->input('email'),
-            'username'=> $request->input('username'),
-            'password'=>Hash::make($request->input('password')),
-            'nomor_hp'=>$request->input('nomor_hp'),
-            'ta'=>\DB::table('pe3_configuration')->where('config_id',201)->value('config_value'),
-            'email_verified_at'=>'',
-            'theme'=>'default',  
-            'code'=>$code,          
-            'active'=>0,          
-            'created_at'=>$now, 
-            'updated_at'=>$now
-        ]);            
-        $role='mahasiswabaru';   
-        $user->assignRole($role);
-        $permission=Role::findByName('mahasiswabaru')->permissions;
-        $user->givePermissionTo($permission->pluck('name'));             
-        
-        MahasiswaModel::create([
-            'user_id'=>$user->id,
-        ]);
-        app()->mailer->to($email)->send(new VerifyEmailAddress($code));
+        $user = \DB::transaction(function () use ($request){
+            $now = \Carbon\Carbon::now()->toDateTimeString();                   
+            $code=mt_rand(1000,9999);
+            $ta=ConfigurationModel::getCache('DEFAULT_TAHUN_PENDAFTARAN');
+            $user=User::create([
+                'id'=>Uuid::uuid4()->toString(),
+                'name'=>$request->input('name'),
+                'email'=>$request->input('email'),
+                'username'=> $request->input('username'),
+                'password'=>Hash::make($request->input('password')),
+                'nomor_hp'=>$request->input('nomor_hp'),
+                'ta'=>$ta,
+                'email_verified_at'=>'',
+                'theme'=>'default',  
+                'code'=>$code,          
+                'active'=>0,          
+                'created_at'=>$now, 
+                'updated_at'=>$now
+            ]);            
+            $role='mahasiswabaru';   
+            $user->assignRole($role);
+            $permission=Role::findByName('mahasiswabaru')->permissions;
+            $user->givePermissionTo($permission->pluck('name'));             
+            
+            MahasiswaModel::create([
+                'user_id'=>$user->id,
+                'nama_mhs'=>$request->input('name'),
+                'nama_ibu_kandung'=>$request->input('nama_ibu_kandung'),
+                'telp_hp'=>$request->input('nomor_hp'),
+                'kjur1'=>$request->input('prodi_id'),
+                'ta'=>$ta,
+            ]);
+
+            return $user;
+        });
+        if (!is_null($user))
+        {
+            app()->mailer->to($request->input('email'))->send(new VerifyEmailAddress($user->code));
+        }       
 
         return Response()->json([
                                     'status'=>1,
@@ -185,6 +197,7 @@ class PMBController extends Controller {
 
             \App\Models\System\ActivityLog::log($request,[
                                                                 'object' => $this->guard()->user(), 
+                                                                'object_id' => $this->guard()->user()->id, 
                                                                 'user_id' => $this->guard()->user()->id, 
                                                                 'message' => 'Menghapus Mahasiswa Baru ('.$name.') berhasil'
                                                             ]);
