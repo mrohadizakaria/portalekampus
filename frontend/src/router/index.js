@@ -66,6 +66,15 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/dmaster/ProgramStudi.vue'),		
 	},
+	{
+		path: '/dmaster/kelas',
+		name: 'DMasterKelas',
+		meta:{
+			title: "DATA MASTER - KELAS",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/dmaster/Kelas.vue'),		
+	},
 	//spmb	
 	{
 		path: '/spmb/pendaftaranbaru',

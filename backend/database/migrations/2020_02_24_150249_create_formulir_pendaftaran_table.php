@@ -60,17 +60,39 @@ class CreateFormulirPendaftaranTable extends Migration
 
             $table->unsignedInteger('kjur1')->nullable(); 
             $table->unsignedInteger('kjur2')->nullable(); 
-            $table->string('idkelas',1)->nullable(); 
+            $table->char('idkelas',1)->nullable(); 
             $table->year('ta');
             $table->tinyInteger('idsmt')->default(1);
 
             $table->string('descr')->nullable(); 
             $table->timestamps();            
             
+            $table->index('idkelas');
+            $table->index('kjur1');
+            $table->index('kjur2');
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade') 
+                ->onUpdate('cascade');  
+
+            $table->foreign('idkelas')
+                ->references('idkelas')
+                ->on('pe3_kelas')
+                ->onDelete('set null') 
+                ->onUpdate('cascade');  
+                
+            $table->foreign('kjur1')
+                ->references('id')
+                ->on('pe3_prodi')
+                ->onDelete('set null') 
+                ->onUpdate('cascade');  
+
+            $table->foreign('kjur2')
+                ->references('id')
+                ->on('pe3_prodi')
+                ->onDelete('set null') 
                 ->onUpdate('cascade');  
 
         });

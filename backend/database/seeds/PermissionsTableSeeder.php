@@ -53,6 +53,7 @@ class PermissionsTableSeeder extends Seeder
         $modules = [             
             'DMASTER-FAKULTAS',     
             'DMASTER-PRODI',     
+            'DMASTER-KELAS',     
             'SPMB-PMB',     
             'SPMB-PMB-KONFIRMASI-PEMBAYARAN',     
             'SPMB-PMB-FORMULIR-PENDAFTARAN',     

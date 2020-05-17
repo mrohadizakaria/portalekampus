@@ -203,6 +203,16 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>           
+                        <v-list-item link v-if="CAN_ACCESS('DMASTER-KELAS_BROWSE')" to="/dmaster/kelas" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    KELAS
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>           
                     </div>
                 </v-list-group>
                 <v-list-group group="/spmb" prepend-icon="mdi-account-plus" no-action v-if="CAN_ACCESS('SPMB-GROUP')">

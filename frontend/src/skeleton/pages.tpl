@@ -85,21 +85,15 @@
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                                         <v-card>
                                             <v-card-title>
-                                                <span class="headline">{{ formtitle }}</span>
+                                                <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
                                             <v-card-text>
-                                                <v-container>
-                                                    <v-row>
-                                                        <v-col cols="12" sm="12" md="12">
-                                                            <v-text-field 
-                                                                v-model="formdata.name" 
-                                                                label="NAME"
-                                                                filled
-                                                                :rules="rule_name">
-                                                            </v-text-field>
-                                                        </v-col>                                    
-                                                    </v-row>
-                                                </v-container>
+                                                <v-text-field 
+                                                    v-model="formdata.name" 
+                                                    label="NAME"
+                                                    filled
+                                                    :rules="rule_name">
+                                                </v-text-field>                                             
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -145,20 +139,20 @@
                                             <v-row no-gutters>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                            <v-card-title>NAME :</v-card-title>
-                                                            <v-card-subtitle>
-                                                                {{formdata.name}}
-                                                            </v-card-subtitle>
-                                                        </v-card>
+                                                        <v-card-title>NAME :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.name}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                            <v-card-title>CREATED :</v-card-title>
-                                                            <v-card-subtitle>
-                                                                {{formdata.updated_at|formatTanggal}}
-                                                            </v-card-subtitle>
-                                                        </v-card>
+                                                        <v-card-title>CREATED :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.updated_at|formatTanggal}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                             </v-row>
@@ -397,10 +391,10 @@ export default {
             );
         },
         closedialogfrm () {
-            this.dialogfrm = false;
-            this.$refs.frmdata.reset(); 
+            this.dialogfrm = false;            
             setTimeout(() => {
-                this.formdata = Object.assign({}, this.formdefault)
+                this.formdata = Object.assign({}, this.formdefault);
+                this.$refs.frmdata.reset(); 
                 this.editedIndex = -1
                 }, 300
             );

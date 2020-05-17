@@ -2,10 +2,10 @@
     <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
-                mdi-home-assistant
+                mdi-google-classroom
             </template>
             <template v-slot:name>
-                PROGRAM STUDI
+                KELAS
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -21,11 +21,11 @@
                     colored-border
                     type="info"
                     >
-                    Halaman untuk mengelola nama-nama program studi pada perguruan tinggi.
+                    Halaman untuk mengelola nama-nama kelas pada perguruan tinggi.
                 </v-alert>
             </template>
         </ModuleHeader>   
-        <v-container>             
+        <v-container> 
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-card>
@@ -47,8 +47,8 @@
                         :headers="headers"
                         :items="datatable"
                         :search="search"
-                        item-key="id"
-                        sort-by="nama_prodi"
+                        item-key="idkelas"
+                        sort-by="nkelas"
                         show-expand
                         :expanded.sync="expanded"
                         :single-expand="true"
@@ -59,53 +59,35 @@
 
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DAFTAR PROGRAM STUDI</v-toolbar-title>
+                                <v-toolbar-title>DATA TABLE</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-btn color="primary" dark class="mb-2" @click.stop="tambahItem">TAMBAH</v-btn>
-                                <v-dialog v-model="dialogfrm" max-width="500px" persistent>                                    
+                                <v-dialog v-model="dialogfrm" max-width="500px" persistent>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn color="primary" dark class="mb-2" v-on="on">TAMBAH</v-btn>
+                                    </template>
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                                         <v-card>
                                             <v-card-title>
                                                 <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
                                             <v-card-text>
-                                                 <v-select 
-                                                    v-model="formdata.kode_fakultas" 
-                                                    label="FAKULTAS"
-                                                    :items="daftar_fakultas"
-                                                    item-text="nama_fakultas"
-                                                    item-value="kode_fakultas"                                                    
-                                                    filled
-                                                    :rules="rule_kode_fakultas"
-                                                    v-if="$store.getters['uifront/getBentukPT']=='universitas'">
-                                                </v-select>
                                                 <v-text-field 
-                                                    v-model="formdata.kode_prodi" 
-                                                    label="KODE PROGRAM STUDI"
+                                                    v-model="formdata.idkelas" 
+                                                    label="KODE KELAS"
                                                     filled
-                                                    :rules="rule_kode_prodi">
-                                                </v-text-field>
+                                                    :rules="rule_kode_kelas">
+                                                </v-text-field>                                        
                                                 <v-text-field 
-                                                    v-model="formdata.nama_prodi" 
-                                                    label="NAMA PROGRAM STUDI"
+                                                    v-model="formdata.nkelas" 
+                                                    label="NAMA KELAS"
                                                     filled
-                                                    :rules="rule_nama_prodi">
-                                                </v-text-field>
-                                                <v-select 
-                                                    v-model="jenjang_studi" 
-                                                    label="JENJANG"
-                                                    :items="daftar_jenjang"
-                                                    item-text="nama_jenjang"
-                                                    item-value="kode_jenjang"
-                                                    return-object
-                                                    filled
-                                                    :rules="rule_kode_jenjang">
-                                                </v-select>
+                                                    :rules="rule_nama_kelas">
+                                                </v-text-field>                                        
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -122,7 +104,7 @@
                                         </v-card>
                                     </v-form>
                                 </v-dialog>
-                                <v-dialog v-model="dialogdetailitem" max-width="700px" persistent>
+                                <v-dialog v-model="dialogdetailitem" max-width="500px" persistent>
                                     <v-card>
                                         <v-card-title>
                                             <span class="headline">DETAIL DATA</span>
@@ -131,18 +113,18 @@
                                             <v-row no-gutters>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>KODE PROGRAM STUDI :</v-card-title>
+                                                        <v-card-title>KODE KELAS:</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.kode_prodi}}
+                                                            {{formdata.idkelas}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>NAMA PROGRAM STUDI :</v-card-title>
+                                                        <v-card-title>NAMA KELAS :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.nama_prodi}}
+                                                            {{formdata.nkelas}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
@@ -181,7 +163,7 @@
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12">
-                                    <strong>ID:</strong>{{ item.id }}                                                                                                       
+                                    <strong>ID:</strong>{{ item.idkelas }}                                    
                                 </v-col>                                
                             </td>
                         </template>
@@ -199,7 +181,7 @@ import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'ProgramStudi',
+    name:'Kelas',
     created () {
         this.breadcrumbs = [
             {
@@ -213,7 +195,7 @@ export default {
                 href:'#'
             },
             {
-                text:'PROGRAM STUDI',
+                text:'KELAS',
                 disabled:true,
                 href:'#'
             }
@@ -224,7 +206,12 @@ export default {
         btnLoading:false,
         datatableLoading:false,
         expanded:[],
-        datatable:[],        
+        datatable:[],
+        headers: [                        
+            { text: 'KODE KELAS', value: 'idkelas',width:150 },   
+            { text: 'NAMA KELAS', value: 'nkelas' },   
+            { text: 'AKSI', value: 'actions', sortable: false,width:100 },
+        ],
         search:'',    
 
         //dialog
@@ -232,56 +219,39 @@ export default {
         dialogdetailitem:false,
 
         //form data   
-        form_valid:true,   
-        daftar_fakultas:[],           
-
-        daftar_jenjang:[],      
-        jenjang_studi:null,          
-        kode_prodi:'',          
+        old_idkelas:'',         
+        form_valid:true,         
         formdata: {
-            id:0,                        
-            kode_fakultas:'',                        
-            kode_prodi:'',                        
-            nama_prodi:'', 
-            kode_jenjang:'', 
-            nama_jenjang:'', 
+            idkelas:'',                        
+            nkelas:'',                        
         },
         formdefault: {
-            id:0,                        
-            kode_fakultas:'',   
-            kode_prodi:'',                        
-            nama_prodi:'',         
-            kode_jenjang:'', 
-            nama_jenjang:'', 
+           idkelas:'',                        
+            nkelas:'',                               
         },
         editedIndex: -1,
 
-        //form rules 
-        rule_kode_fakultas:[
-            value => !!value||"Mohon fakultas untuk dipilih !!!",              
-        ],  
-        rule_kode_prodi:[
-            value => !!value||"Kode Program Studi mohon untuk diisi !!!",
-            value => /^[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode Program Studi hanya boleh angka',
+        //form rules  
+        rule_kode_kelas:[
+            value => !!value||"ID Kelas mohon untuk diisi !!!",
+            value => /^[A-Z]*$/.test(value) || 'Name hanya boleh string dan huruf besar',
+            value => value.length == 1 || 'Kode kelas hanya boleh 1 karakter'                
         ], 
-        rule_nama_prodi:[
-            value => !!value||"Mohon Nama Program Studi untuk diisi !!!",  
-            value => /^[A-Za-z\s]*$/.test(value) || 'Nama Program Studi hanya boleh string dan spasi',                
-        ], 
-        rule_kode_jenjang:[
-            value => !!value||"Mohon Jenjang Studi untuk dipilih !!!",              
+        rule_nama_kelas:[
+            value => !!value||"Mohon untuk di isi name !!!",  
+            value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
         ], 
     }),
     methods: {
         initialize:async function () 
         {
             this.datatableLoading=true;
-            await this.$ajax.get('/datamaster/programstudi',{
+            await this.$ajax.get('/datamaster/kelas',{
                 headers: {
                     Authorization:this.TOKEN
                 }
             }).then(({data})=>{               
-                this.datatable = data.prodi;
+                this.datatable = data.kelas;
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
@@ -298,44 +268,14 @@ export default {
                 this.expanded=[item];
             }               
         },
-        tambahItem:async function()
-        {   
-            if (this.$store.getters['uifront/getBentukPT']=='universitas')
-            {                
-                await this.$ajax.get('/datamaster/fakultas').then(({data})=>{
-                    this.daftar_fakultas=data.fakultas;
-                });
-            }
-            await this.$ajax.get('/datamaster/programstudi/jenjangstudi').then(({data})=>{
-                this.daftar_jenjang=data.jenjangstudi;
-            });
-
-            this.dialogfrm=true;
-        },
         viewItem (item) {
             this.formdata=item;      
-            this.dialogdetailitem=true;                        
+            this.dialogdetailitem=true;                    
         },    
-        editItem:async function (item) {            
+        editItem (item) {
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
-
-            if (this.$store.getters['uifront/getBentukPT']=='universitas')
-            {                
-                await this.$ajax.get('/datamaster/fakultas').then(({data})=>{                    
-                    this.daftar_fakultas=data.fakultas;
-                    this.kode_fakultas=item.kode_fakultas;
-                });
-            }
-
-            await this.$ajax.get('/datamaster/programstudi/jenjangstudi').then(({data})=>{
-                this.daftar_jenjang=data.jenjangstudi;
-            });
-
-            this.jenjang_studi={
-                kode_jenjang:item.kode_jenjang,
-                nama_jenjang:item.nama_jenjang
-            }
+            this.old_idkelas=item.idkelas;
             this.dialogfrm = true
         },    
         save:async function () {
@@ -344,46 +284,40 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    await this.$ajax.post('/datamaster/programstudi/'+this.formdata.id,
+                    await this.$ajax.post('/datamaster/kelas/'+this.old_idkelas,
                         {
                             '_method':'PUT',
-                            kode_fakultas:this.formdata.kode_fakultas,                            
-                            kode_prodi:this.formdata.kode_prodi,                            
-                            nama_prodi:this.formdata.nama_prodi,                                                        
-                            kode_jenjang:this.formdata.kode_jenjang,                                                        
-                            nama_jenjang:this.formdata.nama_jenjang,                                                                                                             
+                            idkelas:this.formdata.idkelas,                       
+                            nkelas:this.formdata.nkelas,                                                                       
                         },
                         {
                             headers:{
                                 Authorization:this.TOKEN
                             }
                         }
-                    ).then(()=>{   
-                        this.initialize();
+                    ).then(({data})=>{   
+                        Object.assign(this.datatable[this.editedIndex], data.kelas);
+                        this.closedialogfrm();
                         this.btnLoading=false;
-                        this.closedialogfrm();                        
                     }).catch(()=>{
                         this.btnLoading=false;
                     });                 
                     
-                } else {                    
-                    await this.$ajax.post('/datamaster/programstudi/store',
+                } else {
+                    await this.$ajax.post('/datamaster/kelas/store',
                         {
-                            kode_fakultas:this.formdata.kode_fakultas,                            
-                            kode_prodi:this.formdata.kode_prodi,                            
-                            nama_prodi:this.formdata.nama_prodi,   
-                            kode_jenjang:this.formdata.kode_jenjang,                                                        
-                            nama_jenjang:this.formdata.nama_jenjang,                                                                                                             
+                            idkelas:this.formdata.idkelas,                            
+                            nkelas:this.formdata.nkelas,                            
                         },
                         {
                             headers:{
                                 Authorization:this.TOKEN
                             }
                         }
-                    ).then(()=>{   
-                        this.initialize();                  
-                        this.btnLoading=false;
+                    ).then(({data})=>{   
+                        this.datatable.push(data.kelas);
                         this.closedialogfrm();
+                        this.btnLoading=false;
                     }).catch(()=>{
                         this.btnLoading=false;
                     });
@@ -391,11 +325,11 @@ export default {
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data program studi dengan kode '+item.kode_prodi+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data dengan ID '+item.idkelas+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/datamaster/programstudi/'+item.id,
+                    this.$ajax.post('/datamaster/kelas/'+item.idkelas,
                         {
                             '_method':'DELETE',
                         },
@@ -422,11 +356,11 @@ export default {
                 }, 300
             );
         },
-        closedialogfrm () {
+        closedialogfrm () {            
             this.dialogfrm = false;            
             setTimeout(() => {
-                this.formdata = Object.assign({}, this.formdefault);                
-                this.$refs.frmdata.reset();                                 
+                this.formdata = Object.assign({}, this.formdefault);
+                this.$refs.frmdata.reset(); 
                 this.editedIndex = -1
                 }, 300
             );
@@ -440,35 +374,6 @@ export default {
         formTitle () {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },        
-        headers()
-        {
-            if (this.$store.getters['uifront/getBentukPT']=='universitas')
-            {
-                return [                        
-                    { text: 'KODE PROGRAM STUDI', value: 'kode_prodi', width:250 },   
-                    { text: 'NAMA PROGRAM STUDI', value: 'nama_prodi' },   
-                    { text: 'FAKULTAS', value: 'nama_fakultas',width:200  },   
-                    { text: 'JENJANG', value: 'nama_jenjang',width:50 },   
-                    { text: 'AKSI', value: 'actions', sortable: false,width:100 },
-                ];
-            }
-            else
-            {
-                return [                        
-                    { text: 'KODE PROGRAM STUDI', value: 'kode_prodi', width:250 },   
-                    { text: 'NAMA PROGRAM STUDI', value: 'nama_prodi' },   
-                    { text: 'JENJANG', value: 'nama_jenjang',width:50 },   
-                    { text: 'AKSI', value: 'actions', sortable: false,width:100 },
-                ];
-            }
-        },
-    },
-    watch:{
-        jenjang_studi(val)
-        {
-            this.formdata.kode_jenjang=val.kode_jenjang;
-            this.formdata.nama_jenjang=val.nama_jenjang;            
-        }
     },
     components:{
         AdminLayout,
