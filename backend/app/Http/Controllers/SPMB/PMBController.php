@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Role;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Kemahasiswaan\MahasiswaModel;
+use App\Models\Kemahasiswaan\FormuliPendaftaranModel;
 use App\Models\System\ConfigurationModel;
 use App\Helpers\Helper;
 use App\Mail\MahasiswaBaruRegistered;
@@ -104,7 +104,7 @@ class PMBController extends Controller {
             $permission=Role::findByName('mahasiswabaru')->permissions;
             $user->givePermissionTo($permission->pluck('name'));             
             
-            MahasiswaModel::create([
+            FormuliPendaftaranModel::create([
                 'user_id'=>$user->id,
                 'nama_mhs'=>$request->input('name'),
                 'nama_ibu_kandung'=>$request->input('nama_ibu_kandung'),

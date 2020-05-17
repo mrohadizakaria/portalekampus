@@ -4,7 +4,7 @@ namespace App\Models\Kemahasiswaan;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MahasiswaModel extends Model {    
+class FormuliPendaftaranModel extends Model {    
      /**
      * nama tabel model ini.
      *
