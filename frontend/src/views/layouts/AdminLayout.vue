@@ -222,6 +222,17 @@
                         </v-list-item-content>							
                     </template>   
                     <div>              
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-SOAL_BROWSE')" to="/spmb/soalpmb" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    SOAL PMB
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>                    
+                        <v-divider></v-divider>
                         <v-list-item link v-if="CAN_ACCESS('SPMB-PMB_BROWSE')" to="/spmb/pendaftaranbaru" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>

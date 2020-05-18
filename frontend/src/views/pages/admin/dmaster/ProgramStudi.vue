@@ -323,8 +323,8 @@ export default {
             if (this.$store.getters['uifront/getBentukPT']=='universitas')
             {                
                 await this.$ajax.get('/datamaster/fakultas').then(({data})=>{                    
-                    this.daftar_fakultas=data.fakultas;
-                    this.kode_fakultas=item.kode_fakultas;
+                    this.daftar_fakultas=data.fakultas;                    
+                    this.formdata.kode_fakultas=item.kode_fakultas;
                 });
             }
 
@@ -372,8 +372,8 @@ export default {
                             kode_fakultas:this.formdata.kode_fakultas,                            
                             kode_prodi:this.formdata.kode_prodi,                            
                             nama_prodi:this.formdata.nama_prodi,   
-                            kode_jenjang:this.formdata.kode_jenjang,                                                        
-                            nama_jenjang:this.formdata.nama_jenjang,                                                                                                             
+                            kode_jenjang:this.jenjang_studi.kode_jenjang,                                                        
+                            nama_jenjang:this.jenjang_studi.nama_jenjang,                                                                                                             
                         },
                         {
                             headers:{
@@ -462,13 +462,6 @@ export default {
                 ];
             }
         },
-    },
-    watch:{
-        jenjang_studi(val)
-        {
-            this.formdata.kode_jenjang=val.kode_jenjang;
-            this.formdata.nama_jenjang=val.nama_jenjang;            
-        }
     },
     components:{
         AdminLayout,

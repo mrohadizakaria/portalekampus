@@ -2,10 +2,10 @@
     <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
-                mdi-home
+                mdi-file
             </template>
             <template v-slot:name>
-                FAKULTAS
+                SOAL PMB
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -21,11 +21,23 @@
                     colored-border
                     type="info"
                     >
-                    Halaman untuk mengelola nama-nama fakultas pada perguruan tinggi
+                    Text
                 </v-alert>
             </template>
         </ModuleHeader>   
-        <v-container>             
+        <v-container> 
+            <v-row class="mb-4" no-gutters>
+                <v-col cols="12">
+                    <v-card>
+                        <v-card-title>
+                            FILTER
+                        </v-card-title>
+                        <v-card-text>
+                        
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>    
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-card>
@@ -47,8 +59,8 @@
                         :headers="headers"
                         :items="datatable"
                         :search="search"
-                        item-key="kode_fakultas"
-                        sort-by="kode_fakultas"
+                        item-key="id"
+                        sort-by="name"
                         show-expand
                         :expanded.sync="expanded"
                         :single-expand="true"
@@ -59,7 +71,7 @@
 
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DAFTAR FAKULTAS</v-toolbar-title>
+                                <v-toolbar-title>DATA TABLE</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
@@ -77,17 +89,11 @@
                                             </v-card-title>
                                             <v-card-text>
                                                 <v-text-field 
-                                                    v-model="formdata.kode_fakultas" 
-                                                    label="KODE FAKULTAS"
+                                                    v-model="formdata.name" 
+                                                    label="NAME"
                                                     filled
-                                                    :rules="rule_kode_fakultas">
-                                                </v-text-field>
-                                                <v-text-field 
-                                                    v-model="formdata.nama_fakultas" 
-                                                    label="NAMA FAKULTAS"
-                                                    filled
-                                                    :rules="rule_nama_fakultas">
-                                                </v-text-field>
+                                                    :rules="rule_name">
+                                                </v-text-field>                                             
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -113,23 +119,43 @@
                                             <v-row no-gutters>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>KODE FAKULTAS :</v-card-title>
+                                                        <v-card-title>ID :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.kode_fakultas}}
+                                                            {{formdata.id}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>NAMA FAKULTAS :</v-card-title>
+                                                        <v-card-title>CREATED :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.nama_fakultas}}
+                                                            {{formdata.created_at|formatTanggal}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                                            </v-row>                                            
+                                            </v-row>
+                                            <v-row no-gutters>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>NAME :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.name}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>CREATED :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.updated_at|formatTanggal}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                            </v-row>
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
@@ -163,7 +189,9 @@
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12">
-                                    <strong>ID:</strong>{{ item.kode_fakultas }}                                   
+                                    <strong>ID:</strong>{{ item.id }}
+                                    <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
+                                    <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
                                 </v-col>                                
                             </td>
                         </template>
@@ -190,12 +218,12 @@ export default {
                 href:'/dashboard/'+this.ACCESS_TOKEN
             },
             {
-                text:'DATA MASTER',
+                text:'SPMB',
                 disabled:false,
                 href:'#'
             },
             {
-                text:'FAKULTAS',
+                text:'SOAL',
                 disabled:true,
                 href:'#'
             }
@@ -208,8 +236,7 @@ export default {
         expanded:[],
         datatable:[],
         headers: [                        
-            { text: 'KODE FAKULTAS', value: 'kode_fakultas', width:150 },   
-            { text: 'NAMA FAKULTAS', value: 'nama_fakultas' },   
+            { text: 'ID', value: 'id' },   
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         search:'',    
@@ -220,37 +247,41 @@ export default {
 
         //form data   
         form_valid:true,         
-        kode_fakultas:'',
         formdata: {
-            kode_fakultas:'',                        
-            nama_fakultas:'', 
+            id:0,                        
+            name:'',                        
+            created_at: '',           
+            updated_at: '',           
+
         },
         formdefault: {
-            kode_fakultas:'',                        
-            nama_fakultas:'',         
+            id:0,           
+            name:'',                                     
+            created_at: '',           
+            updated_at: '',       
         },
         editedIndex: -1,
 
         //form rules  
-        rule_kode_fakultas:[
-            value => !!value||"Kode Fakultas mohon untuk diisi !!!",
-            value => /^[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode Fakultas hanya boleh angka',
+        rule_user_nomorhp:[
+            value => !!value||"Kode mohon untuk diisi !!!",
+            value => /^\+[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode hanya boleh angka',
         ], 
-        rule_nama_fakultas:[
-            value => !!value||"Mohon Nama Fakultas untuk di isi !!!",  
-            value => /^[A-Za-z\s]*$/.test(value) || 'Nama Fakultas hanya boleh string dan spasi',                
+        rule_name:[
+            value => !!value||"Mohon untuk di isi name !!!",  
+            value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
         ], 
     }),
     methods: {
         initialize:async function () 
         {
             this.datatableLoading=true;
-            await this.$ajax.get('/datamaster/fakultas',{
+            await this.$ajax.get('/spmb/soalpmb',{
                 headers: {
                     Authorization:this.TOKEN
                 }
             }).then(({data})=>{               
-                this.datatable = data.fakultas;
+                this.datatable = data.object;
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
@@ -269,10 +300,16 @@ export default {
         },
         viewItem (item) {
             this.formdata=item;      
-            this.dialogdetailitem=true;                        
+            this.dialogdetailitem=true;              
+            // this.$ajax.get('/spmb/soalpmb/'+item.id,{
+            //     headers: {
+            //         Authorization:this.$store.getters.Token
+            //     }
+            // }).then(({data})=>{               
+                                           
+            // });                      
         },    
         editItem (item) {
-            this.kode_fakultas=item.kode_fakultas;
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
             this.dialogfrm = true
@@ -283,11 +320,10 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    await this.$ajax.post('/datamaster/fakultas/'+this.kode_fakultas,
+                    await this.$ajax.post('/spmb/soalpmb/'+this.formdata.id,
                         {
                             '_method':'PUT',
-                            kode_fakultas:this.formdata.kode_fakultas,                            
-                            nama_fakultas:this.formdata.nama_fakultas,                                                        
+                            name:this.formdata.name,                       
                         },
                         {
                             headers:{
@@ -295,18 +331,17 @@ export default {
                             }
                         }
                     ).then(({data})=>{   
-                        Object.assign(this.datatable[this.editedIndex], data.fakultas);
+                        Object.assign(this.datatable[this.editedIndex], data.object);
                         this.closedialogfrm();
                         this.btnLoading=false;
                     }).catch(()=>{
                         this.btnLoading=false;
                     });                 
                     
-                } else {                    
-                    await this.$ajax.post('/datamaster/fakultas/store',
+                } else {
+                    await this.$ajax.post('/spmb/soalpmb/store',
                         {
-                            kode_fakultas:this.formdata.kode_fakultas,                            
-                            nama_fakultas:this.formdata.nama_fakultas,                                                        
+                            name:this.formdata.name,                            
                         },
                         {
                             headers:{
@@ -314,9 +349,9 @@ export default {
                             }
                         }
                     ).then(({data})=>{   
-                        this.datatable.push(data.fakultas);                        
-                        this.btnLoading=false;
+                        this.datatable.push(data.object);
                         this.closedialogfrm();
+                        this.btnLoading=false;
                     }).catch(()=>{
                         this.btnLoading=false;
                     });
@@ -324,11 +359,11 @@ export default {
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data fakultas dengan kode '+item.kode_fakultas+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data dengan ID '+item.id+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/datamaster/fakultas/'+item.kode_fakultas,
+                    this.$ajax.post('/spmb/soalpmb/'+item.id,
                         {
                             '_method':'DELETE',
                         },
@@ -356,10 +391,10 @@ export default {
             );
         },
         closedialogfrm () {
-            this.dialogfrm = false;
-            this.$refs.frmdata.reset(); 
+            this.dialogfrm = false;            
             setTimeout(() => {
-                this.formdata = Object.assign({}, this.formdefault)
+                this.formdata = Object.assign({}, this.formdefault);
+                this.$refs.frmdata.reset(); 
                 this.editedIndex = -1
                 }, 300
             );

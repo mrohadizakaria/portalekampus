@@ -77,6 +77,15 @@ const routes = [
 	},
 	//spmb	
 	{
+		path: '/spmb/soalpmb',
+		name: 'SPMBSoal',
+		meta:{
+			title: "SPMB - SOAL",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/SoalPMB.vue'),		
+	},
+	{
 		path: '/spmb/pendaftaranbaru',
 		name: 'SPMBPendaftaranBaru',
 		meta:{

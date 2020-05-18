@@ -59,7 +59,7 @@
 
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DATA TABLE</v-toolbar-title>
+                                <v-toolbar-title>DAFTAR KELAS</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
