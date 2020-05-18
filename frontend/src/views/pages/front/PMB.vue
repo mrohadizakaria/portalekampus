@@ -30,12 +30,6 @@
                                     :rules="rule_email"
                                     outlined 
                                     dense /> 
-                                <v-text-field 
-                                    v-model="formdata.nama_ibukandung"
-                                    label="NAMA IBU KANDUNG" 
-                                    :rules="rule_nama_ibukandung"
-                                    outlined 
-                                    dense /> 
                                 <v-select
                                     v-model="kode_fakultas"
                                     label="FAKULTAS"
@@ -152,8 +146,7 @@ export default {
         prodi_id:'',                  
         formdata: {
             name:'',
-            email:'',
-            nama_ibukandung:'',
+            email:'',            
             nomor_hp:'',
             username:'',
             password:'',
@@ -161,8 +154,7 @@ export default {
         },     
         formdefault: {
             name:'',
-            email:'',
-            nama_ibukandung:'',
+            email:'',            
             nomor_hp:'',
             username:'',
             password:'',
@@ -183,10 +175,6 @@ export default {
         rule_email:[
             value => !!value||"Email mohon untuk diisi !!!",
             v => /.+@.+\..+/.test(v) || 'Format E-mail mohon di isi dengan benar',
-        ],
-        rule_nama_ibukandung:[
-            value => !!value||"Nama Ibu Kandung mohon untuk diisi !!!",
-            value => /^[A-Za-z\s\\,\\.]*$/.test(value) || 'Nama Ibu Kandung hanya boleh string dan spasi',
         ],
         rule_fakultas:[
             value => !!value||"Fakultas mohon untuk dipilih !!!"
@@ -229,8 +217,7 @@ export default {
                     name:this.formdata.name,
                     email:this.formdata.email,                    
                     nomor_hp:this.formdata.nomor_hp,
-                    username:this.formdata.username,
-                    nama_ibu_kandung:this.formdata.nama_ibukandung,                    
+                    username:this.formdata.username,                                      
                     prodi_id:this.prodi_id,
                     password:this.formdata.password,
                     captcha_response:this.formdata.captcha_response,

@@ -54,8 +54,7 @@ class PMBController extends Controller {
         $this->validate($request, [
             'name'=>'required',            
             'email'=>'required|string|email|unique:users',
-            'nomor_hp'=>'required|unique:users',
-            'nama_ibu_kandung'=>'required',
+            'nomor_hp'=>'required|unique:users',            
             'prodi_id'=>'required',
             'username'=>'required|string|unique:users',
             'password'=>'required',
@@ -104,10 +103,9 @@ class PMBController extends Controller {
             $permission=Role::findByName('mahasiswabaru')->permissions;
             $user->givePermissionTo($permission->pluck('name'));             
             
-            FormuliPendaftaranModel::create([
+            FormulirPendaftaranModel::create([
                 'user_id'=>$user->id,
-                'nama_mhs'=>$request->input('name'),
-                'nama_ibu_kandung'=>$request->input('nama_ibu_kandung'),
+                'nama_mhs'=>$request->input('name'),                
                 'telp_hp'=>$request->input('nomor_hp'),
                 'kjur1'=>$request->input('prodi_id'),
                 'ta'=>$ta,

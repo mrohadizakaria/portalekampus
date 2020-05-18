@@ -43,7 +43,7 @@ class CreateFormulirPendaftaranTable extends Migration
             $table->string('telp_rumah')->nullable(); 
             $table->string('telp_hp')->nullable(); 
 
-            $table->string('nama_ibu_kandung'); 
+            $table->string('nama_ibu_kandung')->nullable(); 
             $table->tinyInteger('id_jenispekerjaan_ortu')->nullable(); 
 
             $table->string('pendidikan_terakhir',40)->nullable(); 
