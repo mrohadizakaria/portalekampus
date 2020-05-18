@@ -9,8 +9,8 @@
                     <v-card-text>
                         <v-text-field
                             label="NAMA LENGKAP"    
-                            v-model="formdata.name"    
-                            :rules="rule_name"
+                            v-model="formdata.nama_mhs"    
+                            :rules="rule_nama_mhs"
                             filled
                         />
                         <v-text-field
@@ -66,6 +66,12 @@
                             :rules="rule_email"
                             filled
                         />
+                        <v-text-field
+                            label="NAMA IBU KANDUNG"
+                            v-model="formdata.nama_ibu_kandung"
+                            :rules="rule_nama_ibu_kandung"
+                            filled
+                        />
                     </v-card-text>
                 </v-card>
                 <v-card class="mb-4">
@@ -79,6 +85,7 @@
                             v-model="provinsi_id"
                             item-text="nama"
                             item-value="id"
+                            return-object
                             :loading="btnLoadingProv"
                             filled
                         />
@@ -88,6 +95,7 @@
                             v-model="kabupaten_id"
                             item-text="nama"
                             item-value="id"
+                            return-object
                             :loading="btnLoadingKab"
                             filled
                         />
@@ -96,7 +104,8 @@
                             :items="daftar_kecamatan"
                             v-model="kecamatan_id"
                             item-text="nama"
-                            item-value="id"                            
+                            item-value="id" 
+                            return-object                           
                             filled
                         />
                         <v-select
@@ -105,10 +114,12 @@
                             v-model="desa_id"
                             item-text="nama"
                             item-value="id"
+                            return-object
                             :rules="rule_desa"
                             filled
                         />
                         <v-text-field
+                            v-model="formdata.alamat_rumah"
                             label="ALAMAT RUMAH"
                             :rules="rule_alamat_rumah"
                             filled
@@ -117,7 +128,7 @@
                 </v-card>
                 <v-card class="mb-4">
                     <v-card-title>
-                        PILIHAN PROGRAM STUDI
+                        RENCANA STUDI
                     </v-card-title>
                     <v-card-text>
                         <v-select
@@ -133,11 +144,20 @@
                         />
                         <v-select
                             label="PROGRAM STUDI"
-                            v-model="prodi_id"
+                            v-model="formdata.kjur1"
                             :items="daftar_prodi"
                             item-text="nama_prodi2"
                             item-value="id"
                             :rules="rule_prodi"
+                            filled
+                        />
+                        <v-select
+                            label="KELAS"
+                            v-model="formdata.idkelas"
+                            :items="daftar_kelas"
+                            item-text="nkelas"
+                            item-value="idkelas"
+                            :rules="rule_kelas"
                             filled
                         />
                     </v-card-text>
@@ -160,7 +180,7 @@
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    name:'FormMahasiswaBaru',
+    nama_mhs:'FormMahasiswaBaru',
     created()
     {
         this.initialize();
@@ -191,19 +211,22 @@ export default {
         daftar_fakultas:[],
         kode_fakultas:'',
 
-        daftar_prodi:[],
-        prodi_id:'',
-
+        daftar_prodi:[],        
+        daftar_kelas:[],
+        
         formdata:{
-            name:'',
-            email:'',
-            nomor_hp:'',
+            nama_mhs:'',           
             tempat_lahir:'',
             tanggal_lahir:'',
             jk:'L',
-
+            nomor_hp:'',    
+            email:'',
+            alamat_rumah:'',
+            nama_ibu_kandung:'',
+            kjur1:'',
+            idkelas:'',
         },
-        rule_name:[
+        rule_nama_mhs:[
             value => !!value||"Nama Mahasiswa mohon untuk diisi !!!",
             value => /^[A-Za-z\s\\,\\.]*$/.test(value) || 'Nama Mahasiswa hanya boleh string dan spasi',
         ],         
@@ -219,8 +242,12 @@ export default {
         ], 
         rule_email:[
             value => !!value||"Email mohon untuk diisi !!!",
-            v => /.+@.+\..+/.test(v) || 'Format E-mail mohon di isi dengan benar',
+            value => /.+@.+\..+/.test(value) || 'Format E-mail mohon di isi dengan benar',
         ],
+        rule_nama_ibu_kandung:[
+            value => !!value||"Nama Ibu Kandung mohon untuk diisi !!!",
+            value => /^[A-Za-z\s\\,\\.]*$/.test(value) || 'Nama Ibu Kandung hanya boleh string dan spasi',
+        ], 
         rule_desa:[
             value => !!value||"Mohon Desa mohon untuk diisi !!!"
         ], 
@@ -232,6 +259,9 @@ export default {
         ], 
         rule_prodi:[
             value => !!value||"Program studi mohon untuk dipilih !!!"
+        ], 
+        rule_kelas:[
+            value => !!value||"Kelas mohon untuk dipilih !!!"
         ], 
     }),
     methods: {
@@ -252,32 +282,88 @@ export default {
                     this.daftar_prodi=data.prodi;
                 });
             }           
-            this.formdata.name = this.ATTRIBUTE_USER('name');
-            this.formdata.email = this.ATTRIBUTE_USER('email');
-            this.formdata.nomor_hp = this.ATTRIBUTE_USER('nomor_hp');
+            this.$ajax.get('/datamaster/kelas').then(({data})=>{                
+                this.daftar_kelas=data.kelas;
+            });
+            await this.$ajax.get('/spmb/formulirpendaftaran/'+this.ATTRIBUTE_USER('id'),             
+                {
+                    headers:{
+                        Authorization:this.TOKEN
+                    }
+                },
+                
+            ).then(({data})=>{   
+                this.formdata.nama_mhs=data.formulir.nama_mhs;           
+                this.formdata.tempat_lahir=data.formulir.tempat_lahir;           
+                this.formdata.tanggal_lahir=data.formulir.tanggal_lahir;           
+                this.formdata.jk=data.formulir.jk;           
+                this.formdata.nomor_hp=data.formulir.nomor_hp;           
+                this.formdata.email=data.formulir.email;    
+                this.formdata.nama_ibu_kandung=data.formulir.nama_ibu_kandung;    
+
+                this.provinsi_id={
+                    id:data.formulir.address1_provinsi_id,
+                    nama:data.formulir.address1_provinsi
+                };
+                this.kabupaten_id={
+                    id:data.formulir.address1_kabupaten_id,
+                    nama:data.formulir.address1_kabupaten
+                };
+                this.kecamatan_id={
+                    id:data.formulir.address1_kecamatan_id,
+                    nama:data.formulir.address1_kecamatan
+                };
+                this.desa_id={
+                    id:data.formulir.address1_desa_id,
+                    nama:data.formulir.address1_kelurahan
+                };
+                
+                this.formdata.alamat_rumah=data.formulir.alamat_rumah;    
+                this.formdata.kjur1=data.formulir.kjur1;    
+                this.formdata.idkelas=data.formulir.idkelas;    
+                
+                this.$refs.frmdata.resetValidation();       
+            });
         },        
         save: async function ()
         {
             if (this.$refs.frmdata.validate())
             {
                 this.btnLoading=true;                
-                // await this.$ajax.post('/spmb/pmb/store',{                    
-                //     name:this.formdata.name,
-                //     email:this.formdata.email,
-                //     nomor_hp:this.formdata.nomor_hp,
-                //     username:this.formdata.username,
-                //     password:this.formdata.password,
-                //     captcha_response:this.formdata.captcha_response,
-                // }).then(({data})=>{
-                //     this.formkonfirmasi.email=data.email;
-                //     this.btnLoading=false;    
-                //     this.dialogkonfirmasiemail=true;                
-                // }).catch(() => {                                   
+                await this.$ajax.post('/spmb/formulirpendaftaran/'+this.ATTRIBUTE_USER('id'),{                    
+                    _method:'put',
+                    nama_mhs:this.formdata.nama_mhs,           
+                    tempat_lahir:this.formdata.tempat_lahir,           
+                    tanggal_lahir:this.formdata.tanggal_lahir,           
+                    jk:this.formdata.jk,           
+                    nomor_hp:this.formdata.nomor_hp,           
+                    email:this.formdata.email,    
+                    nama_ibu_kandung:this.formdata.nama_ibu_kandung,    
+                    address1_provinsi_id:this.provinsi_id.id,
+                    address1_provinsi:this.provinsi_id.nama,
+                    address1_kabupaten_id:this.kabupaten_id.id,
+                    address1_kabupaten:this.kabupaten_id.nama,
+                    address1_kecamatan_id:this.kecamatan_id.id,
+                    address1_kecamatan:this.kecamatan_id.nama,
+                    address1_desa_id:this.desa_id.id,
+                    address1_kelurahan:this.desa_id.nama,
+                    alamat_rumah:this.formdata.alamat_rumah,    
+                    kjur1:this.formdata.kjur1,    
+                    idkelas:this.formdata.idkelas,    
+                },
+                {
+                    headers:{
+                        Authorization:this.TOKEN
+                    }
+                }
+                ).then(({data})=>{
+                    console.log(data);                    
+                    this.btnLoading=false;                        
+                }).catch(() => {                                   
                     this.btnLoading=false;
-                // });                                    
-                // this.form_valid=true;                                                                                        
-                // this.$refs.frmpendaftaran.reset(); 
-                // this.formdata = Object.assign({}, this.formdefault)
+                });                                    
+                this.form_valid=true;                                                                                        
+                this.$refs.frmdata.resetValidation();                 
             }                             
         },
     },
@@ -291,7 +377,7 @@ export default {
         provinsi_id(val)
         {
             this.btnLoadingProv=true;
-            this.$ajax.get('/datamaster/provinsi/'+val+'/kabupaten').then(({data})=>{                
+            this.$ajax.get('/datamaster/provinsi/'+val.id+'/kabupaten').then(({data})=>{                
                 this.daftar_kabupaten=data.kabupaten;
                 this.btnLoadingProv=false;
             });
@@ -300,7 +386,7 @@ export default {
         kabupaten_id(val)
         {
             this.btnLoadingKab=true;
-            this.$ajax.get('/datamaster/kabupaten/'+val+'/kecamatan').then(({data})=>{                                
+            this.$ajax.get('/datamaster/kabupaten/'+val.id+'/kecamatan').then(({data})=>{                                
                 this.daftar_kecamatan=data.kecamatan;
                 this.btnLoadingKab=false;
             });
@@ -308,7 +394,7 @@ export default {
         kecamatan_id(val)
         {
             this.btnLoadingKec=true;
-            this.$ajax.get('/datamaster/kecamatan/'+val+'/desa').then(({data})=>{                                
+            this.$ajax.get('/datamaster/kecamatan/'+val.id+'/desa').then(({data})=>{                                
                 this.daftar_desa=data.desa;
                 this.btnLoadingKec=false;
             });

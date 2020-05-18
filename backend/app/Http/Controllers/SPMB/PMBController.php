@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Role;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Kemahasiswaan\FormuliPendaftaranModel;
+use App\Models\SPMB\FormulirPendaftaranModel;
 use App\Models\System\ConfigurationModel;
 use App\Helpers\Helper;
 use App\Mail\MahasiswaBaruRegistered;
@@ -127,7 +127,59 @@ class PMBController extends Controller {
                                     'message'=>'Data Mahasiswa baru berhasil disimpan.'
                                 ],200); 
 
-    }           
+    }      
+    /**
+     * Detail formulir pendaftaran
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request,$id)
+    {
+        $formulir=FormulirPendaftaranModel::select(\DB::raw('
+                                                                users.id,
+                                                                nama_mhs,
+                                                                tempat_lahir,
+                                                                tanggal_lahir,
+                                                                jk,
+                                                                nomor_hp,
+                                                                email,
+                                                                nama_ibu_kandung,
+                                                                address1_desa_id,
+                                                                address1_kelurahan,
+                                                                address1_kecamatan_id,
+                                                                address1_kecamatan,
+                                                                address1_kabupaten_id,
+                                                                address1_kabupaten,                                                                
+                                                                address1_provinsi_id,
+                                                                address1_provinsi,                                                                
+                                                                alamat_rumah,
+                                                                kjur1,
+                                                                idkelas,
+                                                                users.ta,
+                                                                idsmt
+                                                            '))
+                                            ->join('users','users.id','pe3_formulir_pendaftaran.user_id')
+                                            ->find($id);
+        if (is_null($formulir))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',                
+                                    'message'=>"Formulir Pendaftaran dengan ID ($id) gagal diperoleh"
+                                ],200); 
+        }
+        else
+        {
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'fetchdata',                
+                                        'formulir'=>$formulir,
+                                        'message'=>"Formulir Pendaftaran dengan ID ($id) berhasil diperoleh"
+                                    ],200);        
+        }
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -168,7 +220,96 @@ class PMBController extends Controller {
                                     ],422);
         }
 
-    }        
+    }   
+    /**
+     * update formulir pendaftaran
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request,$id)
+    {
+        $formulir=FormulirPendaftaranModel::find($id);
+
+        if (is_null($formulir))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',                
+                                    'message'=>"Formulir Pendaftaran dengan ID ($id) gagal diperoleh"
+                                ],200); 
+        }
+        else
+        {
+           
+            $this->validate($request, [
+                'nama_mhs'=>'required',            
+                'tempat_lahir'=>'required',            
+                'tanggal_lahir'=>'required',            
+                'jk'=>'required',            
+                'nomor_hp'=>'required|unique:users,nomor_hp,'.$formulir->user_id,
+                'email'=>'required|string|email|unique:users,email,'.$formulir->user_id,
+                'nama_ibu_kandung'=>'required',
+
+                'address1_provinsi_id'=>'required',
+                'address1_provinsi'=>'required',
+                'address1_kabupaten_id'=>'required',
+                'address1_kabupaten'=>'required',
+                'address1_kecamatan_id'=>'required',
+                'address1_kecamatan'=>'required',
+                'address1_desa_id'=>'required',
+                'address1_kelurahan'=>'required',
+                'alamat_rumah'=>'required',
+                
+                
+                'kjur1'=>'required',
+                'idkelas'=>'required',            
+            ]);
+
+            $formulir = \DB::transaction(function () use ($request,$formulir){            
+                $formulir->nama_mhs=$request->input('nama_mhs');           
+                $formulir->tempat_lahir=$request->input('tempat_lahir');           
+                $formulir->tanggal_lahir=$request->input('tanggal_lahir');           
+                $formulir->jk=$request->input('jk');           
+                $formulir->telp_hp=$request->input('nomor_hp');           
+                  
+                $formulir->nama_ibu_kandung=$request->input('nama_ibu_kandung');    
+                $formulir->address1_provinsi_id=$request->input('address1_provinsi_id');
+                $formulir->address1_provinsi=$request->input('address1_provinsi');
+                $formulir->address1_kabupaten_id=$request->input('address1_kabupaten_id');
+                $formulir->address1_kabupaten=$request->input('address1_kabupaten');
+                $formulir->address1_kecamatan_id=$request->input('address1_kecamatan_id');
+                $formulir->address1_kecamatan=$request->input('address1_kecamatan');
+                $formulir->address1_desa_id=$request->input('address1_desa_id');
+                $formulir->address1_kelurahan=$request->input('address1_kelurahan');
+                $formulir->alamat_rumah=$request->input('alamat_rumah');    
+                $formulir->kjur1=$request->input('kjur1');    
+                $formulir->idkelas=$request->input('idkelas');  
+
+                $formulir->save();
+
+                $user=$formulir->User;
+                $user->name = $request->input('nama_mhs');
+                $user->email = $request->input('email');
+                $user->nomor_hp = $request->input('nomor_hp');
+                $user->save();    
+
+                $role='mahasiswabaru';   
+                $user->assignRole($role);
+                $permission=Role::findByName('mahasiswabaru')->permissions;
+                $user->givePermissionTo($permission->pluck('name'));             
+                
+                $formulir=FormulirPendaftaranModel::find($formulir->user_id);
+                return $formulir;
+            });
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'store',
+                                        'formulir'=>$formulir,                                                                                                  
+                                        'message'=>'Formulir Pendaftaran Mahasiswa baru berhasil diubah.'
+                                    ],200); 
+        }
+    }           
     /**
      * Menghapus calon mahasiwa baru
      *

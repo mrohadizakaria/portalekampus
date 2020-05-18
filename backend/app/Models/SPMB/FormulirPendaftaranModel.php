@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Kemahasiswaan;
+namespace App\Models\SPMB;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FormuliPendaftaranModel extends Model {    
+class FormulirPendaftaranModel extends Model {    
      /**
      * nama tabel model ini.
      *
@@ -16,7 +16,7 @@ class FormuliPendaftaranModel extends Model {
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'user_id';
     /**
      * The attributes that are mass assignable.
      *
@@ -84,4 +84,9 @@ class FormuliPendaftaranModel extends Model {
      * @var string
      */
     public $timestamps = true;
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User','user_id','id');
+    }
 }
