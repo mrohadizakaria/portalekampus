@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 
-use Carbon\Carbon;
 use App\Models\System\ConfigurationModel;
 class JenjangStudiTableSeeder extends Seeder
 {

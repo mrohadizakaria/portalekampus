@@ -19,8 +19,15 @@ class CreateSoalPmbTable extends Migration
             $table->uuid('id')->primary();                        
             $table->text('soal');            
             $table->string('gambar',11);            
+            $table->unsignedInteger('prodi_id')->nullable();            
             $table->timestamps();   
             
+            $table->foreign('prodi_id')
+                ->references('id')
+                ->on('pe3_prodi')
+                ->onDelete('set null') 
+                ->onUpdate('cascade'); 
+                
         });
     }
 

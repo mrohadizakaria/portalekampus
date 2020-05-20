@@ -112,6 +112,15 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/spmb/FormulirPendaftaran.vue'),		
 	},
+	{
+		path: '/spmb/persyaratan',
+		name: 'SPMBPersyaratan',
+		meta:{
+			title: "SPMB - PERSYARATAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/PersyaratanPMB.vue'),		
+	},
 	//system
 	{
 		path: '/system-setting/identitasdiri',

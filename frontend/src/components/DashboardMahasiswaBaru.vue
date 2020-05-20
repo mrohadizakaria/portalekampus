@@ -32,11 +32,19 @@
                             </p>                            
                             <v-btn
                                 color="purple darken-1"
-                                class="mx-0"
+                                class="mx-0 mr-2"
                                 outlined
                                 to="/spmb/formulirpendaftaran"
                             >
-                                Isi
+                                Isi Formulir
+                            </v-btn>
+                            <v-btn
+                                color="purple darken-1"
+                                class="mx-0"
+                                outlined
+                                to="/spmb/persyaratan"
+                            >
+                                Upload Persyaratan
                             </v-btn>
                         </v-card-text>                    
                     </v-card>
@@ -92,6 +100,19 @@
 </template>
 <script>
 export default {
-    
+    name: 'DashboardMahasiswaBaru',
+    created()
+    {
+        this.initialize();
+    },
+    data:()=>({
+
+    }),
+    methods: {
+        initialize:async function ()
+        {
+
+        }
+    }
 }
 </script>

@@ -180,7 +180,7 @@
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    nama_mhs:'FormMahasiswaBaru',
+    name:'FormMahasiswaBaru',
     created()
     {
         this.initialize();
@@ -356,8 +356,7 @@ export default {
                         Authorization:this.TOKEN
                     }
                 }
-                ).then(({data})=>{
-                    console.log(data);                    
+                ).then(()=>{                    
                     this.btnLoading=false;                        
                 }).catch(() => {                                   
                     this.btnLoading=false;
