@@ -1,26 +1,27 @@
 <template>
     <v-row>        
-        <v-col cols="4" v-for="(item,index) in daftar_persyaratan" v-bind:key="item.id">
+        <v-col xs="12" sm="6" md="4" v-for="(item,index) in daftar_persyaratan" v-bind:key="item.id">
             <v-form v-model="form_valid" ref="frmpersyaratan" lazy-validation>
                 <v-card class="mx-auto" max-width="400">
-                    <v-img class="white--text align-end" height="200px" :src="require('@/assets/no-image.png')"></v-img>                
+                    <v-img class="white--text align-end" height="200px" :src="getImagePersyaratan(item)" ref="imagepersyaratan"></v-img>                
                     <v-card-text class="text--primary">
-                        <div>{{index}}
+                        <div>
                             <v-file-input 
                                 accept="image/jpeg,image/png" 
                                 :label="item.nama_persyaratan+' (.png atau .jpg)'"
                                 :rules="rule_foto"
                                 show-size
-                                v-model="formdata.foto"
-                                @change="previewImage">
+                                v-model="filepersyaratan[index]"
+                                @change="previewImage($event,index)">
                             </v-file-input>
                         </div>
                     </v-card-text>
                     <v-card-actions>
+                        <v-spacer/>
                         <v-btn
                             color="orange"
                             text
-                            @click="upload(index)"
+                            @click="upload(index,item)"
                         >
                             Upload
                         </v-btn>
@@ -33,8 +34,9 @@
                         </v-btn>
                     </v-card-actions>
                 </v-card>            
-            </v-form>
-        </v-col>        
+            </v-form>            
+        </v-col>     
+        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>   
     </v-row>
 </template>
 <script>
@@ -49,9 +51,7 @@ export default {
         //form
         form_valid:true,
         daftar_persyaratan:[],
-        formdata:{
-            foto:'',            
-        },
+        filepersyaratan:[],
         //form rules  
         rule_foto:[
             value => !!value||"Mohon pilih gambar !!!",  
@@ -70,13 +70,34 @@ export default {
                 this.daftar_persyaratan=data.persyaratan;
             })
         },
-        previewImage (e)
+        getImagePersyaratan(item)
         {
-            console.log(e);
+            console.log(item);
+            return require('@/assets/no-image.png');
         },
-        upload(index)
+        previewImage (e,index)
         {
-            console.log(index);
+            let image = this.$refs.imagepersyaratan[index];
+            let reader = new FileReader();
+            reader.readAsDataURL(e);
+            reader.onload = img => {                    
+                image.src=img.target.result;
+            }
+            // console.log(image);            
+            // console.log(e);            
+            // console.log(index);            
+        },
+        upload(index,item)
+        {
+            let data = item;   
+            if (this.$refs.frmpersyaratan[index].validate())
+            {
+                if (typeof this.filepersyaratan[index] !== 'undefined')
+                {
+                    console.log(data);        
+                    console.log(this.filepersyaratan[index]);                    
+                }               
+            }            
         }
     },
     computed:{
