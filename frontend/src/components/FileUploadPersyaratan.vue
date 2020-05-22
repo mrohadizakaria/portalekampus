@@ -28,8 +28,9 @@
                 <v-btn
                     color="orange"
                     text
+                    @click="hapusfilepersysaratan(item)"
                     :loading="btnLoading"                                
-                    :disabled="btnLoading">                
+                    :disabled="btnLoading||btnHapus">                
                     Hapus
                 </v-btn>
             </v-card-actions>
@@ -42,12 +43,13 @@ export default {
     name:'FileUploadPersyaratan',
     created ()
     {
-        if (this.item.path == null)
+        if (this.item.path == null || this.item.persyaratan_pmb_id==null)
         {
-            this.image_prev=this.item.path;
+            this.image_prev=this.item.path;            
         }
         else
-        {
+        {            
+            this.btnHapus=false;
             this.image_prev=this.$api.url+'/'+this.item.path;
         }
         
@@ -56,7 +58,8 @@ export default {
         index:Number,
         item:Object
     },
-    data:()=>({        
+    data:()=>({      
+        btnHapus:true,  
         btnLoading:false,
         image_prev:null,
         //form
@@ -104,13 +107,38 @@ export default {
                                 'Content-Type': 'multipart/form-data'                      
                             }
                         }
-                    ).then(()=>{                           
+                    ).then(()=>{                                                   
+                        this.btnHapus=false;
                         this.btnLoading=false;                        
                     }).catch(()=>{
                         this.btnLoading=false;
                     });                    
                 }               
             }            
+        },
+        hapusfilepersysaratan(item)
+        {
+            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus persyaratan '+item.nama_persyaratan+' ?', { color: 'red' }).then((confirm) => {
+                if (confirm)
+                {
+                    this.$ajax.post('/spmb/pmbpersyaratan/hapusfilepersyaratan/'+item.persyaratan_pmb_id,
+                        {
+                            _method:'DELETE'
+                        },                    
+                        {
+                            headers:{
+                                Authorization:this.TOKEN,                                
+                            }
+                        }
+                    ).then(()=>{                   
+                        this.btnHapus=true;
+                        this.photoPersyaratan=require('@/assets/no-image.png');        
+                        this.btnLoading=false;                        
+                    }).catch(()=>{
+                        this.btnLoading=false;
+                    });  
+                }
+            });
         }
     },
     computed: {

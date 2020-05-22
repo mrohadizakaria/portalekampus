@@ -52,9 +52,10 @@ class PMBPersyaratanController extends Controller {
                             })
                             ->orderBy('pe3_persyaratan.nama_persyaratan','ASC')
                             ->get();
+
             return Response()->json([
                                     'status'=>1,
-                                    'pid'=>'update',
+                                    'pid'=>'fetchdata',
                                     'persyaratan'=>$persyaratan,      
                                     'message'=>'Persyaratan user PMB '.$user->name.' berhasil diperoleh.'
                                 ],200); 
@@ -136,6 +137,40 @@ class PMBPersyaratanController extends Controller {
                 
 
             }
+        }
+    }
+    public function hapusfilepersyaratan(Request $request,$id)
+    {
+        $persyaratan = PMBPersyaratanModel::find($id); 
+        
+        if ($persyaratan == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'destroy',                
+                                    'message'=>["Data Persyaratan Mahasiswa Baru tidak ditemukan."]
+                                ],422);         
+        }
+        else
+        {
+            $userid=$persyaratan->user_id;
+            $old_file=$persyaratan->path;            
+            $persyaratan->delete();
+
+            if ($old_file != 'images/no-image.png')
+            {
+                $old_file=str_replace('storage/','',$old_file);
+                if (is_file(Helper::public_path($old_file)))
+                {
+                    unlink(Helper::public_path($old_file));
+                }
+            }
+            
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'destroy',                                        
+                                        'message'=>"Persyaratan Mahasiswa Baru user id ($userid)  berhasil dihapus"
+                                    ],200);
         }
     }
 }
