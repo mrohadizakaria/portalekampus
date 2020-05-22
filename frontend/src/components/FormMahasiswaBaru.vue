@@ -268,7 +268,7 @@ export default {
         initialize:async function ()
         {
             this.$ajax.get('/datamaster/provinsi').then(({data})=>{                
-                this.daftar_provinsi=data.provinsi;
+                this.daftar_provinsi=data.provinsi;                
             });            
             if (this.$store.getters['uifront/getBentukPT']=='universitas')
             {                
@@ -375,28 +375,37 @@ export default {
     watch:{
         provinsi_id(val)
         {
-            this.btnLoadingProv=true;
-            this.$ajax.get('/datamaster/provinsi/'+val.id+'/kabupaten').then(({data})=>{                
-                this.daftar_kabupaten=data.kabupaten;
-                this.btnLoadingProv=false;
-            });
-            this.daftar_kecamatan=[];
+            if (val.id != null && val.id != '')
+            {
+                this.btnLoadingProv=true;
+                this.$ajax.get('/datamaster/provinsi/'+val.id+'/kabupaten').then(({data})=>{                
+                    this.daftar_kabupaten=data.kabupaten;
+                    this.btnLoadingProv=false;
+                });
+                this.daftar_kecamatan=[];
+            }
         },
         kabupaten_id(val)
         {
-            this.btnLoadingKab=true;
-            this.$ajax.get('/datamaster/kabupaten/'+val.id+'/kecamatan').then(({data})=>{                                
-                this.daftar_kecamatan=data.kecamatan;
-                this.btnLoadingKab=false;
-            });
+            if (val.id != null && val.id != '')
+            {
+                this.btnLoadingKab=true;
+                this.$ajax.get('/datamaster/kabupaten/'+val.id+'/kecamatan').then(({data})=>{                                
+                    this.daftar_kecamatan=data.kecamatan;
+                    this.btnLoadingKab=false;
+                });
+            }
         },
         kecamatan_id(val)
         {
-            this.btnLoadingKec=true;
-            this.$ajax.get('/datamaster/kecamatan/'+val.id+'/desa').then(({data})=>{                                
-                this.daftar_desa=data.desa;
-                this.btnLoadingKec=false;
-            });
+            if (val.id != null && val.id != '')
+            {
+                this.btnLoadingKec=true;
+                this.$ajax.get('/datamaster/kecamatan/'+val.id+'/desa').then(({data})=>{                                
+                    this.daftar_desa=data.desa;
+                    this.btnLoadingKec=false;
+                });
+            }
         },
         kode_fakultas (val)
         {
