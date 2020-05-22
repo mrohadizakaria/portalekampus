@@ -10,7 +10,7 @@ class TAModel extends Model {
      *
      * @var string
      */
-    protected $table = 'ta';
+    protected $table = 'pe3_ta';
     /**
      * primary key tabel ini.
      *
