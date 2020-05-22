@@ -164,8 +164,8 @@ class PMBController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',                
-                                    'message'=>"Formulir Pendaftaran dengan ID ($id) gagal diperoleh"
-                                ],200); 
+                                    'message'=>["Formulir Pendaftaran dengan ID ($id) gagal diperoleh"]
+                                ],422); 
         }
         else
         {
@@ -234,8 +234,8 @@ class PMBController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',                
-                                    'message'=>"Formulir Pendaftaran dengan ID ($id) gagal diperoleh"
-                                ],200); 
+                                    'message'=>["Formulir Pendaftaran dengan ID ($id) gagal diperoleh"]
+                                ],422); 
         }
         else
         {
@@ -326,8 +326,8 @@ class PMBController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"Calon Mahasiswa Baru dengan ID ($id) gagal dihapus"
-                                ],200); 
+                                    'message'=>["Calon Mahasiswa Baru dengan ID ($id) gagal dihapus"]
+                                ],422); 
         }
         else
         {

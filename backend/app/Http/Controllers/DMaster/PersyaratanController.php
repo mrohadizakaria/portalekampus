@@ -73,8 +73,8 @@ class PersyaratanController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',                
-                                    'message'=>"Kode Persyaratan ($id) gagal diupdate"
-                                ],200); 
+                                    'message'=>["Kode Persyaratan ($id) gagal diupdate"]
+                                ],422); 
         }
         else
         {
@@ -160,8 +160,8 @@ class PersyaratanController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"Kode persyaratan ($id) gagal dihapus"
-                                ],200); 
+                                    'message'=>["Kode persyaratan ($id) gagal dihapus"]
+                                ],422); 
         }
         else
         {

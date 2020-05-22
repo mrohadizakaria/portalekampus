@@ -73,8 +73,8 @@ class FakultasController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',                
-                                    'message'=>"Kode Fakultas ($id) gagal diupdate"
-                                ],200); 
+                                    'message'=>["Kode Fakultas ($id) gagal diupdate"]
+                                ],422); 
         }
         else
         {
@@ -121,8 +121,8 @@ class FakultasController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',                
-                                    'message'=>"Fetch data program studi berdasarkan id fakultas gagal"
-                                ],200); 
+                                    'message'=>["Fetch data program studi berdasarkan id fakultas gagal"]
+                                ],422); 
         }
         else
         {
@@ -153,8 +153,8 @@ class FakultasController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"Kode fakultas ($id) gagal dihapus"
-                                ],200); 
+                                    'message'=>["Kode fakultas ($id) gagal dihapus"]
+                                ],422); 
         }
         else
         {

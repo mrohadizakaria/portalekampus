@@ -31,8 +31,8 @@ class ProvinsiController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',                
-                                    'message'=>"Fetch data kabupaten berdasarkan id provinsi gagal"
-                                ],200); 
+                                    'message'=>["Fetch data kabupaten berdasarkan id provinsi gagal"]
+                                ],422); 
         }
         else
         {

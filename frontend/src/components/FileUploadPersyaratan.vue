@@ -20,14 +20,16 @@
                     color="orange"
                     text
                     @click="upload(index,item)"
-                >
+                    :loading="btnLoading"                                
+                    :disabled="btnLoading">                
                     Upload
                 </v-btn>
 
                 <v-btn
                     color="orange"
                     text
-                >
+                    :loading="btnLoading"                                
+                    :disabled="btnLoading">                
                     Hapus
                 </v-btn>
             </v-card-actions>
@@ -35,17 +37,27 @@
     </v-form>        
 </template>
 <script>
+import {mapGetters} from 'vuex';
 export default {
     name:'FileUploadPersyaratan',
     created ()
     {
-        this.image_prev=this.item.path;
+        if (this.item.path == null)
+        {
+            this.image_prev=this.item.path;
+        }
+        else
+        {
+            this.image_prev=this.$api.url+'/'+this.item.path;
+        }
+        
     },
     props:{
         index:Number,
         item:Object
     },
     data:()=>({        
+        btnLoading:false,
         image_prev:null,
         //form
         form_valid:true,
@@ -72,20 +84,40 @@ export default {
                 }
             }          
         },
-        upload(index,item)
+        upload:async function (index,item)
         {
             let data = item;   
             if (this.$refs.frmpersyaratan.validate())
             {
                 if (typeof this.filepersyaratan[index] !== 'undefined')
                 {
-                    console.log(data);        
-                    console.log(this.filepersyaratan[index]);                    
+                    this.btnLoading=true;
+                    var formdata = new FormData();                    
+                    formdata.append('nama_persyaratan',data.nama_persyaratan);
+                    formdata.append('persyaratan_id',data.persyaratan_id);
+                    formdata.append('persyaratan_pmb_id',data.persyaratan_pmb_id);
+                    formdata.append('foto',this.filepersyaratan[index]);
+                    await this.$ajax.post('/spmb/pmbpersyaratan/upload/'+this.ATTRIBUTE_USER('id'),formdata,                    
+                        {
+                            headers:{
+                                Authorization:this.TOKEN,      
+                                'Content-Type': 'multipart/form-data'                      
+                            }
+                        }
+                    ).then(()=>{                           
+                        this.btnLoading=false;                        
+                    }).catch(()=>{
+                        this.btnLoading=false;
+                    });                    
                 }               
             }            
         }
     },
-    computed:{
+    computed: {
+        ...mapGetters('auth',{                                
+            TOKEN:'Token',  
+            ATTRIBUTE_USER:'AtributeUser',                                 
+        }), 
         photoPersyaratan:{
             get ()
             {   

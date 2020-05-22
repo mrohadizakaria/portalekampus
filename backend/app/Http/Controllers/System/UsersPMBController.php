@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
-
+use Ramsey\Uuid\Uuid;
 class UsersPMBController extends Controller {         
     /**
      * Show the form for creating a new resource.
@@ -48,6 +48,7 @@ class UsersPMBController extends Controller {
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
+            'id'=>Uuid::uuid4()->toString(),
             'name'=>$request->input('name'),
             'email'=>$request->input('email'),
             'nomor_hp'=>$request->input('nomor_hp'),
@@ -92,8 +93,8 @@ class UsersPMBController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',                
-                                    'message'=>"User ID ($id) gagal diupdate"
-                                ],200); 
+                                    'message'=>["User ID ($id) gagal diupdate"]
+                                ],422); 
         }
         else
         {
@@ -150,8 +151,8 @@ class UsersPMBController extends Controller {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"User ID ($id) gagal dihapus"
-                                ],200); 
+                                    'message'=>["User ID ($id) gagal dihapus"]
+                                ],422); 
         }
         else
         {

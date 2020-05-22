@@ -5,6 +5,8 @@ namespace App\Http\Controllers\SPMB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\SPMB\PMBPersyaratanModel;
+use App\Helpers\Helper;
 
 use Ramsey\Uuid\Uuid;
 
@@ -29,8 +31,8 @@ class PMBPersyaratanController extends Controller {
             return Response()->json([
                                         'status'=>1,
                                         'pid'=>'fetchdata',                
-                                        'message'=>"User ID ($id) gagal diperoleh"
-                                    ],200); 
+                                        'message'=>["User ID ($id) gagal diperoleh"]
+                                    ],422); 
         }
         else
         {
@@ -48,6 +50,7 @@ class PMBPersyaratanController extends Controller {
                             ->leftJoinSub($subquery,'pe3_pmb_persyaratan',function($join){
                                 $join->on('pe3_persyaratan.id','=','pe3_pmb_persyaratan.persyaratan_id');
                             })
+                            ->orderBy('pe3_persyaratan.nama_persyaratan','ASC')
                             ->get();
             return Response()->json([
                                     'status'=>1,
@@ -55,6 +58,84 @@ class PMBPersyaratanController extends Controller {
                                     'persyaratan'=>$persyaratan,      
                                     'message'=>'Persyaratan user PMB '.$user->name.' berhasil diperoleh.'
                                 ],200); 
+        }
+    }
+    public function upload (Request $request,$id)
+    {
+        $user = User::find($id); 
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'store',                
+                                    'message'=>["Data Mahasiswa tidak ditemukan."]
+                                ],422);         
+        }
+        else
+        {
+            $this->validate($request, [      
+                'persyaratan_pmb_id'=>'required',
+                'persyaratan_id'=>'required|exists:pe3_persyaratan,id',                                                               
+                'nama_persyaratan'=>'required',  
+                'foto'=>'required'                        
+            ]);
+            $name=$user->name;
+            $foto = $request->file('foto');
+            $mime_type=$foto->getMimeType();
+            if ($mime_type=='image/png' || $mime_type=='image/jpeg')
+            {
+                $folder=Helper::public_path('images/pmb/');
+                $file_name=uniqid('img').".".$foto->getClientOriginalExtension();
+                
+                $persyaratan=PMBPersyaratanModel::find($request->input('persyaratan_pmb_id'));
+
+                if (is_null($persyaratan))
+                {
+                    $now = \Carbon\Carbon::now()->toDateTimeString();        
+                    $persyaratan=PMBPersyaratanModel::create([
+                                                                'id'=>Uuid::uuid4()->toString(),
+                                                                'persyaratan_id'=>$request->input('persyaratan_id'),
+                                                                'user_id'=>$id,
+                                                                'nama_persyaratan'=> $request->input('nama_persyaratan'),
+                                                                'path'=>"storage/images/pmb/$file_name",                                            
+                                                                'created_at'=>$now, 
+                                                                'updated_at'=>$now
+                                                            ]); 
+                    
+                }
+                else
+                {
+                    $old_file=$persyaratan->path;
+                    $persyaratan->path="storage/images/pmb/$file_name";
+                    $persyaratan->save();
+                    if ($old_file != 'images/no_photo.png')
+                    {
+                        $old_file=str_replace('storage/','',$old_file);
+                        if (is_file(Helper::public_path($old_file)))
+                        {
+                            unlink(Helper::public_path($old_file));
+                        }
+                    }
+                }                
+                $foto->move($folder,$file_name);
+                return Response()->json([
+                                            'status'=>0,
+                                            'pid'=>'store',
+                                            'persyaratan'=>$persyaratan,                
+                                            'message'=>"Persyaratan Mahasiswa baru ($name)  berhasil diupload"
+                                        ],200);    
+            }
+            else
+            {
+                return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'store',
+                                        'message'=>["Extensi file yang diupload bukan jpg atau png."]
+                                    ],422); 
+                
+
+            }
         }
     }
 }
