@@ -21,6 +21,8 @@ class CreatePersyaratanPmbTable extends Migration
             $table->uuid('user_id')->index();                                  
             $table->string('nama_persyaratan');                                
             $table->string('path');                                                        
+            $table->boolean('verified')->default(0);                                                        
+            $table->string('descr')->nullable();                                                        
             $table->timestamps();   
             
             $table->foreign('persyaratan_id')

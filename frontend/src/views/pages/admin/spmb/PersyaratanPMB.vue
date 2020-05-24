@@ -34,12 +34,30 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini berisi file-file persyaratan pendaftaran mahasiswa baru, mohon disesuaikan di filter tahun akademik, kemudian tekan refresh.
+                        Halaman ini berisi file-file persyaratan pendaftaran yang diupload oleh mahasiswa baru, mohon disesuaikan di filter tahun akademik, kemudian tekan refresh.
                     </v-alert>
             </template>
         </ModuleHeader> 
         <v-container v-if="dashboard=='mahasiswabaru'">
             <FormPersyaratan/>
+        </v-container>
+        <v-container v-else>
+            <v-row class="mb-4" no-gutters>
+                <v-col cols="12">
+                    <v-card>
+                        <v-card-text>
+                            <v-text-field
+                                v-model="search"
+                                append-icon="mdi-database-search"
+                                label="Search"
+                                single-line
+                                hide-details
+                            ></v-text-field>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+            
         </v-container>
     </AdminLayout>
 </template>
@@ -73,23 +91,24 @@ export default {
     data: () => ({
         breadcrumbs:[],        
         dashboard:null,
-
-        //form
-        form_valid:true,
-        frmmhsbaru:{
-
-        }
+        search:'',
     }),
     methods : {
 		initialize:async function()
 		{	
-            this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];   
-            switch(this.dashboard)
+            this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];       
+            if (this.dashboard != 'mahasiswabaru' && this.dashboard !='mahasiswa')
             {
-                case 'mahasiswabaru':
-
-                break;
-            }
+                this.datatableLoading=true;
+                await this.$ajax.get('/spmb/pmbpersyaratan',{
+                    headers: {
+                        Authorization:this.TOKEN
+                    }
+                }).then(({data})=>{               
+                    console.log(data);
+                    this.datatableLoading=false;
+                });  
+            }                   
 		}
 	},
     computed: {

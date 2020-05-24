@@ -23,7 +23,7 @@ class PMBPersyaratanModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'id', 'persyaratan_id', 'user_id', 'nama_persyaratan', 'path'
+        'id', 'persyaratan_id', 'user_id', 'nama_persyaratan', 'path', 'descr'
     ];
     /**
      * enable auto_increment.
