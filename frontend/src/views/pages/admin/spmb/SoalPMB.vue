@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="spmbsoalpmb">
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-file

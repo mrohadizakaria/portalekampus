@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="systemidentitasdiri">
 		<ModuleHeader>
             <template v-slot:icon>
                 mdi-face-profile

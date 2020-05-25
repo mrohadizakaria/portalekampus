@@ -316,7 +316,7 @@
                 </v-list-group>
             </v-list>
         </v-navigation-drawer>
-        <v-navigation-drawer v-model="drawerRight" width="300" app fixed right temporary>
+        <v-navigation-drawer v-model="drawerRight" width="300" app fixed right temporary v-if="dashboard != 'mahasiswabaru'">
 			<v-list-item>		
 				<v-list-item-icon>
 					<v-icon>mdi-bookmark</v-icon>
@@ -351,15 +351,22 @@ import {mapGetters} from 'vuex';
 export default {
     name:'AdminLayout',
     created()
-    {     
-        switch(this.$route.name)
+    {   
+        switch(this.pagename)
         {
-            case 'SPMBPendaftaranBaru' :                                    
-            case 'SPMBKonfirmasiPembayaran' :
+            case 'spmbpendaftaranbaru' :                                    
+            case 'spmbformulirpendaftaran' :                                    
+            case 'spmbpersyaratanpmb' :                                    
+            case 'spmbkonfirmasipembayaran' :
                 this.daftar_ta=this.$store.getters['uiadmin/getDaftarTA'];  
-                this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];       
+                this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];                                    
             break;
-        }            
+        }  
+        this.setupPageData();          
+    },
+    props:{
+        pagename:String,
+        dashboard:String
     }, 
     data:()=>({
         loginTime:0,
@@ -368,9 +375,25 @@ export default {
         
         //filter
         daftar_ta:[],
-        tahun_masuk:2020
+        tahun_masuk:null
     }),       
     methods: {
+        setupPageData ()
+        {
+            switch(this.pagename)
+            {
+                case 'spmbpendaftaranbaru' :                                    
+                case 'spmbformulirpendaftaran' :                                    
+                case 'spmbpersyaratanpmb' :                                    
+                case 'spmbkonfirmasipembayaran' :                                
+                    this.$emit('setPageData',{
+                        tahun_masuk:this.tahun_masuk,
+                        token:this.TOKEN,
+                        access_token:this.ACCESS_TOKEN
+                    });       
+                break;
+            }         
+        },
         logout ()
         {
             this.loginTime=0;
@@ -440,10 +463,12 @@ export default {
         filterTahunMasuk()
         {
             var bool=false;
-            switch(this.$route.name)
+            switch(this.pagename)
             {
-                case 'SPMBPendaftaranBaru' :
-                case 'SPMBKonfirmasiPembayaran' :
+                case 'spmbpendaftaranbaru' :                                    
+                case 'spmbformulirpendaftaran' :                                    
+                case 'spmbpersyaratanpmb' :                                    
+                case 'spmbkonfirmasipembayaran' :
                     bool = true;                       
                 break;
             }   
@@ -472,6 +497,7 @@ export default {
         tahun_masuk(val)
         {
             this.$store.dispatch('uiadmin/updateTahunMasuk',val);
+            this.setupPageData();
         }
     }
 }

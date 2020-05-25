@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="spmbkonfirmasipembayaran">
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-account-cash

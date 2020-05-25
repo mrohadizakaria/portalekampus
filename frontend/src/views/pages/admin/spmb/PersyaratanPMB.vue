@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="spmbpersyaratanpmb" v-on:setPageData="setPageData" :dashboard="dashboard">
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-file-document-edit-outline
@@ -8,7 +8,7 @@
                 PERSYARATAN PMB
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahunmasuk|formatTA}}
+                TAHUN {{tahun_masuk|formatTA}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -62,18 +62,21 @@
     </AdminLayout>
 </template>
 <script>
-import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import FormPersyaratan from '@/components/FormPersyaratanPMB';
 export default {
     name: 'FormulirPendaftaran', 
-    created () {
+    created()
+    {
+        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];   
+    },
+    mounted () {
         this.breadcrumbs = [
             {
                 text:'HOME',
                 disabled:false,
-                href:'/dashboard/'+this.ACCESS_TOKEN
+                href:'/dashboard/'+this.access_token
             },
             {
                 text:'SPMB',
@@ -89,6 +92,10 @@ export default {
         this.initialize()
     },   
     data: () => ({
+        access_token:null,
+        token:null,
+        tahun_masuk:null,
+
         breadcrumbs:[],        
         dashboard:null,
         search:'',
@@ -96,31 +103,26 @@ export default {
     methods : {
 		initialize:async function()
 		{	
-            this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];       
             if (this.dashboard != 'mahasiswabaru' && this.dashboard !='mahasiswa')
             {
                 this.datatableLoading=true;
                 await this.$ajax.get('/spmb/pmbpersyaratan',{
                     headers: {
-                        Authorization:this.TOKEN
+                        Authorization:this.token
                     }
-                }).then(({data})=>{               
+                }).then(({data})=>{                                   
                     console.log(data);
                     this.datatableLoading=false;
                 });  
             }                   
-		}
-	},
-    computed: {
-        ...mapGetters('auth',{  
-            ACCESS_TOKEN:'AccessToken',                   
-            TOKEN:'Token',                                  
-        }), 
-        tahunmasuk()
+        },
+        setPageData (data)
         {
-            return this.$store.getters['uiadmin/getTahunMasuk'];
-        }
-    },
+            this.tahun_masuk=data.tahun_masuk;
+            this.token=data.token;
+            this.access_token=data.access_token;
+        },
+	},
     components:{
         AdminLayout,
         ModuleHeader,        

@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="spmbformulirpendaftaran" v-on:setPageData="setPageData">
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-file-document-edit-outline
@@ -8,7 +8,7 @@
                 FORMULIR PENDAFTARAN
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahunmasuk|formatTA}}
+                TAHUN {{tahun_masuk|formatTA}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -44,18 +44,21 @@
     </AdminLayout>
 </template>
 <script>
-import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import FormMhsBaru from '@/components/FormMahasiswaBaru';
 export default {
     name: 'FormulirPendaftaran', 
-    created () {
+    created()
+    {
+        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];   
+    },
+    mounted () {
         this.breadcrumbs = [
             {
                 text:'HOME',
                 disabled:false,
-                href:'/dashboard/'+this.ACCESS_TOKEN
+                href:'/dashboard/'+this.access_token
             },
             {
                 text:'SPMB',
@@ -71,6 +74,10 @@ export default {
         this.initialize()
     },   
     data: () => ({
+        access_token:null,
+        token:null,
+        tahun_masuk:null,
+
         breadcrumbs:[],        
         dashboard:null,
 
@@ -83,25 +90,20 @@ export default {
     methods : {
 		initialize:async function()
 		{	
-            this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];   
             switch(this.dashboard)
             {
                 case 'mahasiswabaru':
 
                 break;
             }
-		}
-	},
-    computed: {
-        ...mapGetters('auth',{  
-            ACCESS_TOKEN:'AccessToken',                   
-            TOKEN:'Token',                                  
-        }), 
-        tahunmasuk()
+        },
+        setPageData (data)
         {
-            return this.$store.getters['uiadmin/getTahunMasuk'];
-        }
-    },
+            this.tahun_masuk=data.tahun_masuk;
+            this.token=data.token;
+            this.access_token=data.access_token;
+        },
+	},
     components:{
         AdminLayout,
         ModuleHeader,        

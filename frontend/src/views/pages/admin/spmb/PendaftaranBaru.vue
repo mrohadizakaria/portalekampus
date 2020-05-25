@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="spmbpendaftaranbaru" v-on:setPageData="setPageData">
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-account-plus
@@ -8,7 +8,7 @@
                 PENDAFTARAN MAHASISWA BARU 
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahunmasuk|formatTA}}
+                TAHUN {{tahun_masuk|formatTA}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -133,18 +133,18 @@
     </AdminLayout>
 </template>
 <script>
-import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 
 export default {
     name: 'PendaftaranBaru',  
-    created () {
+    mounted()
+    {
         this.breadcrumbs = [
             {
                 text:'HOME',
                 disabled:false,
-                href:'/dashboard/'+this.ACCESS_TOKEN
+                href:'/dashboard/'+this.access_token
             },
             {
                 text:'SPMB',
@@ -156,10 +156,15 @@ export default {
                 disabled:true,
                 href:'#'
             }
-        ];
-        this.initialize()
+        ];   
+        this.initialize();
     },
     data: () => ({ 
+        access_token:null,
+        token:null,
+        tahun_masuk:null,
+        
+        breadcrumbs:[],
         datatableLoading:false,
         btnLoading:false,              
         //tables
@@ -178,20 +183,26 @@ export default {
     methods: {
         initialize:async function () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading=true;            
             await this.$ajax.post('/spmb/pmb',
             {
-                TA:this.tahunmasuk,
+                TA:this.tahun_masuk,
             },
             {
                 headers: {
-                    Authorization:this.TOKEN
+                    Authorization:this.token
                 }
             }).then(({data})=>{               
                 this.datatable = data.pmb;                
                 this.datatableLoading=false;
             });          
         },  
+        setPageData (data)
+        {
+            this.tahun_masuk=data.tahun_masuk;
+            this.token=data.token;
+            this.access_token=data.access_token;
+        },
         badgeColor(item)
         {
             return item.active == 1 ? 'success':'error'
@@ -220,7 +231,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.TOKEN
+                        Authorization:this.token
                     }
                 }
             ).then(()=>{   
@@ -247,7 +258,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.TOKEN
+                                Authorization:this.token
                             }
                         }
                     ).then(()=>{   
@@ -261,18 +272,8 @@ export default {
             });
         },
     },
-    computed: {
-        ...mapGetters('auth',{            
-            ACCESS_TOKEN:'AccessToken',          
-            TOKEN:'Token',                                  
-        }), 
-        tahunmasuk()
-        {
-            return this.$store.getters['uiadmin/getTahunMasuk'];
-        }
-    },
     watch:{
-        tahunmasuk()
+        tahun_masuk()
         {
             this.initialize();
         }

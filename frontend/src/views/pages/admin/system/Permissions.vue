@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="systempermissions">
 		<ModuleHeader>
             <template v-slot:icon>
                 mdi-account-key

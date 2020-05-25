@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="dashboard">
 		<ModuleHeader>
             <template v-slot:icon>
                 mdi-monitor-dashboard

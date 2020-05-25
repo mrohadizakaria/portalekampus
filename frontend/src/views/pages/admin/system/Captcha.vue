@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <AdminLayout pagename="systemcaptcha">
 		<ModuleHeader>
             <template v-slot:icon>
                 mdi-google-circles-group
