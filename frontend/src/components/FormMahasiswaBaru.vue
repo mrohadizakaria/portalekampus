@@ -267,10 +267,11 @@ export default {
     methods: {
         initialize:async function ()
         {
+            let bentukpt=this.$store.getters['uifront/getBentukPT'];
             this.$ajax.get('/datamaster/provinsi').then(({data})=>{                
                 this.daftar_provinsi=data.provinsi;                
             });            
-            if (this.$store.getters['uifront/getBentukPT']=='universitas')
+            if (bentukpt=='universitas')
             {                
                 await this.$ajax.get('/datamaster/fakultas').then(({data})=>{                    
                     this.daftar_fakultas=data.fakultas;
@@ -319,6 +320,10 @@ export default {
                 };
                 
                 this.formdata.alamat_rumah=data.formulir.alamat_rumah;    
+                if (bentukpt=='universitas' && data.formulir.kode_fakultas !=null)
+                {
+                    this.kode_fakultas=data.formulir.kode_fakultas;
+                }
                 this.formdata.kjur1=data.formulir.kjur1;    
                 this.formdata.idkelas=data.formulir.idkelas;    
                 
