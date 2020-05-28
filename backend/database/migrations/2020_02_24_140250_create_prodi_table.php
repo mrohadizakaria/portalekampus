@@ -19,6 +19,7 @@ class CreateProdiTable extends Migration
             $table->string('kode_prodi',5);                        
             $table->string('kode_fakultas',10)->nullable();                        
             $table->string('nama_prodi',50);
+            $table->string('nama_prodi_alias',50);
             $table->string('kode_jenjang',1);
             $table->string('nama_jenjang',15);
             $table->string('config')->nullable();

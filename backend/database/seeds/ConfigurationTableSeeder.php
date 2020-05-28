@@ -59,6 +59,15 @@ class ConfigurationTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
+
+        \DB::table('pe3_configuration')->insert([
+            'config_id'=>"203",
+            'config_group'=>'variables',
+            'config_key'=>'DEFAULT_PRODI',
+            'config_value'=>1,
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
         
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"901",

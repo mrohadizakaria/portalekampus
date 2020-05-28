@@ -30,6 +30,12 @@ class RolesTableSeeder extends Seeder
                 'updated_at'=>Carbon::now()
             ],    
             [
+                'name'=>'programstudi',
+                'guard_name'=>'api',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ],    
+            [
                 'name'=>'pmb',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),

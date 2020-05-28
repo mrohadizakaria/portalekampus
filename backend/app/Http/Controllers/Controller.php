@@ -17,6 +17,20 @@ class Controller extends BaseController
         return Auth::guard('api');
     }
     /**
+     * @return boolean roles of user in array
+     */
+    public function getRoleNames() 
+    {
+        return $this->guard()->user()->getRoleNames()->toArray();
+    }
+    /**
+     * @return boolean has role
+     */
+    public function hasRole($name) 
+    {
+        return $this->guard()->user()->hasRole($name);        
+    }
+    /**
      * @return object auth api
      */
     public function hasPermissionTo($permission) 

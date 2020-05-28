@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\System\ConfigurationModel;
 use App\Models\DMaster\TAModel;
+use App\Models\DMaster\ProgramStudiModel;
 
 
 class UIController extends Controller {    
@@ -37,9 +38,17 @@ class UIController extends Controller {
         $config = ConfigurationModel::getCache();
         $daftar_ta=TAModel::all();
         
+
+        if ($this->hasRole('superadmin'))
+        {
+            $daftar_prodi=ProgramStudiModel::all();
+        }
+        $prodi_id=$config['DEFAULT_PRODI'];        
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
+                                    'daftar_prodi'=>$daftar_prodi,
+                                    'prodi_id'=>$prodi_id,
                                     'daftar_ta'=>$daftar_ta,                                  
                                     'message'=>'Fetch data ui untuk admin berhasil diperoleh'
                                 ],200);  

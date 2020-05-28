@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout pagename="spmbpendaftaranbaru" v-on:setPageData="setPageData">
+    <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-account-plus
@@ -130,21 +130,24 @@
                 </v-col>
             </v-row>
         </v-container>
+        <template v-slot:filtersidebar>
+            <Filter7 v-on:changeTahunMasuk="changeTahunMasuk" v-on:changeProdi="changeProdi" />	
+        </template>
     </AdminLayout>
 </template>
 <script>
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
-
+import Filter7 from '@/components/sidebar/FilterMode7'
 export default {
     name: 'PendaftaranBaru',  
-    mounted()
+    created()
     {
         this.breadcrumbs = [
             {
                 text:'HOME',
                 disabled:false,
-                href:'/dashboard/'+this.access_token
+                href:'/dashboard/'+this.$store.getters['auth/AccessToken']
             },
             {
                 text:'SPMB',
@@ -157,11 +160,13 @@ export default {
                 href:'#'
             }
         ];   
+        this.prodi_id=this.$store.getters['uiadmin/getProdiID'];
+        this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];        
         this.initialize();
     },
     data: () => ({ 
-        access_token:null,
-        token:null,
+        firstloading:true,
+        prodi_id:null,
         tahun_masuk:null,
         
         breadcrumbs:[],
@@ -181,6 +186,14 @@ export default {
         datatable:[],
     }),
     methods: {
+        changeTahunMasuk (tahun)
+        {
+            this.tahun_masuk=tahun;
+        },
+        changeProdi (id)
+        {
+            this.prodi_id=id;
+        },
         initialize:async function () 
         {
             this.datatableLoading=true;            
@@ -190,18 +203,13 @@ export default {
             },
             {
                 headers: {
-                    Authorization:this.token
+                    Authorization:this.$store.getters['auth/Token']
                 }
             }).then(({data})=>{               
                 this.datatable = data.pmb;                
                 this.datatableLoading=false;
             });          
-        },  
-        setPageData (data)
-        {
-            this.tahun_masuk=data.tahun_masuk;
-            this.token=data.token;
-            this.access_token=data.access_token;
+            this.firstloading=false;
         },
         badgeColor(item)
         {
@@ -231,7 +239,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.token
+                        Authorization:this.$store.getters['auth/Token']
                     }
                 }
             ).then(()=>{   
@@ -258,7 +266,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.token
+                                Authorization:this.$store.getters['auth/Token']
                             }
                         }
                     ).then(()=>{   
@@ -275,12 +283,23 @@ export default {
     watch:{
         tahun_masuk()
         {
-            this.initialize();
+            if (!this.firstloading)
+            {
+                this.initialize();
+            }            
+        },
+        prodi_id()
+        {
+            if (!this.firstloading)
+            {
+                this.initialize();
+            }            
         }
     },
     components:{
         AdminLayout,
-        ModuleHeader,        
+        ModuleHeader,    
+        Filter7    
     },
 }
 </script>
