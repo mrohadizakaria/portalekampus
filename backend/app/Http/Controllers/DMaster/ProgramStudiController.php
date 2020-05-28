@@ -15,7 +15,7 @@ class ProgramStudiController extends Controller {
      */
     public function index(Request $request)
     {
-        $prodi=ProgramStudiModel::select(\DB::raw('id,kode_prodi,nama_prodi,CONCAT(nama_prodi,\' (\',nama_jenjang,\')\') AS nama_prodi2,kode_jenjang,nama_jenjang,pe3_fakultas.kode_fakultas,nama_fakultas'))
+        $prodi=ProgramStudiModel::select(\DB::raw('id,kode_prodi,nama_prodi,CONCAT(nama_prodi,\' (\',nama_jenjang,\')\') AS nama_prodi2,nama_prodi_alias,kode_jenjang,nama_jenjang,pe3_fakultas.kode_fakultas,nama_fakultas'))
                                 ->leftJoin('pe3_fakultas','pe3_fakultas.kode_fakultas','pe3_prodi.kode_fakultas')
                                 ->get();
 
@@ -42,6 +42,7 @@ class ProgramStudiController extends Controller {
             $rule=[            
                 'kode_prodi'=>'required|numeric|unique:pe3_prodi',
                 'nama_prodi'=>'required|string|unique:pe3_prodi',            
+                'nama_prodi_alias'=>'required|string|unique:pe3_prodi',            
                 'kode_jenjang'=>'required|exists:pe3_jenjang_studi,kode_jenjang',            
                 'nama_jenjang'=>'required',            
             ];
@@ -53,6 +54,7 @@ class ProgramStudiController extends Controller {
                 'kode_prodi'=>'required|numeric',
                 'kode_fakultas'=>'required|exists:pe3_fakultas,kode_fakultas',
                 'nama_prodi'=>'required|string|unique:pe3_prodi',         
+                'nama_prodi_alias'=>'required|string|unique:pe3_prodi',         
                 'kode_jenjang'=>'required|exists:pe3_jenjang_studi,kode_jenjang',            
                 'nama_jenjang'=>'required',               
             ];
@@ -64,6 +66,7 @@ class ProgramStudiController extends Controller {
             'kode_prodi'=>$request->input('kode_prodi'),
             'kode_fakultas'=>$kode_fakultas,
             'nama_prodi'=>$request->input('nama_prodi'),            
+            'nama_prodi_alias'=>$request->input('nama_prodi_alias'),            
             'kode_jenjang'=>$request->input('kode_jenjang'),            
             'nama_jenjang'=>$request->input('nama_jenjang'),            
         ]);                      
@@ -132,6 +135,11 @@ class ProgramStudiController extends Controller {
                                                             'string',
                                                             Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi,'nama_prodi')
                                                         ],           
+                                            'nama_prodi_alias'=>[
+                                                            'required',
+                                                            'string',
+                                                            Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi_alias,'nama_prodi_alias')
+                                                        ],           
                                             
                                         ]); 
             }
@@ -152,12 +160,18 @@ class ProgramStudiController extends Controller {
                                                             'string',
                                                             Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi,'nama_prodi')
                                                         ],           
+                                            'nama_prodi'=>[
+                                                            'required',
+                                                            'string',
+                                                            Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi_alias,'nama_prodi_alias')
+                                                        ],           
                                             
                                         ]); 
             }                       
             $prodi->kode_fakultas = $request->input('kode_fakultas');
             $prodi->kode_prodi = $request->input('kode_prodi');
             $prodi->nama_prodi = $request->input('nama_prodi');            
+            $prodi->nama_prodi_alias = $request->input('nama_prodi_alias');            
             $prodi->save();
 
             \App\Models\System\ActivityLog::log($request,[

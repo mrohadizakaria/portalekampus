@@ -8,7 +8,7 @@
                 PENDAFTARAN MAHASISWA BARU 
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahun_masuk|formatTA}}
+                TAHUN {{tahun_masuk|formatTA}} PROGRAM STUDI {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -138,7 +138,7 @@
 <script>
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
-import Filter7 from '@/components/sidebar/FilterMode7'
+import Filter7 from '@/components/sidebar/FilterMode7';
 export default {
     name: 'PendaftaranBaru',  
     created()
@@ -160,7 +160,9 @@ export default {
                 href:'#'
             }
         ];   
-        this.prodi_id=this.$store.getters['uiadmin/getProdiID'];
+        let prodi_id=this.$store.getters['uiadmin/getProdiID'];
+        this.prodi_id=prodi_id;
+        this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](prodi_id);
         this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];        
         this.initialize();
     },
@@ -168,6 +170,7 @@ export default {
         firstloading:true,
         prodi_id:null,
         tahun_masuk:null,
+        nama_prodi:null,
         
         breadcrumbs:[],
         datatableLoading:false,
@@ -200,6 +203,7 @@ export default {
             await this.$ajax.post('/spmb/pmb',
             {
                 TA:this.tahun_masuk,
+                prodi_id:this.prodi_id,
             },
             {
                 headers: {
@@ -288,10 +292,11 @@ export default {
                 this.initialize();
             }            
         },
-        prodi_id()
+        prodi_id(val)
         {
             if (!this.firstloading)
             {
+                this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](val);
                 this.initialize();
             }            
         }

@@ -93,6 +93,10 @@ const getters= {
     {
         return parseInt(state.prodi_id);
     },
+    getProdiName : (state) => (key) =>
+    {   
+        return state.daftar_prodi == null?'':state.daftar_prodi[key].nama_prodi;
+    },
 }
 const actions = {    
     init: async function ({commit,state,rootGetters},ajax)
@@ -115,7 +119,7 @@ const actions = {
                     prodi[element.id]={
                         id:element.id,
                         text:element.nama_prodi_alias + ' ('+element.nama_jenjang+')',
-                        nama_prodi:element.nama_prodi                  
+                        nama_prodi:element.nama_prodi + ' ('+element.nama_jenjang+')',                  
                     };
                 });                           
                 commit('setDaftarProdi',prodi);            

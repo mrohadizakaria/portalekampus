@@ -96,6 +96,12 @@
                                                     filled
                                                     :rules="rule_nama_prodi">
                                                 </v-text-field>
+                                                <v-text-field 
+                                                    v-model="formdata.nama_prodi_alias" 
+                                                    label="NAMA SINGKAT PROGRAM STUDI"
+                                                    filled
+                                                    :rules="rule_nama_prodi_alias">
+                                                </v-text-field>
                                                 <v-select 
                                                     v-model="jenjang_studi" 
                                                     label="JENJANG"
@@ -131,7 +137,7 @@
                                             <v-row no-gutters>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>KODE PROGRAM STUDI :</v-card-title>
+                                                        <v-card-title>KODE PRODI :</v-card-title>
                                                         <v-card-subtitle>
                                                             {{formdata.kode_prodi}}
                                                         </v-card-subtitle>
@@ -140,13 +146,24 @@
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>NAMA PROGRAM STUDI :</v-card-title>
+                                                        <v-card-title>NAMA PRODI :</v-card-title>
                                                         <v-card-subtitle>
                                                             {{formdata.nama_prodi}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                            </v-row>                                            
+                                            <v-row no-gutters>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>NAMA SINGKAT PRODI :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.nama_prodi_alias}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>                                                
                                             </v-row>                                            
                                         </v-card-text>
                                         <v-card-actions>
@@ -243,6 +260,7 @@ export default {
             kode_fakultas:'',                        
             kode_prodi:'',                        
             nama_prodi:'', 
+            nama_prodi_alias:'',         
             kode_jenjang:'', 
             nama_jenjang:'', 
         },
@@ -251,6 +269,7 @@ export default {
             kode_fakultas:'',   
             kode_prodi:'',                        
             nama_prodi:'',         
+            nama_prodi_alias:'',         
             kode_jenjang:'', 
             nama_jenjang:'', 
         },
@@ -267,6 +286,10 @@ export default {
         rule_nama_prodi:[
             value => !!value||"Mohon Nama Program Studi untuk diisi !!!",  
             value => /^[A-Za-z\s]*$/.test(value) || 'Nama Program Studi hanya boleh string dan spasi',                
+        ], 
+        rule_nama_prodi_alias:[
+            value => !!value||"Mohon Nama Singkat Program Studi untuk diisi !!!",  
+            value => /^[A-Za-z\s]*$/.test(value) || 'Nama Singkat Program Studi hanya boleh string dan spasi',                
         ], 
         rule_kode_jenjang:[
             value => !!value||"Mohon Jenjang Studi untuk dipilih !!!",              
@@ -350,6 +373,7 @@ export default {
                             kode_fakultas:this.formdata.kode_fakultas,                            
                             kode_prodi:this.formdata.kode_prodi,                            
                             nama_prodi:this.formdata.nama_prodi,                                                        
+                            nama_prodi_alias:this.formdata.nama_prodi_alias,                                                        
                             kode_jenjang:this.formdata.kode_jenjang,                                                        
                             nama_jenjang:this.formdata.nama_jenjang,                                                                                                             
                         },
@@ -372,6 +396,7 @@ export default {
                             kode_fakultas:this.formdata.kode_fakultas,                            
                             kode_prodi:this.formdata.kode_prodi,                            
                             nama_prodi:this.formdata.nama_prodi,   
+                            nama_prodi_alias:this.formdata.nama_prodi_alias,                                                        
                             kode_jenjang:this.jenjang_studi.kode_jenjang,                                                        
                             nama_jenjang:this.jenjang_studi.nama_jenjang,                                                                                                             
                         },

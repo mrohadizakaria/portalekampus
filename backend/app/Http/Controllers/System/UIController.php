@@ -36,14 +36,19 @@ class UIController extends Controller {
     public function admin ()
     {
         $config = ConfigurationModel::getCache();
-        $daftar_ta=TAModel::all();
-        
+        $daftar_ta=TAModel::all();        
 
         if ($this->hasRole('superadmin'))
         {
             $daftar_prodi=ProgramStudiModel::all();
+            $prodi_id=$config['DEFAULT_PRODI'];        
         }
-        $prodi_id=$config['DEFAULT_PRODI'];        
+        elseif ($this->hasRole('mahasiswabaru'))
+        {
+            $formulir=\App\Models\SPMB\FormulirPendaftaranModel::find($this->guard()->user()->id);
+            $daftar_prodi=ProgramStudiModel::where('id',$formulir->kjur1)->get();
+            $prodi_id=$formulir->kjur1;
+        }        
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  

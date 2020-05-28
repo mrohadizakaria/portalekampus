@@ -27,13 +27,17 @@ class PMBController extends Controller {
         $this->hasPermissionTo('SPMB-PMB_BROWSE');
 
         $this->validate($request, [           
-            'TA'=>'required'
+            'TA'=>'required',
+            'prodi_id'=>'required'
         ]);
         
         $ta=$request->input('TA');
+        $prodi_id=$request->input('prodi_id');
 
         $data = User::role('mahasiswabaru')
-                    ->where('ta',$ta)
+                    ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
+                    ->where('users.ta',$ta)
+                    ->where('kjur1',$prodi_id)
                     ->get();
         
         return Response()->json([

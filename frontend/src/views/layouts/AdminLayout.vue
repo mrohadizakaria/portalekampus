@@ -316,7 +316,7 @@
                 </v-list-group>
             </v-list>
         </v-navigation-drawer>
-        <v-navigation-drawer v-model="drawerRight" width="300" app fixed right temporary v-if="!ismhsbaru">
+        <v-navigation-drawer v-model="drawerRight" width="300" app fixed right temporary>
             <v-list dense>
                 <v-list-item>		
                     <v-list-item-icon>
@@ -340,10 +340,7 @@
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    name:'AdminLayout',    
-    props:{        
-        ismhsbaru:Boolean
-    }, 
+    name:'AdminLayout',        
     data:()=>({
         loginTime:0,
         drawer:null,
