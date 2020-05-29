@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout pagename="systemuserspmb">
+    <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-account

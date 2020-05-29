@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout pagename="spmbformulirpendaftaran" v-on:setPageData="setPageData">
+    <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-file-document-edit-outline
@@ -7,8 +7,8 @@
             <template v-slot:name>
                 FORMULIR PENDAFTARAN
             </template>
-            <template v-slot:subtitle>
-                TAHUN {{tahun_masuk|formatTA}}
+            <template v-slot:subtitle v-if="dashboard!='mahasiswabaru'">
+                TAHUN {{tahun_pendaftaran|formatTA}} PROGRAM STUDI {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -34,31 +34,106 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini berisi informasi pengisian formulir pendaftaran mahasiswa baru, mohon disesuaikan di filter tahun akademik, kemudian tekan refresh.
+                        Halaman ini berisi mahasiswa yang telah melakukan pengisian formulir pendaftaran, mohon disesuaikan di filter tahun pendaftaran, kemudian tekan refresh.
                     </v-alert>
             </template>
         </ModuleHeader> 
         <v-container v-if="dashboard=='mahasiswabaru'">
             <FormMhsBaru/>
         </v-container>
+        <v-container v-else>
+            <v-row class="mb-4" no-gutters>
+                <v-col cols="12">
+                    <v-card>
+                        <v-card-text>
+                            <v-text-field
+                                v-model="search"
+                                append-icon="mdi-database-search"
+                                label="Search"
+                                single-line
+                                hide-details
+                            ></v-text-field>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+            <v-row class="mb-4" no-gutters>
+                <v-col cols="12">
+                    <v-data-table
+                        :headers="headers"
+                        :items="datatable"
+                        :search="search"
+                        item-key="id"
+                        sort-by="name"
+                        show-expand
+                        :expanded.sync="expanded"
+                        :single-expand="true"
+                        @click:row="dataTableRowClicked"
+                        class="elevation-1"
+                        :loading="datatableLoading"
+                        loading-text="Loading... Please wait">
+                        <template v-slot:item.foto="{ item }">    
+                            <v-badge
+                                    bordered
+                                    :color="badgeColor(item)"
+                                    :icon="badgeIcon(item)"
+                                    overlap
+                                >                
+                                    <v-avatar size="30">                                        
+                                        <v-img :src="$api.url+'/'+item.foto" />                                                                     
+                                    </v-avatar>                                                                                                  
+                            </v-badge>
+                        </template>
+                        <template v-slot:item.actions="{ item }">
+                            <v-icon
+                                small
+                                class="mr-2"
+                                @click.stop="viewItem(item)">
+                                mdi-eye
+                            </v-icon>
+                            <v-icon
+                                small
+                                class="mr-2"
+                                @click.stop="editItem(item)">
+                                mdi-pencil
+                            </v-icon>
+                        </template>
+                        <template v-slot:expanded-item="{ headers, item }">
+                            <td :colspan="headers.length" class="text-center">
+                                <v-col cols="12">
+                                    <strong>ID:</strong>{{ item.id }}
+                                    <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
+                                    <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
+                                </v-col>                                
+                            </td>
+                        </template>
+                        <template v-slot:no-data>
+                            Data belum tersedia
+                        </template>
+                    </v-data-table>
+                </v-col>
+            </v-row>
+        </v-container>        
+        <template v-slot:filtersidebar v-if="dashboard!='mahasiswabaru'">
+            <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" />	
+        </template>
     </AdminLayout>
 </template>
 <script>
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import FormMhsBaru from '@/components/FormMahasiswaBaru';
+import Filter7 from '@/components/sidebar/FilterMode7';
 export default {
     name: 'FormulirPendaftaran', 
     created()
     {
-        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];   
-    },
-    mounted () {
+        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];
         this.breadcrumbs = [
             {
                 text:'HOME',
                 disabled:false,
-                href:'/dashboard/'+this.access_token
+                href:'/dashboard/'+this.$store.getters['auth/AccessToken']
             },
             {
                 text:'SPMB',
@@ -71,23 +146,44 @@ export default {
                 href:'#'
             }
         ];
-        this.initialize()
-    },   
+        let prodi_id=this.$store.getters['uiadmin/getProdiID'];
+        this.prodi_id=prodi_id;
+        this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](prodi_id);
+        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
+
+        this.initialize()   
+    },  
     data: () => ({
-        access_token:null,
-        token:null,
-        tahun_masuk:null,
+        firstloading:true,
+        prodi_id:null,
+        tahun_pendaftaran:null,
+        nama_prodi:null,
+
+        btnLoading:false,
+        datatableLoading:false,
+        expanded:[],
+        datatable:[],
+        headers: [                        
+            { text: '', value: 'foto', width:70 },               
+            { text: 'NAMA MAHASISWA', value: 'name',width:350,sortable:true },
+            { text: 'NOMOR HP', value: 'nomor_hp',width:100},
+            { text: 'KELAS', value: 'nkelas',width:100,sortable:true },
+            { text: 'AKSI', value: 'actions', sortable: false,width:50 },
+        ],
+        search:'',    
 
         breadcrumbs:[],        
         dashboard:null,
-
-        //form
-        form_valid:true,
-        frmmhsbaru:{
-
-        }
     }),
     methods : {
+        changeTahunPendaftaran (tahun)
+        {
+            this.tahun_pendaftaran=tahun;
+        },
+        changeProdi (id)
+        {
+            this.prodi_id=id;
+        },
 		initialize:async function()
 		{	
             switch(this.dashboard)
@@ -95,19 +191,66 @@ export default {
                 case 'mahasiswabaru':
 
                 break;
+                default :
+                    this.datatableLoading=true;            
+                    await this.$ajax.post('/spmb/formulirpendaftaran',
+                    {
+                        TA:this.tahun_pendaftaran,
+                        prodi_id:this.prodi_id,
+                    },
+                    {
+                        headers: {
+                            Authorization:this.$store.getters['auth/Token']
+                        }
+                    }).then(({data})=>{               
+                        this.datatable = data.pmb;                
+                        this.datatableLoading=false;
+                    });         
             }
+            this.firstloading=false;
         },
-        setPageData (data)
+        dataTableRowClicked(item)
         {
-            this.tahun_masuk=data.tahun_masuk;
-            this.token=data.token;
-            this.access_token=data.access_token;
+            if ( item === this.expanded[0])
+            {
+                this.expanded=[];                
+            }
+            else
+            {
+                this.expanded=[item];
+            }               
         },
-	},
+        badgeColor(item)
+        {
+            return item.active == 1 ? 'success':'error'
+        },
+        badgeIcon(item)
+        {
+            return item.active == 1 ? 'mdi-check-bold':'mdi-close-thick'
+        },     
+    },
+    watch:{
+        tahun_pendaftaran()
+        {
+            if (!this.firstloading)
+            {
+                this.initialize();
+            }            
+        },
+        prodi_id(val)
+        {
+            if (!this.firstloading)
+            {
+                this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](val);
+                this.initialize();
+            }            
+        }
+    },
     components:{
         AdminLayout,
         ModuleHeader,        
-        FormMhsBaru
+        FormMhsBaru,
+        Filter7    
     },
 }
 </script>

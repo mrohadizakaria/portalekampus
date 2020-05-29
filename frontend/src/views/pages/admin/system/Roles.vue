@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout pagename="systemroles">
+    <AdminLayout>
 		<ModuleHeader>
             <template v-slot:icon>
                 mdi-account-group

@@ -178,7 +178,6 @@
     </v-row>
 </template>
 <script>
-import {mapGetters} from 'vuex';
 export default {
     name:'FormMahasiswaBaru',
     created()
@@ -286,10 +285,10 @@ export default {
             this.$ajax.get('/datamaster/kelas').then(({data})=>{                
                 this.daftar_kelas=data.kelas;
             });
-            await this.$ajax.get('/spmb/formulirpendaftaran/'+this.ATTRIBUTE_USER('id'),             
+            await this.$ajax.get('/spmb/formulirpendaftaran/'+this.$store.getters['auth/AtributeUser']('id'),             
                 {
                     headers:{
-                        Authorization:this.TOKEN
+                        Authorization:this.$store.getters['auth/Token']
                     }
                 },
                 
@@ -335,7 +334,7 @@ export default {
             if (this.$refs.frmdata.validate())
             {
                 this.btnLoading=true;                
-                await this.$ajax.post('/spmb/formulirpendaftaran/'+this.ATTRIBUTE_USER('id'),{                    
+                await this.$ajax.post('/spmb/formulirpendaftaran/'+this.$store.getters['auth/AtributeUser']('id'),{                    
                     _method:'put',
                     nama_mhs:this.formdata.nama_mhs,           
                     tempat_lahir:this.formdata.tempat_lahir,           
@@ -358,7 +357,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.TOKEN
+                        Authorization:this.$store.getters['auth/Token']
                     }
                 }
                 ).then(()=>{                    
@@ -370,12 +369,6 @@ export default {
                 this.$refs.frmdata.resetValidation();                 
             }                             
         },
-    },
-    computed:{
-        ...mapGetters('auth',{                        
-            TOKEN:'Token',                      
-            ATTRIBUTE_USER:'AtributeUser',               
-        }),
     },
     watch:{
         provinsi_id(val)

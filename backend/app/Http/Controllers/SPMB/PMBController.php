@@ -18,7 +18,7 @@ use Ramsey\Uuid\Uuid;
 
 class PMBController extends Controller {         
     /**
-     * Show the form for creating a new resource.
+     * digunakan untuk mendapatkan calon mahasiswa baru yang baru mendaftar di halaman pendaftaran
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,6 +35,7 @@ class PMBController extends Controller {
         $prodi_id=$request->input('prodi_id');
 
         $data = User::role('mahasiswabaru')
+                    ->select(\DB::raw('users.id,users.username,users.name,users.email,users.nomor_hp,users.active,users.foto,users.created_at,users.updated_at'))
                     ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
                     ->where('users.ta',$ta)
                     ->where('kjur1',$prodi_id)
@@ -47,6 +48,38 @@ class PMBController extends Controller {
                                 'message'=>'Fetch data calon mahasiswa baru berhasil diperoleh'
                             ],200);  
     }    
+    /**
+     * digunakan untuk mendapatkan calon mahasiswa baru yang telah mengisi formulir pendaftaran
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function formulirpendaftaran(Request $request)
+    {   
+        $this->hasPermissionTo('SPMB-PMB_BROWSE');
+
+        $this->validate($request, [           
+            'TA'=>'required',
+            'prodi_id'=>'required'
+        ]);
+        
+        $ta=$request->input('TA');
+        $prodi_id=$request->input('prodi_id');
+
+        $data = User::role('mahasiswabaru')
+                    ->select(\DB::raw('users.id,users.name,users.nomor_hp,pe3_kelas.nkelas,users.active,users.foto,users.created_at,users.updated_at'))
+                    ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
+                    ->join('pe3_kelas','pe3_formulir_pendaftaran.idkelas','pe3_kelas.idkelas')
+                    ->where('users.ta',$ta)
+                    ->where('kjur1',$prodi_id)                    
+                    ->get();
+        
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'fetchdata',
+                                'pmb'=>$data,
+                                'message'=>'Fetch data calon mahasiswa baru berhasil diperoleh'
+                            ],200);  
+    }  
     /**
      * Store a newly created resource in storage.
      *

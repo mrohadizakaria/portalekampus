@@ -9,7 +9,7 @@
                 label="PROGRAM STUDI"
                 outlined/>            
             <v-select
-                v-model="tahun_masuk"
+                v-model="tahun_pendaftaran"
                 :items="daftar_ta"
                 item-text="tahun_akademik"
                 item-value="tahun"
@@ -27,7 +27,7 @@ export default {
         this.prodi_id=this.$store.getters['uiadmin/getProdiID'];                                    
 
         this.daftar_ta=this.$store.getters['uiadmin/getDaftarTA'];  
-        this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];  
+        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];  
         
         this.firstloading=false;
     },
@@ -37,15 +37,15 @@ export default {
         prodi_id:null,
 
         daftar_ta:[],
-        tahun_masuk:null
+        tahun_pendaftaran:null
     }),
     watch:{
-        tahun_masuk(val)
+        tahun_pendaftaran(val)
         {
             if (!this.firstloading)
             {
-                this.$store.dispatch('uiadmin/updateTahunMasuk',val);  
-                this.$emit('changeTahunMasuk',val);          
+                this.$store.dispatch('uiadmin/updateTahunPendaftaran',val);  
+                this.$emit('changeTahunPendaftaran',val);          
             }            
         },
         prodi_id(val)

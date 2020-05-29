@@ -239,7 +239,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    PENDAFTARAN BARU
+                                    PENDAFTARAN BARU (1)
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -249,7 +249,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    FORMULIR PENDAFTARAN
+                                    FORM. PENDAFTARAN  (2)
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -259,7 +259,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    PERSYARATAN PMB
+                                    PERSYARATAN PMB  (3)
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -269,7 +269,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    KONFIRM. PEMBAYARAN
+                                    KONFIRM. PEMBAYARAN  (4)
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    

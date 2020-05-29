@@ -49,12 +49,17 @@ class UIController extends Controller {
             $daftar_prodi=ProgramStudiModel::where('id',$formulir->kjur1)->get();
             $prodi_id=$formulir->kjur1;
         }        
+        $daftar_kelas=\App\Models\DMaster\KelasModel::select(\DB::raw('idkelas AS id,nkelas AS text'))
+                                                    ->get();
+        $idkelas='A';
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
+                                    'daftar_ta'=>$daftar_ta,    
                                     'daftar_prodi'=>$daftar_prodi,
-                                    'prodi_id'=>$prodi_id,
-                                    'daftar_ta'=>$daftar_ta,                                  
+                                    'prodi_id'=>$prodi_id,                                    
+                                    'daftar_kelas'=>$daftar_kelas,                              
+                                    'idkelas'=>$idkelas,
                                     'message'=>'Fetch data ui untuk admin berhasil diperoleh'
                                 ],200);  
     }

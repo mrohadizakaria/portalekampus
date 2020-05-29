@@ -8,7 +8,7 @@
                 PENDAFTARAN MAHASISWA BARU 
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahun_masuk|formatTA}} PROGRAM STUDI {{nama_prodi}}
+                TAHUN {{tahun_pendaftaran|formatTA}} PROGRAM STUDI {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -131,7 +131,7 @@
             </v-row>
         </v-container>
         <template v-slot:filtersidebar>
-            <Filter7 v-on:changeTahunMasuk="changeTahunMasuk" v-on:changeProdi="changeProdi" />	
+            <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" />	
         </template>
     </AdminLayout>
 </template>
@@ -163,13 +163,13 @@ export default {
         let prodi_id=this.$store.getters['uiadmin/getProdiID'];
         this.prodi_id=prodi_id;
         this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](prodi_id);
-        this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];        
+        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
         this.initialize();
     },
     data: () => ({ 
         firstloading:true,
         prodi_id:null,
-        tahun_masuk:null,
+        tahun_pendaftaran:null,
         nama_prodi:null,
         
         breadcrumbs:[],
@@ -177,7 +177,7 @@ export default {
         btnLoading:false,              
         //tables
         headers: [                        
-            { text: '', value: 'foto' },            
+            { text: '', value: 'foto', width:70 },            
             { text: 'NAMA MAHASISWA', value: 'name',width:350,sortable:true },
             { text: 'EMAIL', value: 'email',sortable:true },     
             { text: 'NOMOR HP', value: 'nomor_hp',sortable:true },     
@@ -189,9 +189,9 @@ export default {
         datatable:[],
     }),
     methods: {
-        changeTahunMasuk (tahun)
+        changeTahunPendaftaran (tahun)
         {
-            this.tahun_masuk=tahun;
+            this.tahun_pendaftaran=tahun;
         },
         changeProdi (id)
         {
@@ -202,7 +202,7 @@ export default {
             this.datatableLoading=true;            
             await this.$ajax.post('/spmb/pmb',
             {
-                TA:this.tahun_masuk,
+                TA:this.tahun_pendaftaran,
                 prodi_id:this.prodi_id,
             },
             {
@@ -285,7 +285,7 @@ export default {
         },
     },
     watch:{
-        tahun_masuk()
+        tahun_pendaftaran()
         {
             if (!this.firstloading)
             {

@@ -7,8 +7,8 @@
             <template v-slot:name>
                 PERSYARATAN PMB
             </template>
-            <template v-slot:subtitle>
-                TAHUN {{tahun_masuk|formatTA}} PROGRAM STUDI {{nama_prodi}}
+            <template v-slot:subtitle v-if="dashboard!='mahasiswabaru'">
+                TAHUN {{tahun_pendaftaran|formatTA}} PROGRAM STUDI {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -58,8 +58,8 @@
                 </v-col>
             </v-row>            
         </v-container>
-        <template v-slot:filtersidebar v-if="$store.getters['auth/getRoleName']!='mahasiswabaru'">
-            <Filter7 v-on:changeTahunMasuk="changeTahunMasuk" v-on:changeProdi="changeProdi" />	
+        <template v-slot:filtersidebar v-if="dashboard!='mahasiswabaru'">
+            <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" />	
         </template>
     </AdminLayout>
 </template>
@@ -92,13 +92,13 @@ export default {
         let prodi_id=this.$store.getters['uiadmin/getProdiID'];
         this.prodi_id=prodi_id;
         this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](prodi_id);
-        this.tahun_masuk=this.$store.getters['uiadmin/getTahunMasuk'];
+        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];
         this.initialize()
     },   
     data: () => ({
         firstloading:true,
         prodi_id:null,
-        tahun_masuk:null,
+        tahun_pendaftaran:null,
         nama_prodi:null,
 
         breadcrumbs:[],        
@@ -106,9 +106,9 @@ export default {
         search:'',
     }),
     methods : {
-        changeTahunMasuk (tahun)
+        changeTahunPendaftaran (tahun)
         {
-            this.tahun_masuk=tahun;
+            this.tahun_pendaftaran=tahun;
         },
         changeProdi (id)
         {
@@ -131,7 +131,7 @@ export default {
         },
     },
     watch:{
-        tahun_masuk()
+        tahun_pendaftaran()
         {
             if (!this.firstloading)
             {

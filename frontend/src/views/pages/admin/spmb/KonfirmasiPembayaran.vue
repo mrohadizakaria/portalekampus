@@ -8,7 +8,7 @@
                 KONFIRMASI PEMBAYARAN
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahunmasuk|formatTA}}
+                TAHUN {{TahunPendaftaran|formatTA}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -120,9 +120,9 @@ export default {
             ACCESS_TOKEN:'AccessToken',          
             TOKEN:'Token',                                  
         }), 
-        tahunmasuk()
+        TahunPendaftaran()
         {
-            return this.$store.getters['uiadmin/getTahunMasuk'];
+            return this.$store.getters['uiadmin/getTahunPendaftaran'];
         }
     },
     components:{

@@ -8,10 +8,13 @@ const getDefaultState = () =>
         pages:[],
 
         daftar_ta:[],
-        tahun_masuk:null,
+        tahun_pendaftaran:null,
 
         daftar_prodi:[],
         prodi_id:null,
+
+        daftar_kelas:[],
+        idkelas:null,
         
     }
 }
@@ -52,9 +55,9 @@ const mutations = {
     {
         state.daftar_ta=daftar;
     },
-    setTahunMasuk(state,tahun)
+    setTahunPendaftaran(state,tahun)
     {
-        state.tahun_masuk=tahun;
+        state.tahun_pendaftaran=tahun;
     },  
 
     setDaftarProdi(state,daftar)
@@ -64,6 +67,15 @@ const mutations = {
     setProdiID(state,id)
     {
         state.prodi_id=id;
+    },    
+
+    setDaftarKelas(state,daftar)
+    {
+        state.daftar_kelas=daftar;
+    },
+    setIDKelas(state,id)
+    {
+        state.idkelas=id;
     },    
 
     resetState (state) {
@@ -80,9 +92,9 @@ const getters= {
     {   
         return state.daftar_ta;
     },
-    getTahunMasuk: state =>
+    getTahunPendaftaran: state =>
     {
-        return parseInt(state.tahun_masuk);
+        return parseInt(state.tahun_pendaftaran);
     },
 
     getDaftarProdi: state => 
@@ -97,13 +109,28 @@ const getters= {
     {   
         return state.daftar_prodi == null?'':state.daftar_prodi[key].nama_prodi;
     },
+
+    getDaftarKelas: state => 
+    {   
+        return state.daftar_kelas;
+    },
+    getIDKelas: state =>
+    {
+        return state.idkelas;
+    },
+    getNamaKelas ({state},id)
+    {
+        let found = state.daftar_Kelas.find(halaman => halaman.idkelas==id);
+        return found;
+    },
+    
 }
 const actions = {    
     init: async function ({commit,state,rootGetters},ajax)
     {   
         if (!state.loaded && rootGetters['auth/Authenticated'])
         {   
-            commit('setTahunMasuk',rootGetters['uifront/getTahunPendaftaran']);   
+            commit('setTahunPendaftaran',rootGetters['uifront/getTahunPendaftaran']);   
             let token=rootGetters['auth/Token'];                                                     
             await ajax.get('/system/setting/uiadmin',               
                 {
@@ -124,6 +151,10 @@ const actions = {
                 });                           
                 commit('setDaftarProdi',prodi);            
                 commit('setProdiID',data.prodi_id);            
+                      
+                commit('setDaftarKelas',data.daftar_kelas);            
+                commit('setIDKelas',data.idkelas);            
+
                 commit('setLoaded',true);              
             });      
         }
@@ -156,9 +187,9 @@ const actions = {
     {
         commit('setProdiID',id);
     },
-    updateTahunMasuk({commit},tahun)
+    updateTahunPendaftaran({commit},tahun)
     {
-        commit('setTahunMasuk',tahun);
+        commit('setTahunPendaftaran',tahun);
     },
     reinit ({ commit }) 
     {
