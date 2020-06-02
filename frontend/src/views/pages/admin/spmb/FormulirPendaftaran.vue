@@ -25,7 +25,7 @@
                     type="info"
                     >
                         Halaman ini berisi pengisian formulir pendaftaran, mohon diisi dengan lengkap dan benar.
-                    </v-alert>
+                </v-alert>
             </template>
             <template v-slot:desc v-else>
                 <v-alert                                        
@@ -35,7 +35,7 @@
                     type="info"
                     >
                         Halaman ini berisi mahasiswa yang telah melakukan pengisian formulir pendaftaran, mohon disesuaikan di filter tahun pendaftaran, kemudian tekan refresh.
-                    </v-alert>
+                </v-alert>
             </template>
         </ModuleHeader> 
         <v-container v-if="dashboard=='mahasiswabaru'">
@@ -72,6 +72,20 @@
                         class="elevation-1"
                         :loading="datatableLoading"
                         loading-text="Loading... Please wait">
+                        <template v-slot:top>
+                            <v-toolbar flat color="white">
+                                <v-toolbar-title>DAFTAR MAHASISWA BARU</v-toolbar-title>
+                                <v-divider
+                                    class="mx-4"
+                                    inset
+                                    vertical
+                                ></v-divider>
+                                <v-spacer></v-spacer>
+                                <v-dialog v-model="dialogprofilmhsbaru" :fullscreen="true">                                    
+                                    <ProfilMahasiswaBaru :item="datamhsbaru" />                                    
+                                </v-dialog>
+                            </v-toolbar>
+                        </template>
                         <template v-slot:item.foto="{ item }">    
                             <v-badge
                                     bordered
@@ -123,6 +137,7 @@
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import FormMhsBaru from '@/components/FormMahasiswaBaru';
+import ProfilMahasiswaBaru from '@/components/ProfilMahasiswaBaru';
 import Filter7 from '@/components/sidebar/FilterMode7';
 export default {
     name: 'FormulirPendaftaran', 
@@ -159,6 +174,10 @@ export default {
         tahun_pendaftaran:null,
         nama_prodi:null,
 
+        dialogprofilmhsbaru:false,
+        breadcrumbs:[],        
+        dashboard:null,
+
         btnLoading:false,
         datatableLoading:false,
         expanded:[],
@@ -170,10 +189,9 @@ export default {
             { text: 'KELAS', value: 'nkelas',width:100,sortable:true },
             { text: 'AKSI', value: 'actions', sortable: false,width:50 },
         ],
-        search:'',    
-
-        breadcrumbs:[],        
-        dashboard:null,
+        search:'',  
+        
+        datamhsbaru:{}
     }),
     methods : {
         changeTahunPendaftaran (tahun)
@@ -228,6 +246,11 @@ export default {
         {
             return item.active == 1 ? 'mdi-check-bold':'mdi-close-thick'
         },     
+        viewItem(item)
+        {
+            this.datamhsbaru = item;
+            this.dialogprofilmhsbaru = true;
+        }
     },
     watch:{
         tahun_pendaftaran()
@@ -250,6 +273,7 @@ export default {
         AdminLayout,
         ModuleHeader,        
         FormMhsBaru,
+        ProfilMahasiswaBaru,
         Filter7    
     },
 }

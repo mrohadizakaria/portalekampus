@@ -118,10 +118,15 @@ const getters= {
     {
         return state.idkelas;
     },
-    getNamaKelas ({state},id)
+    getNamaKelas: (state) => (id) =>
     {
-        let found = state.daftar_Kelas.find(halaman => halaman.idkelas==id);
-        return found;
+        var nama_kelas='N.A';
+        let found = state.daftar_kelas.find(kelas => kelas.id==id);                          
+        if (typeof found !=='undefined')
+        {
+            nama_kelas=found.text;
+        }               
+        return nama_kelas;
     },
     
 }

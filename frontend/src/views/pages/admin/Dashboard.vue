@@ -28,6 +28,10 @@
         <v-container v-if="dashboard=='mahasiswabaru'">
             <DashboardMB />
         </v-container>
+        <v-container v-else>
+            
+        </v-container>
+
     </AdminLayout>
 </template>
 <script>
