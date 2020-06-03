@@ -82,7 +82,7 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>
                                 <v-dialog v-model="dialogprofilmhsbaru" :fullscreen="true">                                    
-                                    <ProfilMahasiswaBaru :item="datamhsbaru" />                                    
+                                    <ProfilMahasiswaBaru :item="datamhsbaru" v-on:closeProfilMahasiswaBaru="closeProfilMahasiswaBaru" />                                    
                                 </v-dialog>
                             </v-toolbar>
                         </template>
@@ -117,7 +117,7 @@
                                 <v-col cols="12">
                                     <strong>ID:</strong>{{ item.id }}
                                     <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
-                                    <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
+                                    <strong>updated_at:</strong>{{ item.updated_at|formatTanggal }}
                                 </v-col>                                
                             </td>
                         </template>
@@ -165,7 +165,7 @@ export default {
         this.prodi_id=prodi_id;
         this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](prodi_id);
         this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
-
+        this.getCurrentDate();
         this.initialize()   
     },  
     data: () => ({
@@ -250,7 +250,11 @@ export default {
         {
             this.datamhsbaru = item;
             this.dialogprofilmhsbaru = true;
-        }
+        },
+        closeProfilMahasiswaBaru ()
+        {
+            this.dialogprofilmhsbaru = false;
+        }        
     },
     watch:{
         tahun_pendaftaran()

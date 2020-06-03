@@ -2,6 +2,16 @@
     <v-card>
         <v-card-title>
             <span class="headline">PROFIL MAHASISWA BARU</span>
+            <v-divider
+                class="mx-4"
+                inset
+                vertical
+            ></v-divider>
+            <v-spacer></v-spacer>
+            <v-icon                
+                @click.stop="closeDialog()">
+                mdi-close-thick
+            </v-icon>
         </v-card-title>
         <v-card-text>
             <v-row no-gutters>
@@ -27,7 +37,7 @@
                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                 <v-col xs="12" sm="6" md="10">
                     <v-row no-gutters>
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="7">
                             <v-card flat>
                                 <v-card-title>ID :</v-card-title>
                                 <v-card-subtitle>
@@ -36,18 +46,18 @@
                             </v-card>
                         </v-col>
                         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="5">
                             <v-card flat>
                                 <v-card-title>PROGRAM STUDI :</v-card-title>
                                 <v-card-subtitle>
-                                    {{datamhs.kjur1}}
+                                    {{datamhs.nama_prodi}}
                                 </v-card-subtitle>
                             </v-card>
                         </v-col>
                         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                     </v-row>
                     <v-row no-gutters>                
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="7">
                             <v-card flat>
                                 <v-card-title>NAMA MAHASISWA :</v-card-title>
                                 <v-card-subtitle>
@@ -56,7 +66,7 @@
                             </v-card>
                         </v-col>
                         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="5">
                             <v-card flat>
                                 <v-card-title>KELAS :</v-card-title>
                                 <v-card-subtitle>
@@ -67,7 +77,7 @@
                         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                     </v-row>
                     <v-row no-gutters>                
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="7">
                             <v-card flat>
                                 <v-card-title>TEMPAT DAN TGL. LAHIR :</v-card-title>
                                 <v-card-subtitle>
@@ -76,11 +86,11 @@
                             </v-card>
                         </v-col>
                         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="5">
                             <v-card flat>
-                                <v-card-title>WAKTU MENDAFTAR :</v-card-title>
+                                <v-card-title>TAHUN PENDAFTARAN :</v-card-title>
                                 <v-card-subtitle>
-                                    {{item.created_at|formatTanggal}}
+                                    {{datamhs.ta}}, ({{item.created_at|formatTanggal}})
                                 </v-card-subtitle>
                             </v-card>
                         </v-col>
@@ -88,7 +98,7 @@
                     </v-row>
                     <v-row no-gutters>               
                         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="7">
                             <v-card flat>
                                 <v-card-title>ALAMAT RUMAH :</v-card-title>
                                 <v-card-subtitle>
@@ -97,9 +107,9 @@
                             </v-card>
                         </v-col>
                         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-                        <v-col xs="12" sm="6" md="6">
+                        <v-col xs="12" sm="6" md="5">
                             <v-card flat>
-                                <v-card-title>WAKTU MENDAFTAR :</v-card-title>
+                                <v-card-title>TGL. UBAH :</v-card-title>
                                 <v-card-subtitle>
                                     {{item.created_at|formatTanggal}}
                                 </v-card-subtitle>
@@ -109,6 +119,9 @@
                     </v-row>
                 </v-col>
             </v-row>
+            <v-row>
+
+            </v-row>
         </v-card-text>
     </v-card>
 </template>
@@ -117,18 +130,22 @@ export default {
     name:'ProfilMahasiswaBaru',
     created()
     {
-        this.initialize();                        
+        this.initialize();                     
     },
     props:{
         item:Object,
     },
-    data:()=>({
-        datamhs:{        
-            tanggal_lahir:'2020-09-12 10:00:00',
-            created_at:'2020-09-12 10:00:00',
-            updated_at:'2020-09-12 10:00:00'
-        },        
-    }),
+    data()
+    {
+        let tanggal_sekarang=this.getCurrentDate();
+        return {        
+            datamhs:{                    
+                tanggal_lahir:tanggal_sekarang,
+                created_at:tanggal_sekarang,
+                updated_at:tanggal_sekarang
+            },        
+        }
+    },
      methods: {
         initialize ()
         {
@@ -139,9 +156,15 @@ export default {
                     }
                 },                
             ).then(({data})=>{   
-                this.datamhs=Object.assign(data.formulir,{nama_kelas:this.$store.getters['uiadmin/getNamaKelas'](data.formulir.idkelas)});                           
-                console.log(this.datamhs);  
+                this.datamhs=Object.assign(data.formulir,{
+                                                            nama_prodi:this.$store.getters['uiadmin/getProdiName'](data.formulir.kjur1),
+                                                            nama_kelas:this.$store.getters['uiadmin/getNamaKelas'](data.formulir.idkelas)
+                                                        }); 
             });
+        },
+        closeDialog() 
+        {
+            this.$emit('closeProfilMahasiswaBaru');
         }
      }
 

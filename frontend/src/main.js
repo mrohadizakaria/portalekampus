@@ -29,6 +29,15 @@ Vue.filter('formatUang', function(value)
 	return num;
 });
 
+//mixin
+Vue.mixin({
+	methods:{
+		getCurrentDate ()
+		{
+			return moment().format('YYYY-MM-DD HH:mm:ss');
+		}
+	}
+})
 new Vue({
 	router,
 	store,
