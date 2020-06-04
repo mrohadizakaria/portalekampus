@@ -16,7 +16,30 @@ class PMBPersyaratanController extends Controller {
      */
     public function index(Request $request)
     {
-       return Response()->json([]);
+       $this->hasPermissionTo('SPMB-PMB_BROWSE');
+
+        $this->validate($request, [           
+            'TA'=>'required',
+            'prodi_id'=>'required'
+        ]);
+        
+        $ta=$request->input('TA');
+        $prodi_id=$request->input('prodi_id');
+
+        $data = User::role('mahasiswabaru')
+                    ->select(\DB::raw('users.id,users.name,users.nomor_hp,pe3_kelas.nkelas,users.active,users.foto,users.created_at,users.updated_at'))
+                    ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
+                    ->join('pe3_kelas','pe3_formulir_pendaftaran.idkelas','pe3_kelas.idkelas')
+                    ->where('users.ta',$ta)
+                    ->where('kjur1',$prodi_id)                    
+                    ->get();
+        
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'fetchdata',
+                                'persyaratan'=>$data,
+                                'message'=>'Fetch data persyaratancalon mahasiswa baru berhasil diperoleh'
+                            ],200);  
 
     }
     /**
@@ -37,7 +60,7 @@ class PMBPersyaratanController extends Controller {
         else
         {
             $subquery = \DB::table('pe3_pmb_persyaratan')
-                            ->select(\DB::raw('id AS persyaratan_pmb_id,persyaratan_id,path,created_at,updated_at'))
+                            ->select(\DB::raw('id AS persyaratan_pmb_id,persyaratan_id,path,pe3_pmb_persyaratan.verified,created_at,updated_at'))
                             ->where('user_id',$id);
 
             $persyaratan=\DB::table('pe3_persyaratan')
@@ -45,6 +68,7 @@ class PMBPersyaratanController extends Controller {
                                         pe3_pmb_persyaratan.persyaratan_pmb_id,
                                         pe3_persyaratan.nama_persyaratan,
                                         pe3_pmb_persyaratan.path,
+                                        pe3_pmb_persyaratan.verified,
                                         pe3_pmb_persyaratan.created_at,
                                         pe3_pmb_persyaratan.updated_at'))
                             ->leftJoinSub($subquery,'pe3_pmb_persyaratan',function($join){
@@ -170,6 +194,33 @@ class PMBPersyaratanController extends Controller {
                                         'status'=>1,
                                         'pid'=>'destroy',                                        
                                         'message'=>"Persyaratan Mahasiswa Baru user id ($userid)  berhasil dihapus"
+                                    ],200);
+        }
+    }
+    public function verifikasipersyaratan(Request $request,$id)
+    {
+        $this->hasPermissionTo('SPMB-PMB-FORMULIR-PENDAFTARAN_UPDATE');
+
+        $persyaratan = PMBPersyaratanModel::find($id); 
+        
+        if ($persyaratan == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'update',                
+                                    'message'=>["Data Persyaratan Mahasiswa Baru tidak ditemukan."]
+                                ],422);         
+        }
+        else
+        {
+            $persyaratan->verified=1;            
+            $persyaratan->save();
+         
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'update', 
+                                        'persyaratan'=>$persyaratan,                                       
+                                        'message'=>"Persyaratan Dokumen (".$persyaratan->nama_persyaratan.") berhasil diverifikasi"
                                     ],200);
         }
     }

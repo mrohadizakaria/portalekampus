@@ -39,7 +39,7 @@
             </template>
         </ModuleHeader> 
         <v-container v-if="dashboard=='mahasiswabaru'">
-            <FormPersyaratan/>
+            <FormPersyaratan :user_id="$store.getters['uiadmin/AttributeUser']('id')"/>
         </v-container>
         <v-container v-else>
             <v-row class="mb-4" no-gutters>
@@ -56,7 +56,77 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-            </v-row>            
+            </v-row> 
+            <v-row class="mb-4" no-gutters>
+                <v-col cols="12">
+                    <v-data-table
+                        :headers="headers"
+                        :items="datatable"
+                        :search="search"
+                        item-key="id"
+                        sort-by="name"
+                        show-expand
+                        :expanded.sync="expanded"
+                        :single-expand="true"
+                        @click:row="dataTableRowClicked"
+                        class="elevation-1"
+                        :loading="datatableLoading"
+                        loading-text="Loading... Please wait">
+                        <template v-slot:top>
+                            <v-toolbar flat color="white">
+                                <v-toolbar-title>DAFTAR MAHASISWA BARU</v-toolbar-title>
+                                <v-divider
+                                    class="mx-4"
+                                    inset
+                                    vertical
+                                ></v-divider>
+                                <v-spacer></v-spacer>
+                                <v-dialog v-model="dialogprofilmhsbaru" :fullscreen="true">                                    
+                                    <ProfilMahasiswaBaru :item="datamhsbaru" v-on:closeProfilMahasiswaBaru="closeProfilMahasiswaBaru" />                                    
+                                </v-dialog>
+                            </v-toolbar>
+                        </template>
+                        <template v-slot:item.foto="{ item }">    
+                            <v-badge
+                                    bordered
+                                    :color="badgeColor(item)"
+                                    :icon="badgeIcon(item)"
+                                    overlap
+                                >                
+                                    <v-avatar size="30">                                        
+                                        <v-img :src="$api.url+'/'+item.foto" />                                                                     
+                                    </v-avatar>                                                                                                  
+                            </v-badge>
+                        </template>
+                        <template v-slot:item.actions="{ item }">
+                            <v-icon
+                                small
+                                class="mr-2"
+                                @click.stop="viewItem(item)">
+                                mdi-eye
+                            </v-icon>
+                            <v-icon
+                                small
+                                class="mr-2"
+                                @click.stop="editItem(item)">
+                                mdi-pencil
+                            </v-icon>
+                        </template>
+                        <template v-slot:expanded-item="{ headers, item }">
+                            <td :colspan="headers.length" class="text-center">
+                                <v-col cols="12">
+                                    <strong>ID:</strong>{{ item.id }}
+                                    <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
+                                    <strong>updated_at:</strong>{{ item.updated_at|formatTanggal }}
+                                </v-col>                                
+                            </td>
+                        </template>
+                        <template v-slot:no-data>
+                            Data belum tersedia
+                        </template>
+                    </v-data-table>
+                </v-col>
+            </v-row>           
         </v-container>
         <template v-slot:filtersidebar v-if="dashboard!='mahasiswabaru'">
             <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" />	
@@ -67,6 +137,7 @@
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import FormPersyaratan from '@/components/FormPersyaratanPMB';
+import ProfilMahasiswaBaru from '@/components/ProfilMahasiswaBaru';
 import Filter7 from '@/components/sidebar/FilterMode7';
 export default {
     name: 'PersyaratanPMB', 
@@ -101,9 +172,24 @@ export default {
         tahun_pendaftaran:null,
         nama_prodi:null,
 
+        dialogprofilmhsbaru:false,
         breadcrumbs:[],        
         dashboard:null,
+
+        btnLoading:false,
+        datatableLoading:false,
+        expanded:[],
+        datatable:[],
+        headers: [                        
+            { text: '', value: 'foto', width:70 },               
+            { text: 'NAMA MAHASISWA', value: 'name',width:350,sortable:true },
+            { text: 'NOMOR HP', value: 'nomor_hp',width:100},
+            { text: 'KELAS', value: 'nkelas',width:100,sortable:true },
+            { text: 'AKSI', value: 'actions', sortable: false,width:50 },
+        ],
         search:'',
+
+        datamhsbaru:{}
     }),
     methods : {
         changeTahunPendaftaran (tahun)
@@ -119,16 +205,49 @@ export default {
             if (this.dashboard != 'mahasiswabaru' && this.dashboard !='mahasiswa')
             {
                 this.datatableLoading=true;
-                await this.$ajax.get('/spmb/pmbpersyaratan',{
+                await this.$ajax.post('/spmb/pmbpersyaratan',
+                {
+                    TA:this.tahun_pendaftaran,
+                    prodi_id:this.prodi_id,
+                },
+                {
                     headers: {
                         Authorization:this.$store.getters['auth/Token']
                     }
                 }).then(({data})=>{                                   
-                    console.log(data);
+                    this.datatable = data.persyaratan;   
                     this.datatableLoading=false;
                 });  
             }                   
         },
+        dataTableRowClicked(item)
+        {
+            if ( item === this.expanded[0])
+            {
+                this.expanded=[];                
+            }
+            else
+            {
+                this.expanded=[item];
+            }               
+        },
+        badgeColor(item)
+        {
+            return item.active == 1 ? 'success':'error'
+        },
+        badgeIcon(item)
+        {
+            return item.active == 1 ? 'mdi-check-bold':'mdi-close-thick'
+        },     
+        viewItem(item)
+        {
+            this.datamhsbaru = item;
+            this.dialogprofilmhsbaru = true;
+        },
+        closeProfilMahasiswaBaru ()
+        {
+            this.dialogprofilmhsbaru = false;
+        }   
     },
     watch:{
         tahun_pendaftaran()
@@ -151,6 +270,7 @@ export default {
         AdminLayout,
         ModuleHeader,        
         FormPersyaratan,
+        ProfilMahasiswaBaru,
         Filter7
     },
 }

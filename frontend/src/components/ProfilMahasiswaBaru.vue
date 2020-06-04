@@ -120,12 +120,22 @@
                 </v-col>
             </v-row>
             <v-row>
-
+                <v-col xs="12" sm="12" md="12">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">PERSYARATAN PENDAFTARAN</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <FormPersyaratan :user_id="item.id"/>
+                        </v-card-text>
+                    </v-card>     
+                </v-col>
             </v-row>
         </v-card-text>
     </v-card>
 </template>
 <script>
+import FormPersyaratan from '@/components/FormPersyaratanPMB';
 export default {
     name:'ProfilMahasiswaBaru',
     created()
@@ -146,7 +156,7 @@ export default {
             },        
         }
     },
-     methods: {
+    methods: {
         initialize ()
         {
             this.$ajax.get('/spmb/formulirpendaftaran/'+this.item.id,             
@@ -166,7 +176,9 @@ export default {
         {
             this.$emit('closeProfilMahasiswaBaru');
         }
-     }
-
+    },
+    components:{        
+        FormPersyaratan,        
+    },
 }
 </script>

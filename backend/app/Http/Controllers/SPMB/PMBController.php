@@ -55,7 +55,7 @@ class PMBController extends Controller {
      */
     public function formulirpendaftaran(Request $request)
     {   
-        $this->hasPermissionTo('SPMB-PMB_BROWSE');
+        $this->hasPermissionTo('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE');
 
         $this->validate($request, [           
             'TA'=>'required',
@@ -69,6 +69,11 @@ class PMBController extends Controller {
                     ->select(\DB::raw('users.id,users.name,users.nomor_hp,pe3_kelas.nkelas,users.active,users.foto,users.created_at,users.updated_at'))
                     ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
                     ->join('pe3_kelas','pe3_formulir_pendaftaran.idkelas','pe3_kelas.idkelas')
+                    ->whereExists(function ($query) {
+                        $query->select(\DB::raw(1))
+                              ->from('pe3_pmb_persyaratan')
+                              ->whereRaw('pe3_pmb_persyaratan.user_id = users.id');
+                    })
                     ->where('users.ta',$ta)
                     ->where('kjur1',$prodi_id)                    
                     ->get();

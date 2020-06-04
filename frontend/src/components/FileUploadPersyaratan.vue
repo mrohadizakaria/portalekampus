@@ -24,7 +24,6 @@
                     :disabled="btnLoading">                
                     Upload
                 </v-btn>
-
                 <v-btn
                     color="orange"
                     text
@@ -33,33 +32,53 @@
                     :disabled="btnLoading||btnHapus">                
                     Hapus
                 </v-btn>
+                <v-btn
+                    color="orange"
+                    text
+                    @click="verifikasipersyaratan(item)"
+                    :loading="btnLoading"                                
+                    :disabled="btnLoading||btnVerifikasi" v-if="dashboard != 'mahasiswabaru' || dashboard != 'mahasiswa'">                
+                    Verifikasi
+                </v-btn>
             </v-card-actions>
         </v-card>            
     </v-form>        
 </template>
 <script>
-import {mapGetters} from 'vuex';
 export default {
     name:'FileUploadPersyaratan',
     created ()
     {
+        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];   
         if (this.item.path == null || this.item.persyaratan_pmb_id==null)
-        {
+        {            
             this.image_prev=this.item.path;            
         }
         else
         {            
-            this.btnHapus=false;
+            this.btnHapus=this.isVerified(this.item);
             this.image_prev=this.$api.url+'/'+this.item.path;
-        }
-        
+        }        
     },
     props:{
-        index:Number,
-        item:Object
+        user_id:{
+            type:String,
+            required:true
+        },
+        index:{
+            type:Number,
+            required:true
+        },
+        item:{
+            type:Object,
+            required:true
+        }
     },
-    data:()=>({      
+    data:()=>({     
+        dashboard:null,
+
         btnHapus:true,  
+        btnVerifikasi:true,       
         btnLoading:false,
         image_prev:null,
         //form
@@ -100,10 +119,10 @@ export default {
                     formdata.append('persyaratan_id',data.persyaratan_id);
                     formdata.append('persyaratan_pmb_id',data.persyaratan_pmb_id);
                     formdata.append('foto',this.filepersyaratan[index]);
-                    await this.$ajax.post('/spmb/pmbpersyaratan/upload/'+this.ATTRIBUTE_USER('id'),formdata,                    
+                    await this.$ajax.post('/spmb/pmbpersyaratan/upload/'+this.user_id,formdata,                    
                         {
                             headers:{
-                                Authorization:this.TOKEN,      
+                                Authorization:this.$store.getters['auth/Token'],
                                 'Content-Type': 'multipart/form-data'                      
                             }
                         }
@@ -127,7 +146,7 @@ export default {
                         },                    
                         {
                             headers:{
-                                Authorization:this.TOKEN,                                
+                                Authorization:this.$store.getters['auth/Token']                
                             }
                         }
                     ).then(()=>{                   
@@ -139,13 +158,45 @@ export default {
                     });  
                 }
             });
+        },
+        isVerified(item)
+        {
+            if (item.path==null)
+            {
+                this.btnVerifikasi=true;
+            }
+            else if(item.verified==true)
+            {
+                this.btnVerifikasi=true;
+            }
+            else
+            {
+                this.btnVerifikasi=false;
+            }
+            return this.btnVerifikasi;
+        },
+        verifikasipersyaratan: async function (item)
+        {
+            this.btnLoading=true;                    
+            await this.$ajax.post('/spmb/pmbpersyaratan/verifikasipersyaratan/'+item.persyaratan_pmb_id,
+            {                    
+                
+            },
+            {
+                headers:{
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }
+            ).then(()=>{                 
+                this.btnHapus=true;          
+                this.btnVerifikasi=true;     
+                this.btnLoading=false;                        
+            }).catch(() => {                                                   
+                this.btnLoading=false;
+            });                             
         }
     },
     computed: {
-        ...mapGetters('auth',{                                
-            TOKEN:'Token',  
-            ATTRIBUTE_USER:'AtributeUser',                                 
-        }), 
         photoPersyaratan:{
             get ()
             {   
