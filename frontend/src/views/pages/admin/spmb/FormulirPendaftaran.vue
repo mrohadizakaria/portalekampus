@@ -5,10 +5,10 @@
                 mdi-file-document-edit-outline
             </template>
             <template v-slot:name>
-                FORMULIR PENDAFTARAN
+                BIODATA
             </template>
             <template v-slot:subtitle v-if="dashboard!='mahasiswabaru'">
-                TAHUN {{tahun_pendaftaran|formatTA}} PROGRAM STUDI {{nama_prodi}}
+                TAHUN PENDAFTARAN {{tahun_pendaftaran}} - {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -34,7 +34,7 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini berisi mahasiswa yang telah melakukan pengisian formulir pendaftaran, mohon disesuaikan di filter tahun pendaftaran, kemudian tekan refresh.
+                        Berisi kelengkapan biodata, silahkan melakukan filter tahun akademik dan program studi.
                 </v-alert>
             </template>
         </ModuleHeader> 
@@ -156,7 +156,7 @@ export default {
                 href:'#'
             },
             {
-                text:'FORMULIR PENDAFTARAN',
+                text:'BIODATA',
                 disabled:true,
                 href:'#'
             }

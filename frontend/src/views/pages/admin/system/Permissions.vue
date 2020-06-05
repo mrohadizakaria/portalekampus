@@ -292,7 +292,7 @@ export default {
             ACCESS_TOKEN:'AccessToken',          
             TOKEN:'Token',          
             CAN_ACCESS:'can',         
-            ATTRIBUTE_USER:'AtributeUser',          
+            ATTRIBUTE_USER:'AttributeUser',          
         }),
     },
     watch: {

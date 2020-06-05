@@ -239,7 +239,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    PENDAFTARAN BARU (1)
+                                    PENDAFTAR
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -249,7 +249,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    FORM. PENDAFTARAN  (2)
+                                    BIODATA
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -259,7 +259,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    PERSYARATAN PMB  (3)
+                                    PERSYARATAN
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -269,7 +269,7 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    KONFIRM. PEMBAYARAN  (4)
+                                    PEMBAYARAN
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
@@ -382,7 +382,7 @@ export default {
             TOKEN:'Token',          
             ROLE:'Role',
             CAN_ACCESS:'can',         
-            ATTRIBUTE_USER:'AtributeUser',               
+            ATTRIBUTE_USER:'AttributeUser',               
         }),
         APP_NAME ()
         {

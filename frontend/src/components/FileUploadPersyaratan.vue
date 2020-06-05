@@ -22,7 +22,7 @@
                     @click="upload(index,item)"
                     :loading="btnLoading"                                
                     :disabled="btnLoading">                
-                    Upload
+                    Simpan
                 </v-btn>
                 <v-btn
                     color="orange"

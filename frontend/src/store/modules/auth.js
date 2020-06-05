@@ -63,7 +63,7 @@ const getters= {
     User : state => {
         return state.user;
     },
-    AtributeUser : (state) => (key) =>
+    AttributeUser : (state) => (key) =>
     {           
         return state.user == null?'':state.user[key];
     },

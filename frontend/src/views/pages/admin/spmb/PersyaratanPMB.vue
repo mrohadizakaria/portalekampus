@@ -5,10 +5,10 @@
                 mdi-file-document-edit-outline
             </template>
             <template v-slot:name>
-                PERSYARATAN PMB
+                PERSYARATAN
             </template>
             <template v-slot:subtitle v-if="dashboard!='mahasiswabaru'">
-                TAHUN {{tahun_pendaftaran|formatTA}} PROGRAM STUDI {{nama_prodi}}
+                TAHUN PENDAFTARAN {{tahun_pendaftaran}} PROGRAM STUDI {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -34,12 +34,12 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini berisi file-file persyaratan pendaftaran yang diupload oleh mahasiswa baru, mohon disesuaikan di filter tahun akademik, kemudian tekan refresh.
+                        Berisi file-file persyaratan pendaftaran, silahkan melakukan filter tahun akademik dan program studi.
                     </v-alert>
             </template>
         </ModuleHeader> 
         <v-container v-if="dashboard=='mahasiswabaru'">
-            <FormPersyaratan :user_id="$store.getters['uiadmin/AttributeUser']('id')"/>
+            <FormPersyaratan :user_id="$store.getters['auth/AttributeUser']('id')"/>
         </v-container>
         <v-container v-else>
             <v-row class="mb-4" no-gutters>

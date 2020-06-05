@@ -5,10 +5,10 @@
                 mdi-account-plus
             </template>
             <template v-slot:name>
-                PENDAFTARAN MAHASISWA BARU 
+                PENDAFTAR 
             </template>
             <template v-slot:subtitle>
-                TAHUN {{tahun_pendaftaran|formatTA}} PROGRAM STUDI {{nama_prodi}}
+                TAHUN PENDAFTARAN {{tahun_pendaftaran}} - {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -24,7 +24,7 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini berisi informasi pendaftaran mahasiswa baru, mohon disesuaikan di filter tahun akademik, kemudian tekan refresh.
+                        Berisi pendaftar baru, silahkan melakukan filter tahun akademik dan program studi.
                     </v-alert>
             </template>
         </ModuleHeader>  
@@ -155,7 +155,7 @@ export default {
                 href:'#'
             },
             {
-                text:'PENDAFTARAN MAHASISWA BARU',
+                text:'PENDAFTAR BARU',
                 disabled:true,
                 href:'#'
             }

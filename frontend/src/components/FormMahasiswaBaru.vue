@@ -285,7 +285,7 @@ export default {
             this.$ajax.get('/datamaster/kelas').then(({data})=>{                
                 this.daftar_kelas=data.kelas;
             });
-            await this.$ajax.get('/spmb/formulirpendaftaran/'+this.$store.getters['auth/AtributeUser']('id'),             
+            await this.$ajax.get('/spmb/formulirpendaftaran/'+this.$store.getters['auth/AttributeUser']('id'),             
                 {
                     headers:{
                         Authorization:this.$store.getters['auth/Token']
@@ -334,7 +334,7 @@ export default {
             if (this.$refs.frmdata.validate())
             {
                 this.btnLoading=true;                
-                await this.$ajax.post('/spmb/formulirpendaftaran/'+this.$store.getters['auth/AtributeUser']('id'),{                    
+                await this.$ajax.post('/spmb/formulirpendaftaran/'+this.$store.getters['auth/AttributeUser']('id'),{                    
                     _method:'put',
                     nama_mhs:this.formdata.nama_mhs,           
                     tempat_lahir:this.formdata.tempat_lahir,           
