@@ -8,7 +8,7 @@
                 PERSYARATAN
             </template>
             <template v-slot:subtitle v-if="dashboard!='mahasiswabaru'">
-                TAHUN PENDAFTARAN {{tahun_pendaftaran}} PROGRAM STUDI {{nama_prodi}}
+                TAHUN PENDAFTARAN {{tahun_pendaftaran}} - {{nama_prodi}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -220,7 +220,8 @@ export default {
                     this.datatable = data.persyaratan;   
                     this.datatableLoading=false;
                 });  
-            }                   
+            }   
+            this.firstloading=false;                
         },
         dataTableRowClicked(item)
         {
