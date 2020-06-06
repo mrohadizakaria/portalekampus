@@ -1,7 +1,7 @@
 <template>
     <v-form v-model="form_valid" ref="frmpersyaratan" lazy-validation>
-        <v-card class="mx-auto" max-width="400">
-            <v-img class="white--text align-end" height="200px" :src="photoPersyaratan"></v-img>                
+        <v-card class="mx-auto" max-width="400">               
+            <v-img class="white--text align-end" height="200px" :src="photoPersyaratan"></v-img>                            
             <v-card-text class="text--primary">
                 <div>
                     <v-file-input 
@@ -15,13 +15,19 @@
                 </div>
             </v-card-text>
             <v-card-actions>
+                <v-badge
+                        bordered
+                        :color="badgeColor"
+                        :icon="badgeIcon"                        
+                    >   
+                </v-badge>
                 <v-spacer/>
                 <v-btn
                     color="orange"
                     text
                     @click="upload(index,item)"
                     :loading="btnLoading"                                
-                    :disabled="btnLoading">                
+                    :disabled="btnLoading||btnSimpan">                
                     Simpan
                 </v-btn>
                 <v-btn
@@ -37,7 +43,7 @@
                     text
                     @click="verifikasipersyaratan(item)"
                     :loading="btnLoading"                                
-                    :disabled="btnLoading||btnVerifikasi" v-if="dashboard != 'mahasiswabaru' || dashboard != 'mahasiswa'">                
+                    :disabled="btnLoading||btnVerifikasi" v-if="dashboard != 'mahasiswabaru' && dashboard != 'mahasiswa'">                
                     Verifikasi
                 </v-btn>
             </v-card-actions>
@@ -58,6 +64,8 @@ export default {
         {            
             this.btnHapus=this.isVerified(this.item);
             this.image_prev=this.$api.url+'/'+this.item.path;
+            this.badgeColor=this.item.verified;
+            this.badgeIcon=this.item.verified;
         }        
     },
     props:{
@@ -77,11 +85,14 @@ export default {
     data:()=>({     
         dashboard:null,
 
+        btnSimpan:true,  
         btnHapus:true,  
         btnVerifikasi:true,       
         btnLoading:false,
         image_prev:null,
+
         //form
+        verified:0,
         form_valid:true,
         filepersyaratan:[],
         //form rules  
@@ -90,12 +101,13 @@ export default {
             value =>  !value || value.size < 2000000 || 'File foto harus kurang dari 2MB.'                
         ],
     }),
-    methods: {
+    methods: {        
         previewImage (e)
         {
             if (typeof e === 'undefined')
             {
                 this.image_prev=null;
+                this.btnSimpan=true;
             }
             else
             {
@@ -104,6 +116,7 @@ export default {
                 reader.onload = img => {                    
                     this.image_prev=img.target.result;
                 }
+                this.btnSimpan=false;
             }          
         },
         upload:async function (index,item)
@@ -128,6 +141,7 @@ export default {
                         }
                     ).then(()=>{                                                   
                         this.btnHapus=false;
+                        this.btnSimpan=true;
                         this.btnLoading=false;                        
                     }).catch(()=>{
                         this.btnLoading=false;
@@ -187,7 +201,9 @@ export default {
                     Authorization:this.$store.getters['auth/Token']
                 }
             }
-            ).then(()=>{                 
+            ).then(({data})=>{   
+                this.badgeColor=data.persyaratan.verified;              
+                this.badgeIcon=data.persyaratan.verified;              
                 this.btnHapus=true;          
                 this.btnVerifikasi=true;     
                 this.btnLoading=false;                        
@@ -215,6 +231,28 @@ export default {
             }
             
         },
+        badgeColor:{
+            get()
+            {
+                return this.verified == 1 ? 'success':'error'
+            },
+            set(val)
+            {
+                this.verified=val;
+            }
+            
+        },
+        badgeIcon:{
+            get()
+            {
+                return this.verified == 1 ? 'mdi-check-bold':'mdi-close-thick';
+            },
+            set(val)
+            {
+                return this.verified=val;
+            }
+            
+        },  
     }
 }
 </script>

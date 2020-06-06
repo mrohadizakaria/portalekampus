@@ -174,7 +174,10 @@ export default {
         },
         closeDialog() 
         {
-            this.$emit('closeProfilMahasiswaBaru');
+            setTimeout(() => {
+                this.$emit('closeProfilMahasiswaBaru');                
+                }, 300
+            );            
         }
     },
     components:{        

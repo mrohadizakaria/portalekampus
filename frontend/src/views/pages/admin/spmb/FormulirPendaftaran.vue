@@ -253,7 +253,7 @@ export default {
         },
         closeProfilMahasiswaBaru ()
         {
-            this.dialogprofilmhsbaru = false;
+            this.dialogprofilmhsbaru = false;                      
         }        
     },
     watch:{

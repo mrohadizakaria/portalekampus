@@ -24,7 +24,7 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini digunakan untuk upload peryaratan pendaftaran, mohon diisi dengan lengkap dan benar.
+                        Berisi daftar peryaratan pendaftaran yang harus di isi dengan benar dan lengkap.
                     </v-alert>
             </template>
             <template v-slot:desc v-else>
@@ -82,7 +82,7 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>
                                 <v-dialog v-model="dialogprofilmhsbaru" :fullscreen="true">                                    
-                                    <ProfilMahasiswaBaru :item="datamhsbaru" v-on:closeProfilMahasiswaBaru="closeProfilMahasiswaBaru" />                                    
+                                    <ProfilMahasiswaBaru :item="datamhsbaru" v-on:closeProfilMahasiswaBaru="closeProfilMahasiswaBaru" v-if="dialogprofilmhsbaru" />                                    
                                 </v-dialog>
                             </v-toolbar>
                         </template>
@@ -189,7 +189,9 @@ export default {
         ],
         search:'',
 
-        datamhsbaru:{}
+        datamhsbaru:{
+            
+        }
     }),
     methods : {
         changeTahunPendaftaran (tahun)
@@ -241,12 +243,12 @@ export default {
         },     
         viewItem(item)
         {
-            this.datamhsbaru = item;
+            this.datamhsbaru = Object.assign({},item);            
             this.dialogprofilmhsbaru = true;
         },
         closeProfilMahasiswaBaru ()
         {
-            this.dialogprofilmhsbaru = false;
+            this.dialogprofilmhsbaru = false;            
         }   
     },
     watch:{
