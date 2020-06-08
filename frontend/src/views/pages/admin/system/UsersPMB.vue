@@ -211,9 +211,9 @@
                                 class="mr-2"
                                 :loading="btnLoading"
                                 :disabled="btnLoading"
-                                @click.stop="viewItem(item)"
+                                @click.stop="setPermission(item)"
                             >
-                                mdi-eye
+                                mdi-axis-arrow-lock
                             </v-icon>
                             <v-icon
                                 small
@@ -420,7 +420,7 @@ export default {
             });                         
             this.dialogEdit = true;
         },
-        viewItem: async function (item) {          
+        setPermission: async function (item) {          
             this.btnLoading=true;  
             this.$ajax.get('/system/setting/roles/'+this.role_id+'/permission',{
                 headers: {
