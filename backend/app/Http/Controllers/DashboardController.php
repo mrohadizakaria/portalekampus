@@ -29,8 +29,8 @@ class DashboardController extends Controller
                         ->where('ta',$ta);
                         
         $daftar_prodi=\DB::table('usersprodi')
-                        ->select(\DB::raw('prodi_id,nama_prodi,nama_prodi_alias,nama_jenjang,jumlah'))
-                        ->joinSub($subquery,'pe3_formulir_pendaftaran',function($join){
+                        ->select(\DB::raw('prodi_id,nama_prodi,nama_prodi_alias,nama_jenjang,COALESCE(jumlah,0) AS jumlah'))
+                        ->leftJoinSub($subquery,'pe3_formulir_pendaftaran',function($join){
                             $join->on('pe3_formulir_pendaftaran.kjur1','=','usersprodi.prodi_id');
                         })
                         ->where('user_id',$this->getUserid())

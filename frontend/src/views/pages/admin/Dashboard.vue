@@ -29,7 +29,7 @@
             <DashboardMB />
         </v-container>
         <v-container v-else-if="dashboard=='pmb'">
-            <DashboardPMB />
+            <DashboardPMB :tahun_pendaftaran="tahun_pendaftaran" v-if="tahun_pendaftaran > 0" />
         </v-container>
     </AdminLayout>
 </template>
@@ -61,11 +61,13 @@ export default {
         breadcrumbs:[],
         TOKEN:null,
         dashboard:null,
+
+        tahun_pendaftaran:0
 	}),
 	methods : {
 		initialize:async function()
 		{	
-            let dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];                        
+            let dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];                                  
             if (dashboard == null)
             {                
                 await this.$ajax.get('/auth/me',                
@@ -73,16 +75,17 @@ export default {
                     headers: {
                         Authorization:'Bearer '+this.TOKEN
                     }
-                }).then(({data})=>{               
+                }).then(({data})=>{          
                     this.dashboard = data.role[0];    
                     this.$store.dispatch('uiadmin/changeDashboard',this.dashboard);                                       
                 });                 
-                this.$store.dispatch('uiadmin/init',this.$ajax);    
+                this.$store.dispatch('uiadmin/init',this.$ajax);  
             }                       
             else
             {
                 this.dashboard=dashboard;
             }             
+            this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran'];            
 		}
 	},
 	computed:{

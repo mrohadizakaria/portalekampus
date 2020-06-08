@@ -26,19 +26,21 @@
 <script>
 export default {
     name: 'DashboardPMB',
-    created()
+    mounted()
     {
-        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];   
-
         this.initialize();
+    },
+    props:{
+        tahun_pendaftaran:{
+            type:Number,
+            required:true
+        }
     },
     data:()=>({
         datatableLoading:false,
         //statistik
         daftar_prodi:[],
         total_mb:0,
-
-        tahun_pendaftaran:null,
     }),
     methods: {
         initialize:async function ()
