@@ -28,14 +28,14 @@
         <v-container v-if="dashboard=='mahasiswabaru'">
             <DashboardMB />
         </v-container>
-        <v-container v-else>
-            
+        <v-container v-else-if="dashboard=='pmb'">
+            <DashboardPMB />
         </v-container>
-
     </AdminLayout>
 </template>
 <script>
 import DashboardMB from '@/components/DashboardMahasiswaBaru';
+import DashboardPMB from '@/components/DashboardPMB';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
@@ -91,7 +91,8 @@ export default {
     components:{
 		AdminLayout,
         ModuleHeader,
-        DashboardMB
+        DashboardMB,
+        DashboardPMB,
 	}
 }
 </script>

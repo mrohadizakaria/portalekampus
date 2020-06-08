@@ -17,6 +17,13 @@ class Controller extends BaseController
         return Auth::guard('api');
     }
     /**
+     * digunakan untuk mendapatkan userid
+     */
+    public function getUserid ()
+    {
+        return $this->guard()->user()->id;
+    }
+    /**
      * @return boolean roles of user in array
      */
     public function getRoleNames() 
