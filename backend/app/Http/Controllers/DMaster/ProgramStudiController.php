@@ -139,7 +139,10 @@ class ProgramStudiController extends Controller {
                                                             'required',
                                                             'string',
                                                             Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi_alias,'nama_prodi_alias')
-                                                        ],           
+                                                        ],  
+                                                        
+                                            'kode_jenjang'=>'required|exists:pe3_jenjang_studi,kode_jenjang',            
+                                            'nama_jenjang'=>'required',            
                                             
                                         ]); 
             }
@@ -164,7 +167,9 @@ class ProgramStudiController extends Controller {
                                                             'required',
                                                             'string',
                                                             Rule::unique('pe3_prodi')->ignore($prodi->nama_prodi_alias,'nama_prodi_alias')
-                                                        ],           
+                                                        ],   
+                                            'kode_jenjang'=>'required|exists:pe3_jenjang_studi,kode_jenjang',            
+                                            'nama_jenjang'=>'required',            
                                             
                                         ]); 
             }                       
@@ -172,7 +177,19 @@ class ProgramStudiController extends Controller {
             $prodi->kode_prodi = $request->input('kode_prodi');
             $prodi->nama_prodi = $request->input('nama_prodi');            
             $prodi->nama_prodi_alias = $request->input('nama_prodi_alias');            
+            $prodi->kode_jenjang = $request->input('kode_jenjang');            
+            $prodi->nama_jenjang = $request->input('nama_jenjang');            
             $prodi->save();
+
+            \DB::table('usersprodi')
+                ->where('id',$id)
+                ->update([
+                    'kode_prodi' => $request->input('kode_prodi'),
+                    'nama_prodi' => $request->input('nama_prodi'),            
+                    'nama_prodi_alias' => $request->input('nama_prodi_alias'),
+                    'kode_jenjang' => $request->input('kode_jenjang'),
+                    'nama_jenjang' => $request->input('nama_jenjang'),
+                ]);
 
             \App\Models\System\ActivityLog::log($request,[
                                                         'object' => $prodi,

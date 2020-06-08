@@ -112,6 +112,16 @@
                                                     filled
                                                     :rules="rule_user_password">
                                                 </v-text-field>
+                                                <v-autocomplete 
+                                                    :items="daftar_prodi" 
+                                                    v-model="editedItem.prodi_id"
+                                                    label="PROGRAM STUDI" 
+                                                    item-text="text"
+                                                    item-value="id"
+                                                    multiple 
+                                                    small-chips
+                                                    :rules="rule_user_prodi">                                                                                
+                                                </v-autocomplete>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -165,7 +175,17 @@
                                                     :type="'password'"
                                                     filled
                                                     :rules="rule_user_passwordEdit">
-                                                </v-text-field>                                   
+                                                </v-text-field>   
+                                                <v-autocomplete 
+                                                    :items="daftar_prodi" 
+                                                    v-model="editedItem.prodi_id"
+                                                    label="PROGRAM STUDI" 
+                                                    item-text="text"
+                                                    item-value="id"
+                                                    multiple 
+                                                    small-chips
+                                                    :rules="rule_user_prodi">                                                                                
+                                                </v-autocomplete>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -289,6 +309,7 @@ export default {
         dialogEdit: false,
         dialogUserPermission: false,
         editedIndex: -1,
+        daftar_prodi:[],
         editedItem: {
             id:0,
             username: '',           
@@ -296,6 +317,7 @@ export default {
             name: '',           
             email: '',           
             nomor_hp:'',           
+            prodi_id:[],
             created_at: '',           
             updated_at: '',   
         },
@@ -305,7 +327,8 @@ export default {
             password: '',           
             name: '',           
             email: '',           
-            nomor_hp: '',                                       
+            nomor_hp: '',  
+            prodi_id:[],                            
             created_at: '',           
             updated_at: '',        
         },
@@ -341,6 +364,9 @@ export default {
                 }
             }
         ], 
+        rule_user_prodi:[
+            value => value.length>0||"Mohon untuk dipilih program studi dari User ini !!!",
+        ],
     }),
     methods: {
         initialize:async function () 
@@ -370,12 +396,28 @@ export default {
         },
         showDialogTambahUserPMB:async function ()
         {
+            this.daftar_prodi=this.$store.getters['uiadmin/getDaftarProdi'];  
             this.dialog = true;            
         },
         editItem:async function (item) {
             this.editedIndex = this.daftar_users.indexOf(item)
             item.password='';            
-            this.editedItem = Object.assign({}, item);                          
+            this.editedItem = Object.assign({}, item);      
+            this.daftar_prodi=this.$store.getters['uiadmin/getDaftarProdi'];  
+            await this.$ajax.get('/system/users/'+item.id+'/prodi',               
+                {
+                    headers:{
+                        Authorization:this.TOKEN
+                    }
+                }
+            ).then(({data})=>{                                   
+                let daftar_prodi = data.daftar_prodi;
+                var prodi=[];
+                daftar_prodi.forEach(element => {
+                    prodi.push(element.id);                        
+                });   
+                this.editedItem.prodi_id=prodi;                 
+            });                         
             this.dialogEdit = true;
         },
         viewItem: async function (item) {          
@@ -405,14 +447,14 @@ export default {
             this.editedItem=item;
         
         },
-        close () {
-            this.$refs.frmdata.reset(); 
+        close () {            
             this.btnLoading=false;
             this.dialog = false;
             this.dialogEdit = false;            
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
+                this.$refs.frmdata.reset(); 
                 }, 300
             );
         },
@@ -434,7 +476,8 @@ export default {
                             email:this.editedItem.email,
                             nomor_hp:this.editedItem.nomor_hp,     
                             username:this.editedItem.username,
-                            password:this.editedItem.password,                                                                                                             
+                            password:this.editedItem.password,   
+                            prodi_id:JSON.stringify(Object.assign({},this.editedItem.prodi_id)),                                                                                                          
                         },
                         {
                             headers:{
@@ -455,7 +498,8 @@ export default {
                             email:this.editedItem.email,
                             nomor_hp:this.editedItem.nomor_hp,     
                             username:this.editedItem.username,
-                            password:this.editedItem.password,                            
+                            password:this.editedItem.password,            
+                            prodi_id:JSON.stringify(Object.assign({},this.editedItem.prodi_id)), 
                         },
                         {
                             headers:{

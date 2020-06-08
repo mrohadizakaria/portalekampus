@@ -333,10 +333,34 @@ class UsersController extends Controller {
             }
             
             return Response()->json([
-                                        'status'=>0,
+                                        'status'=>1,
                                         'pid'=>'store',
                                         'user'=>$user,                
                                         'message'=>"Foto User ($username)  berhasil direset"
+                                    ],200); 
+        }
+    }
+    public function usersprodi (Request $request,$id)
+    {
+        $user = User::find($id); 
+
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'store',                
+                                    'message'=>["Data User tidak ditemukan."]
+                                ],422);         
+        }
+        else
+        {
+            $username = $user->username;            
+            $prodi=$user->prodi;            
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'fetchdata',
+                                        'daftar_prodi'=>$prodi,                
+                                        'message'=>"Daftar Prodi dari username ($username)  berhasil diperoleh"
                                     ],200); 
         }
     }

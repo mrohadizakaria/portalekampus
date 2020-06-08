@@ -393,9 +393,9 @@ export default {
         closedialogfrm () {
             this.dialogfrm = false;            
             setTimeout(() => {
-                this.formdata = Object.assign({}, this.formdefault);
-                this.$refs.frmdata.reset(); 
+                this.formdata = Object.assign({}, this.formdefault);                
                 this.editedIndex = -1
+                this.$refs.frmdata.reset(); 
                 }, 300
             );
         },

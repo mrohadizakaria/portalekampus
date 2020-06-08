@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Validation\Rule;
+
 class UsersPMBController extends Controller {         
     /**
      * Show the form for creating a new resource.
@@ -45,6 +47,7 @@ class UsersPMBController extends Controller {
             'nomor_hp'=>'required|string|unique:users',
             'username'=>'required|string|unique:users',
             'password'=>'required',            
+            'prodi_id'=>'required',
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
@@ -61,6 +64,40 @@ class UsersPMBController extends Controller {
         $role='pmb';   
         $user->assignRole($role);               
         
+        $user_id=$user->id;
+        $daftar_prodi=json_decode($request->input('prodi_id'),true);
+        foreach($daftar_prodi as $v)
+        {
+            $sql = "
+                INSERT INTO usersprodi (                    
+                    user_id, 
+                    prodi_id,
+                    kode_prodi,
+                    nama_prodi,
+                    nama_prodi_alias,
+                    kode_jenjang,
+                    nama_jenjang,                                                        
+                    created_at, 
+                    updated_at
+                ) 
+                SELECT
+                    '$user_id',                    
+                    id,
+                    kode_prodi,
+                    nama_prodi,
+                    nama_prodi_alias,
+                    kode_jenjang,
+                    nama_jenjang,                          
+                    NOW() AS created_at,
+                    NOW() AS updated_at
+                FROM pe3_prodi                    
+                WHERE 
+                    id='$v' 
+            ";
+
+            \DB::statement($sql); 
+        }
+
         \App\Models\System\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
                                         'object_id' => $this->guard()->user()->id, 
@@ -105,7 +142,8 @@ class UsersPMBController extends Controller {
                                                     ],           
                                         'name'=>'required',            
                                         'email'=>'required|string|email|unique:users,email,'.$user->id,
-                                        'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,              
+                                        'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,   
+                                        'prodi_id'=>'required',           
                                     ]); 
                                     
             $user->name = $request->input('name');
@@ -117,6 +155,40 @@ class UsersPMBController extends Controller {
             }    
             $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
             $user->save();
+
+            $user_id=$user->id;
+            \DB::table('usersprodi')->where('user_id',$user_id)->delete();
+            $daftar_prodi=json_decode($request->input('prodi_id'),true);
+            foreach($daftar_prodi as $v)
+            {
+                $sql = "
+                    INSERT INTO usersprodi (                    
+                        user_id, 
+                        prodi_id,
+                        kode_prodi,
+                        nama_prodi,
+                        nama_prodi_alias,
+                        kode_jenjang,
+                        nama_jenjang,                                                        
+                        created_at, 
+                        updated_at
+                    ) 
+                    SELECT
+                        '$user_id',                    
+                        id,
+                        kode_prodi,
+                        nama_prodi,
+                        nama_prodi_alias,
+                        kode_jenjang,
+                        nama_jenjang,                          
+                        NOW() AS created_at,
+                        NOW() AS updated_at
+                    FROM pe3_prodi                    
+                    WHERE 
+                        id='$v' 
+                ";
+                \DB::statement($sql); 
+            }
 
             \App\Models\System\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 

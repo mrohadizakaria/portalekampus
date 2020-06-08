@@ -43,6 +43,11 @@ class UIController extends Controller {
             $daftar_prodi=ProgramStudiModel::all();
             $prodi_id=$config['DEFAULT_PRODI'];        
         }
+        elseif($this->hasRole('pmb'))
+        {
+            $daftar_prodi=$this->guard()->user()->prodi;
+            $prodi_id=$daftar_prodi->count()>0?$daftar_prodi[0]->id:$config['DEFAULT_PRODI'];   
+        }
         elseif ($this->hasRole('mahasiswabaru'))
         {
             $formulir=\App\Models\SPMB\FormulirPendaftaranModel::find($this->guard()->user()->id);
