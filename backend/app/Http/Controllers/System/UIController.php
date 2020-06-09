@@ -18,6 +18,7 @@ class UIController extends Controller {
         $config = ConfigurationModel::getCache();
         $captcha_site_key = $config['CAPTCHA_SITE_KEY'];
         $tahun_pendaftaran = $config['DEFAULT_TAHUN_PENDAFTARAN'];
+        $semester_pendaftaran = $config['DEFAULT_SEMESTER_PENDAFTARAN'];
         $identitas['nama_pt']=$config['NAMA_PT'];
         $identitas['nama_pt_alias']=$config['NAMA_PT_ALIAS'];
         $identitas['bentuk_pt']=$config['BENTUK_PT'];

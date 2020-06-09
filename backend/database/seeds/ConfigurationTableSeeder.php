@@ -44,16 +44,25 @@ class ConfigurationTableSeeder extends Seeder
 
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"201",
-            'config_group'=>'variables',
+            'config_group'=>'basic',
             'config_key'=>'DEFAULT_TA',
             'config_value'=>date('Y'),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-
+        
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"202",
-            'config_group'=>'variables',
+            'config_group'=>'basic',
+            'config_key'=>'DEFAULT_SEMESTER',
+            'config_value'=>1,
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        \DB::table('pe3_configuration')->insert([
+            'config_id'=>"203",
+            'config_group'=>'basic',
             'config_key'=>'DEFAULT_TAHUN_PENDAFTARAN',
             'config_value'=>date('Y'),
             'created_at'=>Carbon::now(),
@@ -61,8 +70,17 @@ class ConfigurationTableSeeder extends Seeder
         ]);
 
         \DB::table('pe3_configuration')->insert([
-            'config_id'=>"203",
-            'config_group'=>'variables',
+            'config_id'=>"204",
+            'config_group'=>'basic',
+            'config_key'=>'DEFAULT_SEMESTER_PENDAFTARAN',
+            'config_value'=>1,
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('pe3_configuration')->insert([
+            'config_id'=>"205",
+            'config_group'=>'basic',
             'config_key'=>'DEFAULT_PRODI',
             'config_value'=>1,
             'created_at'=>Carbon::now(),

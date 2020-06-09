@@ -20,7 +20,7 @@ class KelasController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'kelas'=>$kelas,                                                                                                                                   
-                                    'message'=>'Fetchs data kelas berhasil.'
+                                    'message'=>'Fetch data kelas berhasil.'
                                 ],200);     
     }
     /**

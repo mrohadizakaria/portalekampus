@@ -5,6 +5,7 @@ const getDefaultState = () =>
         loaded:false,  
         captcha_site_key:'',
         tahun_pendaftaran:new Date().getFullYear(),
+        semester_pendaftaran:1,
         identitas:{
             nama_pt:'',
             nama_pt_alias:''
@@ -27,6 +28,10 @@ const mutations = {
     {
         state.tahun_pendaftaran = tahun;
     },    
+    setSemesterPendaftaran(state,semester)
+    {
+        state.semester_pendaftaran = semester;
+    },    
     setIdentitas(state,identitas)
     {
         state.identitas = identitas;
@@ -46,6 +51,10 @@ const getters= {
     getTahunPendaftaran: state => 
     {             
         return state.tahun_pendaftaran;
+    },
+    getSemesterPendaftaran: state => 
+    {             
+        return state.semester_pendaftaran;
     },
     getNamaPT: state => 
     {             
@@ -68,6 +77,7 @@ const actions = {
             await ajax.get('/system/setting/uifront').then(({data})=>{                  
                 commit('setCaptchaSiteKey',data.captcha_site_key);                                         
                 commit('setTahunPendaftaran',data.tahun_pendaftaran);                                         
+                commit('setSemesterPendaftaran',data.semester_pendaftaran);                                         
                 commit('setIdentitas',data.identitas);                                                         
                 commit('setLoaded',true);
             })

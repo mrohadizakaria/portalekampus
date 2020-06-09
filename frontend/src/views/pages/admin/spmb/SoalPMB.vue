@@ -205,7 +205,6 @@
     </AdminLayout>
 </template>
 <script>
-import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
@@ -276,9 +275,13 @@ export default {
         initialize:async function () 
         {
             this.datatableLoading=true;
-            await this.$ajax.get('/spmb/soalpmb',{
+            await this.$ajax.post('/spmb/soalpmb',
+            {
+
+            },
+            {
                 headers: {
-                    Authorization:this.TOKEN
+                    Authorization:this.$store.getters['auth/Token']
                 }
             }).then(({data})=>{               
                 this.datatable = data.object;
@@ -327,7 +330,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.TOKEN
+                                Authorization:this.$store.getters['auth/Token']
                             }
                         }
                     ).then(({data})=>{   
@@ -345,7 +348,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.TOKEN
+                                Authorization:this.$store.getters['auth/Token']
                             }
                         }
                     ).then(({data})=>{   
@@ -369,7 +372,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.TOKEN
+                                Authorization:this.$store.getters['auth/Token']
                             }
                         }
                     ).then(()=>{   
@@ -401,10 +404,6 @@ export default {
         },
     },
     computed: {
-        ...mapGetters('auth',{            
-            ACCESS_TOKEN:'AccessToken',          
-            TOKEN:'Token',                                  
-        }),
         formTitle () {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },        

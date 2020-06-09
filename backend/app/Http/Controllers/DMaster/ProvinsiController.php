@@ -17,7 +17,7 @@ class ProvinsiController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'provinsi'=>$provinsi,                                                                                                                                   
-                                    'message'=>'Fetchs data provinsi berhasil.'
+                                    'message'=>'Fetch data provinsi berhasil.'
                                 ],200);     
     }
     /**
@@ -41,7 +41,7 @@ class ProvinsiController extends Controller {
                                         'status'=>1,
                                         'pid'=>'fetchdata',  
                                         'kabupaten'=>$kabupaten,                                                                                                                                   
-                                        'message'=>'Fetchs data kabupaten berdasarkan id provinsi berhasil.'
+                                        'message'=>'Fetch data kabupaten berdasarkan id provinsi berhasil.'
                                     ],200);     
 
         }

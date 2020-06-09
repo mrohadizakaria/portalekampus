@@ -155,7 +155,8 @@ class PMBController extends Controller {
 
             return $user;
         });
-        if (!is_null($user))
+        $config_kirim_email = 0;
+        if (!is_null($user) && $config_kirim_email==1)
         {
             app()->mailer->to($request->input('email'))->send(new VerifyEmailAddress($user->code));
         }       

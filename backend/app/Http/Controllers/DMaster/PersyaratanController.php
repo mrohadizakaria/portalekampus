@@ -18,7 +18,7 @@ class PersyaratanController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'persyaratan'=>$persyaratan,                                                                                                                                   
-                                    'message'=>'Fetchs data persyaratan berhasil.'
+                                    'message'=>'Fetch data persyaratan berhasil.'
                                 ],200);     
     }
     /**

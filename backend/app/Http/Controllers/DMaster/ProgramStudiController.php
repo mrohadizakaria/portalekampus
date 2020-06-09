@@ -23,7 +23,7 @@ class ProgramStudiController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'prodi'=>$prodi,                                                                                                                                   
-                                    'message'=>'Fetchs data program studi berhasil.'
+                                    'message'=>'Fetch data program studi berhasil.'
                                 ],200);     
     }
     /**
@@ -227,7 +227,7 @@ class ProgramStudiController extends Controller {
                                         'status'=>1,
                                         'pid'=>'fetchdata',  
                                         'programstudi'=>$programstudi,                                                                                                                                   
-                                        'message'=>'Fetchs data program studi berdasarkan id program studi berhasil.'
+                                        'message'=>'Fetch data program studi berdasarkan id program studi berhasil.'
                                     ],200);     
 
         }

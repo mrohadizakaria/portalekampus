@@ -18,7 +18,7 @@ class KabupatenController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'kabupaten'=>$kabupaten,                                                                                                                                   
-                                    'message'=>'Fetchs data kabupaten berhasil.'
+                                    'message'=>'Fetch data kabupaten berhasil.'
                                 ],200);     
     }
     /**
@@ -42,7 +42,7 @@ class KabupatenController extends Controller {
                                         'status'=>1,
                                         'pid'=>'fetchdata',  
                                         'kecamatan'=>$kecamatan,                                                                                                                                   
-                                        'message'=>'Fetchs data kecamatan berdasarkan id kabupaten berhasil.'
+                                        'message'=>'Fetch data kecamatan berdasarkan id kabupaten berhasil.'
                                     ],200);     
 
         }

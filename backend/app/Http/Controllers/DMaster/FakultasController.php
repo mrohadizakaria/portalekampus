@@ -18,7 +18,7 @@ class FakultasController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'fakultas'=>$fakultas,                                                                                                                                   
-                                    'message'=>'Fetchs data fakultas berhasil.'
+                                    'message'=>'Fetch data fakultas berhasil.'
                                 ],200);     
     }
     /**
@@ -131,7 +131,7 @@ class FakultasController extends Controller {
                                         'status'=>1,
                                         'pid'=>'fetchdata',  
                                         'programstudi'=>$programstudi,                                                                                                                                   
-                                        'message'=>'Fetchs data program studi berdasarkan id fakultas berhasil.'
+                                        'message'=>'Fetch data program studi berdasarkan id fakultas berhasil.'
                                     ],200);     
 
         }
