@@ -98,6 +98,9 @@
                                     <v-alert type="success">
                                         Pendaftaran Mahasiswa Baru telah dilakukan dengan sukses!!!. Selanjutnya silahkan masukan kode yang dikirim ke email ({{formkonfirmasi.email}}).
                                     </v-alert>
+                                    <v-alert type="warning">
+                                        Bila tidak ada di Inbox atau SPAM, silahkan hubungi Panitia PMB untuk diaktifkan secara manual.
+                                    </v-alert>
                                     <v-text-field 
                                         v-model="formkonfirmasi.code" 
                                         label="CODE"
