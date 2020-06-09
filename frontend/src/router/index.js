@@ -168,6 +168,15 @@ const routes = [
 		component: () => import('../views/pages/admin/system/UsersPMB.vue'),		
 	},
 	{
+		path: '/system-users/profil',
+		name: 'UsersProfil',
+		meta:{
+			title: "USERS - PROFILE",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/UsersProfile.vue'),		
+	},
+	{
 		path: '/404',
 		name: 'NotFoundComponent',
 		meta:{

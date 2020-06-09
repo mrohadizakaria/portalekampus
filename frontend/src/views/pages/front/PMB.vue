@@ -96,11 +96,8 @@
                                 </v-card-title>
                                 <v-card-text>    
                                     <v-alert type="success">
-                                        Pendaftaran Mahasiswa Baru telah dilakukan dengan sukses!!!. Selanjutnya silahkan masukan kode yang dikirim ke email ({{formkonfirmasi.email}}).
-                                    </v-alert>
-                                    <v-alert type="warning">
-                                        Bila tidak ada di Inbox atau SPAM, silahkan hubungi Panitia PMB untuk diaktifkan secara manual.
-                                    </v-alert>
+                                        Proses pendaftaran berhasil, silahkan cek email Anda ({{formkonfirmasi.email}}) untuk mendapatkan kode aktivasi atau hubungi panitia PMB jika kode tidak masuk ke email.
+                                    </v-alert>                                    
                                     <v-text-field 
                                         v-model="formkonfirmasi.code" 
                                         label="CODE"
@@ -109,7 +106,8 @@
                                     </v-text-field>                                            
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-spacer></v-spacer>                                                
+                                    <v-spacer></v-spacer>  
+                                    <v-btn color="blue darken-1" text @click.stop="closedialogfrm">KELUAR</v-btn>                                              
                                     <v-btn 
                                         color="blue darken-1" 
                                         text 
@@ -227,13 +225,14 @@ export default {
                 }).then(({data})=>{
                     this.formkonfirmasi.email=data.email;
                     this.btnLoading=false;    
-                    this.dialogkonfirmasiemail=true;                
+                    this.dialogkonfirmasiemail=true;  
+                    
+                    this.form_valid=true;                                                                                        
+                    this.$refs.frmpendaftaran.reset(); 
+                    this.formdata = Object.assign({}, this.formdefault)
                 }).catch(() => {                                   
                     this.btnLoading=false;
-                });                                    
-                this.form_valid=true;                                                                                        
-                this.$refs.frmpendaftaran.reset(); 
-                this.formdata = Object.assign({}, this.formdefault)
+                });     
             }
             this.resetRecaptcha();                        
         },
@@ -267,7 +266,15 @@ export default {
         {
             this.$refs.recaptcha.reset();  
             this.formdata.captcha_response='';
-        }
+        },
+        closedialogfrm () {
+            this.dialogkonfirmasiemail = false;            
+            setTimeout(() => {
+                this.frmpendaftaran = Object.assign({}, this.formdefault);                                
+                this.$refs.frmpendaftaran.reset(); 
+                }, 300
+            );
+        },
     },
     computed :{
         ...mapGetters('uifront',{

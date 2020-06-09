@@ -135,6 +135,13 @@
                         </v-list-item-content>
                     </v-list-item>                    
                     <v-divider/>
+                    <v-list-item to="/system-users/profil">
+                        <v-list-item-icon>
+							<v-icon>mdi-account</v-icon>
+						</v-list-item-icon>
+                        <v-list-item-title>Profil</v-list-item-title>
+                    </v-list-item>
+                    <v-divider/>
                     <v-list-item @click.prevent="logout">
                         <v-list-item-icon>
 							<v-icon>mdi-power</v-icon>

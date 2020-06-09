@@ -17,6 +17,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('username', 'password');
+        $credentials['active']=1;
 
         if (! $token = $this->guard()->attempt($credentials)) {
             return response()->json([

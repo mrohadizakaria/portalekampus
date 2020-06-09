@@ -11,8 +11,8 @@
                         :value="form_error"
                         icon="mdi-close-octagon-outline"
                     >
-                        Username atau Password salah, silahkan isi kembali dengan yang benar !!! 
-                    </v-alert>                               
+                        Username atau Password tidak dikenal !.
+                    </v-alert>                                
                     <v-form ref="frmlogin" lazy-validation>
                         <v-card outlined>
                             <v-card-text>                                
