@@ -187,6 +187,49 @@ class UsersController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function updatepassword(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (is_null($user))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',                
+                                    'message'=>["Password User ID ($id) gagal diupdate"]
+                                ],422); 
+        }
+        else
+        {
+            $this->validate($request, [            
+                'password'=>'required',                        
+            ]); 
+
+            $user->password = Hash::make($request->input('password'));                
+            $user->save();
+
+            \App\Models\System\ActivityLog::log($request,[
+                                                            'object' => $this->guard()->user(), 
+                                                            'object_id' => $this->getUserid(), 
+                                                            'user_id' => $this->getUserid(), 
+                                                            'message' => 'Mengubah data password user ('.$user->username.') berhasil'
+                                                        ]);
+
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'update',
+                                        'user'=>$user,                                    
+                                        'message'=>'Password user '.$user->username.' berhasil diubah.'
+                                    ],200); 
+        }
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function updateprofil(Request $request)
     {
         $user = \Auth::user();

@@ -59,8 +59,32 @@
                 </v-col>
             </v-row>
             <v-row> 
-                <v-col sm="5" md="5">
-                    
+                <v-col xs="12" sm="6" md="6">
+                    <v-form ref="frmdata" v-model="form_valid" lazy-validation>
+                        <v-card>
+                            <v-card-title>
+                                <span class="headline">GANTI PASSWORD</span>
+                            </v-card-title>
+                            <v-card-text>    
+                                 <v-text-field 
+                                    v-model="formdata.password" 
+                                    label="PASSWORD BARU"
+                                    :type="'password'"
+                                    filled
+                                    :rules="rule_user_password">
+                                </v-text-field> 
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>                                
+                                <v-btn 
+                                    color="blue darken-1" 
+                                    text 
+                                    @click.stop="save" 
+                                    :loading="btnLoading"
+                                    :disabled="!form_valid||btnLoading">SIMPAN</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-form>
                 </v-col>
             </v-row>
         </v-container>
@@ -100,13 +124,15 @@ export default {
             form_valid:true,         
             formdata: {
                 id:0,                        
-                foto:null,                        
+                foto:null,  
+                password: '',                       
                 created_at: '',           
                 updated_at: '',           
             },
             formdefault: {
                 id:0,           
-                foto:null,                                     
+                foto:null,    
+                password: '',                                  
                 created_at: '',           
                 updated_at: '',       
             },
@@ -115,9 +141,38 @@ export default {
                 value => !!value||"Mohon pilih gambar !!!",  
                 value =>  !value || value.size < 2000000 || 'File foto harus kurang dari 2MB.'                
             ], 
+            rule_user_password:[
+                value => !!value||"Mohon untuk di isi password User !!!",
+                value => value.length >= 8 || 'Minimial Password 8 karaketer',
+            ],
         };
     },
     methods: {
+        save()
+        {
+            if (this.$refs.frmdata.validate())
+            {
+                this.btnLoading=true;
+                this.$ajax.post('/system/users/updatepassword/'+this.$store.getters['auth/AttributeUser']('id'),
+                    {
+                        '_method':'PUT',                        
+                        password:this.formdata.password,                           
+                    },
+                    {
+                        headers:{
+                            Authorization:this.$store.getters['auth/Token']
+                        }
+                    }
+                ).then(({data})=>{                                                                            
+                    this.$refs.frmdata.reset(); 
+                    this.formdata.foto=data.foto;       
+                    this.formdata=this.formdefault; 
+                    this.btnLoading=false;
+                }).catch(()=>{
+                    this.btnLoading=false;
+                });                     
+            }
+        },
         previewImage (e)
         {
             if (typeof e === 'undefined')
@@ -146,16 +201,17 @@ export default {
                     await this.$ajax.post('/setting/users/uploadfoto/'+this.$store.getters.User.id,formdata,                    
                         {
                             headers:{
-                                Authorization:this.$store.getters.Token,      
+                                Authorization:this.$store.getters['auth/Token'],  
                                 'Content-Type': 'multipart/form-data'                      
                             }
                         }
                     ).then(({data})=>{                           
                         this.btnLoading=false;
-                        this.$store.dispatch('updateFoto',data.user.foto);
+                        this.$store.dispatch('updateFoto',data.user.foto);                        
                     }).catch(()=>{
                         this.btnLoading=false;
                     });    
+                    this.$refs.frmdata.reset(); 
                 }   
             }
         },
@@ -165,7 +221,7 @@ export default {
             await this.$ajax.post('/setting/users/resetfoto/'+this.$store.getters.User.id,{},                    
                 {
                     headers:{
-                        Authorization:this.$store.getters.Token,                                             
+                        Authorization:this.$store.getters['auth/Token'],                              
                     }
                 }
             ).then(({data})=>{                           
