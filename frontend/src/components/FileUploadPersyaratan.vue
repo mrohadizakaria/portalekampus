@@ -10,7 +10,8 @@
                         :rules="rule_foto"
                         show-size
                         v-model="filepersyaratan[index]"
-                        @change="previewImage">
+                        @change="previewImage"
+                        v-if="verified == 0">
                     </v-file-input>
                 </div>
             </v-card-text>
@@ -27,7 +28,8 @@
                     text
                     @click="upload(index,item)"
                     :loading="btnLoading"                                
-                    :disabled="btnLoading||btnSimpan">                
+                    :disabled="btnLoading||btnSimpan"
+                    v-if="verified == 0">                                   
                     Simpan
                 </v-btn>
                 <v-btn
@@ -35,7 +37,8 @@
                     text
                     @click="hapusfilepersysaratan(item)"
                     :loading="btnLoading"                                
-                    :disabled="btnLoading||btnHapus">                
+                    :disabled="btnLoading||btnHapus"
+                    v-if="verified == 0">                   
                     Hapus
                 </v-btn>
                 <v-btn
@@ -43,7 +46,8 @@
                     text
                     @click="verifikasipersyaratan(item)"
                     :loading="btnLoading"                                
-                    :disabled="btnLoading||btnVerifikasi" v-if="dashboard != 'mahasiswabaru' && dashboard != 'mahasiswa'">                
+                    :disabled="btnLoading||btnVerifikasi" 
+                    v-if="dashboard != 'mahasiswabaru' && dashboard != 'mahasiswa' && verified == 0">                
                     Verifikasi
                 </v-btn>
             </v-card-actions>
