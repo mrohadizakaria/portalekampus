@@ -17,12 +17,19 @@
             </v-card-text>
             <v-card-actions>
                 <v-badge
-                        bordered
-                        :color="badgeColor"
-                        :icon="badgeIcon"                        
-                    >   
+                    bordered
+                    :color="badgeColor"
+                    :icon="badgeIcon">   
                 </v-badge>
                 <v-spacer/>
+                <v-btn
+                    icon 
+                    @click.stop="downloadImage()"
+                    v-if="verified == 1">
+                    <v-icon>
+                        mdi-download
+                    </v-icon>
+                </v-btn>
                 <v-btn
                     color="orange"
                     text
