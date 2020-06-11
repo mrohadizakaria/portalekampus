@@ -18,8 +18,10 @@ class CreateSoalPmbTable extends Migration
         Schema::create('pe3_soal', function (Blueprint $table) {                                                                  
             $table->uuid('id')->primary();                        
             $table->text('soal');            
-            $table->string('gambar',11);            
+            $table->string('gambar',60);            
             $table->unsignedInteger('prodi_id')->nullable();            
+            $table->year('ta');
+            $table->tinyInteger('semester');
             $table->timestamps();   
             
             $table->foreign('prodi_id')

@@ -13,7 +13,7 @@
                 :items="daftar_semester"                
                 item-text="text"
                 item-value="id"
-                label="SEMESTER"
+                label="SEMESTER PENDAFTARAN"
                 outlined/>   
         </v-list-item-content>
     </v-list-item>	
@@ -27,7 +27,7 @@ export default {
         this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];  
 
         this.daftar_semester=this.$store.getters['uiadmin/getDaftarSemester'];  
-        this.semester=this.$store.getters['uiadmin/getSemester'];                                    
+        this.semester=this.$store.getters['uiadmin/getSemesterPendaftaran'];                                    
         
         this.firstloading=false;
     },

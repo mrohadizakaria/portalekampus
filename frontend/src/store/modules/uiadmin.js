@@ -10,6 +10,9 @@ const getDefaultState = () =>
         daftar_ta:[],
         tahun_pendaftaran:null,
 
+        daftar_semester:[],
+        semester_pendaftaran:null,
+
         daftar_prodi:[],
         prodi_id:null,
 
@@ -60,6 +63,15 @@ const mutations = {
         state.tahun_pendaftaran=tahun;
     },  
 
+    setDaftarSemester(state,daftar)
+    {
+        state.daftar_semester=daftar;
+    },
+    setSemesterPendaftaran(state,semester)
+    {
+        state.semester_pendaftaran = semester;
+    },
+    
     setDaftarProdi(state,daftar)
     {
         state.daftar_prodi=daftar;
@@ -95,6 +107,15 @@ const getters= {
     getTahunPendaftaran: state =>
     {
         return parseInt(state.tahun_pendaftaran);
+    },
+    
+    getDaftarSemester: state => 
+    {   
+        return state.daftar_semester;
+    },
+    getSemesterPendaftaran: state => 
+    {             
+        return state.semester_pendaftaran;
     },
 
     getDaftarProdi: state => 
@@ -136,6 +157,7 @@ const actions = {
         if (!state.loaded && rootGetters['auth/Authenticated'])
         {   
             commit('setTahunPendaftaran',rootGetters['uifront/getTahunPendaftaran']);   
+            commit('setSemesterPendaftaran',rootGetters['uifront/getSemesterPendaftaran']);   
             let token=rootGetters['auth/Token'];                                                     
             await ajax.get('/system/setting/uiadmin',               
                 {
@@ -145,6 +167,8 @@ const actions = {
                 }
             ).then(({data})=>{                   
                 commit('setDaftarTA',data.daftar_ta);         
+                commit('setDaftarSemester',data.daftar_semester);         
+
                 let daftar_prodi = data.daftar_prodi;
                 var prodi=[];
                 daftar_prodi.forEach(element => {

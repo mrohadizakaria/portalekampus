@@ -215,7 +215,7 @@ export default {
             {
                 text:'HOME',
                 disabled:false,
-                href:'/dashboard/'+this.ACCESS_TOKEN
+                href:'/dashboard/'+this.$store.getters['auth/AccessToken']
             },
             {
                 text:'PAGE_GROUP',
@@ -278,7 +278,7 @@ export default {
             this.datatableLoading=true;
             await this.$ajax.get('/path',{
                 headers: {
-                    Authorization:this.TOKEN
+                    Authorization:this.$store.getters['auth/Token']
                 }
             }).then(({data})=>{               
                 this.datatable = data.object;
@@ -327,7 +327,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.TOKEN
+                                Authorization:this.$store.getters['auth/Token']
                             }
                         }
                     ).then(({data})=>{   
@@ -345,7 +345,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.TOKEN
+                                Authorization:this.$store.getters['auth/Token']
                             }
                         }
                     ).then(({data})=>{   
@@ -369,7 +369,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.TOKEN
+                                Authorization:this.$store.getters['auth/Token']
                             }
                         }
                     ).then(()=>{   

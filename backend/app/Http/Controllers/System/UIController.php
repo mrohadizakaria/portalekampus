@@ -27,6 +27,7 @@ class UIController extends Controller {
                                     'pid'=>'fetchdata',
                                     'captcha_site_key'=>$captcha_site_key,
                                     'tahun_pendaftaran'=>$tahun_pendaftaran,
+                                    'semester_pendaftaran'=>$semester_pendaftaran,
                                     'identitas'=>$identitas,
                                     'message'=>'Fetch data ui untuk front berhasil diperoleh'
                                 ],200);  
@@ -38,7 +39,21 @@ class UIController extends Controller {
     {
         $config = ConfigurationModel::getCache();
         $daftar_ta=TAModel::all();        
-
+        $daftar_semester=[
+                            0=>[
+                                'id'=>1,
+                                'text'=>'GANJIL'
+                            ],
+                            2=>[
+                                'id'=>2,
+                                'text'=>'GENAP'
+                            ],
+                            3=>[
+                                'id'=>3,
+                                'text'=>'PENDEK'
+                            ]
+                        ];
+                            
         if ($this->hasRole('superadmin'))
         {
             $daftar_prodi=ProgramStudiModel::all();
@@ -62,6 +77,7 @@ class UIController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'daftar_ta'=>$daftar_ta,    
+                                    'daftar_semester'=>$daftar_semester,    
                                     'daftar_prodi'=>$daftar_prodi,
                                     'prodi_id'=>$prodi_id,                                    
                                     'daftar_kelas'=>$daftar_kelas,                              

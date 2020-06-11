@@ -2,7 +2,7 @@
     <AdminLayout pagename="spmbsoalpmb">
         <ModuleHeader>
             <template v-slot:icon>
-                mdi-file
+                mdi-head-question-outline
             </template>
             <template v-slot:name>
                 SOAL PMB
@@ -21,23 +21,11 @@
                     colored-border
                     type="info"
                     >
-                    Text
+                    Berisi Soal PMB yang dikelompokan berdasarkan tahun akademik dan semester.
                 </v-alert>
             </template>
         </ModuleHeader>   
-        <v-container> 
-            <v-row class="mb-4" no-gutters>
-                <v-col cols="12">
-                    <v-card>
-                        <v-card-title>
-                            FILTER
-                        </v-card-title>
-                        <v-card-text>
-                        
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>    
+        <v-container>            
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-card>
@@ -71,7 +59,7 @@
 
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DATA TABLE</v-toolbar-title>
+                                <v-toolbar-title>DAFTAR SOAL PMB</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
@@ -202,11 +190,15 @@
                 </v-col>
             </v-row>
         </v-container>
+        <template v-slot:filtersidebar>
+            <Filter19 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeSemester="changeSemesterPendaftaran" />	
+        </template>
     </AdminLayout>
 </template>
 <script>
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
+import Filter19 from '@/components/sidebar/FilterMode19';
 export default {
     name:'PAGE',
     created () {
@@ -214,7 +206,7 @@ export default {
             {
                 text:'HOME',
                 disabled:false,
-                href:'/dashboard/'+this.ACCESS_TOKEN
+                href:'/dashboard/'+this.$store.getters['auth/AccessToken']
             },
             {
                 text:'SPMB',
@@ -222,7 +214,7 @@ export default {
                 href:'#'
             },
             {
-                text:'SOAL',
+                text:'SOAL PMB',
                 disabled:true,
                 href:'#'
             }
@@ -235,7 +227,8 @@ export default {
         expanded:[],
         datatable:[],
         headers: [                        
-            { text: 'ID', value: 'id' },   
+            { text: 'ID', value: 'id', width:70 },   
+            { text: 'NAMA SOAL', value: 'soal', width:350 },   
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         search:'',    
@@ -248,14 +241,14 @@ export default {
         form_valid:true,         
         formdata: {
             id:0,                        
-            name:'',                        
+            soal:'',                        
             created_at: '',           
             updated_at: '',           
 
         },
         formdefault: {
             id:0,           
-            name:'',                                     
+            soal:'',                                     
             created_at: '',           
             updated_at: '',       
         },
@@ -277,14 +270,15 @@ export default {
             this.datatableLoading=true;
             await this.$ajax.post('/spmb/soalpmb',
             {
-
+                TA:2020,
+                semester:1
             },
             {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{               
-                this.datatable = data.object;
+            }).then(({data})=>{                        
+                this.datatable = data.soal;
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
@@ -411,6 +405,7 @@ export default {
     components:{
         AdminLayout,
         ModuleHeader,        
+        Filter19,        
     },
 
 }
