@@ -19,27 +19,44 @@
 <link rel="stylesheet" type="text/css" href="<%=$this->Theme->baseUrl%>/assets/css/libs/nifty-component.css"/>
 </com:TContent>
 <com:TContent ID="maincontent">	
-<com:TPanel Visible="<%= $this->getDefaultProcess() %>" CssClass="row">		
+<com:TPanel Visible="<%= $this->getDefaultProcess() %>" CssClass="row">	
+    <div class="col-md-12">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info panel-collapsed">
+            <div class="panel-heading">
+                <h5 class="panel-title"><i class="icon-bookmark2 position-left"></i> Filter</h5>
+                <div class="heading-elements">                       
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Komponen Biaya</label> 
+                        <div class="col-md-10">
+                            <com:TActiveDropDownList ID="cmbKombi" CssClass="form-control" OnCallBack="filterKombi">                                                                                               
+                                <prop:ClientSide.OnLoading>     
+                                    Pace.stop();
+                                    Pace.start();
+                                    $('#<%=$this->cmbKombi->ClientId%>').prop('disabled',true); 
+                                </prop:ClientSide.OnLoading>
+                                <prop:ClientSide.OnComplete>     
+                                    $('#<%=$this->cmbKombi->ClientId%>').prop('disabled',false);
+                                </prop:ClientSide.OnComplete>
+                            </com:TActiveDropDownList>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>	
     <div class="col-md-12">
         <div class="panel panel-flat">
             <div class="panel-heading">
                 <h5 class="panel-title"><i class="icon-file-text position-left"></i>  DAFTAR TRANSAKSI MHS <com:TActiveLabel ID="lblModulHeader" /></h5>                
                 <div class="heading-elements">
-                    <div class="heading-btn">    
-                        <com:TActiveLinkButton ID="btnGenerateData" OnClick="generateData" ClientSide.PostState="false" CssClass="btn btn-info btn-icon" Attributes.Title="Generate Data">
-                            <prop:Text><i class="icon-database-refresh"></i></prop:Text>
-                            <prop:ClientSide.OnPreDispatch>
-                                $('<%=$this->btnGenerateData->ClientId%>').disabled='disabled';				
-                                Pace.stop();
-                                Pace.start();                                                                                                             
-                            </prop:ClientSide.OnPreDispatch>
-                            <prop:ClientSide.OnLoading>
-                                $('<%=$this->btnGenerateData->ClientId%>').disabled='disabled';				
-                            </prop:ClientSide.OnLoading>
-                            <prop:ClientSide.OnComplete>
-                                $('<%=$this->btnGenerateData->ClientId%>').disabled='';				                                
-                            </prop:ClientSide.OnComplete>
-                        </com:TActiveLinkButton>
+                    <div class="heading-btn"> 
                         <com:TActiveLinkButton ID="btnPrintOut" OnClick="printOut" ClientSide.PostState="false" CssClass="btn btn-info btn-icon" Attributes.Title="Print Out">
                             <prop:Text><i class="icon-printer"></i></prop:Text>
                             <prop:ClientSide.OnPreDispatch>

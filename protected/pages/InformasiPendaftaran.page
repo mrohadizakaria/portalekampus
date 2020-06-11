@@ -1,4 +1,4 @@
-<%@ Title="Portal Ekampus - Pendaftaran Mahasiswa Baru" %>
+<%@ Title="Portal Ekampus - Informasi Pendaftaran" %>
 <com:TContent ID="maincontent">
 <com:TPanel Visible="<%= $this->getDefaultProcess() %>" CssClass="row">	
 	<div class="col-md-12">
