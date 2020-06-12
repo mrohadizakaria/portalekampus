@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\System\ConfigurationModel;
 use App\Models\DMaster\TAModel;
+use App\Models\DMaster\FakultasModel;
 use App\Models\DMaster\ProgramStudiModel;
 
 
@@ -56,16 +57,35 @@ class UIController extends Controller {
                             
         if ($this->hasRole('superadmin'))
         {
+            $daftar_fakultas=FakultasModel::all();
+            $fakultas_id=$config['DEFAULT_FAKULTAS'];        
+
             $daftar_prodi=ProgramStudiModel::all();
             $prodi_id=$config['DEFAULT_PRODI'];        
         }
         elseif($this->hasRole('pmb'))
         {
+            $userid=$this->getUserid();
+
+            $daftar_fakultas=FakultasModel::select(\DB::raw('kode_fakultas,nama_fakultas'))
+                            ->whereExists(function ($query) use ($userid) {
+                                $query->select(DB::raw(1))
+                                    ->from('usersprodi')
+                                    ->join('pe3_prodi','pe3_prodi.id','usersprodi.prodi_id')
+                                    ->where('user_id',$userid);
+                            })
+                            ->get();
+                            
+            $fakultas_id=$config['DEFAULT_FAKULTAS'];
+            
             $daftar_prodi=$this->guard()->user()->prodi;
             $prodi_id=$daftar_prodi->count()>0?$daftar_prodi[0]->id:$config['DEFAULT_PRODI'];   
         }
         elseif ($this->hasRole('mahasiswabaru'))
         {
+            $daftar_fakultas=[];
+            $fakultas_id=$config['DEFAULT_FAKULTAS'];
+
             $formulir=\App\Models\SPMB\FormulirPendaftaranModel::find($this->guard()->user()->id);
             $daftar_prodi=ProgramStudiModel::where('id',$formulir->kjur1)->get();
             $prodi_id=$formulir->kjur1;
@@ -78,6 +98,8 @@ class UIController extends Controller {
                                     'pid'=>'fetchdata',  
                                     'daftar_ta'=>$daftar_ta,    
                                     'daftar_semester'=>$daftar_semester,    
+                                    'daftar_fakultas'=>$daftar_fakultas,
+                                    'fakultas_id'=>$fakultas_id,                                    
                                     'daftar_prodi'=>$daftar_prodi,
                                     'prodi_id'=>$prodi_id,                                    
                                     'daftar_kelas'=>$daftar_kelas,                              

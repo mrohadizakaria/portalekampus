@@ -122,6 +122,15 @@ const routes = [
 		component: () => import('../views/pages/admin/spmb/PersyaratanPMB.vue'),		
 	},
 	{
+		path: '/spmb/laporanfakultas',
+		name: 'SPMBReportFakultas',
+		meta:{
+			title: "SPMB - LAPORAN FAKULTAS",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/ReportFakultas.vue'),		
+	},
+	{
 		path: '/spmb/laporanprodi',
 		name: 'SPMBReportProdi',
 		meta:{

@@ -5,10 +5,10 @@
                 mdi-file-document-edit-outline
             </template>
             <template v-slot:name>
-                LAPORAN PMB PROGRAM STUDI
+                LAPORAN PMB FAKULTAS
             </template>
             <template v-slot:subtitle>
-                TAHUN PENDAFTARAN {{tahun_pendaftaran}} - {{nama_prodi}}
+                TAHUN PENDAFTARAN {{tahun_pendaftaran}} - {{nama_fakultas}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -109,16 +109,16 @@
             </v-row>
         </v-container>        
         <template v-slot:filtersidebar>
-            <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" />	
+            <Filter20 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeFakultas="changeFakultas" />	
         </template>
     </AdminLayout>
 </template>
 <script>
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
-import Filter7 from '@/components/sidebar/FilterMode7';
+import Filter20 from '@/components/sidebar/FilterMode20';
 export default {
-    name: 'ReportProdi', 
+    name: 'ReportFakultas', 
     created()
     {
         this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];
@@ -134,23 +134,23 @@ export default {
                 href:'#'
             },
             {
-                text:'LAPORAN PMB PROGRAM STUDI',
+                text:'LAPORAN PMB FAKULTAS',
                 disabled:true,
                 href:'#'
             }
         ];
-        let prodi_id=this.$store.getters['uiadmin/getProdiID'];
-        this.prodi_id=prodi_id;
-        this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](prodi_id);
+        let fakultas_id=this.$store.getters['uiadmin/getFakultasID'];
+        this.fakultas_id=fakultas_id;
+        this.nama_fakultas=this.$store.getters['uiadmin/getFakultasName'](fakultas_id);
         this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
         this.getCurrentDate();
         this.initialize()   
     },  
     data: () => ({
         firstloading:true,
-        prodi_id:null,
+        fakultas_id:null,
         tahun_pendaftaran:null,
-        nama_prodi:null,
+        nama_fakultas:null,
 
         dialogprofilmhsbaru:false,
         breadcrumbs:[],        
@@ -175,9 +175,9 @@ export default {
         {
             this.tahun_pendaftaran=tahun;
         },
-        changeProdi (id)
+        changeFakultas (id)
         {
-            this.prodi_id=id;
+            this.fakultas_id=id;
         },
 		initialize:async function()
 		{	
@@ -188,10 +188,10 @@ export default {
                 break;
                 default :
                     this.datatableLoading=true;            
-                    await this.$ajax.post('/spmb/formulirpendaftaran',
+                    await this.$ajax.post('/spmb/reportspmbfakultas',
                     {
                         TA:this.tahun_pendaftaran,
-                        prodi_id:this.prodi_id,
+                        fakultas_id:this.fakultas_id,
                     },
                     {
                         headers: {
@@ -226,11 +226,11 @@ export default {
         printtoexcel:async function ()
         {
             this.btnLoading=true;
-            await this.$ajax.post('/spmb/reportspmbprodi/printtoexcel',
+            await this.$ajax.post('/spmb/reportspmbfakultas/printtoexcel',
                 {
                     TA:this.tahun_pendaftaran,                                                                
-                    prodi_id:this.prodi_id,    
-                    nama_prodi:this.nama_prodi,                 
+                    fakultas_id:this.fakultas_id,    
+                    nama_fakultas:this.nama_fakultas,                 
                 },
                 {
                     headers:{
@@ -242,7 +242,7 @@ export default {
                 const url = window.URL.createObjectURL(new Blob([data]));
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', 'laporan_prodi_'+Date.now()+'.xlsx');
+                link.setAttribute('download', 'laporan_fakultas_'+Date.now()+'.xlsx');
                 document.body.appendChild(link);
                 link.click();                     
                 this.btnLoading=false;
@@ -259,11 +259,11 @@ export default {
                 this.initialize();
             }            
         },
-        prodi_id(val)
+        fakultas_id(val)
         {
             if (!this.firstloading)
             {
-                this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](val);
+                this.nama_fakultas=this.$store.getters['uiadmin/getFakultasName'](val);                
                 this.initialize();
             }            
         }
@@ -271,7 +271,7 @@ export default {
     components:{
         AdminLayout,
         ModuleHeader,                
-        Filter7    
+        Filter20    
     },
 }
 </script>

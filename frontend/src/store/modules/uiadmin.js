@@ -13,6 +13,9 @@ const getDefaultState = () =>
         daftar_semester:[],
         semester_pendaftaran:null,
 
+        daftar_fakultas:[],
+        fakultas_id:null,
+        
         daftar_prodi:[],
         prodi_id:null,
 
@@ -72,6 +75,15 @@ const mutations = {
         state.semester_pendaftaran = semester;
     },
     
+    setDaftarFakultas(state,daftar)
+    {
+        state.daftar_fakultas=daftar;
+    },
+    setFakultasID(state,id)
+    {
+        state.fakultas_id=id;
+    },    
+    
     setDaftarProdi(state,daftar)
     {
         state.daftar_prodi=daftar;
@@ -130,6 +142,25 @@ const getters= {
     {   
         return state.daftar_prodi == null?'':state.daftar_prodi[key].nama_prodi;
     },
+    
+    getDaftarFakultas: state => 
+    {   
+        return state.daftar_fakultas.filter(el => el != null);
+    },
+    getFakultasID: state =>
+    {
+        return parseInt(state.fakultas_id);
+    },
+    getFakultasName : (state) => (key) =>
+    {   
+        var nama_fakultas='';
+        let found = state.daftar_fakultas.find(fakultas => fakultas.id==key);                                 
+        if (typeof found !=='undefined')
+        {
+            nama_fakultas=found.text;
+        }               
+        return nama_fakultas;
+    },
 
     getDaftarKelas: state => 
     {   
@@ -180,6 +211,18 @@ const actions = {
                 });                           
                 commit('setDaftarProdi',prodi);            
                 commit('setProdiID',data.prodi_id);            
+
+                let daftar_fakultas = data.daftar_fakultas;
+                var fakultas=[];
+                daftar_fakultas.forEach(element => {
+                    fakultas.push({
+                        id:element.kode_fakultas,
+                        text:element.nama_fakultas,
+                        nama_fakultas:element.nama_fakultas,                  
+                    });
+                });                           
+                commit('setDaftarFakultas',fakultas);            
+                commit('setFakultasID',data.fakultas_id);            
                       
                 commit('setDaftarKelas',data.daftar_kelas);            
                 commit('setIDKelas',data.idkelas);            
@@ -212,6 +255,10 @@ const actions = {
         }
         commit('replacePage',page,i)
     }, 
+    updateFakultas({commit},id)
+    {
+        commit('setFakultasID',id);
+    },
     updateProdi({commit},id)
     {
         commit('setProdiID',id);

@@ -68,12 +68,7 @@ class PMBController extends Controller {
         $data = User::role('mahasiswabaru')
                     ->select(\DB::raw('users.id,users.name,users.nomor_hp,pe3_kelas.nkelas,users.active,users.foto,users.created_at,users.updated_at'))
                     ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
-                    ->join('pe3_kelas','pe3_formulir_pendaftaran.idkelas','pe3_kelas.idkelas')
-                    ->whereExists(function ($query) {
-                        $query->select(\DB::raw(1))
-                              ->from('pe3_pmb_persyaratan')
-                              ->whereRaw('pe3_pmb_persyaratan.user_id = users.id');
-                    })
+                    ->join('pe3_kelas','pe3_formulir_pendaftaran.idkelas','pe3_kelas.idkelas')                    
                     ->where('users.ta',$ta)
                     ->where('kjur1',$prodi_id)                    
                     ->get();
