@@ -69,7 +69,7 @@ class UIController extends Controller {
 
             $daftar_fakultas=FakultasModel::select(\DB::raw('kode_fakultas,nama_fakultas'))
                             ->whereExists(function ($query) use ($userid) {
-                                $query->select(DB::raw(1))
+                                $query->select(\DB::raw(1))
                                     ->from('usersprodi')
                                     ->join('pe3_prodi','pe3_prodi.id','usersprodi.prodi_id')
                                     ->where('user_id',$userid);
