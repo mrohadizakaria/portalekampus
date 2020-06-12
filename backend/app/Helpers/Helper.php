@@ -3,7 +3,14 @@
 namespace App\Helpers;
 use Carbon\Carbon;
 use URL;
-class Helper {        
+class Helper {      
+    /**
+     * digunakan untuk mendapatkan format tahun akademik
+     */
+    public static function getTA($ta)
+    {
+        return "$ta/".($ta+1);
+    }      
     /**
      * digunakan untuk memformat tanggal
      * @param type $format
@@ -17,7 +24,54 @@ class Helper {
         }else{
             $tanggal = Carbon::parse($date)->format($format);
         }        
-        return $tanggal;
+        $result = str_replace([
+                                'Sunday', 
+                                'Monday', 
+                                'Tuesday',
+                                'Wednesday', 
+                                'Thursday', 
+                                'Friday', 
+                                'Saturday'
+                            ], 
+                            [
+                                'Minggu', 
+                                'Senin', 
+                                'Selasa',
+                                'Rabu', 
+                                'Kamis', 
+                                'Jumat', 
+                                'Sabtu'
+                            ], 
+                            $tanggal);
+
+        return str_replace([
+                            'January', 
+                            'February', 
+                            'March', 
+                            'April', 
+                            'May',
+                            'June', 
+                            'July',
+                            'August', 
+                            'September', 
+                            'October', 
+                            'November' , 
+                            'December'
+                        ], 
+                        [
+                            'Januari', 
+                            'Februari', 
+                            'Maret', 
+                            'April', 
+                            'Mei',
+                            'Juni', 
+                            'Juli', 
+                            'Agustus', 
+                            'September', 
+                            'Oktober', 
+                            'November', 
+                            'Desember'                        
+                        ], $result);
     }   
     /**
 	* digunakan untuk mem-format uang

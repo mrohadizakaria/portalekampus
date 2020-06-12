@@ -270,7 +270,7 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB_BROWSE')" to="/spmb/konfirmasipembayaran" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-KONFIRMASI-PEMBAYARAN')" to="/spmb/konfirmasipembayaran" class="ml-5">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-circle-double</v-icon>
                             </v-list-item-icon>
@@ -279,7 +279,28 @@
                                     PEMBAYARAN
                                 </v-list-item-title>
                             </v-list-item-content>
-                        </v-list-item>                    
+                        </v-list-item>              
+                        <v-divider></v-divider>
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE') && isBentukPT('universitas')" to="/spmb/laporanfakultas" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    LAPORAN FAKULTAS
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/laporanprodi" class="ml-5">
+                            <v-list-item-icon class="mr-2">
+                                <v-icon>mdi-circle-double</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    LAPORAN PRODI
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                     </div>
                 </v-list-group>
                 <v-list-group group="/system-users" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-USERS-GROUP')">

@@ -121,6 +121,15 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/spmb/PersyaratanPMB.vue'),		
 	},
+	{
+		path: '/spmb/laporanprodi',
+		name: 'SPMBReportProdi',
+		meta:{
+			title: "SPMB - LAPORAN PROGRAM STUDI",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/ReportProdi.vue'),		
+	},
 	//system
 	{
 		path: '/system-setting/identitasdiri',
