@@ -243,8 +243,10 @@ export default {
                 const link = document.createElement('a');
                 link.href = url;
                 link.setAttribute('download', 'laporan_fakultas_'+Date.now()+'.xlsx');
+                link.setAttribute('id', 'download_laporan');                
                 document.body.appendChild(link);
-                link.click();                     
+                link.click();                   
+                document.body.removeChild(link);  
                 this.btnLoading=false;
             }).catch(()=>{
                 this.btnLoading=false;

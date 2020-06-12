@@ -21,10 +21,11 @@
                     :color="badgeColor"
                     :icon="badgeIcon">   
                 </v-badge>
-                <v-spacer/>
+                <v-spacer/>          
                 <v-btn
-                    icon 
-                    @click.stop="downloadImage()"
+                    icon
+                    :href="this.$api.url+'/'+this.item.path"
+                    target="_blank"                    
                     v-if="verified == 1">
                     <v-icon>
                         mdi-download
