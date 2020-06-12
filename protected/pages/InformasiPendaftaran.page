@@ -118,6 +118,33 @@
                 </ol>
             </div>            
     	</div>
-	</div>                
+    </div> 
+    <div class="col-md-12">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info"> 
+        	<div class="panel-heading">
+                <h5 class="panel-title"><i class="icon-calculator3 position-left"></i>  PERSYARATAN PENDAFTARAN CALON MAHASISWA TAHUN MASUK <com:TLabel ID="lblModulHeader" /></h5>                
+                <div class="heading-elements">
+                    <div class="heading-btn">       
+                        
+                    </div>   
+                </div>
+            </div>              
+            <div class="panel-body">   
+                <ol>
+                    <li>
+                        <strong>MAHASISWA MURNI</strong>
+                        <ul>
+                            <li>Melampirkan Bukti Pembayaran</li>
+                            <li>Photocopy Ijazah / Surat Tanda Tamat Belajar (STTB) yang telah dilegalisir sebanyak 3 Lembar</li>
+                            <li>Photocopy Surat Keputusan Hasil Ujian Nasional (SKHUN) yang telah dilegalisir sebanyak 3 Lembar</li>
+                            <li>Pas Photo warna terbaru latar belakang merah (Ukuran 3x4) sebanyak 3 lembar</li>
+                            <li>Fotocopy KTP 2 Lembar Jika Ada</li>
+                            <li>Fotocopy KK 2 Lembar</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>    
 </com:TPanel>
 </com:TContent>

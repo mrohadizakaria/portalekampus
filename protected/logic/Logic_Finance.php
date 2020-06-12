@@ -4,6 +4,23 @@ class Logic_Finance extends Logic_Mahasiswa {
 	public function __construct ($db) {
 		parent::__construct ($db);				
 	}
+	/**
+     * digunakan untuk mendapatkan daftar komponen biaya
+     */
+	public function getListKombi () {
+        if ($this->Application->Cache) {            
+            $dataitem=$this->Application->Cache->get('listkombi');            
+            if (!isset($dataitem['none'])) {                
+                $dataitem=$this->getList ('kombi',array('idkombi','nama_kombi'),'idkombi',null,1);			
+                $dataitem['none']='Daftar Komponen Biaya';    
+                $this->Application->Cache->set('listkombi',$dataitem);
+            }
+        }else {                        
+            $dataitem=$this->getList ('kombi',array('idkombi','nama_kombi'),'idkombi',null,1);			
+            $dataitem['none']='Daftar Komponen Biaya';  
+        }
+        return $dataitem;     		
+	}
     /**
 	* digunakan untuk mendapatkan biaya pendaftaran berdasarkan tahun, idsmt, dan kelas	
 	*/

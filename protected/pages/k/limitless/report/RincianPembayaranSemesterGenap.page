@@ -21,7 +21,7 @@
 <com:TContent ID="maincontent">	
 <com:TPanel Visible="<%= $this->getDefaultProcess() %>" CssClass="row">	
     <div class="col-md-12">
-        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info panel-collapsed">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"><i class="icon-bookmark2 position-left"></i> Filter</h5>
                 <div class="heading-elements">                       

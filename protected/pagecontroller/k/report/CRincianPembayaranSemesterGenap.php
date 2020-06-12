@@ -8,7 +8,7 @@ class CRincianPembayaranSemesterGenap Extends MainPageK {
         $this->createObj('Finance');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {
             if (!isset($_SESSION['currentPageRincianPembayaranSemesterGenap'])||$_SESSION['currentPageRincianPembayaranSemesterGenap']['page_name']!='k.report.RincianPembayaranSemesterGenap') {
-				$_SESSION['currentPageRincianPembayaranSemesterGenap']=array('page_name'=>'k.report.RincianPembayaranSemesterGenap','page_num'=>0,'search'=>false,'semester'=>2,'kelas'=>'none');												
+				$_SESSION['currentPageRincianPembayaranSemesterGenap']=array('page_name'=>'k.report.RincianPembayaranSemesterGenap','page_num'=>0,'search'=>false,'semester'=>2,'kelas'=>'none','idkombi'=>1);												
 			}
             $_SESSION['currentPageRincianPembayaranSemesterGenap']['search']=false; 
             
@@ -26,12 +26,16 @@ class CRincianPembayaranSemesterGenap Extends MainPageK {
 			$this->tbCmbTahunMasuk->Text=$_SESSION['tahun_masuk'];						
 			$this->tbCmbTahunMasuk->dataBind();
             
-            
             $kelas=$this->DMaster->getListKelas();
             $kelas['none']='All';
 			$this->tbCmbKelas->DataSource=$kelas;
 			$this->tbCmbKelas->Text=$_SESSION['currentPageRincianPembayaranSemesterGenap']['kelas'];			
 			$this->tbCmbKelas->dataBind();	
+            
+            $komponen_biaya=$this->DMaster->removeIdFromArray($this->Finance->getListKombi (),'none');	
+			$this->cmbKombi->DataSource=$komponen_biaya	;					
+			$this->cmbKombi->Text=$_SESSION['currentPageRincianPembayaranSemesterGenap']['idkombi'];			
+            $this->cmbKombi->dataBind();          
             
             $this->tbCmbOutputReport->DataSource=$this->setup->getOutputFileType();
             $this->tbCmbOutputReport->Text= $_SESSION['outputreport'];
