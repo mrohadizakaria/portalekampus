@@ -88,14 +88,14 @@
                         </template>
                         <template v-slot:item.foto="{ item }">    
                             <v-badge
-                                    bordered
-                                    :color="badgeColor(item)"
-                                    :icon="badgeIcon(item)"
-                                    overlap
-                                >                
-                                    <v-avatar size="30">                                        
-                                        <v-img :src="$api.url+'/'+item.foto" />                                                                     
-                                    </v-avatar>                                                                                                  
+                                bordered
+                                :color="badgeColor(item)"
+                                :icon="badgeIcon(item)"
+                                :value="item.jumlah_persyaratan > 0"
+                                overlap>                
+                                <v-avatar size="30">                                        
+                                    <v-img :src="$api.url+'/'+item.foto" />                                                                     
+                                </v-avatar>                                                                                                  
                             </v-badge>
                         </template>
                         <template v-slot:item.actions="{ item }">
@@ -104,12 +104,6 @@
                                 class="mr-2"
                                 @click.stop="viewItem(item)">
                                 mdi-eye
-                            </v-icon>
-                            <v-icon
-                                small
-                                class="mr-2"
-                                @click.stop="editItem(item)">
-                                mdi-pencil
                             </v-icon>
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
@@ -185,6 +179,7 @@ export default {
             { text: 'NAMA MAHASISWA', value: 'name',width:350,sortable:true },
             { text: 'NOMOR HP', value: 'nomor_hp',width:100},
             { text: 'KELAS', value: 'nkelas',width:100,sortable:true },
+            { text: 'STATUS', value: 'status',width:120,sortable:true },
             { text: 'AKSI', value: 'actions', sortable: false,width:50 },
         ],
         search:'',
@@ -236,11 +231,11 @@ export default {
         },
         badgeColor(item)
         {
-            return item.active == 1 ? 'success':'error'
+            return item.persyaratan<item.jumlah_persyaratan ? 'error':'success' ;           
         },
         badgeIcon(item)
         {
-            return item.active == 1 ? 'mdi-check-bold':'mdi-close-thick'
+            return item.persyaratan<item.jumlah_persyaratan == 1 ? 'mdi-close-thick':'mdi-check-bold';            
         },     
         viewItem(item)
         {

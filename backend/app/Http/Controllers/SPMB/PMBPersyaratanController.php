@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SPMB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\SPMB\FormulirPendaftaranModel;
 use App\Models\SPMB\PMBPersyaratanModel;
 use App\Helpers\Helper;
 
@@ -25,15 +26,28 @@ class PMBPersyaratanController extends Controller {
         
         $ta=$request->input('TA');
         $prodi_id=$request->input('prodi_id');
-
-        $data = User::role('mahasiswabaru')
-                    ->select(\DB::raw('users.id,users.name,users.nomor_hp,pe3_kelas.nkelas,users.active,users.foto,users.created_at,users.updated_at'))
-                    ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
+        
+        $jumlah_persyaratan=\DB::table('pe3_persyaratan')->where('ta',$ta)->count();
+        $data = FormulirPendaftaranModel::select(\DB::raw("users.id,users.name,users.nomor_hp,pe3_kelas.nkelas,users.active,users.foto,$jumlah_persyaratan AS jumlah_persyaratan,0 AS persyaratan,'BELUM LENGKAP' AS status,users.created_at,users.updated_at"))                    
+                    ->join('users','pe3_formulir_pendaftaran.user_id','users.id')
                     ->join('pe3_kelas','pe3_formulir_pendaftaran.idkelas','pe3_kelas.idkelas')
+                    ->whereExists(function ($query) {
+                        $query->select(\DB::raw(1))
+                              ->from('pe3_pmb_persyaratan')
+                              ->whereRaw('pe3_pmb_persyaratan.user_id = users.id');
+                    })
                     ->where('users.ta',$ta)
                     ->where('kjur1',$prodi_id)                    
+                    ->where('users.active',1)
+                    ->orderBy('users.name','ASC')
                     ->get();
         
+        
+        foreach ($data as $item)
+        {
+            $item->persyaratan=\DB::table('pe3_pmb_persyaratan')->where('user_id',$item->id)->count();
+            $item->status=$item->persyaratan < $jumlah_persyaratan ? 'BELUM LENGKAP':'LENGKAP';
+        }
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
