@@ -23,7 +23,7 @@ class PersyaratanModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'id', 'proses', 'nama_persyaratan', 'prodi_id'
+        'id', 'proses', 'nama_persyaratan', 'prodi_id', 'ta'
     ];
     /**
      * enable auto_increment.

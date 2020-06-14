@@ -34,8 +34,9 @@ class PMBController extends Controller {
         $ta=$request->input('TA');
         $prodi_id=$request->input('prodi_id');
 
-        $data = FormulirPendaftaranModel::select(\DB::raw('users.id,users.username,users.name,users.email,users.nomor_hp,users.active,users.foto,users.created_at,users.updated_at'))
-                    ->join('users','pe3_formulir_pendaftaran.user_id','users.id')
+        $data = User::role('mahasiswabaru')
+                    ->select(\DB::raw('users.id,users.username,users.name,users.email,users.nomor_hp,users.active,users.foto,users.created_at,users.updated_at'))
+                    ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
                     ->where('users.ta',$ta)
                     ->where('kjur1',$prodi_id)
                     ->get();

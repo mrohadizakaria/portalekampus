@@ -88,6 +88,8 @@ class PMBPersyaratanController extends Controller {
                             ->leftJoinSub($subquery,'pe3_pmb_persyaratan',function($join){
                                 $join->on('pe3_persyaratan.id','=','pe3_pmb_persyaratan.persyaratan_id');
                             })
+                            ->where('pe3_persyaratan.ta',$user->ta)
+                            ->where('pe3_persyaratan.proses','pmb')
                             ->orderBy('pe3_persyaratan.nama_persyaratan','ASC')
                             ->get();
 

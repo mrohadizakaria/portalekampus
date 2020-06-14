@@ -24,7 +24,7 @@
                     colored-border
                     type="info"
                     >
-                        Berisi daftar peryaratan pendaftaran yang harus di isi dengan benar dan lengkap.
+                        Berisi daftar peryaratan pendaftaran yang harus di isi dengan benar dan lengkap; <span class="red--text" v-if="!showcomponentpersyaratan">Bila form isian tidak tampil mohon lengkapi terlebih dahulu Form Biodata</span>
                     </v-alert>
             </template>
             <template v-slot:desc v-else>
@@ -34,12 +34,12 @@
                     colored-border
                     type="info"
                     >
-                        Berisi file-file persyaratan pendaftaran, silahkan melakukan filter tahun akademik dan program studi.
+                        Berisi file-file persyaratan pendaftaran mahasiswa baru, silahkan melakukan filter tahun akademik dan program studi.
                     </v-alert>
             </template>
         </ModuleHeader> 
         <v-container v-if="dashboard=='mahasiswabaru'">
-            <FormPersyaratan :user_id="$store.getters['auth/AttributeUser']('id')"/>
+            <FormPersyaratan :user_id="$store.getters['auth/AttributeUser']('id')" v-if="showcomponentpersyaratan"/>
         </v-container>
         <v-container v-else>
             <v-row class="mb-4" no-gutters>
@@ -184,6 +184,7 @@ export default {
         ],
         search:'',
 
+        showcomponentpersyaratan:false,
         datamhsbaru:{
             
         }
@@ -199,7 +200,20 @@ export default {
         },
 		initialize:async function()
 		{	
-            if (this.dashboard != 'mahasiswabaru' && this.dashboard !='mahasiswa')
+            if (this.dashboard == 'mahasiswabaru' || this.dashboard =='mahasiswa')
+            {
+                await this.$ajax.get('/spmb/formulirpendaftaran/'+this.$store.getters['auth/AttributeUser']('id'),             
+                    {
+                        headers:{
+                            Authorization:this.$store.getters['auth/Token']
+                        }
+                    },
+                    
+                ).then(({data})=>{                       
+                    this.showcomponentpersyaratan=data.formulir.idkelas==null||data.formulir.idkelas==''?false:true;                    
+                });  
+            }
+            else
             {
                 this.datatableLoading=true;
                 await this.$ajax.post('/spmb/pmbpersyaratan',
