@@ -28,8 +28,6 @@ export default {
         
         this.daftar_ta=this.$store.getters['uiadmin/getDaftarTA'];  
         this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran']; 
-        
-        this.firstloading=false;
     },
     data:()=>({
         firstloading:true,
@@ -39,6 +37,12 @@ export default {
         daftar_ta:[],
         tahun_pendaftaran:null
     }),
+    methods:{
+        setFirstTimeLoading (bool)
+        {
+            this.firstloading=bool;
+        }
+    },
     watch:{
         tahun_pendaftaran(val)
         {

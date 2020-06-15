@@ -9,7 +9,7 @@
                 label="TAHUN PENDAFTARAN"
                 outlined/>   
             <v-select
-                v-model="semester"
+                v-model="semester_pendaftaran"
                 :items="daftar_semester"                
                 item-text="text"
                 item-value="id"
@@ -27,18 +27,23 @@ export default {
         this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];  
 
         this.daftar_semester=this.$store.getters['uiadmin/getDaftarSemester'];  
-        this.semester=this.$store.getters['uiadmin/getSemesterPendaftaran'];                                    
-        
-        this.firstloading=false;
+        this.semester_pendaftaran=this.$store.getters['uiadmin/getSemesterPendaftaran'];                                            
     },
     data:()=>({
         firstloading:true,
+        
         daftar_semester:[],
-        semester:null,
+        semester_pendaftaran:null,
 
         daftar_ta:[],
         tahun_pendaftaran:null
     }),
+    methods:{
+        setFirstTimeLoading (bool)
+        {
+            this.firstloading=bool;
+        }
+    },
     watch:{
         tahun_pendaftaran(val)
         {
@@ -48,7 +53,7 @@ export default {
                 this.$emit('changeTahunPendaftaran',val);          
             }            
         },
-        semester(val)
+        semester_pendaftaran(val)
         {
             if (!this.firstloading)
             {

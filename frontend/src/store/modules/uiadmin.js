@@ -267,6 +267,10 @@ const actions = {
     {
         commit('setTahunPendaftaran',tahun);
     },
+    updateSemesterPendaftaran({commit},semester)
+    {
+        commit('setSemesterPendaftaran',semester);
+    },
     reinit ({ commit }) 
     {
         commit('resetState');

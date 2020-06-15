@@ -123,7 +123,7 @@
             </v-row>           
         </v-container>
         <template v-slot:filtersidebar v-if="dashboard!='mahasiswabaru'">
-            <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" />	
+            <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" ref="filter7" />	
         </template>
     </AdminLayout>
 </template>
@@ -230,7 +230,8 @@ export default {
                     this.datatableLoading=false;
                 });  
             }   
-            this.firstloading=false;                
+            this.firstloading=false; 
+            this.$refs.filter7.setFirstTimeLoading(this.firstloading);               
         },
         dataTableRowClicked(item)
         {

@@ -109,7 +109,7 @@
             </v-row>
         </v-container>        
         <template v-slot:filtersidebar>
-            <Filter20 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeFakultas="changeFakultas" />	
+            <Filter20 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeFakultas="changeFakultas" ref="filter20" />	
         </template>
     </AdminLayout>
 </template>
@@ -203,6 +203,7 @@ export default {
                     });         
             }
             this.firstloading=false;
+            this.$refs.filter20.setFirstTimeLoading(this.firstloading); 
         },
         dataTableRowClicked(item)
         {

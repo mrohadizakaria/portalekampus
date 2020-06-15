@@ -191,7 +191,7 @@
             </v-row>
         </v-container>
         <template v-slot:filtersidebar>
-            <Filter19 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeSemester="changeSemesterPendaftaran" />	
+            <Filter19 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeSemester="changeSemesterPendaftaran" ref="filter19" />	
         </template>
     </AdminLayout>
 </template>
@@ -200,7 +200,7 @@ import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import Filter19 from '@/components/sidebar/FilterMode19';
 export default {
-    name:'PAGE',
+    name:'SoalPMB',
     created () {
         this.breadcrumbs = [
             {
@@ -222,6 +222,12 @@ export default {
         this.initialize()
     },  
     data: () => ({ 
+        firstloading:true,
+        prodi_id:null,        
+        nama_prodi:null,
+        tahun_pendaftaran:null,
+        semester_pendaftaran:null,
+
         btnLoading:false,
         datatableLoading:false,
         expanded:[],
@@ -265,6 +271,14 @@ export default {
         ], 
     }),
     methods: {
+        changeTahunPendaftaran (tahun)
+        {
+            this.tahun_pendaftaran=tahun;
+        },
+        changeSemesterPendaftaran (semester)
+        {
+            this.semester_pendaftaran=semester;
+        },
         initialize:async function () 
         {
             this.datatableLoading=true;
@@ -282,7 +296,9 @@ export default {
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
-            });  
+            }); 
+            this.firstloading=false;   
+            this.$refs.filter19.setFirstTimeLoading(this.firstloading);          
         },
         dataTableRowClicked(item)
         {
@@ -401,6 +417,30 @@ export default {
         formTitle () {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },        
+    },
+    watch:{
+        tahun_pendaftaran()
+        {
+            if (!this.firstloading)
+            {
+                this.initialize();
+            }            
+        },
+        semester_pendaftaran ()
+        {
+            if (!this.firstloading)
+            {
+                this.initialize();
+            }            
+        },
+        prodi_id(val)
+        {
+            if (!this.firstloading)
+            {
+                this.nama_prodi=this.$store.getters['uiadmin/getProdiName'](val);
+                this.initialize();
+            }            
+        }
     },
     components:{
         AdminLayout,
