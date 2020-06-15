@@ -127,7 +127,7 @@ const getters= {
     },
     getSemesterPendaftaran: state => 
     {             
-        return state.semester_pendaftaran;
+        return parseInt(state.semester_pendaftaran);
     },
 
     getDaftarProdi: state => 
@@ -149,7 +149,7 @@ const getters= {
     },
     getFakultasID: state =>
     {
-        return parseInt(state.fakultas_id);
+        return state.fakultas_id;
     },
     getFakultasName : (state) => (key) =>
     {   
@@ -200,6 +200,18 @@ const actions = {
                 commit('setDaftarTA',data.daftar_ta);         
                 commit('setDaftarSemester',data.daftar_semester);         
 
+                let daftar_fakultas = data.daftar_fakultas;
+                var fakultas=[];
+                daftar_fakultas.forEach(element => {
+                    fakultas.push({
+                        id:element.kode_fakultas,
+                        text:element.nama_fakultas,
+                        nama_fakultas:element.nama_fakultas,                  
+                    });
+                });                           
+                commit('setDaftarFakultas',fakultas);            
+                commit('setFakultasID',data.fakultas_id); 
+
                 let daftar_prodi = data.daftar_prodi;
                 var prodi=[];
                 daftar_prodi.forEach(element => {
@@ -211,18 +223,6 @@ const actions = {
                 });                           
                 commit('setDaftarProdi',prodi);            
                 commit('setProdiID',data.prodi_id);            
-
-                let daftar_fakultas = data.daftar_fakultas;
-                var fakultas=[];
-                daftar_fakultas.forEach(element => {
-                    fakultas.push({
-                        id:element.kode_fakultas,
-                        text:element.nama_fakultas,
-                        nama_fakultas:element.nama_fakultas,                  
-                    });
-                });                           
-                commit('setDaftarFakultas',fakultas);            
-                commit('setFakultasID',data.fakultas_id);            
                       
                 commit('setDaftarKelas',data.daftar_kelas);            
                 commit('setIDKelas',data.idkelas);            

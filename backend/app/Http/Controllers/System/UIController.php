@@ -45,11 +45,11 @@ class UIController extends Controller {
                                 'id'=>1,
                                 'text'=>'GANJIL'
                             ],
-                            2=>[
+                            1=>[
                                 'id'=>2,
                                 'text'=>'GENAP'
                             ],
-                            3=>[
+                            2=>[
                                 'id'=>3,
                                 'text'=>'PENDEK'
                             ]
