@@ -109,7 +109,7 @@ export default {
         filepersyaratan:[],
         //form rules  
         rule_foto:[
-            value => !!value||"Mohon pilih gambar !!!",  
+            value => !!value||"Mohon pilih foto !!!",  
             value =>  !value || value.size < 2000000 || 'File foto harus kurang dari 2MB.'                
         ],
     }),

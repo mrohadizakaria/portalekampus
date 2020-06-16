@@ -54,7 +54,7 @@ const getters= {
     },
     getSemesterPendaftaran: state => 
     {             
-        return state.semester_pendaftaran;
+        return parseInt(state.semester_pendaftaran);
     },
     getNamaPT: state => 
     {             

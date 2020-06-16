@@ -23,5 +23,14 @@ class SoalPMBController extends Controller {
                                     'soal'=>$soal,                                                                                                                                   
                                     'message'=>'Fetch data soal pmb berhasil.'
                                 ],200);     
-    }    
+    }  
+    /**
+     * simpan soal baru
+     */
+    public function store(Request $request)
+    {
+        $this->hasPermissionTo('DMASTER-KELAS_STORE');
+
+        
+    }
 }

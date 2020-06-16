@@ -7,6 +7,9 @@
             <template v-slot:name>
                 SOAL PMB
             </template>
+            <template v-slot:subtitle>
+                TAHUN PENDAFTARAN {{tahun_pendaftaran}} - {{nama_semester_pendaftaran}}
+            </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
                     <template v-slot:divider>
@@ -66,7 +69,7 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-dialog v-model="dialogfrm" max-width="500px" persistent>
+                                <v-dialog v-model="dialogfrm" max-width="700px" persistent>
                                     <template v-slot:activator="{ on }">
                                         <v-btn color="primary" dark class="mb-2" v-on="on">TAMBAH</v-btn>
                                     </template>
@@ -75,13 +78,52 @@
                                             <v-card-title>
                                                 <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
-                                            <v-card-text>
-                                                <v-text-field 
-                                                    v-model="formdata.name" 
-                                                    label="NAME"
+                                            <v-card-text>    
+                                                <v-textarea 
+                                                    v-model="formdata.soal" 
+                                                    label="SOAL" 
+                                                    :rules="rule_soal"
+                                                    type="text"
+                                                    filled />                                                
+                                                <v-divider class="mt-2"/>
+                                                <h3 class="headline mt-2">Jawaban Ke-1:</h3>  
+                                                <v-text-field
+                                                    label="ISI JAWABAN"    
+                                                    v-model="formdata.jawaban1"    
+                                                    :rules="rule_jawaban"
                                                     filled
-                                                    :rules="rule_name">
-                                                </v-text-field>                                             
+                                                />                                                
+                                                <v-divider class="mt-2"/>
+                                                <h3 class="headline mt-2">Jawaban Ke-2:</h3>  
+                                                <v-text-field
+                                                    label="ISI JAWABAN"    
+                                                    v-model="formdata.jawaban2"    
+                                                    :rules="rule_jawaban"
+                                                    filled
+                                                />                                                
+                                                <v-divider class="mt-2"/>
+                                                <h3 class="headline mt-2">Jawaban Ke-3:</h3>  
+                                                <v-text-field
+                                                    label="ISI JAWABAN"    
+                                                    v-model="formdata.jawaban3"    
+                                                    :rules="rule_jawaban"
+                                                    filled
+                                                />                                                
+                                                <v-divider class="mt-2"/>
+                                                <h3 class="headline mt-2">Jawaban Ke-4:</h3>  
+                                                <v-text-field
+                                                    label="ISI JAWABAN"    
+                                                    v-model="formdata.jawaban4"    
+                                                    :rules="rule_jawaban"
+                                                    filled
+                                                />                                                
+                                                <v-divider class="mt-2"/>
+                                                <h3 class="headline mt-2 blue--text lighten-4">Jawaban Benar:</h3>  
+                                                <v-select
+                                                    v-model="formdata.jawaban_benar"
+                                                    :items="daftar_jawaban"                                                    
+                                                    label="JAWABAN BENAR"
+                                                    filled/>    
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -191,7 +233,7 @@
             </v-row>
         </v-container>
         <template v-slot:filtersidebar>
-            <Filter19 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeSemester="changeSemesterPendaftaran" ref="filter19" />	
+            <Filter19 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeSemesterPendaftaran="changeSemesterPendaftaran" ref="filter19" />	
         </template>
     </AdminLayout>
 </template>
@@ -219,6 +261,9 @@ export default {
                 href:'#'
             }
         ];
+        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
+        this.semester_pendaftaran=this.$store.getters['uiadmin/getSemesterPendaftaran'];  
+        this.nama_semester_pendaftaran=this.$store.getters['uiadmin/getNamaSemester'](this.semester_pendaftaran);  
         this.initialize()
     },  
     data: () => ({ 
@@ -227,6 +272,7 @@ export default {
         nama_prodi:null,
         tahun_pendaftaran:null,
         semester_pendaftaran:null,
+        nama_semester_pendaftaran:null,
 
         btnLoading:false,
         datatableLoading:false,
@@ -244,30 +290,65 @@ export default {
         dialogdetailitem:false,
 
         //form data   
-        form_valid:true,         
+        form_valid:true,    
+        image_prev:null,      
+        daftar_jawaban:[
+            {
+                id:1,
+                text:'JAWABAN KE 1'
+            },
+            {
+                id:2,
+                text:'JAWABAN KE 2'
+            },
+            {
+                id:3,
+                text:'JAWABAN KE 3'
+            },
+            {
+                id:4,
+                text:'JAWABAN KE 4'
+            },
+        ],     
         formdata: {
             id:0,                        
-            soal:'',                        
+            soal:'',  
+            gambar:'',  
+            jawaban1:'',                    
+            jawaban2:'',                    
+            jawaban3:'',                    
+            jawaban4:'',                    
+            jawaban_benar:'',                    
             created_at: '',           
             updated_at: '',           
 
         },
         formdefault: {
             id:0,           
-            soal:'',                                     
+            soal:'',    
+            gambar:'',                      
+            jawaban1:'',                    
+            jawaban2:'',                    
+            jawaban3:'',                    
+            jawaban4:'',        
+            jawaban_benar:'',                                
             created_at: '',           
             updated_at: '',       
         },
         editedIndex: -1,
 
-        //form rules  
-        rule_user_nomorhp:[
-            value => !!value||"Kode mohon untuk diisi !!!",
-            value => /^\+[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode hanya boleh angka',
+        //form rules      
+        rule_soal:[
+            value => !!value||"Mohon untuk di isi soal !!!",              
         ], 
-        rule_name:[
-            value => !!value||"Mohon untuk di isi name !!!",  
-            value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
+        rule_gambar:[            
+            value =>  !value || value.size < 2000000 || 'File gambar harus kurang dari 2MB.'                
+        ],
+        rule_jawaban:[
+            value => !!value||"Mohon isi jawaban dari soal ini",              
+        ], 
+        rule_jawaban_benar:[
+            value => !!value||"Mohon pilih jawaban benar dari soal ini",              
         ], 
     }),
     methods: {
@@ -326,7 +407,22 @@ export default {
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
             this.dialogfrm = true
-        },    
+        }, 
+        previewImage (e)
+        {
+            if (typeof e === 'undefined')
+            {
+                this.image_prev=null;                
+            }
+            else
+            {
+                let reader = new FileReader();
+                reader.readAsDataURL(e);
+                reader.onload = img => {                    
+                    this.image_prev=img.target.result;
+                }                
+            }          
+        },   
         save:async function () {
             if (this.$refs.frmdata.validate())
             {
@@ -414,6 +510,23 @@ export default {
         },
     },
     computed: {
+        gambarSoal:{
+            get ()
+            {   
+                if (this.image_prev==null)
+                {
+                    return require('@/assets/no-image.png');
+                }
+                else
+                {
+                    return this.image_prev;
+                }
+            },
+            set (val)
+            {
+                this.image_prev=val;
+            }            
+        },
         formTitle () {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },        
@@ -426,10 +539,11 @@ export default {
                 this.initialize();
             }            
         },
-        semester_pendaftaran ()
+        semester_pendaftaran (val)
         {
             if (!this.firstloading)
             {
+                this.nama_semester_pendaftaran=this.$store.getters['uiadmin/getNamaSemester'](val);                 
                 this.initialize();
             }            
         },

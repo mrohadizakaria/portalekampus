@@ -125,6 +125,16 @@ const getters= {
     {   
         return state.daftar_semester;
     },
+    getNamaSemester : (state) => (key) =>
+    {   
+        var nama_semester='';
+        let found = state.daftar_semester.find(semester => semester.id==key);                                 
+        if (typeof found !=='undefined')
+        {
+            nama_semester=found.text;
+        }               
+        return nama_semester;
+    },
     getSemesterPendaftaran: state => 
     {             
         return parseInt(state.semester_pendaftaran);
