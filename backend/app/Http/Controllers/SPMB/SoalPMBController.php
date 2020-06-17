@@ -13,6 +13,8 @@ class SoalPMBController extends Controller {
      */
     public function index(Request $request)
     {
+        $this->hasPermissionTo('SPMB-PMB-SOAL_BROWSE');
+
         $soal=SoalPMBModel::where('ta',2020)
                             ->where('semester',1)
                             ->get();
@@ -29,8 +31,20 @@ class SoalPMBController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('DMASTER-KELAS_STORE');
+        $this->hasPermissionTo('SPMB-PMB-SOAL_STORE');
 
+        $this->validate($request, [           
+            'soal'=>'required',
+            'gambar'=>'required',
+            'jawaban1'=>'required',
+            'jawaban2'=>'required',
+            'jawaban3'=>'required',
+            'jawaban4'=>'required',
+            'tahun_pendaftaran'=>'required',
+            'semester_pendaftaran'=>'required'
+        ]);
+        
+        
         
     }
 }

@@ -94,22 +94,33 @@ class PermissionsController extends Controller {
     {
         $this->hasPermissionTo('SYSTEM-SETTING-PERMISSIONS_DESTROY');
 
-        $permissions = Permission::find($id);
-        $permission = $permissions->name;
-        $result=$permissions->delete();        
-
-        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
-        
-        \App\Models\System\ActivityLog::log($request,[
-                                                    'object' => $permission, 
-                                                    'object_id'=>$permission->id, 
-                                                    'user_id' => $this->guard()->user()->id, 
-                                                    'message' => 'Menghapus permission ('.$permission.') berhasil'
-                                                ]);                                                                 
-        return Response()->json([
+        $permission = Permission::find($id);
+        if (is_null($permission))
+        {
+            return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"Permission ($permission) berhasil dihapus"
-                                ],200); 
+                                    'message'=>["Permission dengan ID ($id) gagal dihapus"]
+                                ],422); 
+        }
+        else
+        {
+            $nama_permission = $permission->name;            
+            \DB::table('permissions')->where('id',$id)->delete();
+
+            app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+            
+            \App\Models\System\ActivityLog::log($request,[
+                                                        'object' => $permission, 
+                                                        'object_id'=>$permission->id, 
+                                                        'user_id' => $this->guard()->user()->id, 
+                                                        'message' => 'Menghapus permission ('.$nama_permission.') berhasil'
+                                                    ]);                                                                 
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'destroy',                
+                                        'message'=>"Permission ($nama_permission) berhasil dihapus"
+                                    ],200); 
+        }
     }
 }

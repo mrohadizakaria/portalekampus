@@ -365,8 +365,8 @@ export default {
             this.datatableLoading=true;
             await this.$ajax.post('/spmb/soalpmb',
             {
-                TA:2020,
-                semester:1
+                tahun_pendaftaran:this.tahun_pendaftaran,
+                semester_pendaftaran:this.semester_pendaftaran
             },
             {
                 headers: {
@@ -449,9 +449,17 @@ export default {
                     
                 } else {
                     await this.$ajax.post('/spmb/soalpmb/store',
-                        {
-                            name:this.formdata.name,                            
-                        },
+                        {  
+                            soal:this.formdata.soal,                            
+                            gambar:this.formdata.gambar,                            
+                            jawaban1:this.formdata.jawaban1,                            
+                            jawaban2:this.formdata.jawaban2,                            
+                            jawaban3:this.formdata.jawaban3,                            
+                            jawaban4:this.formdata.jawaban4,                            
+                            jawaban_benar:this.formdata.jawaban_benar,                            
+                            tahun_pendaftaran:this.tahun_pendaftaran,
+                            semester_pendaftaran:this.semester_pendaftaran
+                        },                        
                         {
                             headers:{
                                 Authorization:this.$store.getters['auth/Token']
