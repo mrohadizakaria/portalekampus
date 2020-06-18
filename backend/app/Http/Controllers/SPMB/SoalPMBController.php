@@ -18,8 +18,15 @@ class SoalPMBController extends Controller {
     {
         $this->hasPermissionTo('SPMB-PMB-SOAL_BROWSE');
 
-        $soal=SoalPMBModel::where('ta',2020)
-                            ->where('semester',1)
+        $this->validate($request, [                       
+            'tahun_pendaftaran'=>'required',
+            'semester_pendaftaran'=>'required'
+        ]);
+        $tahun_pendaftaran=$request->input('tahun_pendaftaran');
+        $semester_pendaftaran=$request->input('semester_pendaftaran');
+
+        $soal=SoalPMBModel::where('ta',$tahun_pendaftaran)
+                            ->where('semester',$semester_pendaftaran)
                             ->get();
 
         return Response()->json([
@@ -66,7 +73,7 @@ class SoalPMBController extends Controller {
                 'soal_id'=>$soal_id,
                 'jawaban'=>$request->input('jawaban1'),                
                 'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==1?true:false,
+                'status'=>$request->input('jawaban_benar')==1?1:0,
                 'created_at'=>$now, 
                 'updated_at'=>$now
             ]);
@@ -75,7 +82,7 @@ class SoalPMBController extends Controller {
                 'soal_id'=>$soal_id,
                 'jawaban'=>$request->input('jawaban2'),                
                 'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==2?true:false,
+                'status'=>$request->input('jawaban_benar')==2?1:0,
                 'created_at'=>$now, 
                 'updated_at'=>$now
             ]);
@@ -84,7 +91,7 @@ class SoalPMBController extends Controller {
                 'soal_id'=>$soal_id,
                 'jawaban'=>$request->input('jawaban3'),                
                 'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==3?true:false,
+                'status'=>$request->input('jawaban_benar')==3?1:0,
                 'created_at'=>$now, 
                 'updated_at'=>$now
             ]);
@@ -93,7 +100,7 @@ class SoalPMBController extends Controller {
                 'soal_id'=>$soal_id,
                 'jawaban'=>$request->input('jawaban4'),                
                 'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==4?true:false,
+                'status'=>$request->input('jawaban_benar')==4?1:0,
                 'created_at'=>$now, 
                 'updated_at'=>$now
             ]);
@@ -107,4 +114,72 @@ class SoalPMBController extends Controller {
                                     'message'=>'Data soal berhasil disimpan.'
                                 ],200); 
     }
+    /**
+     * daftar soal
+     */
+    public function show(Request $request,$id)
+    {
+        $this->hasPermissionTo('SPMB-PMB-SOAL_SHOW');
+
+        $soal=SoalPMBModel::find($id);
+        if (is_null($soal))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'destroy',                
+                                    'message'=>["Fetch data soal pmb dengan ID ($id) gagal diperoleh"]
+                                ],422); 
+        }
+        else
+        {
+            $jawaban = $soal->jawaban;
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'fetchdata',  
+                                        'soal'=>$soal,                                                                                                                                   
+                                        'jawaban'=>$jawaban,                                                                                                                                   
+                                        'message'=>"Fetch data soal pmb dengan id ($id) berhasil diperoleh."
+                                    ],200);     
+        }
+    }  
+     /**
+     * Menghapus soal ujian pmb
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request,$id)
+    { 
+        $this->hasPermissionTo('SPMB-PMB-SOAL_DESTROY');
+
+        $soal=SoalPMBModel::find($id);
+        
+        if (is_null($soal))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'destroy',                
+                                    'message'=>["Soal PMB dengan ID ($id) gagal dihapus"]
+                                ],422); 
+        }
+        else
+        {
+            $nama_soal=$soal->soal;
+            $soal->delete();
+
+            \App\Models\System\ActivityLog::log($request,[
+                                                            'object' => $this->guard()->user(), 
+                                                            'object_id' => $this->guard()->user()->id, 
+                                                            'soal_id' => $soal->id, 
+                                                            'message' => 'Menghapus Soal PMB ('.$nama_soal.') berhasil'
+                                                        ]);
+        
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'destroy',                
+                                        'message'=>"Soal Ujian PMB ($nama_soal) berhasil dihapus"
+                                    ],200);         
+        }
+                  
+    } 
 }

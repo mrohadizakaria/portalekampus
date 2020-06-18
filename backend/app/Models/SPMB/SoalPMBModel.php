@@ -45,6 +45,6 @@ class SoalPMBModel extends Model {
 
     public function jawaban()
     {
-        return $this->belongsTo('App\Models\SPMB\JawabanSoalModel','soal_id','id');
+        return $this->hasMany('App\Models\SPMB\JawabanSoalPMBModel','soal_id','id');
     }
 }

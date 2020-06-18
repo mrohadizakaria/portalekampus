@@ -303,7 +303,7 @@ export default {
             this.dialogdetailitem=true;              
             // this.$ajax.get('/path/'+item.id,{
             //     headers: {
-            //         Authorization:this.$store.getters.Token
+            //         Authorization:this.$store.getters['auth/Token']
             //     }
             // }).then(({data})=>{               
                                            

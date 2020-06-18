@@ -140,7 +140,7 @@
                                         </v-card>
                                     </v-form>
                                 </v-dialog>
-                                <v-dialog v-model="dialogdetailitem" max-width="500px" persistent>
+                                <v-dialog v-model="dialogdetailitem" max-width="700px" persistent>
                                     <v-card>
                                         <v-card-title>
                                             <span class="headline">DETAIL DATA</span>
@@ -166,25 +166,39 @@
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                             </v-row>
-                                            <v-row no-gutters>
+                                            <v-row class="mb-4" no-gutters>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>NAME :</v-card-title>
+                                                        <v-card-title>SOAL :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.name}}
+                                                            {{formdata.soal}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>CREATED :</v-card-title>
+                                                        <v-card-title>UPDATED :</v-card-title>
                                                         <v-card-subtitle>
                                                             {{formdata.updated_at|formatTanggal}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                            </v-row>
+                                            <v-row class="mb-4" no-gutters> 
+                                                <v-col col="12">
+                                                    <v-data-table                                                        
+                                                        :headers="headers_detail"
+                                                        :items="daftar_soal_jawaban"
+                                                        :search="search"
+                                                        item-key="id"
+                                                        sort-by="jawaban"                                                        
+                                                        class="elevation-1"
+                                                    >
+                                                        
+                                                    </v-data-table>
+                                                </v-col>
                                             </v-row>
                                         </v-card-text>
                                         <v-card-actions>
@@ -282,11 +296,15 @@ export default {
             { text: 'NAMA SOAL', value: 'soal'},   
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
+        headers_detail:[
+            { text: 'JAWABAN', value: 'jawaban'},               
+        ],
         search:'',    
 
         //dialog
         dialogfrm:false,
         dialogdetailitem:false,
+        daftar_soal_jawaban:[],
 
         //form data   
         form_valid:true,    
@@ -394,13 +412,13 @@ export default {
         viewItem (item) {
             this.formdata=item;      
             this.dialogdetailitem=true;              
-            // this.$ajax.get('/spmb/soalpmb/'+item.id,{
-            //     headers: {
-            //         Authorization:this.$store.getters.Token
-            //     }
-            // }).then(({data})=>{               
-                                           
-            // });                      
+            this.$ajax.get('/spmb/soalpmb/'+item.id,{
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{               
+                this.daftar_soal_jawaban=data.jawaban;
+            });                      
         },    
         editItem (item) {
             this.editedIndex = this.datatable.indexOf(item);
@@ -439,7 +457,7 @@ export default {
                             }
                         }
                     ).then(({data})=>{   
-                        Object.assign(this.datatable[this.editedIndex], data.object);
+                        Object.assign(this.datatable[this.editedIndex], data.soal);
                         this.closedialogfrm();
                         this.btnLoading=false;
                     }).catch(()=>{
@@ -465,7 +483,7 @@ export default {
                             }
                         }
                     ).then(({data})=>{   
-                        this.datatable.push(data.object);
+                        this.datatable.push(data.soal);
                         this.closedialogfrm();
                         this.btnLoading=false;
                     }).catch(()=>{
