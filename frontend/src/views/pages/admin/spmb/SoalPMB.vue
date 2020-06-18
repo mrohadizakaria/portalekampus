@@ -278,9 +278,8 @@ export default {
         datatableLoading:false,
         expanded:[],
         datatable:[],
-        headers: [                        
-            { text: 'ID', value: 'id', width:70 },   
-            { text: 'NAMA SOAL', value: 'soal', width:350 },   
+        headers: [                                    
+            { text: 'NAMA SOAL', value: 'soal'},   
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         search:'',    
@@ -451,7 +450,7 @@ export default {
                     await this.$ajax.post('/spmb/soalpmb/store',
                         {  
                             soal:this.formdata.soal,                            
-                            gambar:this.formdata.gambar,                            
+                            gambar:'gambar',                            
                             jawaban1:this.formdata.jawaban1,                            
                             jawaban2:this.formdata.jawaban2,                            
                             jawaban3:this.formdata.jawaban3,                            
