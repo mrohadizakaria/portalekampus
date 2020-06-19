@@ -63,9 +63,9 @@
                                     :rules="rule_password"                
                                     outlined 
                                     dense />  
-                                    <v-alert color="error" class="mb-0" text v-if="formdata.captcha_response.length<=0">
-                                        Mohon dicentang Google Captcha    
-                                    </v-alert>
+                                <v-alert color="error" class="mb-0" text v-if="formdata.captcha_response.length<=0">
+                                    Mohon dicentang Google Captcha    
+                                </v-alert>
                             </v-card-text>                            
                             <v-card-actions class="justify-center">
                                 <vue-recaptcha 

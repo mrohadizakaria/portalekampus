@@ -148,7 +148,7 @@
                                                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>CREATED :</v-card-title>
+                                                        <v-card-title>UPDATED :</v-card-title>
                                                         <v-card-subtitle>
                                                             {{formdata.updated_at|formatTanggal}}
                                                         </v-card-subtitle>
@@ -205,7 +205,6 @@
     </AdminLayout>
 </template>
 <script>
-import {mapGetters} from 'vuex';
 import AdminLayout from '@/views/layouts/AdminLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
@@ -312,7 +311,7 @@ export default {
         editItem (item) {
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
-            this.dialogfrm = true
+            this.dialogfrm = true;
         },    
         save:async function () {
             if (this.$refs.frmdata.validate())
@@ -400,11 +399,7 @@ export default {
             );
         },
     },
-    computed: {
-        ...mapGetters('auth',{            
-            ACCESS_TOKEN:'AccessToken',          
-            TOKEN:'Token',                                  
-        }),
+    computed: {        
         formTitle () {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },        

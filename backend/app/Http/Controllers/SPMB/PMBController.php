@@ -167,6 +167,130 @@ class PMBController extends Controller {
 
     }      
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storependaftar(Request $request)
+    {
+        $this->hasPermissionTo('SPMB-PMB_STORE');
+
+        $this->validate($request, [
+            'name'=>'required',            
+            'email'=>'required|string|email|unique:users',
+            'nomor_hp'=>'required|unique:users',            
+            'prodi_id'=>'required',
+            'username'=>'required|string|unique:users',
+            'password'=>'required',            
+        ]);
+        $user = \DB::transaction(function () use ($request){
+            $now = \Carbon\Carbon::now()->toDateTimeString();                   
+            $code=0;
+            $ta=ConfigurationModel::getCache('DEFAULT_TAHUN_PENDAFTARAN');
+            $user=User::create([
+                'id'=>Uuid::uuid4()->toString(),
+                'name'=>$request->input('name'),
+                'email'=>$request->input('email'),
+                'username'=> $request->input('username'),
+                'password'=>Hash::make($request->input('password')),
+                'nomor_hp'=>$request->input('nomor_hp'),
+                'ta'=>$ta,
+                'email_verified_at'=>'',
+                'theme'=>'default',  
+                'code'=>$code,          
+                'active'=>1,         
+                'foto'=>'images/no_photo.png', 
+                'created_at'=>$now, 
+                'updated_at'=>$now
+            ]);            
+            $role='mahasiswabaru';   
+            $user->assignRole($role);
+            $permission=Role::findByName('mahasiswabaru')->permissions;
+            $user->givePermissionTo($permission->pluck('name'));             
+            
+            FormulirPendaftaranModel::create([
+                'user_id'=>$user->id,
+                'nama_mhs'=>$request->input('name'),                
+                'telp_hp'=>$request->input('nomor_hp'),
+                'kjur1'=>$request->input('prodi_id'),
+                'ta'=>$ta,
+            ]);
+
+            return $user;
+        });
+        $config_kirim_email = 0;
+        if (!is_null($user) && $config_kirim_email==1)
+        {
+            app()->mailer->to($request->input('email'))->send(new VerifyEmailAddress($user->code));
+        }       
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'store',
+                                    'pendaftar'=>$user,                                                                                                  
+                                    'message'=>'Data Mahasiswa baru berhasil disimpan.'
+                                ],200); 
+
+    }      
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updatependaftar(Request $request,$id)
+    {
+        $this->hasPermissionTo('SPMB-PMB_UPDATE');
+
+        $user = User::find($id);
+        if (is_null($user))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',                
+                                    'message'=>["User ID ($id) gagal diupdate"]
+                                ],422); 
+        }
+        else
+        {
+            $this->validate($request, [
+                'username'=>[
+                    'required',
+                    'unique:users,username,'.$user->id
+                ],              
+                'email'=>'required|string|email|unique:users,email,'.$user->id,
+                'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,                   
+            ]);
+            
+            $user = \DB::transaction(function () use ($request,$user){
+                $user->name = $request->input('name');
+                $user->email = $request->input('email');
+                $user->nomor_hp = $request->input('nomor_hp');
+                $user->username = $request->input('username');        
+                if (!empty(trim($request->input('password')))) {
+                    $user->password = Hash::make($request->input('password'));
+                }
+                $user->save();
+
+                $formulir=FormulirPendaftaranModel::find($user->id);
+                $formulir->nama_mhs=$request->input('name');
+                $formulir->telp_hp=$request->input('telp_hp');
+                $formulir->save();
+
+                return $user;
+            });
+        }
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'store',
+                                    'pendaftar'=>$user,                                                                                                  
+                                    'message'=>'Data Mahasiswa baru berhasil diubah.'
+                                ],200); 
+
+    }      
+    /**
      * Detail formulir pendaftaran
      *
      * @param  \Illuminate\Http\Request  $request
