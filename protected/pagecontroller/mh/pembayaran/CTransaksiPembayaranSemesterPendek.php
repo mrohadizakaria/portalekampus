@@ -46,13 +46,15 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
         $r=$this->DB->getRecord($str);
         
         while (list($k,$v)=each($r)) {
-            $biaya=$v['biaya'];
+            // $biaya=$v['biaya'];
+            $biaya=1200000;
             $idkombi=$v['idkombi'];            
             $v['nama_kombi']=  strtoupper($v['nama_kombi']); 
             $v['biaya_alias']=$this->Finance->toRupiah($biaya);
             $v['jumlah_sks']=$transaksi[$idkombi]['jumlah_sks'];
             $jumlah_bayar=$biaya*$v['jumlah_sks'];
-            $v['jumlah_bayar']=$this->Finance->toRupiah($jumlah_bayar);
+            //$v['jumlah_bayar']=$this->Finance->toRupiah($jumlah_bayar);
+            $v['jumlah_bayar']=$this->Finance->toRupiah(1200000);
             $v['dibayarkan']=$this->Finance->toRupiah($transaksi[$idkombi]['dibayarkan']);
             $v['sudah_dibayar']=$transaksi[$idkombi]['dibayarkan'];
             $result[$k]=$v;
@@ -71,38 +73,38 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
     }		
     public function deleteItem($sender,$param) {                
         $id=$this->GridS->DataKeys[$param->Item->ItemIndex]; 
-        $datamhs = $this->Pengguna->getDataUser();
-        $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
-        $this->DB->updateRecord("UPDATE transaksi_detail SET dibayarkan=0 WHERE idkombi=14 AND no_transaksi='$no_transaksi'");
+        // $datamhs = $this->Pengguna->getDataUser();
+        // $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
+        // $this->DB->updateRecord("UPDATE transaksi_detail SET dibayarkan=0 WHERE idkombi=14 AND no_transaksi='$no_transaksi'");
         $this->GridS->EditItemIndex=-1;
         $this->populateData ();
     }  
     public function saveItem($sender,$param) {                        
         $item=$param->Item;
         $id=$this->GridS->DataKeys[$item->ItemIndex];  
-        $datamhs = $this->Pengguna->getDataUser();
-        $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
-        $tahun_masuk=$datamhs['tahun_masuk'];    
-        $kelas=$datamhs['idkelas'];       
+        // $datamhs = $this->Pengguna->getDataUser();
+        // $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
+        // $tahun_masuk=$datamhs['tahun_masuk'];    
+        // $kelas=$datamhs['idkelas'];       
        
-        $str = "SELECT biaya FROM kombi_per_ta kpt,kombi k WHERE k.idkombi=kpt.idkombi AND tahun=$tahun_masuk AND idsmt=1 AND kpt.idkelas='$kelas' AND kpt.idkombi=$id";
-        $this->DB->setFieldTable(array('biaya'));
-        $r=$this->DB->getRecord($str);
-        $biaya=$r[1]['biaya'];
+        // $str = "SELECT biaya FROM kombi_per_ta kpt,kombi k WHERE k.idkombi=kpt.idkombi AND tahun=$tahun_masuk AND idsmt=1 AND kpt.idkelas='$kelas' AND kpt.idkombi=$id";
+        // $this->DB->setFieldTable(array('biaya'));
+        // $r=$this->DB->getRecord($str);
+        // $biaya=$r[1]['biaya'];
         
-        $jumlah_sks=$this->Finance->toInteger(addslashes($item->ColumnJumlahSKS->TextBox->Text));                         
-        $jumlah_bayar=$jumlah_sks*$biaya;
+        // $jumlah_sks=$this->Finance->toInteger(addslashes($item->ColumnJumlahSKS->TextBox->Text));                         
+        // $jumlah_bayar=$jumlah_sks*$biaya;
         
-        $this->DB->query ('BEGIN');
-        $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar',jumlah_sks=$jumlah_sks WHERE no_transaksi='$no_transaksi' AND idkombi=$id";
-        if ($this->DB->updateRecord($str) ) {
-            $str = "UPDATE transaksi SET jumlah_sks=$jumlah_sks WHERE no_transaksi='$no_transaksi'";
-            $this->DB->updateRecord($str);
+        // $this->DB->query ('BEGIN');
+        // $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar',jumlah_sks=$jumlah_sks WHERE no_transaksi='$no_transaksi' AND idkombi=$id";
+        // if ($this->DB->updateRecord($str) ) {
+        //     $str = "UPDATE transaksi SET jumlah_sks=$jumlah_sks WHERE no_transaksi='$no_transaksi'";
+        //     $this->DB->updateRecord($str);
             
-            $this->DB->query('COMMIT');    
-        }else{
-            $this->DB->query('ROLLBACK');
-        }       
+        //     $this->DB->query('COMMIT');    
+        // }else{
+        //     $this->DB->query('ROLLBACK');
+        // }       
        
         $this->GridS->EditItemIndex=-1;
         $this->populateData ();
@@ -140,35 +142,35 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageMHS {
     }
     public function commitData ($sender,$param) {
 		if ($this->Page->isValid) {	
-            $datamhs = $this->Pengguna->getDataUser();
-            $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
-            $nim=$datamhs['nim'];
-            $ta=$datamhs['ta'];
-            $idsmt=$_SESSION['currentPagePembayaranSemesterPendek']['semester'];
-            $kelas=$datamhs['idkelas'];
-            $k_status=$datamhs['k_status'];
-            $no_faktur=addslashes($this->txtAddNomorFaktur->Text);            
-            $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
+            // $datamhs = $this->Pengguna->getDataUser();
+            // $no_transaksi=$_SESSION['currentPagePembayaranSemesterPendek']['no_transaksi'];
+            // $nim=$datamhs['nim'];
+            // $ta=$datamhs['ta'];
+            // $idsmt=$_SESSION['currentPagePembayaranSemesterPendek']['semester'];
+            // $kelas=$datamhs['idkelas'];
+            // $k_status=$datamhs['k_status'];
+            // $no_faktur=addslashes($this->txtAddNomorFaktur->Text);            
+            // $tanggal=date('Y-m-d',$this->cmbAddTanggalFaktur->TimeStamp);
             
-            $this->DB->query('BEGIN');
-            $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',commited=1,date_modified=NOW() WHERE no_transaksi='$no_transaksi'";
-            $this->DB->updateRecord($str);
+            // $this->DB->query('BEGIN');
+            // $str = "UPDATE transaksi SET no_faktur='$no_faktur',tanggal='$tanggal',commited=1,date_modified=NOW() WHERE no_transaksi='$no_transaksi'";
+            // $this->DB->updateRecord($str);
             
-            $this->Finance->setDataMHS($datamhs);            
-            $datadulang=$this->Finance->getDataDulang($idsmt,$ta);  
-            if (!isset($datadulang['iddulang'])) {
-                $bool=$this->Finance->getTresholdPembayaran($ta,$idsmt);						                                
-                if ($bool) {
-                    $tasmt=$ta.$idsmt;
-                    $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$idsmt','$tasmt','$tanggal','$kelas','$k_status','A')";
-                    $this->DB->insertRecord($str);
+            // $this->Finance->setDataMHS($datamhs);            
+            // $datadulang=$this->Finance->getDataDulang($idsmt,$ta);  
+            // if (!isset($datadulang['iddulang'])) {
+            //     $bool=$this->Finance->getTresholdPembayaran($ta,$idsmt);						                                
+            //     if ($bool) {
+            //         $tasmt=$ta.$idsmt;
+            //         $str = "INSERT INTO dulang (iddulang,nim,tahun,idsmt,tasmt,tanggal,idkelas,status_sebelumnya,k_status) VALUES (NULL,'$nim','$ta','$idsmt','$tasmt','$tanggal','$kelas','$k_status','A')";
+            //         $this->DB->insertRecord($str);
                     
-                    $str = "UPDATE register_mahasiswa SET k_status='A' WHERE nim='$nim'";
-                    $this->DB->updateRecord($str);
-                }
+            //         $str = "UPDATE register_mahasiswa SET k_status='A' WHERE nim='$nim'";
+            //         $this->DB->updateRecord($str);
+            //     }
                                
-            }
-            $this->DB->query('COMMIT');
+            // }
+            // $this->DB->query('COMMIT');
             unset($_SESSION['currentPagePembayaranSemesterPendek']['DataMHS']);
             $this->redirect('pembayaran.PembayaranSemesterPendek',true);
         }
