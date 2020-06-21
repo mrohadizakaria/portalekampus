@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-system-bar app dark color="primary white--text">
+        <v-system-bar app dark class="brown darken-2 white--text">
             
 		</v-system-bar>	
         <v-app-bar app>
@@ -47,7 +47,7 @@
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-IDENTITAS-DIRI')" to="/system-setting/identitasdiri">
                         <v-list-item-icon>
-                            <v-icon>mdi-circle-double</v-icon>
+                            <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title>
@@ -65,7 +65,7 @@
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-PERMISSIONS')" to="/system-setting/permissions">
                         <v-list-item-icon>
-                            <v-icon>mdi-circle-double</v-icon>
+                            <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title>
@@ -75,7 +75,7 @@
                     </v-list-item>                    
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')" to="/system-setting/roles">
                         <v-list-item-icon>
-                            <v-icon>mdi-circle-double</v-icon>
+                            <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title>
@@ -93,7 +93,7 @@
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-VARIABLES')" to="/system-setting/captcha">
                         <v-list-item-icon>
-                            <v-icon>mdi-circle-double</v-icon>
+                            <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title>
@@ -159,7 +159,7 @@
                 <v-icon>mdi-filter</v-icon>
 			</v-app-bar-nav-icon>            
         </v-app-bar>    
-        <v-navigation-drawer v-model="drawer" width="300" :temporary="isReportPage" app>
+        <v-navigation-drawer v-model="drawer" width="300" dark class="brown darken-4" :temporary="isReportPage" app>
 			<v-list-item>
 				<v-list-item-avatar>
 					<v-img :src="photoUser" @click.stop="toProfile"></v-img>
@@ -175,24 +175,27 @@
 			</v-list-item>
 			<v-divider></v-divider>
             <v-list expand>
-                <v-list-item :to="{path:'/dashboard/'+ACCESS_TOKEN}" link>
-                    <v-list-item-icon>
+                <v-list-item :to="{path:'/dashboard/'+ACCESS_TOKEN}" link color="deep-orange darken-1">
+                    <v-list-item-icon class="mr-2">
                         <v-icon>mdi-monitor-dashboard</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>DASHBOARD</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-group group="/dmaster" prepend-icon="mdi-home-floor-b" no-action v-if="CAN_ACCESS('DMASTER-GROUP')">
+                <v-list-group group="/dmaster" no-action v-if="CAN_ACCESS('DMASTER-GROUP')" color="deep-orange darken-1">
                     <template v-slot:activator>
+                        <v-list-item-icon class="mr-2">
+                            <v-icon>mdi-home-floor-b</v-icon>
+                        </v-list-item-icon>
                         <v-list-item-content>								
                             <v-list-item-title>DATA MASTER</v-list-item-title>
                         </v-list-item-content>							
                     </template>   
                     <div>              
-                        <v-list-item link v-if="CAN_ACCESS('DMASTER-FAKULTAS_BROWSE') && isBentukPT('universitas')" to="/dmaster/fakultas" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('DMASTER-FAKULTAS_BROWSE') && isBentukPT('universitas')" to="/dmaster/fakultas">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -200,9 +203,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>           
-                        <v-list-item link v-if="CAN_ACCESS('DMASTER-PRODI_BROWSE')" to="/dmaster/programstudi" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('DMASTER-PRODI_BROWSE')" to="/dmaster/programstudi">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -210,9 +213,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>           
-                        <v-list-item link v-if="CAN_ACCESS('DMASTER-KELAS_BROWSE')" to="/dmaster/kelas" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('DMASTER-KELAS_BROWSE')" to="/dmaster/kelas">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -222,16 +225,19 @@
                         </v-list-item>           
                     </div>
                 </v-list-group>
-                <v-list-group group="/spmb" prepend-icon="mdi-account-plus" no-action v-if="CAN_ACCESS('SPMB-GROUP')">
+                <v-list-group group="/spmb" no-action v-if="CAN_ACCESS('SPMB-GROUP')" color="deep-orange darken-1">
                     <template v-slot:activator>
+                        <v-list-item-icon class="mr-2">
+                            <v-icon>mdi-account-plus</v-icon>
+                        </v-list-item-icon>
                         <v-list-item-content>								
                             <v-list-item-title>SPMB</v-list-item-title>
                         </v-list-item-content>							
                     </template>   
                     <div>              
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-SOAL_BROWSE')" to="/spmb/soalpmb" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-SOAL_BROWSE')" to="/spmb/soalpmb">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -240,9 +246,9 @@
                             </v-list-item-content>
                         </v-list-item>                    
                         <v-divider></v-divider>
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB_BROWSE')" to="/spmb/pendaftaranbaru" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB_BROWSE')" to="/spmb/pendaftaranbaru">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -250,9 +256,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/formulirpendaftaran" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/formulirpendaftaran">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -260,9 +266,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/persyaratan" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/persyaratan">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -270,9 +276,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-KONFIRMASI-PEMBAYARAN')" to="/spmb/konfirmasipembayaran" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-KONFIRMASI-PEMBAYARAN')" to="/spmb/konfirmasipembayaran">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -281,9 +287,9 @@
                             </v-list-item-content>
                         </v-list-item>              
                         <v-divider></v-divider>
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE') && isBentukPT('universitas')" to="/spmb/laporanfakultas" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE') && isBentukPT('universitas')" to="/spmb/laporanfakultas">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -291,9 +297,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/laporanprodi" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/laporanprodi">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -303,16 +309,19 @@
                         </v-list-item>
                     </div>
                 </v-list-group>
-                <v-list-group group="/system-users" prepend-icon="mdi-account" no-action v-if="CAN_ACCESS('SYSTEM-USERS-GROUP')">
+                <v-list-group group="/system-users" no-action v-if="CAN_ACCESS('SYSTEM-USERS-GROUP')" color="deep-orange darken-1">
                     <template v-slot:activator>
+                        <v-list-item-icon class="mr-2">
+                            <v-icon>mdi-account</v-icon>
+                        </v-list-item-icon>
                         <v-list-item-content>								
                             <v-list-item-title>USER SISTEM</v-list-item-title>
                         </v-list-item-content>							
                     </template>   
                     <div>                 						
-                        <!-- <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-SUPERADMIN')" to="/system-users/superadmin" class="ml-5">
+                        <!-- <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-SUPERADMIN')" to="/system-users/superadmin">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -320,9 +329,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-AKADEMIK')" to="/system-users/akademik" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-AKADEMIK')" to="/system-users/akademik">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -330,9 +339,9 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                     -->
-                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-PMB')" to="/system-users/pmb" class="ml-5">
+                        <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-PMB')" to="/system-users/pmb">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-circle-double</v-icon>
+                                <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>

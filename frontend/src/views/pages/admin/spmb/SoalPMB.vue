@@ -121,13 +121,45 @@
                                                 <h3 class="headline mt-2 blue--text lighten-4">Jawaban Benar:</h3>  
                                                 <v-select
                                                     v-model="formdata.jawaban_benar"
-                                                    :items="daftar_jawaban"                                                    
+                                                    :items="daftar_jawaban"    
+                                                    item-value="id"
+                                                    item-text="text"                                                
                                                     label="JAWABAN BENAR"
                                                     filled/>    
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
                                                 <v-btn color="blue darken-1" text @click.stop="closedialogfrm">BATAL</v-btn>
+                                                <v-btn 
+                                                    color="blue darken-1" 
+                                                    text 
+                                                    @click.stop="save" 
+                                                    :loading="btnLoading"
+                                                    :disabled="!form_valid||btnLoading">
+                                                        SIMPAN
+                                                </v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-form>
+                                </v-dialog>
+                                <v-dialog v-model="dialogeditfrm" max-width="700px" persistent>
+                                    <v-form ref="frmdata" v-model="form_valid" lazy-validation>
+                                        <v-card>
+                                            <v-card-title>
+                                                <span class="headline">{{ formTitle }}</span>
+                                            </v-card-title>
+                                            <v-card-text>    
+                                                <v-textarea 
+                                                    v-model="formdata.soal" 
+                                                    label="SOAL" 
+                                                    :rules="rule_soal"
+                                                    type="text"
+                                                    filled />                                                
+                                                <v-divider class="mt-2"/>
+                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="blue darken-1" text @click.stop="closedialogeditfrm">BATAL</v-btn>
                                                 <v-btn 
                                                     color="blue darken-1" 
                                                     text 
@@ -193,10 +225,15 @@
                                                         :items="daftar_soal_jawaban"
                                                         :search="search"
                                                         item-key="id"
-                                                        sort-by="jawaban"                                                        
+                                                        sort-by="jawaban"  
+                                                        hide-default-footer                                                      
                                                         class="elevation-1"
                                                     >
-                                                        
+                                                        <template v-slot:item.status="{ item }">
+                                                            <v-icon>    
+                                                                {{item.status == 1 ?'mdi-check-bold':'mdi-close-thick'}}
+                                                            </v-icon>
+                                                        </template>
                                                     </v-data-table>
                                                 </v-col>
                                             </v-row>
@@ -297,7 +334,8 @@ export default {
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         headers_detail:[
-            { text: 'JAWABAN', value: 'jawaban'},               
+            { text: 'JAWABAN', value: 'jawaban', sortable: false,}, 
+            { text: 'KET.', value: 'status', sortable: false,width:100 },
         ],
         search:'',    
 
@@ -416,14 +454,15 @@ export default {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{               
-                this.daftar_soal_jawaban=data.jawaban;
+            }).then(({data})=>{       
+                console.log(data);        
+                this.daftar_soal_jawaban=data.soal.jawaban;
             });                      
         },    
         editItem (item) {
             this.editedIndex = this.datatable.indexOf(item);
             this.formdata = Object.assign({}, item);
-            this.dialogfrm = true
+            this.dialogeditfrm = true
         }, 
         previewImage (e)
         {
@@ -526,6 +565,15 @@ export default {
         },
         closedialogfrm () {
             this.dialogfrm = false;            
+            setTimeout(() => {
+                this.formdata = Object.assign({}, this.formdefault);
+                this.$refs.frmdata.reset(); 
+                this.editedIndex = -1
+                }, 300
+            );
+        },
+        closedialogeditfrm () {
+            this.dialogeditfrm = false;            
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault);
                 this.$refs.frmdata.reset(); 

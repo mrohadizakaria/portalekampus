@@ -110,7 +110,8 @@ class SoalPMBController extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'soal'=>$soal,                                                                                                  
+                                    'soal'=>$soal,     
+                                    'jawaban_benar'=>$request->input('jawaban_benar'),                                                                                             
                                     'message'=>'Data soal berhasil disimpan.'
                                 ],200); 
     }
@@ -136,8 +137,8 @@ class SoalPMBController extends Controller {
             return Response()->json([
                                         'status'=>1,
                                         'pid'=>'fetchdata',  
-                                        'soal'=>$soal,                                                                                                                                   
-                                        'jawaban'=>$jawaban,                                                                                                                                   
+                                        'soal'=>$soal,   
+                                        'jawaban'=>$jawaban,                                                                                                                                                                                                                                                                                                           
                                         'message'=>"Fetch data soal pmb dengan id ($id) berhasil diperoleh."
                                     ],200);     
         }
