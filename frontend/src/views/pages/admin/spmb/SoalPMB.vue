@@ -156,6 +156,20 @@
                                                     type="text"
                                                     filled />                                                
                                                 <v-divider class="mt-2"/>
+                                                <v-radio-group v-model="formdata.jawaban_benar">
+                                                    <v-data-table                                                        
+                                                        :headers="headers_detail"
+                                                        :items="daftar_soal_jawaban"
+                                                        :search="search"
+                                                        item-key="id"
+                                                        sort-by="jawaban"  
+                                                        hide-default-footer                                                      
+                                                        class="elevation-1">
+                                                        <template v-slot:item.status="{ item }">
+                                                            <v-radio :value="item.id"></v-radio>
+                                                        </template>
+                                                    </v-data-table>
+                                                </v-radio-group>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -342,6 +356,7 @@ export default {
         //dialog
         dialogfrm:false,
         dialogdetailitem:false,
+        dialogeditfrm:false,
         daftar_soal_jawaban:[],
 
         //form data   
@@ -447,22 +462,36 @@ export default {
                 this.expanded=[item];
             }               
         },
-        viewItem (item) {
-            this.formdata=item;      
-            this.dialogdetailitem=true;              
-            this.$ajax.get('/spmb/soalpmb/'+item.id,{
+        viewItem:async function (item) {                          
+            await this.$ajax.get('/spmb/soalpmb/'+item.id,{
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{       
-                console.log(data);        
+            }).then(({data})=>{         
+                this.formdata=item;      
+                this.dialogdetailitem=true;              
                 this.daftar_soal_jawaban=data.soal.jawaban;
             });                      
         },    
-        editItem (item) {
-            this.editedIndex = this.datatable.indexOf(item);
-            this.formdata = Object.assign({}, item);
-            this.dialogeditfrm = true
+        editItem:async function (item) {                          
+            await this.$ajax.get('/spmb/soalpmb/'+item.id,{
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{          
+                this.editedIndex = this.datatable.indexOf(item);
+                this.formdata = Object.assign({}, item);
+                this.dialogeditfrm = true;
+                let jawaban_benar ='';
+                data.soal.jawaban.forEach(element => {
+                    if (element.status==1)
+                    {
+                        jawaban_benar=element.id;                        
+                    }                     
+                });    
+                this.formdata.jawaban_benar=jawaban_benar;         
+                this.daftar_soal_jawaban=data.soal.jawaban;
+            });                      
         }, 
         previewImage (e)
         {
@@ -488,7 +517,8 @@ export default {
                     await this.$ajax.post('/spmb/soalpmb/'+this.formdata.id,
                         {
                             '_method':'PUT',
-                            name:this.formdata.name,                       
+                            soal:this.formdata.soal, 
+                            jawaban_benar:this.formdata.jawaban_benar                      
                         },
                         {
                             headers:{
@@ -497,7 +527,7 @@ export default {
                         }
                     ).then(({data})=>{   
                         Object.assign(this.datatable[this.editedIndex], data.soal);
-                        this.closedialogfrm();
+                        this.closedialogeditfrm();
                         this.btnLoading=false;
                     }).catch(()=>{
                         this.btnLoading=false;
@@ -556,7 +586,8 @@ export default {
             });
         },
         closedialogdetailitem () {
-            this.dialogdetailitem = false;            
+            this.dialogdetailitem = false;          
+            this.daftar_soal_jawaban=[];
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault)
                 this.editedIndex = -1

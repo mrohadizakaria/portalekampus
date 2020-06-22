@@ -110,8 +110,7 @@ class SoalPMBController extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'soal'=>$soal,     
-                                    'jawaban_benar'=>$request->input('jawaban_benar'),                                                                                             
+                                    'soal'=>$soal,                                                                                                                                 
                                     'message'=>'Data soal berhasil disimpan.'
                                 ],200); 
     }
@@ -127,7 +126,7 @@ class SoalPMBController extends Controller {
         {
             return Response()->json([
                                     'status'=>1,
-                                    'pid'=>'destroy',                
+                                    'pid'=>'show',                
                                     'message'=>["Fetch data soal pmb dengan ID ($id) gagal diperoleh"]
                                 ],422); 
         }
@@ -142,7 +141,51 @@ class SoalPMBController extends Controller {
                                         'message'=>"Fetch data soal pmb dengan id ($id) berhasil diperoleh."
                                     ],200);     
         }
-    }  
+    } 
+    /**
+     * update soal baru
+     */
+    public function update(Request $request,$id)
+    {
+        $this->hasPermissionTo('SPMB-PMB-SOAL_UPDATE');
+
+        $soal=SoalPMBModel::find($id);
+        if (is_null($soal))
+        {
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',                
+                                    'message'=>["Fetch data soal pmb dengan ID ($id) gagal diperoleh"]
+                                ],422); 
+        }
+        else
+        {
+            $this->validate($request, [           
+                'soal'=>'required',
+                // 'gambar'=>'required',
+                // 'jawaban1'=>'required',
+                // 'jawaban2'=>'required',
+                // 'jawaban3'=>'required',
+                // 'jawaban4'=>'required',
+                'jawaban_benar'=>'required',            
+            ]);
+            $soal->soal=$request->input('soal');
+            $soal->save();
+            
+            $jawaban = JawabanSoalPMBModel::find($request->input('jawaban_benar'));
+            if (!is_null($jawaban))
+            {
+                $jawaban->status=1;
+                $jawaban->save();
+            }
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'update',  
+                                        'soal'=>$soal,                                                                                                                                                                                                                                                                                                                                                    
+                                        'message'=>"Mengubah data soal pmb dengan id ($id) berhasil."                                        
+                                    ],200);    
+        }
+    } 
      /**
      * Menghapus soal ujian pmb
      *
