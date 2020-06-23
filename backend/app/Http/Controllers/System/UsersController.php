@@ -85,15 +85,15 @@ class UsersController extends Controller {
             'role_name'=>'required|exists:roles,name',            
         ]);
         $role_name=$request->input('role_name');
+        $permission=Role::findByName($role_name)->permissions;
+        $permissions=$permission->pluck('name');
         switch($role_name)
         {
             case 'mahasiswabaru':
                 $this->validate($request, [           
                     'TA'=>'required',
                     'prodi_id'=>'required'
-                ]);
-                $permission=Role::findByName('mahasiswabaru')->permissions;
-                $permissions=$permission->pluck('name');
+                ]);                
 
                 $ta=$request->input('TA');
                 $prodi_id=$request->input('prodi_id');
@@ -110,18 +110,23 @@ class UsersController extends Controller {
                     $user->givePermissionTo($permissions);                 
                 }                
             break;
-        }
-        \App\Models\System\ActivityLog::log($request,[
-                                                        'object' => $this->guard()->user(), 
-                                                        'object_id' => $this->guard()->user()->id, 
-                                                        'user_id' => $this->guard()->user()->id, 
-                                                        'message' => 'Mensetting permission user ('.$user->username.') berhasil'
-                                                    ]);
+            case 'pmb':
+                $data = User::role('pmb')
+                        ->select(\DB::raw('users.id'))                        
+                        ->where('active',1)
+                        ->get();
+
+                foreach ($data as $user)
+                {
+                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+                    $user->givePermissionTo($permissions);                 
+                }                
+            break;
+        }       
         return Response()->json([
                                     'status'=>1,
-                                    'pid'=>'update',    
-                                    'permissions'=>$permissions,                                                                
-                                    'message'=>'Permission seluruh user berhasil disinkronisasi.'
+                                    'pid'=>'update',                                                                                                     
+                                    'message'=>"Permission seluruh user role ($role_name) berhasil disinkronisasi."
                                 ],200); 
     }    
     /**

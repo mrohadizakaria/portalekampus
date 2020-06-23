@@ -57,6 +57,25 @@ class Controller extends BaseController
         }        
     }
     /**
+     * @return object auth api
+     */
+    public function hasAnyPermission($permission) 
+    {
+        $user = Auth::guard('api')->user();
+        if ($this->guard()->guest())
+        {
+            return true;
+        }
+        elseif ($user->hasAnyPermission($permission) || $user->hasRole('superadmin'))
+        {
+            return true;
+        }
+        else
+        {
+            abort(403,'Forbidden: You have not a privilege to execute this process '.$permission);
+        }        
+    }
+    /**
      * Display the specified user permissions.
      *
      * @param  int  $id

@@ -55,7 +55,7 @@ class PMBController extends Controller {
      */
     public function formulirpendaftaran(Request $request)
     {   
-        $this->hasAnyPermission('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE','SPMB-PMB-LAPORAN-PRODI_BROWSE');
+        $this->hasAnyPermission(['SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE','SPMB-PMB-LAPORAN-PRODI_BROWSE']);
 
         $this->validate($request, [           
             'TA'=>'required',

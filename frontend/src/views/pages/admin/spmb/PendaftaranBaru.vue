@@ -432,8 +432,7 @@ export default {
                         Authorization:this.$store.getters['auth/Token']
                     }
                 }
-            ).then(({data})=>{   
-                console.log(data);
+            ).then(()=>{                   
                 this.btnLoading=false;
             }).catch(()=>{
                 this.btnLoading=false;

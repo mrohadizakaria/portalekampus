@@ -66,6 +66,7 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
+                                <v-btn color="warning" dark class="mb-2 mr-2" @click.stop="syncPermission" v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')">SYNC PERMISSION</v-btn>
                                 <v-btn color="primary"
                                     dark 
                                     class="mb-2" 
@@ -393,6 +394,24 @@ export default {
             {
                 this.expanded=[item];
             }               
+        },
+        syncPermission:async function ()
+        {
+            this.btnLoading=true;
+            await this.$ajax.post('/system/users/syncallpermissions',
+                {
+                    role_name:'pmb',                    
+                },
+                {
+                    headers:{
+                        Authorization:this.$store.getters['auth/Token']
+                    }
+                }
+            ).then(()=>{                   
+                this.btnLoading=false;
+            }).catch(()=>{
+                this.btnLoading=false;
+            });     
         },
         showDialogTambahUserPMB:async function ()
         {
