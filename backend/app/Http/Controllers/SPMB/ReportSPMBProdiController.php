@@ -24,7 +24,7 @@ class ReportSPMBProdiController extends Controller {
      */
     public function printtoexcel(Request $request)
     {   
-        $this->hasPermissionTo('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE');
+        $this->hasPermissionTo('SPMB-PMB-LAPORAN-PRODI_BROWSE');
 
         $this->validate($request, [           
             'TA'=>'required',

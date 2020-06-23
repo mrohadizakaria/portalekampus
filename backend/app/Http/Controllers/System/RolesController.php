@@ -91,20 +91,24 @@ class RolesController extends Controller {
     {      
         $this->hasPermissionTo('SYSTEM-SETTING-ROLES_DESTROY');
 
-        $post = $request->all();
-        $name = $post['name'];
-        $role_id = $post['role_id'];
-      
-        
-        $role = Role::find($role_id);
-        $role->revokePermissionTo($name);
+        $role = \DB::transaction(function () use ($request) {
+            $post = $request->all();
+            $name = $post['name'];
+            $role_id = $post['role_id'];        
+            
+            $role = Role::find($role_id);
+            $role->revokePermissionTo($name);
 
-        \App\Models\System\ActivityLog::log($request,[
-                                        'object' => $this->guard()->user(), 
-                                        'object_id' => $this->guard()->user()->id, 
-                                        'user_id' => $this->guard()->user()->id, 
-                                        'message' => 'Menghilangkan permission('.$name.') role ('.$role->name.') berhasil'
-                                    ]);
+            \App\Models\System\ActivityLog::log($request,[
+                'object' => $this->guard()->user(), 
+                'object_id' => $this->guard()->user()->id, 
+                'user_id' => $this->guard()->user()->id, 
+                'message' => 'Menghilangkan permission('.$name.') role ('.$role->name.') berhasil'
+            ]);
+
+            return $role;
+        });
+       
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',

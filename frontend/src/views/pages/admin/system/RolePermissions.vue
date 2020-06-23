@@ -80,15 +80,23 @@
                             show-select
                             class="elevation-1"
                         >
-                            <template v-slot:item.actions="{ item }">                            
-                                <v-icon
-                                    small
-                                    :loading="btnLoading"
-                                    :disabled="btnLoading"
-                                    @click.stop="revoke(item)"
-                                >
-                                    mdi-delete
-                                </v-icon>
+                            <template v-slot:item.actions="{ item }">      
+                                <v-tooltip color="info" bottom>
+                                    <template v-slot:activator="{on,attrs}">
+                                        <v-btn 
+                                            icon                                        
+                                            :loading="btnLoading"
+                                            :disabled="btnLoading"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click.stop="revoke(item)">
+                                            <v-icon small>
+                                                mdi-delete
+                                            </v-icon>
+                                        </v-btn>                                                                          
+                                    </template>
+                                    <span>Hapus Permission dari Role ini</span>  
+                                </v-tooltip>
                             </template>
                         </v-data-table>
                     </v-col>

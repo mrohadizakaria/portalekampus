@@ -62,6 +62,7 @@
                         <template v-slot:top>
                             <v-toolbar flat color="white">                                
                                 <v-spacer></v-spacer>
+                                <v-btn color="warning" dark class="mb-2 mr-2" @click.stop="syncPermission" v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')">SYNC PERMISSION</v-btn>
                                 <v-btn color="primary" dark class="mb-2" @click.stop="addItem">TAMBAH</v-btn>
                                 <v-dialog v-model="dialogfrm" max-width="500px" persistent>                                    
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -416,6 +417,27 @@ export default {
             }).catch(()=>{
                 this.btnLoading=false;
             });
+        },
+        syncPermission:async function ()
+        {
+            this.btnLoading=true;
+            await this.$ajax.post('/system/users/syncallpermissions',
+                {
+                    role_name:'mahasiswabaru',
+                    TA:this.tahun_pendaftaran,                    
+                    prodi_id:this.prodi_id                     
+                },
+                {
+                    headers:{
+                        Authorization:this.$store.getters['auth/Token']
+                    }
+                }
+            ).then(({data})=>{   
+                console.log(data);
+                this.btnLoading=false;
+            }).catch(()=>{
+                this.btnLoading=false;
+            });     
         },
         addItem ()
         {

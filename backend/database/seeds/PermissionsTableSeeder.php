@@ -23,6 +23,21 @@ class PermissionsTableSeeder extends Seeder
             'updated_at'=>Carbon::now()
         ]);
         
+
+        \DB::table('permissions')->insert([
+            'name'=>"SPMB-PMB-LAPORAN-FAKULTAS_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('permissions')->insert([
+            'name'=>"SPMB-PMB-LAPORAN-PRODI_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
         \DB::table('permissions')->insert([
             'name'=>"KEMAHASISWAAN-STATUS_BROWSE",
             'guard_name'=>'api',
@@ -61,7 +76,7 @@ class PermissionsTableSeeder extends Seeder
             'SPMB-PMB-JADWAL-UJIAN',     
             'SPMB-PMB-PASSING-GRADE',     
             'SPMB-PMB-UJIAN-ONLINE',     
-            'SPMB-PMB-NILAI-UJIAN',     
+            'SPMB-PMB-NILAI-UJIAN',                 
             'SYSTEM-SETTING-PERMISSIONS',
             'SYSTEM-SETTING-ROLES',
             'SYSTEM-SETTING-IDENTITAS-DIRI',
@@ -91,8 +106,8 @@ class PermissionsTableSeeder extends Seeder
                 ['name'=>"{$v}_DESTROY",'guard_name'=>'api','created_at'=>Carbon::now(),'updated_at'=>Carbon::now()]                
             );            
             \DB::table('permissions')->insert($records);
-        }        
-
+        }               
+        
         \DB::table('permissions')->insert([
             'name'=>"SYSTEM-SETTING-GROUP",
             'guard_name'=>'api',

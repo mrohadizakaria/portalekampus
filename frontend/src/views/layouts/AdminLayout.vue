@@ -19,14 +19,14 @@
                 v-if="CAN_ACCESS('SYSTEM-SETTING-GROUP')">
                 <template v-slot:activator="{on}">
                     <v-btn v-on="on" icon>
-                        <v-icon>mdi-cog-outline</v-icon>
+                        <v-icon>mdi-cogs</v-icon>
                     </v-btn>
                 </template>
                 <v-list dense>
                     <v-list-item>
-                        <v-list-item-avatar>
-                            <v-icon>mdi-cog-outline</v-icon>
-                        </v-list-item-avatar>
+                        <v-list-item-icon class="mr-2">
+                            <v-icon>mdi-cogs</v-icon>
+                        </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title class="title">
                                 KONFIGURASI SISTEM
@@ -38,7 +38,7 @@
                     </v-list-item>
                     <v-divider/>
                     <v-list-item class="teal lighten-5">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>								
@@ -46,7 +46,7 @@
                         </v-list-item-content>		
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-IDENTITAS-DIRI')" to="/system-setting/identitasdiri">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
                             <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
@@ -56,7 +56,7 @@
                         </v-list-item-content>
                     </v-list-item>                    
                     <v-list-item class="teal lighten-5">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>								
@@ -64,7 +64,7 @@
                         </v-list-item-content>		
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-PERMISSIONS')" to="/system-setting/permissions">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
                             <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
@@ -74,7 +74,7 @@
                         </v-list-item-content>
                     </v-list-item>                    
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')" to="/system-setting/roles">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
                             <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
@@ -84,7 +84,7 @@
                         </v-list-item-content>
                     </v-list-item>          
                     <v-list-item class="teal lighten-5">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
                             <v-icon>mdi-server-network</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>								
@@ -92,7 +92,7 @@
                         </v-list-item-content>		
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-VARIABLES')" to="/system-setting/captcha">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
                             <v-icon>mdi-chevron-right</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
@@ -136,14 +136,14 @@
                     </v-list-item>                    
                     <v-divider/>
                     <v-list-item to="/system-users/profil">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
 							<v-icon>mdi-account</v-icon>
 						</v-list-item-icon>
                         <v-list-item-title>Profil</v-list-item-title>
                     </v-list-item>
                     <v-divider/>
                     <v-list-item @click.prevent="logout">
-                        <v-list-item-icon>
+                        <v-list-item-icon class="mr-2">
 							<v-icon>mdi-power</v-icon>
 						</v-list-item-icon>
                         <v-list-item-title>Logout</v-list-item-title>
@@ -156,7 +156,7 @@
                 vertical
             ></v-divider>
 			<v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
-                <v-icon>mdi-filter</v-icon>
+                <v-icon>mdi-menu-open</v-icon>
 			</v-app-bar-nav-icon>            
         </v-app-bar>    
         <v-navigation-drawer v-model="drawer" width="300" dark class="brown darken-4" :temporary="isReportPage" app>
@@ -287,7 +287,7 @@
                             </v-list-item-content>
                         </v-list-item>              
                         <v-divider></v-divider>
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE') && isBentukPT('universitas')" to="/spmb/laporanfakultas">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-LAPORAN-FAKULTAS_BROWSE') && isBentukPT('universitas')" to="/spmb/laporanfakultas">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
@@ -297,7 +297,7 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/laporanprodi">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-LAPORAN-PRODI_BROWSE')" to="/spmb/laporanprodi">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
@@ -356,16 +356,24 @@
         <v-navigation-drawer v-model="drawerRight" width="300" app fixed right temporary>
             <v-list dense>
                 <v-list-item>		
-                    <v-list-item-icon>
-                        <v-icon>mdi-bookmark</v-icon>
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-menu-open</v-icon>
                     </v-list-item-icon>			
                     <v-list-item-content>									
                         <v-list-item-title class="title">
-                            FILTER
+                            OPTIONS
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-divider></v-divider>
+                <v-list-item class="teal lighten-5 mb-5">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-filter</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>								
+                        <v-list-item-title>FILTER</v-list-item-title>
+                    </v-list-item-content>		
+                </v-list-item>
                 <slot name="filtersidebar"/>		                	
             </v-list>
 		</v-navigation-drawer>

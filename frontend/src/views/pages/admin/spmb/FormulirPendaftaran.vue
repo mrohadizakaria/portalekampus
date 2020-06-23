@@ -224,9 +224,10 @@ export default {
                         this.datatable = data.pmb;                
                         this.datatableLoading=false;
                     });         
+                    this.firstloading=false;
+                    this.$refs.filter7.setFirstTimeLoading(this.firstloading); 
             }
-            this.firstloading=false;
-            this.$refs.filter7.setFirstTimeLoading(this.firstloading); 
+            
         },
         dataTableRowClicked(item)
         {

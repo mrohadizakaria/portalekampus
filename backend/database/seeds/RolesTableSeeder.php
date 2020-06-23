@@ -106,11 +106,16 @@ class RolesTableSeeder extends Seeder
         $role = Role::findByName('mahasiswabaru');
         $records=[
             'DASHBOARD_SHOW',
-            'SPMB-GROUP',
+            'SPMB-GROUP',            
             'SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE',
             'SPMB-PMB-FORMULIR-PENDAFTARAN_SHOW',
             'SPMB-PMB-FORMULIR-PENDAFTARAN_STORE',
-            'SPMB-PMB-FORMULIR-PENDAFTARAN_UPDATE',            
+            'SPMB-PMB-FORMULIR-PENDAFTARAN_UPDATE',    
+            'SPMB-PMB-KONFIRMASI-PEMBAYARAN_SHOW',           
+            'SPMB-PMB-KONFIRMASI-PEMBAYARAN_STORE',  
+            'SPMB-PMB-UJIAN-ONLINE_SHOW',              
+            'SPMB-PMB-UJIAN-ONLINE_STORE',              
+            'SPMB-PMB-UJIAN-ONLINE_UPDATE',                      
         ];
         $role->syncPermissions($records);
     }

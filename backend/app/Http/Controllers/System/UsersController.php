@@ -71,6 +71,58 @@ class UsersController extends Controller {
                                     'message'=>'Data user berhasil disimpan.'
                                 ],200); 
 
+    }
+    /**
+     * Store user permissions resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function syncallpermissions(Request $request)
+    {      
+        $this->hasPermissionTo('USER_STOREPERMISSIONS');
+        $this->validate($request, [            
+            'role_name'=>'required|exists:roles,name',            
+        ]);
+        $role_name=$request->input('role_name');
+        switch($role_name)
+        {
+            case 'mahasiswabaru':
+                $this->validate($request, [           
+                    'TA'=>'required',
+                    'prodi_id'=>'required'
+                ]);
+                $permission=Role::findByName('mahasiswabaru')->permissions;
+                $permissions=$permission->pluck('name');
+
+                $ta=$request->input('TA');
+                $prodi_id=$request->input('prodi_id');
+                $data = User::role('mahasiswabaru')
+                        ->select(\DB::raw('users.id'))
+                        ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
+                        ->where('users.ta',$ta)
+                        ->where('kjur1',$prodi_id)
+                        ->get();
+
+                foreach ($data as $user)
+                {
+                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+                    $user->givePermissionTo($permissions);                 
+                }                
+            break;
+        }
+        \App\Models\System\ActivityLog::log($request,[
+                                                        'object' => $this->guard()->user(), 
+                                                        'object_id' => $this->guard()->user()->id, 
+                                                        'user_id' => $this->guard()->user()->id, 
+                                                        'message' => 'Mensetting permission user ('.$user->username.') berhasil'
+                                                    ]);
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',    
+                                    'permissions'=>$permissions,                                                                
+                                    'message'=>'Permission seluruh user berhasil disinkronisasi.'
+                                ],200); 
     }    
     /**
      * Store user permissions resource in storage.

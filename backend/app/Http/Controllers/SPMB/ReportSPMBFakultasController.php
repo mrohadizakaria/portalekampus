@@ -24,7 +24,7 @@ class ReportSPMBFakultasController extends Controller {
      */
     public function index(Request $request)
     {   
-        $this->hasPermissionTo('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE');
+        $this->hasPermissionTo('SPMB-PMB-LAPORAN-FAKULTAS_BROWSE');
 
         $this->validate($request, [           
             'TA'=>'required',
@@ -57,7 +57,7 @@ class ReportSPMBFakultasController extends Controller {
      */
     public function printtoexcel(Request $request)
     {   
-        $this->hasPermissionTo('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE');
+        $this->hasPermissionTo('SPMB-PMB-LAPORAN-FAKULTAS_BROWSE');
 
         $this->validate($request, [           
             'TA'=>'required',
