@@ -17,7 +17,7 @@ class PMBPersyaratanController extends Controller {
      */
     public function index(Request $request)
     {
-       $this->hasPermissionTo('SPMB-PMB_BROWSE');
+       $this->hasPermissionTo('SPMB-PMB-PERSYARATAN_BROWSE');
 
         $this->validate($request, [           
             'TA'=>'required',
@@ -61,7 +61,8 @@ class PMBPersyaratanController extends Controller {
      */
     public function show(Request $request,$id)
     {
-        
+        $this->hasPermissionTo('SPMB-PMB-PERSYARATAN_SHOW');
+
         $user = User::find($id);
         if (is_null($user))
         {
@@ -103,6 +104,8 @@ class PMBPersyaratanController extends Controller {
     }
     public function upload (Request $request,$id)
     {
+        $this->hasPermissionTo('SPMB-PMB-PERSYARATAN_STORE');
+
         $user = User::find($id); 
         
         if ($user == null)
@@ -181,6 +184,8 @@ class PMBPersyaratanController extends Controller {
     }
     public function hapusfilepersyaratan(Request $request,$id)
     {
+        $this->hasPermissionTo('SPMB-PMB-PERSYARATAN_DESTROY');
+
         $persyaratan = PMBPersyaratanModel::find($id); 
         
         if ($persyaratan == null)
@@ -215,7 +220,7 @@ class PMBPersyaratanController extends Controller {
     }
     public function verifikasipersyaratan(Request $request,$id)
     {
-        $this->hasPermissionTo('SPMB-PMB-FORMULIR-PENDAFTARAN_UPDATE');
+        $this->hasPermissionTo('SPMB-PMB-PERSYARATAN_UPDATE');
 
         $persyaratan = PMBPersyaratanModel::find($id); 
         

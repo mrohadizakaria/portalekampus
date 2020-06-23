@@ -266,7 +266,7 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>                    
-                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE')" to="/spmb/persyaratan">
+                        <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-PERSYARATAN_BROWSE')" to="/spmb/persyaratan">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-chevron-right</v-icon>
                             </v-list-item-icon>
