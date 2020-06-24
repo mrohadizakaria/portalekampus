@@ -59,6 +59,7 @@ class CreateSoalPmbTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('pe3_jawaban_soal');
         Schema::dropIfExists('pe3_soal');
     }
 }
