@@ -19,6 +19,7 @@ class PersyaratanTableSeeder extends Seeder
             'proses'=>'pmb',
             'nama_persyaratan'=>'Scan Pas Foto',
             'prodi_id'=>NULL,
+            'ta'=>date('Y'),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);               
@@ -27,6 +28,7 @@ class PersyaratanTableSeeder extends Seeder
             'proses'=>'pmb',
             'nama_persyaratan'=>'Scan Ijazah Terakhir',
             'prodi_id'=>NULL,
+            'ta'=>date('Y'),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);               
@@ -35,6 +37,7 @@ class PersyaratanTableSeeder extends Seeder
             'proses'=>'pmb',
             'nama_persyaratan'=>'Scan KTP',
             'prodi_id'=>NULL,
+            'ta'=>date('Y'),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);               
@@ -43,6 +46,7 @@ class PersyaratanTableSeeder extends Seeder
             'proses'=>'pmb',
             'nama_persyaratan'=>'Scan Kartu Keluarga',
             'prodi_id'=>NULL,
+            'ta'=>date('Y'),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);               
