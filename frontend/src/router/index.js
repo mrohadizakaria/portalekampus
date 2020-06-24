@@ -122,6 +122,15 @@ const routes = [
 		component: () => import('../views/pages/admin/spmb/PersyaratanPMB.vue'),		
 	},
 	{
+		path: '/spmb/ujianonline',
+		name: 'SPMBUjianOnline',
+		meta:{
+			title: "SPMB - UJIAN ONLINE",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/UjianOnline.vue'),		
+	},
+	{
 		path: '/spmb/laporanfakultas',
 		name: 'SPMBReportFakultas',
 		meta:{

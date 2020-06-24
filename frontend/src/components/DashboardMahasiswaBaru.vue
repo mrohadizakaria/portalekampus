@@ -64,17 +64,17 @@
                         </v-card-text>                    
                     </v-card>
                 </v-timeline-item>           -->      
-                <v-timeline-item color="indigo" icon="mdi-buffer" fill-dot>
+                <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot>
                     <v-card color="indigo" dark>
                         <v-card-title class="title">Ujian Online</v-card-title>
                         <v-card-text class="white text--primary">
-                            <p>Ujian Online</p>
+                            <p>Ujian Online dilaksanakan selama 60 Menit dimulai saat menekan tombol Mulai</p>
                             <v-btn
                                 color="indigo"
                                 class="mx-0"
-                                outlined
-                            >
-                                Button
+                                @click.stop="mulaiUjian"
+                                outlined>
+                                Mulai
                             </v-btn>
                         </v-card-text>                    
                     </v-card>
@@ -111,7 +111,11 @@ export default {
     methods: {
         initialize:async function ()
         {
-
+            
+        },
+        mulaiUjian()
+        {
+            this.$router.push('/spmb/ujianonline');
         }
     }
 }

@@ -47,4 +47,9 @@ class SoalPMBModel extends Model {
     {
         return $this->hasMany('App\Models\SPMB\JawabanSoalPMBModel','soal_id','id');
     }
+
+    public function jawabanUjian()
+    {
+        return $this->hasMany('App\Models\SPMB\JawabanSoalPMBModel','soal_id','id')->select(\DB::raw('id,jawaban'));
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout pagename="spmbsoalpmb">
+    <AdminLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-head-question-outline

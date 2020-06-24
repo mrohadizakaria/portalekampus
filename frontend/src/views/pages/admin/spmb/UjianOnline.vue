@@ -1,0 +1,65 @@
+<template>
+    <div>
+        <v-system-bar app dark class="brown darken-2 white--text">
+            
+		</v-system-bar>	
+        <v-content>
+            <v-container fluid>
+                <v-row>
+                    <v-col cols="12">
+                        <v-card 
+                            class="grey lighten-5"                            
+                            outlined>
+                            <v-card-text>
+                                <v-row
+                                    justify="center"
+                                    alignment="center">
+                                    {{nama_soal}}
+                                </v-row>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col xs="12" sm="6" md="3" v-for="(item,index) in daftar_jawaban" v-bind:key="item.id">                                    
+                        <JawabanSoal :index="index" :item="item" />
+                    </v-col> 
+                    <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>   
+                </v-row>
+            </v-container>
+        </v-content>
+    </div>
+</template>
+<script>
+import JawabanSoal from '@/components/JawabanSoal';
+export default {
+    name:'UjianOnline',
+    created () {           
+        this.initialize()
+    },  
+    data: () => ({
+        nama_soal:'',
+        daftar_jawaban:[]
+    }),
+    methods: {
+        initialize:async function () 
+        {
+            await this.$ajax.get('/spmb/ujianonline',           
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{       
+                this.nama_soal = data.soal.soal;                 
+                this.daftar_jawaban = data.jawaban;
+            }).catch(()=>{
+                
+            }); 
+        },
+       
+    },    
+    components:{
+        JawabanSoal,        
+    },
+}
+</script>
