@@ -4,13 +4,13 @@ namespace App\Models\SPMB;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SoalPMBModel extends Model {    
+class JawabanUjianPMBModel extends Model {    
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'pe3_soal';
+    protected $table = 'pe3_jawaban_ujian';
     /**
      * primary key tabel ini.
      *
@@ -24,11 +24,9 @@ class SoalPMBModel extends Model {
      */
     protected $fillable = [        
         'id',                      
-        'soal',    
-        'gambar', 
-        'prodi_id',         
-        'ta',         
-        'semester',         
+        'soal_id',    
+        'jawaban_id', 
+        'user_id',                               
     ];
     /**
      * enable auto_increment.
@@ -42,14 +40,4 @@ class SoalPMBModel extends Model {
      * @var string
      */
     public $timestamps = true;
-
-    public function jawaban()
-    {
-        return $this->hasMany('App\Models\SPMB\JawabanSoalPMBModel','soal_id','id');
-    }
-
-    public function jawabanUjian()
-    {
-        return $this->hasMany('App\Models\SPMB\JawabanSoalPMBModel','soal_id','id')->select(\DB::raw('id,soal_id,jawaban'));
-    }
 }

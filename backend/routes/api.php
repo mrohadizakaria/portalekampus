@@ -90,7 +90,8 @@ $router->group(['prefix'=>'v3','middleware'=>'auth:api'], function () use ($rout
     $router->put('/spmb/formulirpendaftaran/{id}',['middleware'=>['role:superadmin|pmb|mahasiswabaru'],'uses'=>'SPMB\PMBController@update','as'=>'formulirpendaftaran.update']);    
     
     //spmb - ujianonline
-    $router->get('/spmb/ujianonline',['middleware'=>['role:mahasiswabaru'],'uses'=>'SPMB\PMBUjianOnlineController@index','as'=>'spmbujianonline.index']);    
+    $router->get('/spmb/ujianonline/{id}',['middleware'=>['role:mahasiswabaru'],'uses'=>'SPMB\PMBUjianOnlineController@index','as'=>'spmbujianonline.index']);    
+    $router->post('/spmb/ujianonline/store',['middleware'=>['role:mahasiswabaru'],'uses'=>'SPMB\PMBUjianOnlineController@store','as'=>'spmbujianonline.store']);
 
     //spmb - report fakultas
     $router->post('/spmb/reportspmbfakultas',['middleware'=>['role:superadmin|pmb'],'uses'=>'SPMB\ReportSPMBFakultasController@index','as'=>'reportspmbfakultas.index']);    
