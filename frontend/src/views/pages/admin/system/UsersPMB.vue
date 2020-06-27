@@ -66,9 +66,15 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-btn color="warning" dark class="mb-2 mr-2" @click.stop="syncPermission" v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')">SYNC PERMISSION</v-btn>
-                                <v-btn color="primary"
-                                    dark 
+                                <v-btn color="warning"
+                                    :loading="btnLoading"
+                                    :disabled="btnLoading"
+                                    class="mb-2 mr-2" 
+                                    @click.stop="syncPermission" 
+                                    v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')">
+                                    SYNC PERMISSION
+                                </v-btn>
+                                <v-btn color="primary"                                    
                                     class="mb-2" 
                                     :loading="btnLoading"
                                     :disabled="btnLoading"

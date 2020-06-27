@@ -3,7 +3,7 @@
         <v-system-bar app dark class="brown darken-2 white--text">
             
 		</v-system-bar>	
-        <v-content>
+        <v-main>
             <v-container fluid>
                 <v-row>
                     <v-col cols="12">
@@ -27,7 +27,7 @@
                     <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>   
                 </v-row>
             </v-container>
-        </v-content>
+        </v-main>
     </div>
 </template>
 <script>

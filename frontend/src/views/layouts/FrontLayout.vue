@@ -15,9 +15,9 @@
                 Login
             </v-btn>
         </v-app-bar>
-        <v-content>
+        <v-main>
             <slot/>
-        </v-content>        
+        </v-main>        
     </div>
 </template>
 <script>

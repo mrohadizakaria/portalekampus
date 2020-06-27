@@ -377,9 +377,9 @@
                 <slot name="filtersidebar"/>		                	
             </v-list>
 		</v-navigation-drawer>
-        <v-content class="mx-4 mb-4">			
+        <v-main class="mx-4 mb-4">			
 			<slot />
-		</v-content>
+		</v-main>
     </div>    
 </template>
 <script>
