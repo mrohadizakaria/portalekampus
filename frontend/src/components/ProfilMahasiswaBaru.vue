@@ -88,7 +88,7 @@
                                             <v-card flat>
                                                 <v-card-title>TEMPAT DAN TGL. LAHIR :</v-card-title>
                                                 <v-card-subtitle>
-                                                    {{datamhs.tempat_lahir}}, {{datamhs.tanggal_lahir|formatTanggal('DD/MM/YYYY')}}
+                                                    {{datamhs.tempat_lahir}}, {{$date(datamhs.tanggal_lahir).format('DD/MM/YYYY')}}
                                                 </v-card-subtitle>
                                             </v-card>
                                         </v-col>
@@ -97,7 +97,7 @@
                                             <v-card flat>
                                                 <v-card-title>TAHUN PENDAFTARAN :</v-card-title>
                                                 <v-card-subtitle>
-                                                    {{datamhs.ta}}, ({{item.created_at|formatTanggal}})
+                                                    {{datamhs.ta}}, ({{$date(item.created_at).format('DD/MM/YYYY HH:mm')}})
                                                 </v-card-subtitle>
                                             </v-card>
                                         </v-col>
@@ -118,7 +118,7 @@
                                             <v-card flat>
                                                 <v-card-title>TGL. UBAH :</v-card-title>
                                                 <v-card-subtitle>
-                                                    {{item.created_at|formatTanggal}}
+                                                    {{$date(item.created_at).format('DD/MM/YYYY HH:mm')}}
                                                 </v-card-subtitle>
                                             </v-card>
                                         </v-col>
@@ -180,13 +180,14 @@ export default {
     },
     data()
     {
-        let tanggal_sekarang=this.getCurrentDate();
+        let tanggal_lahir=this.$date().format('YYYY-MM-DD');
+        let tanggal_sekarang=this.$date().format('YYYY-MM-DD HH:mm:ss');
         return {           
             slides:[],
             dialogpreviewpersyaratan:false,         
 
             datamhs:{                    
-                tanggal_lahir:tanggal_sekarang,
+                tanggal_lahir:tanggal_lahir,
                 created_at:tanggal_sekarang,
                 updated_at:tanggal_sekarang
             },        

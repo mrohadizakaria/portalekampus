@@ -118,8 +118,8 @@
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <strong>ID:</strong>{{ item.id }}
-                                <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
-                                <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
+                                <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
+                                <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }}
                             </td>
                         </template>
                         <template v-slot:no-data>

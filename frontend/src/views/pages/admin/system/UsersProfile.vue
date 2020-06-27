@@ -43,13 +43,13 @@
                                             <td width="150">USERNAME</td>
                                             <td>{{$store.getters['auth/AttributeUser']('username')}}</td>
                                             <td width="150">CREATED</td>
-                                            <td>{{$store.getters['auth/AttributeUser']('created_at')|formatTanggal}}</td>
+                                            <td>{{$date($store.getters['auth/AttributeUser']('created_at')).format('DD/MM/YYYY HH:mm')}}</td>
                                         </tr>
                                          <tr>
                                             <td width="150">NAMA</td>
                                             <td>{{$store.getters['auth/AttributeUser']('name')}}</td>
                                             <td width="150">UPDATED</td>
-                                            <td>{{$store.getters['auth/AttributeUser']('updated_at')|formatTanggal}}</td>
+                                            <td>{{$date($store.getters['auth/AttributeUser']('updated_at')).format('DD/MM/YYYY HH:mm')}}</td>
                                         </tr>
                                     </tbody>
                                 </template>

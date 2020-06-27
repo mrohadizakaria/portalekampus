@@ -62,8 +62,8 @@
                                     <v-col xs="12" sm="6" md="6">
                                        <v-card flat>
                                             <v-card-title>CREATED :</v-card-title>
-                                            <v-card-text>
-                                                {{user.created_at|formatTanggal}}
+                                            <v-card-text>                                                
+                                                {{$date(user.created_at).format('DD/MM/YYYY HH:mm')}}
                                             </v-card-text>
                                         </v-card>
                                    </v-col>
@@ -82,8 +82,8 @@
                                    <v-col xs="12" sm="6" md="6">
                                        <v-card flat>
                                             <v-card-title>UPDATED :</v-card-title>
-                                            <v-card-text>
-                                                {{user.updated_at|formatTanggal}}
+                                            <v-card-text>                                                
+                                                {{$date(user.updated_at).format('DD/MM/YYYY HH:mm')}}
                                             </v-card-text>
                                         </v-card>
                                    </v-col>

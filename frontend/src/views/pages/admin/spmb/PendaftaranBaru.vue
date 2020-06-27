@@ -155,7 +155,7 @@
                                                     <v-card flat>
                                                         <v-card-title>CREATED :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.created_at|formatTanggal}}
+                                                            {{$date(formdata.created_at).format('DD/MM/YYYY HH:mm')}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
@@ -175,7 +175,7 @@
                                                     <v-card flat>
                                                         <v-card-title>UPDATED :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.updated_at|formatTanggal}}
+                                                            {{$date(formdata.updated_at).format('DD/MM/YYYY HH:mm')}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
@@ -230,14 +230,14 @@
                             </v-badge>
                         </template>
                         <template v-slot:item.created_at="{ item }">                            
-                            {{item.created_at|formatTanggal}}
+                            {{$date(item.created_at).format('DD/MM/YYYY HH:mm')}}
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
                             <td colspan="5">
                                     <strong>ID:</strong>{{ item.id }}
                                     <strong>Username:</strong>{{ item.username }}
-                                    <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
-                                    <strong>updated_at:</strong>{{ item.created_at|formatTanggal }}
+                                    <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
+                                    <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }}
                             </td>
                             <td colspan="2" class="text-right">
                                 <v-btn 

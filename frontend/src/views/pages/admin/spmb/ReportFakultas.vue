@@ -96,8 +96,8 @@
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12">
                                     <strong>ID:</strong>{{ item.id }}
-                                    <strong>created_at:</strong>{{ item.created_at|formatTanggal }}
-                                    <strong>updated_at:</strong>{{ item.updated_at|formatTanggal }}
+                                    <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
+                                    <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }}
                                 </v-col>                                
                             </td>
                         </template>
@@ -142,8 +142,7 @@ export default {
         let fakultas_id=this.$store.getters['uiadmin/getFakultasID'];
         this.fakultas_id=fakultas_id;
         this.nama_fakultas=this.$store.getters['uiadmin/getFakultasName'](fakultas_id);
-        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
-        this.getCurrentDate();
+        this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];                
         this.initialize()   
     },  
     data: () => ({

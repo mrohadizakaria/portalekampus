@@ -3,19 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
-import moment from 'moment';
-import api from './plugins/api';
 
+import api from './plugins/api';
 Vue.use(api);
+
+import '@/plugins/Dayjs';
 
 Vue.config.productionTip = false
 
 //filter output
-Vue.filter('formatTanggal', function(value,format='DD/MM/YYYY hh:mm') 
-{
-	var tanggal = moment(String(value)).format(format);    
-    return tanggal;
-});
 Vue.filter('formatTA', function(value) 
 {
 	value = parseInt(value);
@@ -32,10 +28,7 @@ Vue.filter('formatUang', function(value)
 //mixin
 Vue.mixin({
 	methods:{
-		getCurrentDate ()
-		{
-			return moment().format('YYYY-MM-DD HH:mm:ss');
-		}
+		
 	}
 })
 new Vue({
