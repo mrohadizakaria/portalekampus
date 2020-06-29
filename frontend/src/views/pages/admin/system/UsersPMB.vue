@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <SystemUserLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-account
@@ -261,11 +261,11 @@
                 </v-col>
             </v-row>
         </v-container>
-    </AdminLayout>
+    </SystemUserLayout>
 </template>
 <script>
 import {mapGetters} from 'vuex';
-import AdminLayout from '@/views/layouts/AdminLayout';
+import SystemUserLayout from '@/views/layouts/SystemUserLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import UserPermissions from '@/views/pages/admin/system/UserPermissions';
 export default {
@@ -278,9 +278,9 @@ export default {
                 href:'/dashboard/'+this.ACCESS_TOKEN
             },
             {
-                text:'SYSTEM',
+                text:'USER SISTEM',
                 disabled:false,
-                href:'#'
+                href:'system-users'
             },
             {
                 text:'USERS PMB',
@@ -584,7 +584,7 @@ export default {
         },        
     },    
     components:{
-        AdminLayout,
+        SystemUserLayout,
         ModuleHeader,
         UserPermissions
     },

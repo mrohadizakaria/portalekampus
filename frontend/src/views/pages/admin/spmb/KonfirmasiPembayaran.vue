@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <SPMBLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-account-cash
@@ -65,11 +65,11 @@
                 </v-col>
             </v-row>
         </v-container>
-    </AdminLayout>
+    </SPMBLayout>
 </template>
 <script>
 import {mapGetters} from 'vuex';
-import AdminLayout from '@/views/layouts/AdminLayout';
+import SPMBLayout from '@/views/layouts/SPMBLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
     name: 'KonfirmasiPembayaran', 
@@ -83,7 +83,7 @@ export default {
             {
                 text:'SPMB',
                 disabled:false,
-                href:'#'
+                href:'/spmb'
             },
             {
                 text:'KONFIRMASI PEMBAYARAN',
@@ -126,7 +126,7 @@ export default {
         }
     },
     components:{
-        AdminLayout,
+        SPMBLayout,
         ModuleHeader,        
     },
 }

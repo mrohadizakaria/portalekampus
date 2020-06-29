@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <SPMBLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-head-question-outline
@@ -300,10 +300,10 @@
         <template v-slot:filtersidebar>
             <Filter19 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeSemesterPendaftaran="changeSemesterPendaftaran" ref="filter19" />	
         </template>
-    </AdminLayout>
+    </SPMBLayout>
 </template>
 <script>
-import AdminLayout from '@/views/layouts/AdminLayout';
+import SPMBLayout from '@/views/layouts/SPMBLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import Filter19 from '@/components/sidebar/FilterMode19';
 export default {
@@ -318,7 +318,7 @@ export default {
             {
                 text:'SPMB',
                 disabled:false,
-                href:'#'
+                href:'/spmb'
             },
             {
                 text:'SOAL PMB',
@@ -661,7 +661,7 @@ export default {
         }
     },
     components:{
-        AdminLayout,
+        SPMBLayout,
         ModuleHeader,        
         Filter19,        
     },

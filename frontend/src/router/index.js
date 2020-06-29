@@ -39,6 +39,15 @@ const routes = [
 	},
 	//dmaster	
 	{
+		path: '/dmaster',
+		name: 'DMaster',
+		meta:{
+			title: "DATA MASTER",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/dmaster/DMaster.vue'),		
+	},
+	{
 		path: '/dmaster/fakultas',
 		name: 'DMasterFakultas',
 		meta:{
@@ -76,6 +85,15 @@ const routes = [
 		component: () => import('../views/pages/admin/dmaster/Kelas.vue'),		
 	},
 	//spmb	
+	{
+		path: '/spmb',
+		name: 'SPMB',
+		meta:{
+			title: "SPMB",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/SPMB.vue'),		
+	},
 	{
 		path: '/spmb/soalpmb',
 		name: 'SPMBSoal',
@@ -150,13 +168,13 @@ const routes = [
 	},
 	//system
 	{
-		path: '/system-setting/identitasdiri',
-		name: 'SettingIdentitasDiri',
+		path: '/system-users',
+		name: 'SystemUsers',
 		meta:{
-			title: "SETTING - IDENTITAS DIRI",
+			title: "SYSTEM - USERS",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/IdentitasDiri.vue'),		
+		component: () => import('../views/pages/admin/system/SystemUsers.vue'),		
 	},
 	{
 		path: '/system-setting/permissions',

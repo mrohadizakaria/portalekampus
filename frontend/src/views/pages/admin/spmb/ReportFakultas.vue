@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <SPMBLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-file-document-edit-outline
@@ -111,10 +111,10 @@
         <template v-slot:filtersidebar>
             <Filter20 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeFakultas="changeFakultas" ref="filter20" />	
         </template>
-    </AdminLayout>
+    </SPMBLayout>
 </template>
 <script>
-import AdminLayout from '@/views/layouts/AdminLayout';
+import SPMBLayout from '@/views/layouts/SPMBLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import Filter20 from '@/components/sidebar/FilterMode20';
 export default {
@@ -131,7 +131,7 @@ export default {
             {
                 text:'SPMB',
                 disabled:false,
-                href:'#'
+                href:'/spmb'
             },
             {
                 text:'LAPORAN PMB FAKULTAS',
@@ -271,7 +271,7 @@ export default {
         }
     },
     components:{
-        AdminLayout,
+        SPMBLayout,
         ModuleHeader,                
         Filter20    
     },

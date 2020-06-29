@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout :ismhsbaru="$store.getters['uifront/getBentukPT']">
+    <SPMBLayout :ismhsbaru="$store.getters['uifront/getBentukPT']">
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-file-document-edit-outline
@@ -125,10 +125,10 @@
         <template v-slot:filtersidebar v-if="dashboard!='mahasiswabaru'">
             <Filter7 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeProdi="changeProdi" ref="filter7" />	
         </template>
-    </AdminLayout>
+    </SPMBLayout>
 </template>
 <script>
-import AdminLayout from '@/views/layouts/AdminLayout';
+import SPMBLayout from '@/views/layouts/SPMBLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import FormPersyaratan from '@/components/FormPersyaratanPMB';
 import ProfilMahasiswaBaru from '@/components/ProfilMahasiswaBaru';
@@ -146,7 +146,7 @@ export default {
             {
                 text:'SPMB',
                 disabled:false,
-                href:'#'
+                href:'/spmb'
             },
             {
                 text:'FORMULIR PENDAFTARAN',
@@ -280,7 +280,7 @@ export default {
         }
     },
     components:{
-        AdminLayout,
+        SPMBLayout,
         ModuleHeader,        
         FormPersyaratan,
         ProfilMahasiswaBaru,

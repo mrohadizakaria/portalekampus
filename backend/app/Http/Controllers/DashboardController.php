@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Models\DMaster\ProgramStudiModel;
 
 class DashboardController extends Controller 
 {  
@@ -27,14 +27,25 @@ class DashboardController extends Controller
                         ->select(\DB::raw('kjur1,COUNT(user_id) AS jumlah'))
                         ->groupBy('kjur1')
                         ->where('ta',$ta);
-                        
-        $daftar_prodi=\DB::table('usersprodi')
+        
+        if ($this->hasRole('superadmin'))
+        {
+            $daftar_prodi=ProgramStudiModel::select(\DB::raw('id AS prodi_id,nama_prodi,nama_prodi_alias,nama_jenjang,COALESCE(jumlah,0) AS jumlah'))
+                                        ->leftJoinSub($subquery,'pe3_formulir_pendaftaran',function($join){
+                                            $join->on('pe3_formulir_pendaftaran.kjur1','=','pe3_prodi.id');
+                                        })
+                                        ->get();
+        }
+        else if ($this->hasRole('pmb'))
+        {
+            $daftar_prodi=\DB::table('usersprodi')
                         ->select(\DB::raw('prodi_id,nama_prodi,nama_prodi_alias,nama_jenjang,COALESCE(jumlah,0) AS jumlah'))
                         ->leftJoinSub($subquery,'pe3_formulir_pendaftaran',function($join){
                             $join->on('pe3_formulir_pendaftaran.kjur1','=','usersprodi.prodi_id');
                         })
                         ->where('user_id',$this->getUserid())
                         ->get();
+        }
 
         return Response()->json([
                                 'status'=>1,

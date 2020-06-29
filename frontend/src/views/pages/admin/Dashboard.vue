@@ -1,43 +1,62 @@
 <template>
-    <AdminLayout>
-		<ModuleHeader>
-            <template v-slot:icon>
-                mdi-monitor-dashboard
-            </template>
-            <template v-slot:name>
-                DASHBOARD
-            </template>
-            <template v-slot:breadcrumbs>
-                <v-breadcrumbs :items="breadcrumbs" class="pa-0">
-                    <template v-slot:divider>
-                        <v-icon>mdi-chevron-right</v-icon>
-                    </template>
-                </v-breadcrumbs>
-            </template>
-            <template v-slot:desc>
-                <v-alert                                        
-                    color="cyan"
-                    border="left"                    
-                    colored-border
-                    type="info"
-                    >
-                    dashboard untuk memperoleh ringkasan informasi.
-                    </v-alert>
-            </template>
-        </ModuleHeader>   	
+    <AdminLayout>		
         <v-container v-if="dashboard=='mahasiswabaru'">
             <DashboardMB />
-        </v-container>
-        <v-container v-else-if="dashboard=='pmb'">
-            <DashboardPMB :tahun_pendaftaran="tahun_pendaftaran" v-if="tahun_pendaftaran > 0" />
+        </v-container>        
+        <v-container v-else>
+            <v-row>
+                <v-col xs="12" sm="6" md="4" v-if="$store.getters['auth/can']('DMASTER-GROUP')">
+                    <v-card 
+                        class="clickable"
+                        color="#385F73" 
+                        @click.native="$router.push('/dmaster')"
+                        dark>
+                        <v-card-title class="headline">
+                            DATA MASTER
+                        </v-card-title>                        
+                        <v-card-text>
+                            Pengaturan berbagai parameter sebagai referensi dari modul-modul lain dalam sistem.
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>            
+                <v-col xs="12" sm="6" md="4" v-if="$store.getters['auth/can']('SPMB-GROUP')">
+                    <v-card 
+                        class="clickable"
+                        color="#385F73" 
+                        @click.native="$router.push('/spmb')"
+                        dark>
+                        <v-card-title class="headline">
+                            SPMB
+                        </v-card-title>                        
+                        <v-card-text>
+                            Modul ini digunakan untuk mengelola Seleksi Penerimaan Mahasiswa Baru (SPMB).
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>            
+                <v-col xs="12" sm="6" md="4" v-if="$store.getters['auth/can']('SYSTEM-USERS-GROUP')">
+                    <v-card 
+                        class="clickable"
+                        color="#385F73" 
+                        @click.native="$router.push('/system-users')"
+                        dark>
+                        <v-card-title class="headline">
+                            USER SISTEM
+                        </v-card-title>                        
+                        <v-card-text>
+                            Modul ini digunakan untuk mengelola user sistem.
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>            
+            </v-row>
         </v-container>
     </AdminLayout>
 </template>
 <script>
 import DashboardMB from '@/components/DashboardMahasiswaBaru';
-import DashboardPMB from '@/components/DashboardPMB';
 import AdminLayout from '@/views/layouts/AdminLayout';
-import ModuleHeader from '@/components/ModuleHeader';
 export default {
     name: 'Dashboard',
     created ()
@@ -92,10 +111,8 @@ export default {
         
 	},
     components:{
-		AdminLayout,
-        ModuleHeader,
-        DashboardMB,
-        DashboardPMB,
+		AdminLayout,        
+        DashboardMB,        
 	}
 }
 </script>

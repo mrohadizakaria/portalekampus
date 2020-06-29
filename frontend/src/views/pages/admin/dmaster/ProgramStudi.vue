@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <DataMasterLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-home-assistant
@@ -209,11 +209,11 @@
                 </v-col>
             </v-row>
         </v-container>
-    </AdminLayout>
+    </DataMasterLayout>
 </template>
 <script>
 import {mapGetters} from 'vuex';
-import AdminLayout from '@/views/layouts/AdminLayout';
+import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
     name:'ProgramStudi',
@@ -489,7 +489,7 @@ export default {
         },
     },
     components:{
-        AdminLayout,
+        DataMasterLayout,
         ModuleHeader,        
     },
 

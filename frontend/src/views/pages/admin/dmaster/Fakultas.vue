@@ -1,5 +1,5 @@
 <template>
-    <AdminLayout>
+    <DataMasterLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-home
@@ -174,14 +174,14 @@
                 </v-col>
             </v-row>
         </v-container>
-    </AdminLayout>
+    </DataMasterLayout>
 </template>
 <script>
 import {mapGetters} from 'vuex';
-import AdminLayout from '@/views/layouts/AdminLayout';
+import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'PAGE',
+    name:'Fakultas',
     created () {
         this.breadcrumbs = [
             {
@@ -375,7 +375,7 @@ export default {
         },        
     },
     components:{
-        AdminLayout,
+        DataMasterLayout,
         ModuleHeader,        
     },
 
