@@ -64,7 +64,7 @@
                                 <th scope="col">NO. FAKTUR<br />BANK</th>
                                 <th scope="col">TANGGAL TRANSAKSI</th>			
                                 <th scope="col">TANGGAL INPUT</th>	
-                                <th scope="col">BIAYA PER SKS</th>
+                                <th scope="col">BIAYA PAKET SP</th>
                                 <th scope="col">JUMLAH SKS</th>	
                                 <th scope="col" class="text-right">TOTAL</th>											
                                 <th scope="col" width="120">AKSI</th>
