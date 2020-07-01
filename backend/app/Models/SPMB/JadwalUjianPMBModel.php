@@ -26,11 +26,15 @@ class JadwalUjianPMBModel extends Model {
         'id',                      
         'nama_kegiatan',    
         'tanggal_ujian', 
+        'jam_mulai_ujian', 
+        'jam_selesai_ujian', 
         'tanggal_akhir_daftar',         
-        'ruangkelas_id',         
-        'semester',         
+        'durasi_ujian',         
+        'ruangkelas_id',                         
         'ta',         
         'idsmt',         
+        'status_pendaftaran',         
+        'status_ujian',         
     ];
     /**
      * enable auto_increment.

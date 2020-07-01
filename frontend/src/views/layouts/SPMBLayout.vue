@@ -211,7 +211,7 @@
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    name:'ParameterLayout',     
+    name:'SPMBLayout',     
     created()
     {
         this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];        

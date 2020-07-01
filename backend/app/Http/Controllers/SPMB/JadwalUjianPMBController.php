@@ -25,8 +25,8 @@ class JadwalUjianPMBController extends Controller {
         $semester_pendaftaran=$request->input('semester_pendaftaran');
 
         $soal=JadwalUjianPMBModel::where('ta',$tahun_pendaftaran)
-                            ->where('idsmt',$semester_pendaftaran)
-                            ->get();
+                                    ->where('idsmt',$semester_pendaftaran)
+                                    ->get();
 
         return Response()->json([
                                     'status'=>1,

@@ -8,7 +8,7 @@
                 JADWAL UJIAN PMB
             </template>
             <template v-slot:subtitle>
-                TAHUN PENDAFTARAN {{tahun_pendaftaran}}
+                TAHUN PENDAFTARAN {{tahun_pendaftaran}} - SEMESTER {{nama_semester_pendaftaran}}
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -69,7 +69,7 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-dialog v-model="dialogfrm" max-width="500px" persistent>
+                                <v-dialog v-model="dialogfrm" max-width="800px" persistent>
                                     <template v-slot:activator="{ on }">
                                         <v-btn color="primary" dark class="mb-2" v-on="on">TAMBAH</v-btn>
                                     </template>
@@ -80,11 +80,68 @@
                                             </v-card-title>
                                             <v-card-text>
                                                 <v-text-field 
-                                                    v-model="formdata.name" 
-                                                    label="NAME"
+                                                    v-model="formdata.nama_kegiatan" 
+                                                    label="NAMA UJIAN ONLINE"
                                                     filled
-                                                    :rules="rule_name">
-                                                </v-text-field>                                             
+                                                    :rules="rule_nama_kegiatan">
+                                                </v-text-field>                                        
+                                                <v-menu
+                                                    ref="menuTanggalUjian"
+                                                    v-model="menuTanggalUjian"
+                                                    :close-on-content-click="false"
+                                                    :return-value.sync="formdata.tanggal_ujian"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    max-width="290px"
+                                                    min-width="290px"
+                                                >
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-text-field
+                                                            v-model="formdata.tanggal_ujian"
+                                                            label="TANGGAL UJIAN"                                            
+                                                            readonly
+                                                            filled
+                                                            v-on="on"
+                                                            :rules="rule_tanggal_ujian"
+                                                        ></v-text-field>
+                                                    </template>
+                                                    <v-date-picker
+                                                        v-model="formdata.tanggal_ujian"                                        
+                                                        no-title                                
+                                                        scrollable>                                                        
+                                                        <v-spacer></v-spacer>
+                                                        <v-btn text color="primary" @click="menuTanggalUjian = false">Cancel</v-btn>
+                                                        <v-btn text color="primary" @click="$refs.menuTanggalUjian.save(formdata.tanggal_ujian)">OK</v-btn>
+                                                    </v-date-picker>
+                                                </v-menu>
+                                                <v-menu
+                                                    ref="menu"
+                                                    v-model="menu2"
+                                                    :close-on-content-click="false"
+                                                    :nudge-right="40"
+                                                    :return-value.sync="time"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    max-width="290px"
+                                                    min-width="290px"
+                                                >
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="time"
+                                                        label="JAM MULAI UJIAN"
+                                                        prepend-icon="access_time"
+                                                        readonly
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                    ></v-text-field>
+                                                    </template>
+                                                    <v-time-picker
+                                                    v-if="menu2"
+                                                    v-model="time"
+                                                    full-width
+                                                    @click:minute="$refs.menu.save(time)"
+                                                    ></v-time-picker>
+                                                </v-menu>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -199,7 +256,7 @@
 import SPMBLayout from '@/views/layouts/SPMBLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'JadwalUjian',
+    name:'JadwalUjianPMB',
     created () {
         this.breadcrumbs = [
             {
@@ -223,53 +280,82 @@ export default {
         this.nama_semester_pendaftaran=this.$store.getters['uiadmin/getNamaSemester'](this.semester_pendaftaran);  
         this.initialize()
     },  
-    data: () => ({ 
-        firstloading:true,
-        tahun_pendaftaran:null,
-        semester_pendaftaran:null,
-        nama_semester_pendaftaran:null,
+    data () 
+    { 
+        let tanggal_ujian=this.$date().format('YYYY-MM-DD');
+        return {
+            firstloading:true,
+            tahun_pendaftaran:null,
+            semester_pendaftaran:null,
+            nama_semester_pendaftaran:null,
 
-        btnLoading:false,
-        datatableLoading:false,
-        expanded:[],
-        datatable:[],
-        headers: [                        
-            { text: 'ID', value: 'id' },   
-            { text: 'AKSI', value: 'actions', sortable: false,width:100 },
-        ],
-        search:'',    
+            btnLoading:false,
+            datatableLoading:false,
+            expanded:[],
+            datatable:[],
+            headers: [                        
+                { text: 'ID', value: 'id',width:70 },   
+                { text: 'NAMA UJIAN', value: 'nama_kegiatan', sortable: true,width:300 },
+                { text: 'TGL. UJIAN', value: 'tanggal_ujian', sortable: true,width:100 },
+                { text: 'TGL. AKHIR PENDAFTARAN', value: 'tanggal_ujian', sortable: true,width:100 },
+                { text: 'DURASI UJIAN', value: 'durasi_ujian', sortable: true,width:100 },
+                { text: 'RUANGAN', value: 'nama_ruangan', sortable: true,width:100 },
+                { text: 'AKSI', value: 'actions', sortable: false,width:100 },
+            ],
+            search:'',    
 
-        //dialog
-        dialogfrm:false,
-        dialogdetailitem:false,
+            //dialog
+            dialogfrm:false,
+            dialogdetailitem:false,
 
-        //form data   
-        form_valid:true,         
-        formdata: {
-            id:0,                        
-            name:'',                        
-            created_at: '',           
-            updated_at: '',           
+            //form data   
+            form_valid:true, 
+            menuTanggalUjian:false,        
+            formdata: {
+                id:0,                        
+                nama_kegiatan:'',                        
+                tanggal_ujian:tanggal_ujian,    
+                jam_mulai_ujian:'',                    
+                jam_mulai_selesai:'',                    
+                tanggal_akhir_daftar:tanggal_ujian,                                                
+                durasi_ujian:'',                        
+                ruangkelas_id:'',                        
+                ta:'',                        
+                idsmt:'',                        
+                status_pendaftaran:'',                        
+                status_ujian:'',                        
+                created_at: '',           
+                updated_at: '',           
 
-        },
-        formdefault: {
-            id:0,           
-            name:'',                                     
-            created_at: '',           
-            updated_at: '',       
-        },
-        editedIndex: -1,
+            },
+            formdefault: {
+                id:0,                        
+                nama_kegiatan:'',                        
+                tanggal_ujian:this.$date().format('YYYY-MM-DD'),   
+                jam_mulai_ujian:'',                    
+                jam_mulai_selesai:'',                              
+                tanggal_akhir_daftar:tanggal_ujian,                        
+                durasi_ujian:'',                        
+                ruangkelas_id:'',                        
+                ta:'',                        
+                idsmt:'',                        
+                status_pendaftaran:'',                        
+                status_ujian:'',                        
+                created_at: '',           
+                updated_at: '',       
+            },
+            editedIndex: -1,
 
-        //form rules  
-        rule_user_nomorhp:[
-            value => !!value||"Kode mohon untuk diisi !!!",
-            value => /^\+[1-9]{1}[0-9]{1,14}$/.test(value) || 'Kode hanya boleh angka',
+            //form rules          
+            rule_nama_kegiatan:[
+                value => !!value||"Mohon untuk di isi name !!!",  
+                value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
+            ], 
+            rule_tanggal_ujian:[
+            value => !!value||"Tanggal Ujian mohon untuk diisi !!!"
         ], 
-        rule_name:[
-            value => !!value||"Mohon untuk di isi name !!!",  
-            value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
-        ], 
-    }),
+        }
+    },
     methods: {
         changeTahunPendaftaran (tahun)
         {
@@ -413,7 +499,7 @@ export default {
     },
     computed: {        
         formTitle () {
-            return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
+            return this.editedIndex === -1 ? 'TAMBAH JADWAL' : 'UBAH JADWAL'
         },        
     },
     components:{

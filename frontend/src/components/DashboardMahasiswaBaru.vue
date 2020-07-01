@@ -64,7 +64,7 @@
                         </v-card-text>                    
                     </v-card>
                 </v-timeline-item>           -->      
-                <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot>
+                <!-- <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot>
                     <v-card color="indigo" dark>
                         <v-card-title class="title">Ujian Online</v-card-title>
                         <v-card-text class="white text--primary">
@@ -78,7 +78,7 @@
                             </v-btn>
                         </v-card-text>                    
                     </v-card>
-                </v-timeline-item>
+                </v-timeline-item> -->
                 <!-- <v-timeline-item color="green lighten-1" icon="mdi-airballoon" fill-dot>
                     <v-card color="green lighten-1" dark>
                         <v-card-title class="title">Hasil Ujian</v-card-title>
