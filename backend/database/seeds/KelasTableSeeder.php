@@ -12,6 +12,8 @@ class KelasTableSeeder extends Seeder
      */
     public function run()
     {   
+        \DB::statement('DELETE FROM pe3_kelas'); 
+        
         \DB::table('pe3_kelas')->insert([
             'idkelas'=>"A",
             'nkelas'=>'REGULER (S1)',

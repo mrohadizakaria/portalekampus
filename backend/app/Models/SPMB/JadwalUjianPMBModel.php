@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Models\SPMB;
+
+use Illuminate\Database\Eloquent\Model;
+
+class JadwalUjianPMBModel extends Model {    
+     /**
+     * nama tabel model ini.
+     *
+     * @var string
+     */
+    protected $table = 'pe3_jadwal_ujian_pmb';
+    /**
+     * primary key tabel ini.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [        
+        'id',                      
+        'nama_kegiatan',    
+        'tanggal_ujian', 
+        'tanggal_akhir_daftar',         
+        'ruangkelas_id',         
+        'semester',         
+        'ta',         
+        'idsmt',         
+    ];
+    /**
+     * enable auto_increment.
+     *
+     * @var string
+     */
+    public $incrementing = false;
+    /**
+     * activated timestamps.
+     *
+     * @var string
+     */
+    public $timestamps = true;
+}

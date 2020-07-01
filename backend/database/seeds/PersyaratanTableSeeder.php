@@ -14,6 +14,8 @@ class PersyaratanTableSeeder extends Seeder
      */
     public function run()
     {   
+        \DB::statement('DELETE FROM pe3_persyaratan');
+
         \DB::table('pe3_persyaratan')->insert([
             'id'=>Uuid::uuid4()->toString(),
             'proses'=>'pmb',

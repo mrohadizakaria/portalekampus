@@ -93,12 +93,12 @@ const routes = [
 			requiresAuth:true,
         },
 		component: () => import('../views/pages/admin/spmb/SPMB.vue'),		
-	},
+	},	
 	{
 		path: '/spmb/soalpmb',
 		name: 'SPMBSoal',
 		meta:{
-			title: "SPMB - SOAL",
+			title: "SPMB - SOAL PMB",
 			requiresAuth:true,
         },
 		component: () => import('../views/pages/admin/spmb/SoalPMB.vue'),		
@@ -148,6 +148,24 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/spmb/UjianOnline.vue'),		
 	},
+	{
+		path: '/spmb/jadwalujianpmb',
+		name: 'SPMBJadwalUjianPMB',
+		meta:{
+			title: "SPMB - JADWAL UJIAN PMB",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/JadwalUjianPMB.vue'),		
+	},
+	{
+		path: '/spmb/passinggrade',
+		name: 'SPMBPassingGrade',
+		meta:{
+			title: "SPMB - PASSING GRADE",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/spmb/PassingGrade.vue'),		
+	},	
 	{
 		path: '/spmb/laporanfakultas',
 		name: 'SPMBReportFakultas',
