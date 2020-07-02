@@ -69,6 +69,7 @@ class PermissionsTableSeeder extends Seeder
             'DMASTER-FAKULTAS',     
             'DMASTER-PRODI',     
             'DMASTER-KELAS',     
+            'DMASTER-RUANGAN-KELAS',     
             'SPMB-PMB',                 
             'SPMB-PMB-FORMULIR-PENDAFTARAN',     
             'SPMB-PMB-PERSYARATAN',     

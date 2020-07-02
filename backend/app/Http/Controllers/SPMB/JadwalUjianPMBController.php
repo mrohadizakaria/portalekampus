@@ -43,74 +43,34 @@ class JadwalUjianPMBController extends Controller {
         $this->hasPermissionTo('SPMB-PMB-JADWAL-UJIAN_STORE');
 
         $this->validate($request, [           
-            'soal'=>'required',
-            'gambar'=>'required',
-            'jawaban1'=>'required',
-            'jawaban2'=>'required',
-            'jawaban3'=>'required',
-            'jawaban4'=>'required',
-            'jawaban_benar'=>'required',
-            'tahun_pendaftaran'=>'required',
-            'semester_pendaftaran'=>'required'
+            'nama_kegiatan'=>'required',
+            'tanggal_ujian'=>'required',
+            'jam_mulai_ujian'=>'required',
+            'jam_selesai_ujian'=>'required',
+            'tanggal_akhir_daftar'=>'required',
+            'durasi_ujian'=>'required',
+            'ruangkelas_id'=>'required',
+            'ta'=>'required',
+            'idsmt'=>'required'
         ]);
         
-        $soal = \DB::transaction(function () use ($request){
-            $now = \Carbon\Carbon::now()->toDateTimeString();                               
-            $soal=JadwalUjianPMBModel::create([
-                'id'=>Uuid::uuid4()->toString(),
-                'soal'=>$request->input('soal'),
-                'gambar'=>null,
-                'ta'=> $request->input('tahun_pendaftaran'),
-                'semester'=>$request->input('semester_pendaftaran'),
-                'active'=>1,                  
-                'created_at'=>$now, 
-                'updated_at'=>$now
-            ]);            
-            $soal_id=$soal->id;
-            JadwalUjianPMBModel::create([
-                'id'=>Uuid::uuid4()->toString(),
-                'soal_id'=>$soal_id,
-                'jawaban'=>$request->input('jawaban1'),                
-                'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==1?1:0,
-                'created_at'=>$now, 
-                'updated_at'=>$now
-            ]);
-            JadwalUjianPMBModel::create([
-                'id'=>Uuid::uuid4()->toString(),
-                'soal_id'=>$soal_id,
-                'jawaban'=>$request->input('jawaban2'),                
-                'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==2?1:0,
-                'created_at'=>$now, 
-                'updated_at'=>$now
-            ]);
-            JadwalUjianPMBModel::create([
-                'id'=>Uuid::uuid4()->toString(),
-                'soal_id'=>$soal_id,
-                'jawaban'=>$request->input('jawaban3'),                
-                'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==3?1:0,
-                'created_at'=>$now, 
-                'updated_at'=>$now
-            ]);
-            JadwalUjianPMBModel::create([
-                'id'=>Uuid::uuid4()->toString(),
-                'soal_id'=>$soal_id,
-                'jawaban'=>$request->input('jawaban4'),                
-                'options'=>'{}',
-                'status'=>$request->input('jawaban_benar')==4?1:0,
-                'created_at'=>$now, 
-                'updated_at'=>$now
-            ]);
-
-            return $soal;
-        });
+        $jadwal_ujian=JadwalUjianPMBModel::create([
+            'id'=>Uuid::uuid4()->toString(),
+            'nama_kegiatan'=>$request->input('nama_kegiatan'),
+            'tanggal_ujian'=>$request->input('tanggal_ujian'),
+            'jam_mulai_ujian'=>$request->input('jam_mulai_ujian'),
+            'jam_selesai_ujian'=>$request->input('jam_selesai_ujian'),
+            'tanggal_akhir_daftar'=>$request->input('tanggal_akhir_daftar'),
+            'durasi_ujian'=>$request->input('durasi_ujian'),
+            'ruangkelas_id'=>$request->input('ruangkelas_id'),
+            'ta'=> $request->input('ta'),
+            'idsmt'=>$request->input('idsmt'),                        
+        ]);            
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'soal'=>$soal,                                                                                                                                 
-                                    'message'=>'Data soal berhasil disimpan.'
+                                    'jadwal_ujian'=>$jadwal_ujian,                                                                                                                                 
+                                    'message'=>'Data jadwal ujian berhasil disimpan.'
                                 ],200); 
     }
     /**

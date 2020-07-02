@@ -62,17 +62,15 @@
 
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DATA TABLE</v-toolbar-title>
+                                <v-toolbar-title>DAFTAR JADWAL UJIAN PMB</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
+                                <v-btn color="primary" dark class="mb-2" @click.stop="addItem">TAMBAH</v-btn>
                                 <v-dialog v-model="dialogfrm" max-width="800px" persistent>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn color="primary" dark class="mb-2" v-on="on">TAMBAH</v-btn>
-                                    </template>
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                                         <v-card>
                                             <v-card-title>
@@ -84,7 +82,40 @@
                                                     label="NAMA UJIAN ONLINE"
                                                     filled
                                                     :rules="rule_nama_kegiatan">
-                                                </v-text-field>                                        
+                                                </v-text-field>  
+                                                Jumlah soal, pastikan lebih kecil atau sama dengan jumlah soal BANK SOAL.                                                                            
+                                                <v-text-field 
+                                                    v-model="formdata.jumlah_soal" 
+                                                    label="JUMLAH SOAL"
+                                                    filled
+                                                    :rules="rule_jumlah_ujian">
+                                                </v-text-field>  
+                                                <v-menu
+                                                    ref="menuTanggalAkhirPendaftaran"
+                                                    v-model="menuTanggalAkhirPendaftaran"
+                                                    :close-on-content-click="false"
+                                                    :return-value.sync="formdata.tanggal_akhir_daftar"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    max-width="290px"
+                                                    min-width="290px">
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-text-field
+                                                            v-model="formdata.tanggal_akhir_daftar"
+                                                            label="TANGGAL AKHIR PENDAFTARAN"                                            
+                                                            readonly
+                                                            filled
+                                                            v-on="on"></v-text-field>
+                                                    </template>
+                                                    <v-date-picker
+                                                        v-model="formdata.tanggal_akhir_daftar"                                        
+                                                        no-title                                
+                                                        scrollable>                                                        
+                                                        <v-spacer></v-spacer>
+                                                        <v-btn text color="primary" @click="menuTanggalAkhirPendaftaran = false">Cancel</v-btn>
+                                                        <v-btn text color="primary" @click="$refs.menuTanggalAkhirPendaftaran.save(formdata.tanggal_akhir_daftar)">OK</v-btn>
+                                                    </v-date-picker>
+                                                </v-menu>                                                
                                                 <v-menu
                                                     ref="menuTanggalUjian"
                                                     v-model="menuTanggalUjian"
@@ -93,17 +124,15 @@
                                                     transition="scale-transition"
                                                     offset-y
                                                     max-width="290px"
-                                                    min-width="290px"
-                                                >
+                                                    min-width="290px">
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field
                                                             v-model="formdata.tanggal_ujian"
                                                             label="TANGGAL UJIAN"                                            
                                                             readonly
                                                             filled
-                                                            v-on="on"
-                                                            :rules="rule_tanggal_ujian"
-                                                        ></v-text-field>
+                                                            v-on="on">
+                                                        </v-text-field>
                                                     </template>
                                                     <v-date-picker
                                                         v-model="formdata.tanggal_ujian"                                        
@@ -115,33 +144,75 @@
                                                     </v-date-picker>
                                                 </v-menu>
                                                 <v-menu
-                                                    ref="menu"
-                                                    v-model="menu2"
+                                                    ref="menuJamMulaiUjian"
+                                                    v-model="menuJamMulaiUjian"
                                                     :close-on-content-click="false"
                                                     :nudge-right="40"
-                                                    :return-value.sync="time"
+                                                    :return-value.sync="formdata.jam_mulai_ujian"
                                                     transition="scale-transition"
                                                     offset-y
                                                     max-width="290px"
-                                                    min-width="290px"
-                                                >
+                                                    min-width="290px">
                                                     <template v-slot:activator="{ on, attrs }">
-                                                    <v-text-field
-                                                        v-model="time"
-                                                        label="JAM MULAI UJIAN"
-                                                        prepend-icon="access_time"
-                                                        readonly
-                                                        v-bind="attrs"
-                                                        v-on="on"
-                                                    ></v-text-field>
+                                                        <v-text-field
+                                                            v-model="formdata.jam_mulai_ujian"
+                                                            label="JAM MULAI UJIAN"                                                            
+                                                            readonly
+                                                            filled
+                                                            v-bind="attrs"
+                                                            v-on="on"
+                                                        ></v-text-field>
                                                     </template>
                                                     <v-time-picker
-                                                    v-if="menu2"
-                                                    v-model="time"
-                                                    full-width
-                                                    @click:minute="$refs.menu.save(time)"
+                                                        v-if="menuJamMulaiUjian"
+                                                        v-model="formdata.jam_mulai_ujian"
+                                                        full-width
+                                                        format="24hr"
+                                                        @click:minute="$refs.menuJamMulaiUjian.save(formdata.jam_mulai_ujian)"
                                                     ></v-time-picker>
                                                 </v-menu>
+                                                <v-menu
+                                                    ref="menuJamSelesaiUjian"
+                                                    v-model="menuJamSelesaiUjian"
+                                                    :close-on-content-click="false"
+                                                    :nudge-right="40"
+                                                    :return-value.sync="formdata.jam_selesai_ujian"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    max-width="290px"
+                                                    min-width="290px">
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-text-field
+                                                            v-model="formdata.jam_selesai_ujian"
+                                                            label="JAM SELESAI UJIAN"                                                            
+                                                            readonly
+                                                            filled
+                                                            v-bind="attrs"
+                                                            v-on="on"
+                                                        ></v-text-field>
+                                                    </template>
+                                                    <v-time-picker
+                                                        v-if="menuJamSelesaiUjian"
+                                                        v-model="formdata.jam_selesai_ujian"
+                                                        full-width
+                                                        format="24hr"
+                                                        @click:minute="$refs.menuJamSelesaiUjian.save(formdata.jam_selesai_ujian)"
+                                                    ></v-time-picker>
+                                                </v-menu>                                                
+                                                <v-text-field 
+                                                    v-model="formdata.durasi_ujian" 
+                                                    label="DURASI WAKTU UJIAN (menit)"
+                                                    filled
+                                                    :rules="rule_nama_kegiatan">
+                                                </v-text-field> 
+                                                <v-select
+                                                    label="RUANG UJIAN"
+                                                    :items="daftar_ruangan"
+                                                    v-model="formdata.ruangkelas_id"
+                                                    item-text="nama"
+                                                    item-value="id"
+                                                    filled
+                                                />
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -310,13 +381,18 @@ export default {
 
             //form data   
             form_valid:true, 
+            daftar_ruangan:[],
+
             menuTanggalUjian:false,        
+            menuJamMulaiUjian:false,        
+            menuJamSelesaiUjian:false,        
+            menuTanggalAkhirPendaftaran:false,        
             formdata: {
                 id:0,                        
-                nama_kegiatan:'',                        
+                nama_kegiatan:'',
                 tanggal_ujian:tanggal_ujian,    
                 jam_mulai_ujian:'',                    
-                jam_mulai_selesai:'',                    
+                jam_selesai_ujian:'',                    
                 tanggal_akhir_daftar:tanggal_ujian,                                                
                 durasi_ujian:'',                        
                 ruangkelas_id:'',                        
@@ -330,10 +406,11 @@ export default {
             },
             formdefault: {
                 id:0,                        
-                nama_kegiatan:'',                        
+                nama_kegiatan:'',             
+                jumlah_soal:'',                                   
                 tanggal_ujian:this.$date().format('YYYY-MM-DD'),   
                 jam_mulai_ujian:'',                    
-                jam_mulai_selesai:'',                              
+                jam_selesai_ujian:'',                              
                 tanggal_akhir_daftar:tanggal_ujian,                        
                 durasi_ujian:'',                        
                 ruangkelas_id:'',                        
@@ -351,9 +428,10 @@ export default {
                 value => !!value||"Mohon untuk di isi name !!!",  
                 value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
             ], 
-            rule_tanggal_ujian:[
-            value => !!value||"Tanggal Ujian mohon untuk diisi !!!"
-        ], 
+            rule_jumlah_ujian:[
+                value => !!value||"Mohon untuk di isi jumlah soal ujian !!!",  
+                value => /^[0-9]+$/.test(value) || 'Jumlah soal ujian hanya boleh angka',
+            ], 
         }
     },
     methods: {
@@ -395,6 +473,10 @@ export default {
                 this.expanded=[item];
             }               
         },
+        addItem ()
+        {
+            this.dialogfrm=true;
+        },
         viewItem (item) {
             this.formdata=item;      
             this.dialogdetailitem=true;              
@@ -417,10 +499,16 @@ export default {
                 this.btnLoading=true;
                 if (this.editedIndex > -1) 
                 {
-                    await this.$ajax.post('/path/'+this.formdata.id,
+                    await this.$ajax.post('/spmb/jadwalujianpmb/'+this.formdata.id,
                         {
                             '_method':'PUT',
-                            name:this.formdata.name,                       
+                            nama_kegiatan:this.formdata.nama_kegiatan,
+                            tanggal_ujian:this.formdata.tanggal_ujian,    
+                            jam_mulai_ujian:this.formdata.jam_mulai_ujian,                    
+                            jam_selesai_ujian:this.formdata.jam_selesai_ujian,                    
+                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                
+                            durasi_ujian:this.formdata.durasi_ujian,                        
+                            ruangkelas_id:this.formdata.ruangkelas_id,                                  
                         },
                         {
                             headers:{
@@ -436,9 +524,17 @@ export default {
                     });                 
                     
                 } else {
-                    await this.$ajax.post('/path/store',
-                        {
-                            name:this.formdata.name,                            
+                    await this.$ajax.post('/spmb/jadwalujianpmb/store',
+                        {               
+                            nama_kegiatan:this.formdata.nama_kegiatan,
+                            tanggal_ujian:this.formdata.tanggal_ujian,    
+                            jam_mulai_ujian:this.formdata.jam_mulai_ujian,                    
+                            jam_selesai_ujian:this.formdata.jam_selesai_ujian,                    
+                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                
+                            durasi_ujian:this.formdata.durasi_ujian,                        
+                            ruangkelas_id:this.formdata.ruangkelas_id,
+                            ta:this.tahun_pendaftaran,                        
+                            idsmt:this.semester_pendaftaran,                                       
                         },
                         {
                             headers:{

@@ -25,6 +25,7 @@ class JadwalUjianPMBModel extends Model {
     protected $fillable = [        
         'id',                      
         'nama_kegiatan',    
+        'jumlah_soal',    
         'tanggal_ujian', 
         'jam_mulai_ujian', 
         'jam_selesai_ujian', 
