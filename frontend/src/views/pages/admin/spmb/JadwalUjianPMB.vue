@@ -291,7 +291,7 @@
                                                     <v-card flat>
                                                         <v-card-title>WAKTU UJIAN PMB :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{$date(formdata.tanggal_ujian).format('DD/MM/YYYY')}} {{formdata.jam_mulai_ujian}} - {{formdata.jam_selesai_ujian}}
+                                                            {{$date(formdata.tanggal_ujian).format('DD/MM/YYYY')}} {{formdata.jam_mulai_ujian}} - {{formdata.jam_selesai_ujian}} ({{durasiUjian(formdata)}})
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
@@ -353,7 +353,7 @@
                             {{$date(item.tanggal_akhir_daftar).format('DD/MM/YYYY')}}
                         </template>
                         <template v-slot:item.durasi_ujian="{ item }">
-                            {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}}
+                            {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}} <br>({{durasiUjian(item)}})
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-icon
@@ -420,7 +420,7 @@ export default {
         this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
         this.semester_pendaftaran=this.$store.getters['uiadmin/getSemesterPendaftaran'];  
         this.nama_semester_pendaftaran=this.$store.getters['uiadmin/getNamaSemester'](this.semester_pendaftaran);  
-        this.initialize()
+        this.initialize();
     },  
     data () 
     { 
@@ -558,9 +558,16 @@ export default {
                 this.btnLoading=false;
             });              
         },
+        durasiUjian (item)
+        {
+            let waktu_mulai = this.$date(item.tanggal_ujian + ' '+item.jam_mulai_ujian);
+            let waktu_selesai = this.$date(item.tanggal_ujian + ' '+item.jam_selesai_ujian);
+            return waktu_selesai.diff(waktu_mulai,'minute') + ' menit';
+        },
         viewItem (item) {
             this.formdata=item;      
             this.dialogdetailitem=true;              
+
             // this.$ajax.get('/path/'+item.id,{
             //     headers: {
             //         Authorization:this.$store.getters['auth/Token']
