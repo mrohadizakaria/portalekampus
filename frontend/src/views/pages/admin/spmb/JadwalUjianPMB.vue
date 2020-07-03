@@ -69,7 +69,14 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-btn color="primary" dark class="mb-2" @click.stop="addItem">TAMBAH</v-btn>
+                                <v-btn 
+                                    color="primary" 
+                                    class="mb-2"
+                                    :loading="btnLoading"
+                                    :disabled="btnLoading"
+                                    @click.stop="addItem">
+                                        TAMBAH
+                                </v-btn>
                                 <v-dialog v-model="dialogfrm" max-width="800px" persistent>
                                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                                         <v-card>
@@ -198,18 +205,12 @@
                                                         format="24hr"
                                                         @click:minute="$refs.menuJamSelesaiUjian.save(formdata.jam_selesai_ujian)"
                                                     ></v-time-picker>
-                                                </v-menu>                                                
-                                                <v-text-field 
-                                                    v-model="formdata.durasi_ujian" 
-                                                    label="DURASI WAKTU UJIAN (menit)"
-                                                    filled
-                                                    :rules="rule_nama_kegiatan">
-                                                </v-text-field> 
+                                                </v-menu> 
                                                 <v-select
                                                     label="RUANG UJIAN"
                                                     :items="daftar_ruangan"
                                                     v-model="formdata.ruangkelas_id"
-                                                    item-text="nama"
+                                                    item-text="namaruang"
                                                     item-value="id"
                                                     filled
                                                 />
@@ -229,7 +230,7 @@
                                         </v-card>
                                     </v-form>
                                 </v-dialog>
-                                <v-dialog v-model="dialogdetailitem" max-width="500px" persistent>
+                                <v-dialog v-model="dialogdetailitem" max-width="800px" persistent>
                                     <v-card>
                                         <v-card-title>
                                             <span class="headline">DETAIL DATA</span>
@@ -241,6 +242,67 @@
                                                         <v-card-title>ID :</v-card-title>
                                                         <v-card-subtitle>
                                                             {{formdata.id}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>                                                
+                                                
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>JUMLAH SOAL :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.jumlah_soal}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                            </v-row>
+                                            <v-row no-gutters>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>NAMA UJIAN ONLINE :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.nama_kegiatan}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>TANGGAL AKHIR DAFTAR :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{$date(formdata.tanggal_akhir_daftar).format('DD/MM/YYYY')}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                            </v-row>
+                                            <v-row no-gutters>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>TANGGAL UJIAN :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{$date(formdata.tanggal_ujian).format('DD/MM/YYYY')}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>WAKTU UJIAN PMB :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{$date(formdata.tanggal_ujian).format('DD/MM/YYYY')}} {{formdata.jam_mulai_ujian}} - {{formdata.jam_selesai_ujian}}
+                                                        </v-card-subtitle>
+                                                    </v-card>
+                                                </v-col>
+                                                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                                            </v-row>
+                                            <v-row no-gutters>
+                                                <v-col xs="12" sm="6" md="6">
+                                                    <v-card flat>
+                                                        <v-card-title>STATUS PENDAFTARAN :</v-card-title>
+                                                        <v-card-subtitle>
+                                                            {{formdata.status_pendaftaran == 0 ? 'BUKA':'TUTUP'}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
@@ -258,9 +320,9 @@
                                             <v-row no-gutters>
                                                 <v-col xs="12" sm="6" md="6">
                                                     <v-card flat>
-                                                        <v-card-title>NAME :</v-card-title>
+                                                        <v-card-title>STATUS UJIAN :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{formdata.name}}
+                                                            {{formdata.status_ujian == 0 ? 'BUKA':'TUTUP'}}
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
@@ -283,6 +345,15 @@
                                     </v-card>                                    
                                 </v-dialog>
                             </v-toolbar>
+                        </template>
+                        <template v-slot:item.tanggal_ujian="{ item }">
+                            {{$date(item.tanggal_ujian).format('DD/MM/YYYY')}}
+                        </template>
+                        <template v-slot:item.tanggal_akhir_daftar="{ item }">
+                            {{$date(item.tanggal_akhir_daftar).format('DD/MM/YYYY')}}
+                        </template>
+                        <template v-slot:item.durasi_ujian="{ item }">
+                            {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}}
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-icon
@@ -364,13 +435,12 @@ export default {
             datatableLoading:false,
             expanded:[],
             datatable:[],
-            headers: [                        
-                { text: 'ID', value: 'id',width:70 },   
+            headers: [                                        
                 { text: 'NAMA UJIAN', value: 'nama_kegiatan', sortable: true,width:300 },
                 { text: 'TGL. UJIAN', value: 'tanggal_ujian', sortable: true,width:100 },
-                { text: 'TGL. AKHIR PENDAFTARAN', value: 'tanggal_ujian', sortable: true,width:100 },
+                { text: 'TGL. AKHIR PENDAFTARAN', value: 'tanggal_akhir_daftar', sortable: true,width:100 },
                 { text: 'DURASI UJIAN', value: 'durasi_ujian', sortable: true,width:100 },
-                { text: 'RUANGAN', value: 'nama_ruangan', sortable: true,width:100 },
+                { text: 'RUANGAN', value: 'namaruang', sortable: true,width:100 },
                 { text: 'AKSI', value: 'actions', sortable: false,width:100 },
             ],
             search:'',    
@@ -390,11 +460,11 @@ export default {
             formdata: {
                 id:0,                        
                 nama_kegiatan:'',
+                jumlah_soal:'',   
                 tanggal_ujian:tanggal_ujian,    
                 jam_mulai_ujian:'',                    
                 jam_selesai_ujian:'',                    
-                tanggal_akhir_daftar:tanggal_ujian,                                                
-                durasi_ujian:'',                        
+                tanggal_akhir_daftar:tanggal_ujian,                                                                
                 ruangkelas_id:'',                        
                 ta:'',                        
                 idsmt:'',                        
@@ -425,8 +495,7 @@ export default {
 
             //form rules          
             rule_nama_kegiatan:[
-                value => !!value||"Mohon untuk di isi name !!!",  
-                value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',                
+                value => !!value||"Mohon untuk di isi nama ujian online !!!",                  
             ], 
             rule_jumlah_ujian:[
                 value => !!value||"Mohon untuk di isi jumlah soal ujian !!!",  
@@ -456,7 +525,7 @@ export default {
                     Authorization:this.$store.getters['auth/Token']
                 }
             }).then(({data})=>{               
-                this.datatable = data.object;
+                this.datatable = data.jadwal_ujian;
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
@@ -473,9 +542,21 @@ export default {
                 this.expanded=[item];
             }               
         },
-        addItem ()
+        addItem:async function ()
         {
-            this.dialogfrm=true;
+            this.btnLoading=true;
+            await this.$ajax.get('/datamaster/ruangankelas',       
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{               
+                this.daftar_ruangan = data.ruangan;
+                this.btnLoading=false;
+                this.dialogfrm=true;
+            }).catch(()=>{
+                this.btnLoading=false;
+            });              
         },
         viewItem (item) {
             this.formdata=item;      
@@ -488,10 +569,21 @@ export default {
                                            
             // });                      
         },    
-        editItem (item) {
-            this.editedIndex = this.datatable.indexOf(item);
-            this.formdata = Object.assign({}, item);
-            this.dialogfrm = true;
+        editItem:async function (item) {            
+            await this.$ajax.get('/datamaster/ruangankelas',       
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{               
+                this.daftar_ruangan = data.ruangan;
+                this.btnLoading=false;
+                this.editedIndex = this.datatable.indexOf(item);
+                this.formdata = Object.assign({}, item);
+                this.dialogfrm=true;
+            }).catch(()=>{
+                this.btnLoading=false;
+            });              
         },    
         save:async function () {
             if (this.$refs.frmdata.validate())
@@ -503,11 +595,11 @@ export default {
                         {
                             '_method':'PUT',
                             nama_kegiatan:this.formdata.nama_kegiatan,
+                            jumlah_soal:this.formdata.jumlah_soal,
                             tanggal_ujian:this.formdata.tanggal_ujian,    
                             jam_mulai_ujian:this.formdata.jam_mulai_ujian,                    
                             jam_selesai_ujian:this.formdata.jam_selesai_ujian,                    
-                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                
-                            durasi_ujian:this.formdata.durasi_ujian,                        
+                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                                            
                             ruangkelas_id:this.formdata.ruangkelas_id,                                  
                         },
                         {
@@ -515,10 +607,10 @@ export default {
                                 Authorization:this.$store.getters['auth/Token']
                             }
                         }
-                    ).then(({data})=>{   
-                        Object.assign(this.datatable[this.editedIndex], data.object);
+                    ).then(()=>{                           
                         this.closedialogfrm();
                         this.btnLoading=false;
+                        this.initialize();
                     }).catch(()=>{
                         this.btnLoading=false;
                     });                 
@@ -527,11 +619,11 @@ export default {
                     await this.$ajax.post('/spmb/jadwalujianpmb/store',
                         {               
                             nama_kegiatan:this.formdata.nama_kegiatan,
+                            jumlah_soal:this.formdata.jumlah_soal,
                             tanggal_ujian:this.formdata.tanggal_ujian,    
                             jam_mulai_ujian:this.formdata.jam_mulai_ujian,                    
                             jam_selesai_ujian:this.formdata.jam_selesai_ujian,                    
-                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                
-                            durasi_ujian:this.formdata.durasi_ujian,                        
+                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                                            
                             ruangkelas_id:this.formdata.ruangkelas_id,
                             ta:this.tahun_pendaftaran,                        
                             idsmt:this.semester_pendaftaran,                                       
@@ -541,10 +633,10 @@ export default {
                                 Authorization:this.$store.getters['auth/Token']
                             }
                         }
-                    ).then(({data})=>{   
-                        this.datatable.push(data.object);
+                    ).then(()=>{                           
                         this.closedialogfrm();
                         this.btnLoading=false;
+                        this.initialize();
                     }).catch(()=>{
                         this.btnLoading=false;
                     });
@@ -556,7 +648,7 @@ export default {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/path/'+item.id,
+                    this.$ajax.post('/spmb/jadwalujianpmb/'+item.id,
                         {
                             '_method':'DELETE',
                         },
