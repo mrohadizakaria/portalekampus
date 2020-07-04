@@ -3,9 +3,9 @@
         <v-container v-if="dashboard=='mahasiswabaru'">
             <DashboardMB />
         </v-container>        
-        <v-container v-else>
+        <v-container fluid v-else>
             <v-row>
-                <v-col xs="12" sm="6" md="4" v-if="$store.getters['auth/can']('DMASTER-GROUP')">
+                <v-col xs="12" sm="4" md="3" v-if="$store.getters['auth/can']('DMASTER-GROUP')">
                     <v-card 
                         class="clickable"
                         color="#385F73" 
@@ -20,7 +20,7 @@
                     </v-card>
                 </v-col>
                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>            
-                <v-col xs="12" sm="6" md="4" v-if="$store.getters['auth/can']('SPMB-GROUP')">
+                <v-col xs="12" sm="4" md="3" v-if="$store.getters['auth/can']('SPMB-GROUP')">
                     <v-card 
                         class="clickable"
                         color="#385F73" 
@@ -35,7 +35,7 @@
                     </v-card>
                 </v-col>
                 <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>            
-                <v-col xs="12" sm="6" md="4" v-if="$store.getters['auth/can']('SYSTEM-USERS-GROUP')">
+                <v-col xs="12" sm="4" md="3" v-if="$store.getters['auth/can']('SYSTEM-USERS-GROUP')">
                     <v-card 
                         class="clickable"
                         color="#385F73" 

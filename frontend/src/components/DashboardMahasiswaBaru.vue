@@ -65,14 +65,14 @@
                     </v-card>
                 </v-timeline-item>           -->      
                 <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot>
-                    <v-card color="indigo" dark>
-                        <v-card-title class="title">Ujian Online</v-card-title>
+                    <v-card color="indigo">
+                        <v-card-title class="title text--white">Ujian Online</v-card-title>
                         <v-card-text class="white text--primary">
                             <p>Untuk mengikuti ujian online, silahkan pilih jadwal terlebih dahulu</p>
                             <v-btn
                                 color="indigo"
                                 class="mx-0 mr-2"
-                                @click.stop="mulaiUjian"
+                                @click.stop="pilihJadwal"
                                 outlined>
                                 Pilih Jadwal Ujian
                             </v-btn>
@@ -80,6 +80,7 @@
                                 color="indigo"
                                 class="mx-0"
                                 @click.stop="mulaiUjian"
+                                :disabled="isdaftar"
                                 outlined>
                                 Mulai
                             </v-btn>
@@ -103,6 +104,41 @@
                 </v-timeline-item> -->
             </v-timeline>
         </v-col>
+        <v-dialog v-model="dialogpilihjadwal" persistent>                       
+            <v-card>
+                <v-card-title>
+                    <span class="headline">Pilih Jadwal Ujian PMB</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-data-table
+                        :headers="headers"
+                        :items="datatable"                        
+                        item-key="id"
+                        sort-by="name"
+                        show-expand
+                        :expanded.sync="expanded"
+                        :single-expand="true"
+                        @click:row="dataTableRowClicked"
+                        class="elevation-1"
+                        :loading="datatableLoading"
+                        loading-text="Loading... Please wait">
+                        <template v-slot:item.tanggal_ujian="{ item }">
+                            {{$date(item.tanggal_ujian).format('DD/MM/YYYY')}}
+                        </template>
+                        <template v-slot:item.tanggal_akhir_daftar="{ item }">
+                            {{$date(item.tanggal_akhir_daftar).format('DD/MM/YYYY')}}
+                        </template>
+                        <template v-slot:item.durasi_ujian="{ item }">
+                            {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}} <br>({{durasiUjian(item)}})
+                        </template>
+                    </v-data-table>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click.stop="closedialogfrm">BATAL</v-btn>                    
+                </v-card-actions>
+            </v-card>            
+        </v-dialog>
     </v-row>
 </template>
 <script>
@@ -110,20 +146,76 @@ export default {
     name: 'DashboardMahasiswaBaru',
     created()
     {
-        this.initialize();
+        this.initialize();        
     },
     data:()=>({
-
+        btnLoading:false,
+        datatableLoading:false,
+        expanded:[],
+        datatable:[],
+        headers: [                                        
+            { text: 'NAMA UJIAN', value: 'nama_kegiatan', sortable: true,width:300 },
+            { text: 'TGL. UJIAN', value: 'tanggal_ujian', sortable: true,width:100 },
+            { text: 'TGL. AKHIR PENDAFTARAN', value: 'tanggal_akhir_daftar', sortable: true,width:100 },
+            { text: 'DURASI UJIAN', value: 'durasi_ujian', sortable: true,width:100 },
+            { text: 'RUANGAN', value: 'namaruang', sortable: true,width:100 },
+            { text: 'AKSI', value: 'actions', sortable: false,width:100 },
+        ],
+        dialogpilihjadwal:false,
+        isdaftar:true
     }),
     methods: {
         initialize:async function ()
         {
-            
+            console.log('test');
+        },
+        pilihJadwal:async function()
+        {
+            this.dialogpilihjadwal = true;  
+            let tahun_pendaftaran=this.$store.getters['auth/AttributeUser']('ta');        
+            let semester_pendaftaran=this.$store.getters['auth/AttributeUser']('idsmt');                                
+
+            this.datatableLoading=true;
+            await this.$ajax.post('/spmb/jadwalujianpmb',
+            {
+                tahun_pendaftaran:tahun_pendaftaran,
+                semester_pendaftaran:semester_pendaftaran
+            },
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{                        
+                this.datatable = data.jadwal_ujian;
+                this.datatableLoading=false;
+            }).catch(()=>{
+                this.datatableLoading=false;
+            });  
+        },
+        durasiUjian (item)
+        {
+            let waktu_mulai = this.$date(item.tanggal_ujian + ' '+item.jam_mulai_ujian);
+            let waktu_selesai = this.$date(item.tanggal_ujian + ' '+item.jam_selesai_ujian);
+            return waktu_selesai.diff(waktu_mulai,'minute') + ' menit';
+        },
+        dataTableRowClicked(item)
+        {
+            if ( item === this.expanded[0])
+            {
+                this.expanded=[];                
+            }
+            else
+            {
+                this.expanded=[item];
+            }               
         },
         mulaiUjian()
         {
             this.$router.push('/spmb/ujianonline');
-        }
+        },
+        closedialogfrm () {
+            this.dialogpilihjadwal = false;                        
+        },
     }
 }
 </script>

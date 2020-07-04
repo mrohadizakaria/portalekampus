@@ -15,9 +15,9 @@ class CreatePesertaUjianPmbTable extends Migration
     {   
         Schema::defaultStringLength(191);
         Schema::create('pe3_peserta_ujian_pmb', function (Blueprint $table) {
-            $table->uuid('id')->primary();                                    
-            $table->uuid('jadwal_ujian_id');                                    
-            $table->uuid('user_id');                                                
+            $table->uuid('user_id')->primary();                                    
+            $table->uuid('jadwal_ujian_id');                                                                                             
+            $table->string('no_peserta',15);                                                
             $table->datetime('mulai_ujian');            
             $table->datetime('selesai_ujian');            
             $table->smallInteger('sisa_waktu')->default(0);            
@@ -25,7 +25,7 @@ class CreatePesertaUjianPmbTable extends Migration
             $table->timestamps();
 
             $table->index('jadwal_ujian_id');
-            $table->index('user_id');
+            
 
             $table->foreign('user_id')
                     ->references('id')

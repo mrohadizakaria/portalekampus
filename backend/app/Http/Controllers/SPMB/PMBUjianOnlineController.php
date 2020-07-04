@@ -5,7 +5,7 @@ namespace App\Http\Controllers\SPMB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\SPMB\FormulirPendaftaranModel;
+use App\Models\SPMB\PesertaUjianPMBModel;
 use App\Models\SPMB\SoalPMBModel;
 use App\Models\SPMB\JawabanUjianPMBModel;
 
@@ -17,14 +17,15 @@ class PMBUjianOnlineController extends Controller {
      */
     public function index(Request $request,$id)
     {
-        $this->hasPermissionTo('SPMB-PMB-UJIAN-ONLINE_BROWSE');        
-        $formulir=FormulirPendaftaranModel::find($id);
-        if (is_null($formulir))
+        $this->hasPermissionTo('SPMB-PMB-UJIAN-ONLINE_BROWSE');
+                
+        $peserta=PesertaUjianPMBModel::find($id);
+        if (is_null($peserta))
         {
             return Response()->json([
                                         'status'=>1,
                                         'pid'=>'fetchdata',                
-                                        'message'=>["Formulir Pendaftaran dengan ID ($id) gagal diperoleh"]
+                                        'message'=>["Peserta Ujian dengan ID ($id) gagal diperoleh, mungkin belum mendaftar"]
                                     ],422); 
         }
         else
@@ -64,7 +65,7 @@ class PMBUjianOnlineController extends Controller {
     public function store (Request $request)
     {
         $this->validate($request,[
-                                  'user_id'=>'required|exists:users,id',
+                                  'user_id'=>'required|exists:pe3_peserta_ujian_pmb,id',
                                   'soal_id'=>'required|exists:pe3_soal,id',
                                   'jawaban_id'=>'required|exists:pe3_jawaban_soal,id',
                                 ]);

@@ -44,6 +44,11 @@ class AuthController extends Controller
     public function me()
     {
         $user = $this->guard()->user()->toArray();
+        if ($this->hasRole('mahasiswabaru'))
+        {
+            $formulir = \App\Models\SPMB\FormulirPendaftaranModel::find($user['id']);
+            $user['idsmt']=$formulir->idsmt;
+        }
         $user['role']=$this->getRoleNames();
         $user['issuperadmin']=$this->hasRole('superadmin');
         $user['permissions']=$this->guard()->user()->permissions->pluck('id','name')->toArray();

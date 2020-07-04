@@ -34,8 +34,7 @@ class JadwalUjianPMBController extends Controller {
                                                 pe3_jadwal_ujian_pmb.tanggal_akhir_daftar, 
                                                 pe3_jadwal_ujian_pmb.durasi_ujian, 
                                                 pe3_jadwal_ujian_pmb.status_pendaftaran, 
-                                                pe3_jadwal_ujian_pmb.status_ujian, 
-                                                pe3_jadwal_ujian_pmb.status_ujian, 
+                                                pe3_jadwal_ujian_pmb.status_ujian,                                                 
                                                 pe3_jadwal_ujian_pmb.ruangkelas_id,
                                                 pe3_ruangkelas.namaruang,
                                                 pe3_jadwal_ujian_pmb.created_at,
@@ -44,6 +43,7 @@ class JadwalUjianPMBController extends Controller {
                                             ->leftJoin('pe3_ruangkelas','pe3_ruangkelas.id','pe3_jadwal_ujian_pmb.ruangkelas_id')
                                             ->where('ta',$tahun_pendaftaran)
                                             ->where('idsmt',$semester_pendaftaran)
+                                            ->orderBy('tanggal_akhir_daftar','desc')
                                             ->get();
 
         $jumlah_bank_soal=SoalPMBModel::where('ta',$tahun_pendaftaran)
