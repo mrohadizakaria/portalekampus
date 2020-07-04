@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\SPMB\JadwalUjianPMBModel;
+use App\Models\SPMB\SoalPMBModel;
 
 use Ramsey\Uuid\Uuid;
 
@@ -45,10 +46,14 @@ class JadwalUjianPMBController extends Controller {
                                             ->where('idsmt',$semester_pendaftaran)
                                             ->get();
 
+        $jumlah_bank_soal=SoalPMBModel::where('ta',$tahun_pendaftaran)
+                                        ->where('semester',$semester_pendaftaran)
+                                        ->count();
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
-                                    'jadwal_ujian'=>$jadwal_ujian,                                                                                                                                   
+                                    'jadwal_ujian'=>$jadwal_ujian,      
+                                    'jumlah_bank_soal'=>$jumlah_bank_soal,                                                                                                                             
                                     'message'=>'Fetch data jadwal ujian pmb berhasil.'
                                 ],200);     
     }  

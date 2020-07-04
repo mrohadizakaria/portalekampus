@@ -95,7 +95,7 @@
                                                     v-model="formdata.jumlah_soal" 
                                                     label="JUMLAH SOAL"
                                                     filled
-                                                    :rules="rule_jumlah_ujian">
+                                                    :rules="rule_jumlah_soal">
                                                 </v-text-field>  
                                                 <v-menu
                                                     ref="menuTanggalAkhirPendaftaran"
@@ -451,6 +451,7 @@ export default {
 
             //form data   
             form_valid:true, 
+            jumlah_bank_soal:0,
             daftar_ruangan:[],
 
             menuTanggalUjian:false,        
@@ -497,9 +498,21 @@ export default {
             rule_nama_kegiatan:[
                 value => !!value||"Mohon untuk di isi nama ujian online !!!",                  
             ], 
-            rule_jumlah_ujian:[
+            rule_jumlah_soal:[
                 value => !!value||"Mohon untuk di isi jumlah soal ujian !!!",  
-                value => /^[0-9]+$/.test(value) || 'Jumlah soal ujian hanya boleh angka',
+                value => /^[0-9]+$/.test(value) || 'Jumlah soal ujian hanya boleh angka',    
+                value => {
+                    if (typeof value !== 'undefined' && value.length > 0) 
+                    {
+                        let jumlah_bank_soal = parseInt(this.jumlah_bank_soal);
+                        let jumlah_soal = parseInt(value);
+                        return jumlah_soal <= jumlah_bank_soal ||"Jumlah soal harus lebih kecil atau sama dengan jumlah di bank soal ("+jumlah_bank_soal+")";
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }            
             ], 
         }
     },
@@ -524,7 +537,8 @@ export default {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{               
+            }).then(({data})=>{                      
+                this.jumlah_bank_soal=data.jumlah_bank_soal;                
                 this.datatable = data.jadwal_ujian;
                 this.datatableLoading=false;
             }).catch(()=>{

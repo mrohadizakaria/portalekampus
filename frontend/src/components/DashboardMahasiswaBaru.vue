@@ -68,7 +68,7 @@
                     <v-card color="indigo" dark>
                         <v-card-title class="title">Ujian Online</v-card-title>
                         <v-card-text class="white text--primary">
-                            <p>Ujian Online dilaksanakan selama 60 Menit dimulai saat menekan tombol Mulai</p>
+                            <p>Untuk mengikuti ujian online, silahkan pilih jadwal terlebih dahulu</p>
                             <v-btn
                                 color="indigo"
                                 class="mx-0 mr-2"
