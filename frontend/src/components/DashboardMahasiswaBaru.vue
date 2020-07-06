@@ -72,7 +72,7 @@
                             <v-btn
                                 color="indigo"
                                 class="mx-0 mr-2"
-                                @click.stop="pilihJadwal"
+                                @click.stop="showPilihJadwal"
                                 outlined>
                                 Pilih Jadwal Ujian
                             </v-btn>
@@ -114,11 +114,7 @@
                         :headers="headers"
                         :items="datatable"                        
                         item-key="id"
-                        sort-by="name"
-                        show-expand
-                        :expanded.sync="expanded"
-                        :single-expand="true"
-                        @click:row="dataTableRowClicked"
+                        sort-by="name"                        
                         class="elevation-1"
                         :loading="datatableLoading"
                         loading-text="Loading... Please wait">
@@ -130,6 +126,14 @@
                         </template>
                         <template v-slot:item.durasi_ujian="{ item }">
                             {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}} <br>({{durasiUjian(item)}})
+                        </template>
+                        <template v-slot:item.actions="{ item }">
+                            <v-icon                                
+                                @click.stop="deleteItem(item)"
+                                :loading="btnLoading"
+                                :disabled="btnLoading">
+                                mdi-select-drag
+                            </v-icon>
                         </template>
                     </v-data-table>
                 </v-card-text>
@@ -150,8 +154,7 @@ export default {
     },
     data:()=>({
         btnLoading:false,
-        datatableLoading:false,
-        expanded:[],
+        datatableLoading:false,        
         datatable:[],
         headers: [                                        
             { text: 'NAMA UJIAN', value: 'nama_kegiatan', sortable: true,width:300 },
@@ -169,14 +172,14 @@ export default {
         {
             console.log('test');
         },
-        pilihJadwal:async function()
+        showPilihJadwal:async function()
         {
             this.dialogpilihjadwal = true;  
             let tahun_pendaftaran=this.$store.getters['auth/AttributeUser']('ta');        
             let semester_pendaftaran=this.$store.getters['auth/AttributeUser']('idsmt');                                
 
             this.datatableLoading=true;
-            await this.$ajax.post('/spmb/jadwalujianpmb',
+            await this.$ajax.post('/spmb/ujianonline/jadwal',
             {
                 tahun_pendaftaran:tahun_pendaftaran,
                 semester_pendaftaran:semester_pendaftaran
@@ -192,22 +195,15 @@ export default {
                 this.datatableLoading=false;
             });  
         },
+        pilihJadwal(item)
+        {
+            console.log(item);
+        },
         durasiUjian (item)
         {
             let waktu_mulai = this.$date(item.tanggal_ujian + ' '+item.jam_mulai_ujian);
             let waktu_selesai = this.$date(item.tanggal_ujian + ' '+item.jam_selesai_ujian);
             return waktu_selesai.diff(waktu_mulai,'minute') + ' menit';
-        },
-        dataTableRowClicked(item)
-        {
-            if ( item === this.expanded[0])
-            {
-                this.expanded=[];                
-            }
-            else
-            {
-                this.expanded=[item];
-            }               
         },
         mulaiUjian()
         {
