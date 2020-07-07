@@ -107,7 +107,32 @@ class PMBUjianOnlineController extends Controller {
                                     'message'=>'Fetch data jadwal ujian pmb berhasil.'
                                 ],200);     
     }
-    
+    /**
+     * digunakan untuk mendapatkan profil peserta ujian
+     */
+    public function peserta (Request $request,$id)
+    {   
+        $peserta=PesertaUjianPMBModel::find($id);
+        
+        if (is_null($peserta))
+        {
+            return Response()->json([
+                                        'status'=>0,
+                                        'pid'=>'fetchdata',  
+                                        'peserta'=>$peserta,
+                                        'message'=>'Fetch data peserta ujian pmb gagal, mungkin belum terdaftar.'
+                                    ],200); 
+        }
+        else
+        {   
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',  
+                                    'peserta'=>$peserta,
+                                    'message'=>'Fetch data peserta ujian pmb berhasil.'
+                                ],200);     
+        }
+    }
     /**
      * digunakan untuk menyimpan jawaban ujian
      */

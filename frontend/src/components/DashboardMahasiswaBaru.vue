@@ -64,7 +64,23 @@
                         </v-card-text>                    
                     </v-card>
                 </v-timeline-item>           -->      
-                <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot>
+                <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot v-if="status_ujian">
+                    <v-card color="indigo">
+                        <v-card-title class="title text--white">Ujian Online</v-card-title>
+                        <v-card-text class="white text--primary">
+                            <p>Untuk mengikuti ujian online, silahkan pilih jadwal terlebih dahulu</p>                            
+                            <v-btn
+                                color="indigo"
+                                class="mx-0"
+                                @click.stop="mulaiUjian"
+                                :disabled="isdaftar"
+                                outlined>
+                                Mulai
+                            </v-btn>
+                        </v-card-text>                    
+                    </v-card>
+                </v-timeline-item>
+                <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot v-else>
                     <v-card color="indigo">
                         <v-card-title class="title text--white">Ujian Online</v-card-title>
                         <v-card-text class="white text--primary">
@@ -76,16 +92,8 @@
                                 outlined>
                                 Pilih Jadwal Ujian
                             </v-btn>
-                            <v-btn
-                                color="indigo"
-                                class="mx-0"
-                                @click.stop="mulaiUjian"
-                                :disabled="isdaftar"
-                                outlined>
-                                Mulai
-                            </v-btn>
                         </v-card-text>                    
-                    </v-card>
+                    </v-card>                    
                 </v-timeline-item>
                 <!-- <v-timeline-item color="green lighten-1" icon="mdi-airballoon" fill-dot>
                     <v-card color="green lighten-1" dark>
@@ -165,12 +173,27 @@ export default {
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         dialogpilihjadwal:false,
-        isdaftar:true
+        isdaftar:true,
+
+        status_ujian:false,
+        peserta:null,
+
     }),
     methods: {
         initialize:async function ()
         {
-            console.log('test');
+            await this.$ajax.get('/spmb/ujianonline/peserta/'+this.$store.getters['auth/AttributeUser']('id'),            
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{          
+                if (data.status == 1)               
+                {
+                    this.status_ujian=true;
+                    this.peserta = data.peserta;                    
+                }
+            });  
         },
         showPilihJadwal:async function()
         {
