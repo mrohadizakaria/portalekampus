@@ -97,7 +97,7 @@ class CTransaksiPembayaranSemesterPendek Extends MainPageK {
         $biaya=$r[1]['biaya'];
         
         $jumlah_sks=$this->Finance->toInteger(addslashes($item->ColumnJumlahSKS->TextBox->Text));                         
-        $jumlah_bayar=$jumlah_sks*$biaya;
+        $jumlah_bayar=$biaya;
         
         $this->DB->query ('BEGIN');
         $str = "UPDATE transaksi_detail SET dibayarkan='$jumlah_bayar',jumlah_sks=$jumlah_sks WHERE no_transaksi=$no_transaksi AND idkombi=$id";
