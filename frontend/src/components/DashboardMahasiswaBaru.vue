@@ -68,7 +68,26 @@
                     <v-card color="indigo">
                         <v-card-title class="title text--white">Ujian Online</v-card-title>
                         <v-card-text class="white text--primary">
-                            <p>Untuk mengikuti ujian online, silahkan pilih jadwal terlebih dahulu</p>                            
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="25%">No. Peserta</td>
+                                        <td>: {{peserta.no_peserta}}</td>
+                                    </tr>
+                                     <tr>
+                                        <td width="25%">Tanggal Daftar</td>
+                                        <td>: {{$date(peserta.created_at).format('DD/MM/YYYY HH:mm')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%">Tanggal Ujian</td>
+                                        <td>: {{$date(jadwal_ujian.tanggal_ujian).format('DD/MM/YYYY')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%">Waktu Ujian</td>
+                                        <td>: {{jadwal_ujian.jam_mulai_ujian}} - {{jadwal_ujian.jam_selesai_ujian}} ({{durasiUjian(jadwal_ujian)}})</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <v-btn
                                 color="indigo"
                                 class="mx-0"
@@ -137,7 +156,7 @@
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-icon                                
-                                @click.stop="deleteItem(item)"
+                                @click.stop="pilihJadwal(item)"
                                 :loading="btnLoading"
                                 :disabled="btnLoading">
                                 mdi-select-drag
@@ -176,6 +195,7 @@ export default {
         isdaftar:true,
 
         status_ujian:false,
+        jadwal_ujian:null,
         peserta:null,
 
     }),
@@ -192,6 +212,7 @@ export default {
                 {
                     this.status_ujian=true;
                     this.peserta = data.peserta;                    
+                    this.jadwal_ujian = data.jadwal_ujian;                    
                 }
             });  
         },
@@ -218,9 +239,25 @@ export default {
                 this.datatableLoading=false;
             });  
         },
-        pilihJadwal(item)
+        pilihJadwal:async function(item)
         {
-            console.log(item);
+            this.btnLoading=true;
+            await this.$ajax.post('/spmb/ujianonline/daftar',
+            {
+                user_id:this.$store.getters['auth/AttributeUser']('id'),
+                jadwal_ujian_id:item.id,                
+            },
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(()=>{               
+                this.initialize();         
+                this.closedialogfrm();
+                this.btnLoading=false;
+            }).catch(()=>{
+                this.btnLoading=false;
+            });  
         },
         durasiUjian (item)
         {

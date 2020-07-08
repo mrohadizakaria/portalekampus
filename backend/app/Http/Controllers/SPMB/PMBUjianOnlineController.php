@@ -118,20 +118,49 @@ class PMBUjianOnlineController extends Controller {
         {
             return Response()->json([
                                         'status'=>0,
-                                        'pid'=>'fetchdata',  
+                                        'pid'=>'fetchdata', 
+                                        'jadwal_ujian'=>null, 
                                         'peserta'=>$peserta,
                                         'message'=>'Fetch data peserta ujian pmb gagal, mungkin belum terdaftar.'
                                     ],200); 
         }
         else
         {   
+            $jadwal_ujian=$peserta->jadwalujian;
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
                                     'peserta'=>$peserta,
+                                    'jadwal_ujian'=>$jadwal_ujian,
                                     'message'=>'Fetch data peserta ujian pmb berhasil.'
                                 ],200);     
         }
+    }
+    /**
+     * digunakan untuk mendapatkan profil peserta ujian
+     */
+    public function daftarujian (Request $request)
+    {   
+        
+        $this->validate($request,[
+            'user_id'=>'required|exists:users,id',
+            'jadwal_ujian_id'=>'required|exists:pe3_jadwal_ujian_pmb,id',                    
+        ]);
+        
+        $jadwal_ujian_id=$request->input('jadwal_ujian_id');
+        $no_peserta=\DB::table('pe3_peserta_ujian_pmb')->where('jadwal_ujian_id',$jadwal_ujian_id)->count()+1;
+        $peserta=PesertaUjianPMBModel::create([
+            'user_id'=>$request->input('user_id'),
+            'no_peserta'=>$no_peserta,
+            'jadwal_ujian_id'=>$jadwal_ujian_id,            
+        ]);
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'store',  
+                                'peserta'=>$peserta,
+                                'message'=>'Mendaftarkan peserta ujian pmb ke jadwal ujian berhasil.'
+                            ],200);     
+    
     }
     /**
      * digunakan untuk menyimpan jawaban ujian

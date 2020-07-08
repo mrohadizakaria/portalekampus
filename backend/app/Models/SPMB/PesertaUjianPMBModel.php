@@ -43,4 +43,9 @@ class PesertaUjianPMBModel extends Model {
      * @var string
      */
     public $timestamps = true;
+
+    public function jadwalujian ()
+    {
+        return $this->belongsTo('App\Models\SPMB\JadwalUjianPMBModel','jadwal_ujian_id','id');
+    }
 }

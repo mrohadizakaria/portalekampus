@@ -18,14 +18,13 @@ class CreatePesertaUjianPmbTable extends Migration
             $table->uuid('user_id')->primary();                                    
             $table->uuid('jadwal_ujian_id');                                                                                             
             $table->string('no_peserta',15);                                                
-            $table->datetime('mulai_ujian');            
-            $table->datetime('selesai_ujian');            
+            $table->datetime('mulai_ujian')->nullable();            
+            $table->datetime('selesai_ujian')->nullable();            
             $table->smallInteger('sisa_waktu')->default(0);            
             $table->boolean('isfinish')->default(0);                        
             $table->timestamps();
 
-            $table->index('jadwal_ujian_id');
-            
+            $table->index('jadwal_ujian_id');            
 
             $table->foreign('user_id')
                     ->references('id')
