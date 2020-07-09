@@ -291,7 +291,7 @@
                                                     <v-card flat>
                                                         <v-card-title>WAKTU UJIAN PMB :</v-card-title>
                                                         <v-card-subtitle>
-                                                            {{$date(formdata.tanggal_ujian).format('DD/MM/YYYY')}} {{formdata.jam_mulai_ujian}} - {{formdata.jam_selesai_ujian}} ({{durasiUjian(formdata)}})
+                                                            {{$date(formdata.tanggal_ujian).format('DD/MM/YYYY')}} {{formdata.jam_mulai_ujian}} - {{formdata.jam_selesai_ujian}} ({{durasiUjian(formdata)}} Menit)
                                                         </v-card-subtitle>
                                                     </v-card>
                                                 </v-col>
@@ -340,6 +340,7 @@
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
+                                            <v-btn color="green darken-1" text @click.stop="mulaiUjian" :disabled="btnLoading" :loading="btnLoading">MULAI</v-btn>
                                             <v-btn color="blue darken-1" text @click.stop="closedialogdetailitem">KELUAR</v-btn>
                                         </v-card-actions>
                                     </v-card>                                    
@@ -353,7 +354,7 @@
                             {{$date(item.tanggal_akhir_daftar).format('DD/MM/YYYY')}}
                         </template>
                         <template v-slot:item.durasi_ujian="{ item }">
-                            {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}} <br>({{durasiUjian(item)}})
+                            {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}} <br>({{durasiUjian(item)}} Menit)
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-icon
@@ -448,12 +449,12 @@ export default {
             //dialog
             dialogfrm:false,
             dialogdetailitem:false,
-
+            
             //form data   
             form_valid:true, 
             jumlah_bank_soal:0,
             daftar_ruangan:[],
-
+            
             menuTanggalUjian:false,        
             menuJamMulaiUjian:false,        
             menuJamSelesaiUjian:false,        
@@ -576,12 +577,12 @@ export default {
         {
             let waktu_mulai = this.$date(item.tanggal_ujian + ' '+item.jam_mulai_ujian);
             let waktu_selesai = this.$date(item.tanggal_ujian + ' '+item.jam_selesai_ujian);
-            return waktu_selesai.diff(waktu_mulai,'minute') + ' menit';
+            return waktu_selesai.diff(waktu_mulai,'minute');
         },
         viewItem (item) {
             this.formdata=item;      
             this.dialogdetailitem=true;              
-
+            
             // this.$ajax.get('/path/'+item.id,{
             //     headers: {
             //         Authorization:this.$store.getters['auth/Token']
@@ -589,7 +590,26 @@ export default {
             // }).then(({data})=>{               
                                            
             // });                      
-        },    
+        },  
+        mulaiUjian:async function ()
+        {
+            this.btnLoading=true;
+            await this.$ajax.post('/spmb/jadwalujianpmb/updatestatusujian/'+this.formdata.id,
+            {
+                '_method':'PUT',
+                status_ujian:1,                
+            },
+            {
+                headers:{
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }
+        ).then(()=>{                                       
+            this.btnLoading=false;            
+        }).catch(()=>{
+            this.btnLoading=false;
+        });
+        },
         editItem:async function (item) {            
             await this.$ajax.get('/datamaster/ruangankelas',       
             {
@@ -620,7 +640,8 @@ export default {
                             tanggal_ujian:this.formdata.tanggal_ujian,    
                             jam_mulai_ujian:this.formdata.jam_mulai_ujian,                    
                             jam_selesai_ujian:this.formdata.jam_selesai_ujian,                    
-                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                                            
+                            tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,   
+                            durasi_ujian:this.durasiUjian(this.formdata),                                                                         
                             ruangkelas_id:this.formdata.ruangkelas_id,                                  
                         },
                         {
@@ -645,6 +666,7 @@ export default {
                             jam_mulai_ujian:this.formdata.jam_mulai_ujian,                    
                             jam_selesai_ujian:this.formdata.jam_selesai_ujian,                    
                             tanggal_akhir_daftar:this.formdata.tanggal_akhir_daftar,                                                                            
+                            durasi_ujian:this.durasiUjian(this.formdata),                                                                            
                             ruangkelas_id:this.formdata.ruangkelas_id,
                             ta:this.tahun_pendaftaran,                        
                             idsmt:this.semester_pendaftaran,                                       

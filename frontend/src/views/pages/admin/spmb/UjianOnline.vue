@@ -44,7 +44,7 @@ export default {
     methods: {
         initialize:async function () 
         {
-            await this.$ajax.get('/spmb/ujianonline/'+this.$store.getters['auth/AttributeUser']('id'),           
+            await this.$ajax.get('/spmb/ujianonline/peserta/'+this.$store.getters['auth/AttributeUser']('id'),           
             {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']

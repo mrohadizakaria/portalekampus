@@ -92,7 +92,7 @@
                                 color="indigo"
                                 class="mx-0"
                                 @click.stop="mulaiUjian"
-                                :disabled="isdaftar"
+                                :disabled="ismulai"
                                 outlined>
                                 Mulai
                             </v-btn>
@@ -192,7 +192,7 @@ export default {
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         dialogpilihjadwal:false,
-        isdaftar:true,
+        ismulai:true,
 
         status_ujian:false,
         jadwal_ujian:null,
@@ -212,7 +212,8 @@ export default {
                 {
                     this.status_ujian=true;
                     this.peserta = data.peserta;                    
-                    this.jadwal_ujian = data.jadwal_ujian;                    
+                    this.jadwal_ujian = data.jadwal_ujian;      
+                    this.ismulai=this.jadwal_ujian.status_ujian == 0 ?true:false;
                 }
             });  
         },
