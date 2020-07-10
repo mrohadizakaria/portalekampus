@@ -14,13 +14,14 @@ use Ramsey\Uuid\Uuid;
 
 class PMBUjianOnlineController extends Controller {  
     /**
-     * daftar soal
+     * daftar soal berdasarkan user id
      */
-    public function index(Request $request,$id)
+    public function soal(Request $request,$id)
     {
         $this->hasPermissionTo('SPMB-PMB-UJIAN-ONLINE_BROWSE');
                 
         $peserta=PesertaUjianPMBModel::find($id);
+
         if (is_null($peserta))
         {
             return Response()->json([
@@ -55,7 +56,8 @@ class PMBUjianOnlineController extends Controller {
                                     'status'=>$status,
                                     'pid'=>'fetchdata',  
                                     'soal'=>$soal,     
-                                    'jawaban'=>$jawaban,                                                                                                                              
+                                    'jawaban'=>$jawaban,
+                                    'peserta'=>$peserta,                                                                                                                              
                                     'message'=>'Fetch data soal pmb berhasil.'
                                 ],200);     
         }        
@@ -154,6 +156,7 @@ class PMBUjianOnlineController extends Controller {
             'no_peserta'=>$no_peserta,
             'jadwal_ujian_id'=>$jadwal_ujian_id,            
         ]);
+
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'store',  
@@ -161,6 +164,26 @@ class PMBUjianOnlineController extends Controller {
                                 'message'=>'Mendaftarkan peserta ujian pmb ke jadwal ujian berhasil.'
                             ],200);     
     
+    }
+    /**
+     * digunakan untuk memulai ujian 
+     */
+    public function mulaiujian (Request $request)
+    {
+        $this->validate($request,[
+            'user_id'=>'required|exists:pe3_peserta_ujian_pmb,user_id',                               
+        ]);
+        
+        $peserta =PesertaUjianPMBModel::find($request->input('user_id'));        
+        $peserta->mulai_ujian=\Carbon\Carbon::now()->toDateTimeString();
+        $peserta->save();
+
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'update',  
+                                'peserta'=>$peserta,
+                                'message'=>'peserta ujian memulai ujian pmb berhasil.'
+                            ],200);
     }
     /**
      * digunakan untuk menyimpan jawaban ujian

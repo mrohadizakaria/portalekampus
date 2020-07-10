@@ -34,22 +34,30 @@
 import JawabanSoal from '@/components/JawabanSoal';
 export default {
     name:'UjianOnline',
-    created () {           
-        this.initialize()
+    created () 
+    {           
+        var page = this.$store.getters['uiadmin/Page']('ujianonline');
+        this.jadwal_ujian=page.data_ujian;
+        this.peserta=page.data_peserta;
+        console.log(page);
+        this.initialize();
     },  
     data: () => ({
+        jadwal_ujian:null,
+        peserta:null,
+
         nama_soal:'',
         daftar_jawaban:[]
     }),
     methods: {
         initialize:async function () 
         {
-            await this.$ajax.get('/spmb/ujianonline/peserta/'+this.$store.getters['auth/AttributeUser']('id'),           
+            await this.$ajax.get('/spmb/ujianonline/soal/'+this.peserta.user_id,           
             {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{       
+            }).then(({data})=>{                       
                 if (data.status==0)
                 {
                     this.nama_soal='UJIAN SELESAI';

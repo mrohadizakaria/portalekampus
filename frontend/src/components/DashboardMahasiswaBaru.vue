@@ -177,7 +177,8 @@ export default {
     name: 'DashboardMahasiswaBaru',
     created()
     {
-        this.initialize();        
+        this.initialize();          
+        this.$store.dispatch('uiadmin/deletePage','ujianonline');
     },
     data:()=>({
         btnLoading:false,
@@ -266,9 +267,29 @@ export default {
             let waktu_selesai = this.$date(item.tanggal_ujian + ' '+item.jam_selesai_ujian);
             return waktu_selesai.diff(waktu_mulai,'minute') + ' menit';
         },
-        mulaiUjian()
-        {
-            this.$router.push('/spmb/ujianonline');
+        mulaiUjian:async function()
+        {          
+            this.btnLoading=false;
+            await this.$ajax.post('/spmb/ujianonline/mulaiujian',
+            {
+                _method:'put',
+                user_id:this.$store.getters['auth/AttributeUser']('id'),                
+            },
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(({data})=>{               
+                this.btnLoading=false;
+                this.$store.dispatch('uiadmin/addToPages',{
+                    name:'ujianonline',
+                    data_ujian:this.jadwal_ujian,
+                    data_peserta:data.peserta,                
+                });
+                this.$router.push('/spmb/ujianonline');                
+            }).catch(()=>{
+                this.btnLoading=false;
+            });              
         },
         closedialogfrm () {
             this.dialogpilihjadwal = false;                        

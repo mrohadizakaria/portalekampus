@@ -36,12 +36,12 @@ const mutations = {
     {
         state.pages[index]=page;            
     },
-    removePage(state,page)
+    removePage(state,name)
     {
         var i;
         for (i = 0;i < state.pages.length;i++)
         {                
-            if(state.pages[i].name==page.name)
+            if(state.pages[i].name==name)
             {
                 state.pages.splice(i,1);
                 break;
@@ -107,6 +107,17 @@ const mutations = {
     }
 }
 const getters= {
+    Page: (state) => (name) => 
+    {
+        let page = state.pages.find(halaman => halaman.name==name);
+        return page;
+    },
+    AtributeValueOfPage : (state) => (name,key) =>
+    {
+        let page = state.pages.find(halaman => halaman.name==name);            
+        return page[key];
+    },   
+    
     getDefaultDashboard: state => 
     {   
         return state.default_dashboard;
@@ -241,10 +252,7 @@ const actions = {
             });      
         }
     }, 
-    changeDashboard({commit},name)
-    {        
-        commit('setDashboard',name);
-    },
+    
     addToPages ({commit,state},page)
     {
         let found = state.pages.find(halaman => halaman.name==page.name);
@@ -252,7 +260,7 @@ const actions = {
         {
             commit('setNewPage',page);
         }
-    },
+    },    
     updatePage ({commit,state},page)
     {
         var i;
@@ -265,6 +273,16 @@ const actions = {
         }
         commit('replacePage',page,i)
     }, 
+    deletePage({commit},name)
+    {
+        commit('removePage',name);
+    },
+
+    changeDashboard({commit},name)
+    {        
+        commit('setDashboard',name);
+    },
+
     updateFakultas({commit},id)
     {
         commit('setFakultasID',id);
