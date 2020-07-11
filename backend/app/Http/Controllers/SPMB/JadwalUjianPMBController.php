@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\SPMB\JadwalUjianPMBModel;
+use App\Models\SPMB\PesertaUjianPMBModel;
 use App\Models\SPMB\SoalPMBModel;
 
 use Ramsey\Uuid\Uuid;
 
 class JadwalUjianPMBController extends Controller {  
     /**
-     * daftar soal
+     * daftar jadwal ujian pmb
      */
     public function index(Request $request)
     {
@@ -37,6 +38,7 @@ class JadwalUjianPMBController extends Controller {
                                                 pe3_jadwal_ujian_pmb.status_ujian,                                                 
                                                 pe3_jadwal_ujian_pmb.ruangkelas_id,
                                                 pe3_ruangkelas.namaruang,
+                                                0 AS jumlah_peserta,
                                                 pe3_jadwal_ujian_pmb.created_at,
                                                 pe3_jadwal_ujian_pmb.updated_at
                                             '))
@@ -45,10 +47,18 @@ class JadwalUjianPMBController extends Controller {
                                             ->where('idsmt',$semester_pendaftaran)
                                             ->orderBy('tanggal_akhir_daftar','desc')
                                             ->get();
-
+        
+        
         $jumlah_bank_soal=SoalPMBModel::where('ta',$tahun_pendaftaran)
                                         ->where('semester',$semester_pendaftaran)
                                         ->count();
+
+        $jadwal_ujian->transform(function ($item,$key)
+        {
+            $item->jumlah_peserta=PesertaUjianPMBModel::where('jadwal_ujian_id',$item->id)
+                                ->count();
+            return $item;
+        });
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',  
@@ -58,7 +68,7 @@ class JadwalUjianPMBController extends Controller {
                                 ],200);     
     }  
     /**
-     * simpan soal baru
+     * simpan jadwal ujian baru
      */
     public function store(Request $request)
     {
@@ -98,14 +108,14 @@ class JadwalUjianPMBController extends Controller {
                                 ],200); 
     }
     /**
-     * daftar soal
+     * detail jadwal ujian pmb
      */
     public function show(Request $request,$id)
     {
         $this->hasPermissionTo('SPMB-PMB-JADWAL-UJIAN_SHOW');
 
         $jadwal_ujian=JadwalUjianPMBModel::find($id);
-        if (is_null($soal))
+        if (is_null($jadwal_ujian))
         {
             return Response()->json([
                                     'status'=>1,
@@ -203,7 +213,7 @@ class JadwalUjianPMBController extends Controller {
     }
 
     /**
-     * Menghapus soal ujian pmb
+     * Menghapus jadwal ujian pmb
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -212,32 +222,32 @@ class JadwalUjianPMBController extends Controller {
     { 
         $this->hasPermissionTo('SPMB-PMB-JADWAL-UJIAN_DESTROY');
 
-        $soal=JadwalUjianPMBModel::find($id);
+        $jadwal_ujian=JadwalUjianPMBModel::find($id);
         
-        if (is_null($soal))
+        if (is_null($jadwal_ujian))
         {
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>["Soal PMB dengan ID ($id) gagal dihapus"]
+                                    'message'=>["Menghapus jadwal ujian PMB dengan ID ($id) gagal dihapus"]
                                 ],422); 
         }
         else
         {
-            $nama_soal=$soal->soal;
-            $soal->delete();
+            $nama_kegiatan=$jadwal_ujian->nama_kegiatan;
+            $jadwal_ujian->delete();
 
             \App\Models\System\ActivityLog::log($request,[
                                                             'object' => $this->guard()->user(), 
                                                             'object_id' => $this->guard()->user()->id, 
-                                                            'soal_id' => $soal->id, 
-                                                            'message' => 'Menghapus Soal PMB ('.$nama_soal.') berhasil'
+                                                            'jadwal_ujian_id' => $jadwal_ujian->id, 
+                                                            'message' => 'Menghapus Jadwal Ujian PMB ('.$nama_kegiatan.') berhasil'
                                                         ]);
         
             return Response()->json([
                                         'status'=>1,
                                         'pid'=>'destroy',                
-                                        'message'=>"Soal Ujian PMB ($nama_soal) berhasil dihapus"
+                                        'message'=>"Jadwal Ujian PMB ($nama_kegiatan) berhasil dihapus"
                                     ],200);         
         }
                   

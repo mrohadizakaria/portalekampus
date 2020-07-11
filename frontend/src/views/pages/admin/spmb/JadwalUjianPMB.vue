@@ -380,9 +380,10 @@
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12">
-                                    <strong>ID:</strong>{{ item.id }}
-                                    <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
-                                    <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }}
+                                    <strong>ID:</strong>{{ item.id }} 
+                                    <strong>Ruangan:</strong>{{item.namaruang}} 
+                                    <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }} 
+                                    <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }} 
                                 </v-col>                                
                             </td>
                         </template>
@@ -441,7 +442,7 @@ export default {
                 { text: 'TGL. UJIAN', value: 'tanggal_ujian', sortable: true,width:100 },
                 { text: 'TGL. AKHIR PENDAFTARAN', value: 'tanggal_akhir_daftar', sortable: true,width:100 },
                 { text: 'DURASI UJIAN', value: 'durasi_ujian', sortable: true,width:100 },
-                { text: 'RUANGAN', value: 'namaruang', sortable: true,width:100 },
+                { text: 'JUMLAH PESERTA', value: 'jumlah_peserta', sortable: true,width:100 },
                 { text: 'AKSI', value: 'actions', sortable: false,width:100 },
             ],
             search:'',    
