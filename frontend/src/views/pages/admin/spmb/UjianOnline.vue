@@ -1,7 +1,18 @@
 <template>
     <div>
         <v-system-bar app dark class="brown darken-2 white--text">
-            
+            <strong>No. Peserta :</strong> {{this.peserta.no_peserta}}
+            <v-divider
+                class="mx-4"
+                inset
+                vertical>
+            </v-divider>
+            <strong>Mulai Ujian :</strong> {{$date(this.peserta.mulai_ujian).format('DD/MM/YYYY HH:mm')}}
+            <v-divider
+                class="mx-4"
+                inset
+                vertical>
+            </v-divider>
 		</v-system-bar>	
         <v-main>
             <v-container fluid>
@@ -26,6 +37,11 @@
                     </v-col> 
                     <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>   
                 </v-row>
+                <v-row v-if="isprosesujian">
+                    <v-col cols="2">
+                        
+                    </v-col>
+                </v-row>
             </v-container>
         </v-main>
     </div>
@@ -38,13 +54,13 @@ export default {
     {           
         var page = this.$store.getters['uiadmin/Page']('ujianonline');
         this.jadwal_ujian=page.data_ujian;
-        this.peserta=page.data_peserta;
-        console.log(page);
+        this.peserta=page.data_peserta;        
         this.initialize();
     },  
     data: () => ({
         jadwal_ujian:null,
         peserta:null,
+        isprosesujian:false,
 
         nama_soal:'',
         daftar_jawaban:[]
@@ -60,7 +76,8 @@ export default {
             }).then(({data})=>{                       
                 if (data.status==0)
                 {
-                    this.nama_soal='UJIAN SELESAI';
+                    this.isprosesujian=true;
+                    this.nama_soal='UJIAN SELESAI ?';
                     this.daftar_jawaban=[];
                 }
                 else
@@ -74,7 +91,6 @@ export default {
         },
         selesaiJawab ()
         {
-            console.log('test');
             this.initialize();
         }
     },    

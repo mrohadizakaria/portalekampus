@@ -191,7 +191,7 @@ class PMBUjianOnlineController extends Controller {
     public function store (Request $request)
     {
         $this->validate($request,[
-                                  'user_id'=>'required|exists:pe3_peserta_ujian_pmb,id',
+                                  'user_id'=>'required|exists:pe3_peserta_ujian_pmb,user_id',
                                   'soal_id'=>'required|exists:pe3_soal,id',
                                   'jawaban_id'=>'required|exists:pe3_jawaban_soal,id',
                                 ]);
