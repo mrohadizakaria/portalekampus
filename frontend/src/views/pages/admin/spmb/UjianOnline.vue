@@ -38,8 +38,15 @@
                     <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>   
                 </v-row>
                 <v-row v-if="isprosesujian">
-                    <v-col cols="2">
-                        
+                    <v-col cols="12">
+                        <v-btn class="mr-2">
+                            Review Kembali
+                        </v-btn>
+                        <v-btn 
+                            @click.stop="selesaiUjian"
+                            color="error">
+                            Selesai
+                        </v-btn>
                     </v-col>
                 </v-row>
             </v-container>
@@ -92,6 +99,25 @@ export default {
         selesaiJawab ()
         {
             this.initialize();
+        },
+        selesaiUjian:async function()
+        {
+            this.btnLoading=true;
+            await this.$ajax.post('/spmb/ujianonline/selesaiujian',    
+            {
+                _method:'put',
+                user_id:this.peserta.user_id
+            },    
+            {
+                headers: {
+                    Authorization:this.$store.getters['auth/Token']
+                }
+            }).then(()=>{                       
+               this.btnLoading=false;
+               this.$router.push('/dashboard/'+this.$store.getters['auth/AccessToken']);
+            }).catch(()=>{
+                this.btnLoading=false;
+            }); 
         }
     },    
     components:{

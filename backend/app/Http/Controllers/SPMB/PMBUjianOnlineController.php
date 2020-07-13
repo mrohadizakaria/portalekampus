@@ -209,5 +209,26 @@ class PMBUjianOnlineController extends Controller {
                                     'pid'=>'store',                                                                                                                                    
                                     'message'=>'Data Jawaban Ujian berhasil disimpan.'
                                 ],200); 
-    }    
+    }  
+    /**
+     * digunakan untuk menyimpan jawaban ujian
+     */
+    public function selesaiujian (Request $request)
+    {
+        $this->validate($request,[
+            'user_id'=>'required|exists:pe3_peserta_ujian_pmb,user_id',                               
+        ]);
+        
+        $peserta =PesertaUjianPMBModel::find($request->input('user_id'));        
+        $peserta->selesai_ujian=\Carbon\Carbon::now()->toDateTimeString();
+        $peserta->isfinish=1;
+        $peserta->save();
+
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'update',  
+                                'peserta'=>$peserta,
+                                'message'=>'peserta ujian berhasil menyelesaikan ujian pmb.'
+                            ],200);
+    }
 }

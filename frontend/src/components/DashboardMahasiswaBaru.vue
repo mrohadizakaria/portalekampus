@@ -86,6 +86,10 @@
                                         <td width="25%">Waktu Ujian</td>
                                         <td>: {{jadwal_ujian.jam_mulai_ujian}} - {{jadwal_ujian.jam_selesai_ujian}} ({{durasiUjian(jadwal_ujian)}})</td>
                                     </tr>
+                                    <tr>
+                                        <td width="25%">Keterangan</td>
+                                        <td>: {{keterangan_ujian}}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <v-btn
@@ -198,7 +202,7 @@ export default {
         status_ujian:false,
         jadwal_ujian:null,
         peserta:null,
-
+        keterangan_ujian:'',
     }),
     methods: {
         initialize:async function ()
@@ -212,9 +216,18 @@ export default {
                 if (data.status == 1)               
                 {
                     this.status_ujian=true;
-                    this.peserta = data.peserta;                    
+                    this.peserta = data.peserta;                       
                     this.jadwal_ujian = data.jadwal_ujian;      
                     this.ismulai=this.jadwal_ujian.status_ujian == 0 ?true:false;
+                    if (this.peserta.isfinish==1)
+                    {
+                        this.ismulai=true;
+                        this.keterangan_ujian='SELESAI UJIAN';
+                    }
+                    else
+                    {
+                        this.keterangan_ujian='BELUM UJIAN';
+                    }
                 }
             });  
         },
