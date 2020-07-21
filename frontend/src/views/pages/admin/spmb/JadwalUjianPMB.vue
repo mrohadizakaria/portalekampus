@@ -74,7 +74,8 @@
                                     class="mb-2"
                                     :loading="btnLoading"
                                     :disabled="btnLoading"
-                                    @click.stop="addItem">
+                                    @click.stop="addItem"
+                                    v-if="dashboard !='mahasiswabaru' && dashboard !='mahasiswa'">
                                         TAMBAH
                                 </v-btn>
                                 <v-dialog v-model="dialogfrm" max-width="800px" persistent>
@@ -356,7 +357,7 @@
                         <template v-slot:item.durasi_ujian="{ item }">
                             {{item.jam_mulai_ujian}} - {{item.jam_selesai_ujian}} <br>({{durasiUjian(item)}} Menit)
                         </template>
-                        <template v-slot:item.actions="{ item }">
+                        <template v-slot:item.actions="{ item }" v-if="dashboard !='mahasiswabaru' && dashboard !='mahasiswa'">
                             <v-icon
                                 small
                                 class="mr-2"
@@ -376,6 +377,9 @@
                                 @click.stop="deleteItem(item)">
                                 mdi-delete
                             </v-icon>
+                        </template>
+                        <template v-slot:item.actions v-else>
+                            N.A
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
@@ -402,6 +406,7 @@ import ModuleHeader from '@/components/ModuleHeader';
 export default {
     name:'JadwalUjianPMB',
     created () {
+        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];
         this.breadcrumbs = [
             {
                 text:'HOME',
@@ -418,7 +423,7 @@ export default {
                 disabled:true,
                 href:'#'
             }
-        ];
+        ];        
         this.tahun_pendaftaran=this.$store.getters['uiadmin/getTahunPendaftaran'];        
         this.semester_pendaftaran=this.$store.getters['uiadmin/getSemesterPendaftaran'];  
         this.nama_semester_pendaftaran=this.$store.getters['uiadmin/getNamaSemester'](this.semester_pendaftaran);  
@@ -428,6 +433,9 @@ export default {
     { 
         let tanggal_ujian=this.$date().format('YYYY-MM-DD');
         return {
+            breadcrumbs:[],        
+            dashboard:null,
+            
             firstloading:true,
             tahun_pendaftaran:null,
             semester_pendaftaran:null,

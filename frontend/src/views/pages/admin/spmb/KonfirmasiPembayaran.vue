@@ -60,7 +60,23 @@
                         :loading="datatableLoading"
                         loading-text="Loading... Please wait"
                     >
-
+                        <template v-slot:top>
+                            <v-toolbar flat color="white">
+                                <v-toolbar-title>DAFTAR JADWAL UJIAN PMB</v-toolbar-title>
+                                <v-divider
+                                    class="mx-4"
+                                    inset
+                                    vertical
+                                ></v-divider>
+                                <v-spacer></v-spacer>
+                                <v-btn 
+                                    color="primary" 
+                                    class="mb-2"
+                                    @click.stop="addItem">
+                                        TAMBAH
+                                </v-btn>
+                            </v-toolbar>
+                        </template>
                     </v-data-table>
                 </v-col>
             </v-row>
@@ -81,9 +97,9 @@ export default {
                 href:'/dashboard/'+this.ACCESS_TOKEN
             },
             {
-                text:'SPMB',
+                text:'KEUANGAN',
                 disabled:false,
-                href:'/spmb'
+                href:'/keuangan'
             },
             {
                 text:'KONFIRMASI PEMBAYARAN',
@@ -94,6 +110,9 @@ export default {
         this.initialize()
     },   
     data: () => ({ 
+        breadcrumbs:[],        
+        dashboard:null,
+        
         datatableLoading:false,
         btnLoading:false,              
         //tables
@@ -113,6 +132,21 @@ export default {
         initialize:async function () 
         {
 
+        },
+        dataTableRowClicked(item)
+        {
+            if ( item === this.expanded[0])
+            {
+                this.expanded=[];                
+            }
+            else
+            {
+                this.expanded=[item];
+            }               
+        },
+        addItem ()
+        {
+            
         }
     },
     computed: {

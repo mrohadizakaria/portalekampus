@@ -125,7 +125,7 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>                    
-                <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-KONFIRMASI-PEMBAYARAN')" to="/spmb/konfirmasipembayaran">
+                <v-list-item link v-if="CAN_ACCESS('KEUANGAN-KONFIRMASI-PEMBAYARAN_BROWSE')" to="/spmb/konfirmasipembayaran">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account-cash</v-icon>
                     </v-list-item-icon>
@@ -136,7 +136,7 @@
                     </v-list-item-content>
                 </v-list-item>              
                 <v-divider></v-divider>
-                <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-JADWAL-UJIAN_BROWSE')" to="/spmb/jadwalujianpmb">
+                <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-JADWAL-UJIAN_BROWSE') && dashboard!='mahasiswabaru' && dashboard!='mahasiswa'" to="/spmb/jadwalujianpmb">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-calendar-account</v-icon>
                     </v-list-item-icon>

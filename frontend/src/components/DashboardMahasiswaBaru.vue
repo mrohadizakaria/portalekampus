@@ -49,21 +49,22 @@
                         </v-card-text>                    
                     </v-card>
                 </v-timeline-item>
-                <!-- <v-timeline-item color="red lighten-2" icon="mdi-account-cash" fill-dot>
+                <v-timeline-item color="red lighten-2" icon="mdi-account-cash" fill-dot>
                     <v-card color="red lighten-2" dark>
                         <v-card-title class="title">Konfirmasi Pembayaran</v-card-title>
                         <v-card-text class="white text--primary">
-                            <p>Konfirmasi Pembayaran uang pembayaran</p>
+                            <p>Konfirmasi Pembayaran Biaya Formulir</p>
                             <v-btn
                                 color="red lighten-2"
                                 class="mx-0"
                                 outlined
+                                to="/spmb/konfirmasipembayaran"
                             >
-                                Button
+                                Konfirmasi
                             </v-btn>
                         </v-card-text>                    
                     </v-card>
-                </v-timeline-item>           -->      
+                </v-timeline-item>                
                 <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot v-if="status_ujian">
                     <v-card color="indigo">
                         <v-card-title class="title text--white">Ujian Online</v-card-title>

@@ -25,8 +25,35 @@ class JadwalUjianPMBController extends Controller {
         ]);
         $tahun_pendaftaran=$request->input('tahun_pendaftaran');
         $semester_pendaftaran=$request->input('semester_pendaftaran');
-
-        $jadwal_ujian=JadwalUjianPMBModel::select(\DB::raw('pe3_jadwal_ujian_pmb.id,
+        
+        if ($this->hasRole(['mahasiswabaru','mahasiswa']))
+        {
+            $jadwal_ujian=JadwalUjianPMBModel::select(\DB::raw('pe3_jadwal_ujian_pmb.id,
+                                                pe3_jadwal_ujian_pmb.nama_kegiatan, 
+                                                pe3_jadwal_ujian_pmb.jumlah_soal, 
+                                                pe3_jadwal_ujian_pmb.tanggal_ujian, 
+                                                pe3_jadwal_ujian_pmb.jam_mulai_ujian, 
+                                                pe3_jadwal_ujian_pmb.jam_selesai_ujian, 
+                                                pe3_jadwal_ujian_pmb.tanggal_akhir_daftar, 
+                                                pe3_jadwal_ujian_pmb.durasi_ujian, 
+                                                pe3_jadwal_ujian_pmb.status_pendaftaran, 
+                                                pe3_jadwal_ujian_pmb.status_ujian,                                                 
+                                                pe3_jadwal_ujian_pmb.ruangkelas_id,
+                                                pe3_ruangkelas.namaruang,
+                                                0 AS jumlah_peserta,
+                                                pe3_jadwal_ujian_pmb.created_at,
+                                                pe3_jadwal_ujian_pmb.updated_at
+                                            '))
+                                            ->join('pe3_peserta_ujian_pmb','pe3_peserta_ujian_pmb.jadwal_ujian_id','pe3_jadwal_ujian_pmb.id')
+                                            ->leftJoin('pe3_ruangkelas','pe3_ruangkelas.id','pe3_jadwal_ujian_pmb.ruangkelas_id')
+                                            ->where('ta',$tahun_pendaftaran)
+                                            ->where('idsmt',$semester_pendaftaran)
+                                            ->orderBy('tanggal_akhir_daftar','desc')
+                                            ->get();
+        }
+        else
+        {
+            $jadwal_ujian=JadwalUjianPMBModel::select(\DB::raw('pe3_jadwal_ujian_pmb.id,
                                                 pe3_jadwal_ujian_pmb.nama_kegiatan, 
                                                 pe3_jadwal_ujian_pmb.jumlah_soal, 
                                                 pe3_jadwal_ujian_pmb.tanggal_ujian, 
@@ -47,6 +74,8 @@ class JadwalUjianPMBController extends Controller {
                                             ->where('idsmt',$semester_pendaftaran)
                                             ->orderBy('tanggal_akhir_daftar','desc')
                                             ->get();
+        }
+        
         
         
         $jumlah_bank_soal=SoalPMBModel::where('ta',$tahun_pendaftaran)

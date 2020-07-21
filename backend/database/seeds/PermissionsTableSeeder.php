@@ -21,9 +21,31 @@ class PermissionsTableSeeder extends Seeder
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
+        ]);  
+
+        \DB::table('permissions')->insert([
+            'name'=>"DMASTER-GROUP",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
         ]);
         
+        //keuangan
+        \DB::table('permissions')->insert([
+            'name'=>"KEUANGAN-GROUP",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
 
+        //spmb
+        \DB::table('permissions')->insert([
+            'name'=>"SPMB-GROUP",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
         \DB::table('permissions')->insert([
             'name'=>"SPMB-PMB-LAPORAN-FAKULTAS_BROWSE",
             'guard_name'=>'api',
@@ -38,6 +60,7 @@ class PermissionsTableSeeder extends Seeder
             'updated_at'=>Carbon::now()
         ]);
         
+        //kemahasiswaan
         \DB::table('permissions')->insert([
             'name'=>"KEMAHASISWAAN-STATUS_BROWSE",
             'guard_name'=>'api',
@@ -50,30 +73,16 @@ class PermissionsTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
-        \DB::table('permissions')->insert([
-            'name'=>"SPMB-GROUP",
-            'guard_name'=>'api',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now()
-        ]);
 
-        \DB::table('permissions')->insert([
-            'name'=>"DMASTER-GROUP",
-            'guard_name'=>'api',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now()
-        ]);
-        
         $modules = [             
             'DMASTER-FAKULTAS',     
             'DMASTER-PRODI',     
             'DMASTER-KELAS',     
             'DMASTER-RUANGAN-KELAS',     
+            'KEUANGAN-KONFIRMASI-PEMBAYARAN',                 
             'SPMB-PMB',                 
             'SPMB-PMB-FORMULIR-PENDAFTARAN',     
-            'SPMB-PMB-PERSYARATAN',     
-            'SPMB-PMB-KONFIRMASI-PEMBAYARAN',                 
+            'SPMB-PMB-PERSYARATAN',                                
             'SPMB-PMB-SOAL',     
             'SPMB-PMB-JADWAL-UJIAN',     
             'SPMB-PMB-PASSING-GRADE',     
