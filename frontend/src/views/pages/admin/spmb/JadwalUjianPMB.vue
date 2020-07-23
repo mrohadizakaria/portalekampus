@@ -388,7 +388,10 @@
                                     <strong>Ruangan:</strong>{{item.namaruang}} 
                                     <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }} 
                                     <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }} 
-                                </v-col>                                
+                                </v-col>     
+                                <v-col cols="12">
+                                    <v-btn text small color="primary" :to="'/spmb/jadwalujianpmb/passinggrade/'+item.id" v-if="dashboard !='mahasiswabaru' && dashboard !='mahasiswa'">Passing Grade</v-btn>
+                                </v-col>     
                             </td>
                         </template>
                         <template v-slot:no-data>

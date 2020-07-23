@@ -158,7 +158,7 @@ const routes = [
 		component: () => import('../views/pages/admin/spmb/JadwalUjianPMB.vue'),		
 	},
 	{
-		path: '/spmb/passinggrade',
+		path: '/spmb/jadwalujianpmb/passinggrade/:idjadwalujian',
 		name: 'SPMBPassingGrade',
 		meta:{
 			title: "SPMB - PASSING GRADE",
