@@ -8,7 +8,7 @@
                 KONFIRMASI PEMBAYARAN
             </template>
             <template v-slot:subtitle>
-                TAHUN {{TahunPendaftaran|formatTA}}
+                
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -24,7 +24,7 @@
                     colored-border
                     type="info"
                     >
-                        Halaman ini berisi informasi konfirmasi pembayaran mahasiswa baru, mohon disesuaikan di filter tahun akademik, kemudian tekan refresh.
+                        Halaman ini berisi informasi konfirmasi pembayaran mahasiswa.
                     </v-alert>
             </template>
         </ModuleHeader> 
@@ -62,7 +62,7 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DAFTAR JADWAL UJIAN PMB</v-toolbar-title>
+                                <v-toolbar-title>DAFTAR KONFIRMASI PEMBAYARAN</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset

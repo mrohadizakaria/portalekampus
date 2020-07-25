@@ -119,7 +119,7 @@ const routes = [
 			title: "SPMB - KONFIRMASI PEMBAYARAN",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/KonfirmasiPembayaran.vue'),		
+		component: () => import('../views/pages/admin/keuangan/KonfirmasiPembayaran.vue'),		
 	},
 	{
 		path: '/spmb/formulirpendaftaran',
@@ -195,6 +195,15 @@ const routes = [
 		component: () => import('../views/pages/admin/system/SystemUsers.vue'),		
 	},
 	{
+		path: '/system-setting/identitasdiri',
+		name: 'IdentitasDiri',
+		meta:{
+			title: "SETTING - IDENTITAS DIRI",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/IdentitasDiri.vue'),		
+	},
+	{
 		path: '/system-setting/permissions',
 		name: 'SettingPermissions',
 		meta:{
@@ -229,6 +238,24 @@ const routes = [
 			requiresAuth:true,
         },
 		component: () => import('../views/pages/admin/system/UsersPMB.vue'),		
+	},
+	{
+		path: '/system-users/keuangan',
+		name: 'UsersKeuangan',
+		meta:{
+			title: "USERS - KEUANGAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/UsersKeuangan.vue'),		
+	},
+	{
+		path: '/system-users/profil',
+		name: 'UsersProfil',
+		meta:{
+			title: "USERS - PROFILE",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/UsersProfile.vue'),		
 	},
 	{
 		path: '/system-users/profil',

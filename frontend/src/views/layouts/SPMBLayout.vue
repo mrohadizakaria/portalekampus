@@ -84,7 +84,7 @@
                         <v-list-item-title>MODULE SPMB</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>   
-                <v-list-item link v-if="CAN_ACCESS('SPMB-SOAL_BROWSE')" to="/spmb/soalpmb">
+                <v-list-item link v-if="CAN_ACCESS('SPMB-PMB-SOAL_BROWSE')" to="/spmb/soalpmb">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-head-question-outline</v-icon>
                     </v-list-item-icon>
@@ -131,7 +131,7 @@
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>
-                            PEMBAYARAN
+                            KONFIRMASI PEMBAYARAN
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>              
