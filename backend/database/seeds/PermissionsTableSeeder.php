@@ -21,7 +21,7 @@ class PermissionsTableSeeder extends Seeder
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
-        ]);  
+        ]);
 
         \DB::table('permissions')->insert([
             'name'=>"DMASTER-GROUP",
@@ -29,7 +29,7 @@ class PermissionsTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         //keuangan
         \DB::table('permissions')->insert([
             'name'=>"KEUANGAN-GROUP",
@@ -37,7 +37,13 @@ class PermissionsTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-
+        \DB::table('permissions')->insert([
+            'name'=>"KEUANGAN-KOMPONEN-BIAYA_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
         //spmb
         \DB::table('permissions')->insert([
             'name'=>"SPMB-GROUP",
@@ -45,21 +51,21 @@ class PermissionsTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         \DB::table('permissions')->insert([
             'name'=>"SPMB-PMB-LAPORAN-FAKULTAS_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         \DB::table('permissions')->insert([
             'name'=>"SPMB-PMB-LAPORAN-PRODI_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         //kemahasiswaan
         \DB::table('permissions')->insert([
             'name'=>"KEMAHASISWAAN-STATUS_BROWSE",
@@ -74,20 +80,25 @@ class PermissionsTableSeeder extends Seeder
             'updated_at'=>Carbon::now()
         ]);
 
-        $modules = [             
-            'DMASTER-FAKULTAS',     
-            'DMASTER-PRODI',     
-            'DMASTER-KELAS',     
-            'DMASTER-RUANGAN-KELAS',     
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN',                 
-            'SPMB-PMB',                 
-            'SPMB-PMB-FORMULIR-PENDAFTARAN',     
-            'SPMB-PMB-PERSYARATAN',                                
-            'SPMB-PMB-SOAL',     
-            'SPMB-PMB-JADWAL-UJIAN',     
-            'SPMB-PMB-PASSING-GRADE',     
-            'SPMB-PMB-UJIAN-ONLINE',     
-            'SPMB-PMB-NILAI-UJIAN',                 
+        $modules = [
+            'DMASTER-FAKULTAS',
+            'DMASTER-PRODI',
+            'DMASTER-KELAS',
+            'DMASTER-RUANGAN-KELAS',
+
+            'KEUANGAN-KONFIRMASI-PEMBAYARAN',
+            'SPMB-PMB',
+            'SPMB-PMB-FORMULIR-PENDAFTARAN',
+            'SPMB-PMB-PERSYARATAN',
+            'SPMB-PMB-SOAL',
+            'SPMB-PMB-JADWAL-UJIAN',
+            'SPMB-PMB-PASSING-GRADE',
+            'SPMB-PMB-UJIAN-ONLINE',
+            'SPMB-PMB-NILAI-UJIAN',
+
+            'KEUANGAN-BIAYA-KOMPONEN-PERIODE',
+            'KEUANGAN-KONFIRMASI-PEMBAYARAN',
+
             'SYSTEM-SETTING-PERMISSIONS',
             'SYSTEM-SETTING-ROLES',
             'SYSTEM-SETTING-IDENTITAS-DIRI',
@@ -104,7 +115,7 @@ class PermissionsTableSeeder extends Seeder
             'SYSTEM-USERS-MAHASISWA',
             'SYSTEM-USERS-MAHASISWA BARU',
             'SYSTEM-USERS-ALUMNI',
-            'SYSTEM-USERS-ORANG TUA WALI',            
+            'SYSTEM-USERS-ORANG TUA WALI',
         ];
         $records=[];
         foreach($modules as $v)
@@ -114,11 +125,11 @@ class PermissionsTableSeeder extends Seeder
                 ['name'=>"{$v}_SHOW",'guard_name'=>'api','created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
                 ['name'=>"{$v}_STORE",'guard_name'=>'api','created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
                 ['name'=>"{$v}_UPDATE",'guard_name'=>'api','created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
-                ['name'=>"{$v}_DESTROY",'guard_name'=>'api','created_at'=>Carbon::now(),'updated_at'=>Carbon::now()]                
-            );            
+                ['name'=>"{$v}_DESTROY",'guard_name'=>'api','created_at'=>Carbon::now(),'updated_at'=>Carbon::now()]
+            );
             \DB::table('permissions')->insert($records);
-        }               
-        
+        }
+
         \DB::table('permissions')->insert([
             'name'=>"SYSTEM-SETTING-GROUP",
             'guard_name'=>'api',
@@ -131,20 +142,20 @@ class PermissionsTableSeeder extends Seeder
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
-        ]);                
+        ]);
 
         \DB::table('permissions')->insert([
             'name'=>"USER_STOREPERMISSIONS",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
-        ]);                
+        ]);
         \DB::table('permissions')->insert([
             'name'=>"USER_REVOKEPERMISSIONS",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();                
+        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
     }
 }

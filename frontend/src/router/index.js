@@ -33,11 +33,11 @@ const routes = [
 		path: '/dashboard/:token',
 		name: 'AdminDashboard',
 		meta:{
-			title: "DASHBOARD",			
+			title: "DASHBOARD",
         },
-		component: () => import('../views/pages/admin/Dashboard.vue'),		
+		component: () => import('../views/pages/admin/Dashboard.vue'),
 	},
-	//dmaster	
+	//dmaster
 	{
 		path: '/dmaster',
 		name: 'DMaster',
@@ -45,7 +45,7 @@ const routes = [
 			title: "DATA MASTER",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/dmaster/DMaster.vue'),		
+		component: () => import('../views/pages/admin/dmaster/DMaster.vue'),
 	},
 	{
 		path: '/dmaster/fakultas',
@@ -54,7 +54,7 @@ const routes = [
 			title: "DATA MASTER - FAKULTAS",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/dmaster/Fakultas.vue'),		
+		component: () => import('../views/pages/admin/dmaster/Fakultas.vue'),
 		beforeEnter: (to, from, next) => {
 			if(store.getters['uifront/getBentukPT']=='sekolahtinggi')
 			{
@@ -63,7 +63,7 @@ const routes = [
 			else
 			{
 				next();
-			}			
+			}
 		}
 	},
 	{
@@ -73,7 +73,7 @@ const routes = [
 			title: "DATA MASTER - PROGRAM STUDI",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/dmaster/ProgramStudi.vue'),		
+		component: () => import('../views/pages/admin/dmaster/ProgramStudi.vue'),
 	},
 	{
 		path: '/dmaster/kelas',
@@ -82,9 +82,9 @@ const routes = [
 			title: "DATA MASTER - KELAS",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/dmaster/Kelas.vue'),		
+		component: () => import('../views/pages/admin/dmaster/Kelas.vue'),
 	},
-	//spmb	
+	//spmb
 	{
 		path: '/spmb',
 		name: 'SPMB',
@@ -92,8 +92,8 @@ const routes = [
 			title: "SPMB",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/SPMB.vue'),		
-	},	
+		component: () => import('../views/pages/admin/spmb/SPMB.vue'),
+	},
 	{
 		path: '/spmb/soalpmb',
 		name: 'SPMBSoal',
@@ -101,7 +101,7 @@ const routes = [
 			title: "SPMB - SOAL PMB",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/SoalPMB.vue'),		
+		component: () => import('../views/pages/admin/spmb/SoalPMB.vue'),
 	},
 	{
 		path: '/spmb/pendaftaranbaru',
@@ -110,7 +110,7 @@ const routes = [
 			title: "SPMB - PENDAFTARAN BARU",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/PendaftaranBaru.vue'),		
+		component: () => import('../views/pages/admin/spmb/PendaftaranBaru.vue'),
 	},
 	{
 		path: '/spmb/konfirmasipembayaran',
@@ -119,7 +119,7 @@ const routes = [
 			title: "SPMB - KONFIRMASI PEMBAYARAN",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/keuangan/KonfirmasiPembayaran.vue'),		
+		component: () => import('../views/pages/admin/keuangan/KonfirmasiPembayaran.vue'),
 	},
 	{
 		path: '/spmb/formulirpendaftaran',
@@ -128,7 +128,7 @@ const routes = [
 			title: "SPMB - FORMULIR PENDAFTARAN",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/FormulirPendaftaran.vue'),		
+		component: () => import('../views/pages/admin/spmb/FormulirPendaftaran.vue'),
 	},
 	{
 		path: '/spmb/persyaratan',
@@ -137,7 +137,7 @@ const routes = [
 			title: "SPMB - PERSYARATAN",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/PersyaratanPMB.vue'),		
+		component: () => import('../views/pages/admin/spmb/PersyaratanPMB.vue'),
 	},
 	{
 		path: '/spmb/ujianonline',
@@ -146,7 +146,7 @@ const routes = [
 			title: "SPMB - UJIAN ONLINE",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/UjianOnline.vue'),		
+		component: () => import('../views/pages/admin/spmb/UjianOnline.vue'),
 	},
 	{
 		path: '/spmb/jadwalujianpmb',
@@ -155,7 +155,7 @@ const routes = [
 			title: "SPMB - JADWAL UJIAN PMB",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/JadwalUjianPMB.vue'),		
+		component: () => import('../views/pages/admin/spmb/JadwalUjianPMB.vue'),
 	},
 	{
 		path: '/spmb/jadwalujianpmb/passinggrade/:idjadwalujian',
@@ -164,8 +164,8 @@ const routes = [
 			title: "SPMB - PASSING GRADE",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/PassingGrade.vue'),		
-	},	
+		component: () => import('../views/pages/admin/spmb/PassingGrade.vue'),
+	},
 	{
 		path: '/spmb/laporanfakultas',
 		name: 'SPMBReportFakultas',
@@ -173,7 +173,7 @@ const routes = [
 			title: "SPMB - LAPORAN FAKULTAS",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/ReportFakultas.vue'),		
+		component: () => import('../views/pages/admin/spmb/ReportFakultas.vue'),
 	},
 	{
 		path: '/spmb/laporanprodi',
@@ -182,8 +182,29 @@ const routes = [
 			title: "SPMB - LAPORAN PROGRAM STUDI",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/spmb/ReportProdi.vue'),		
+		component: () => import('../views/pages/admin/spmb/ReportProdi.vue'),
 	},
+
+	//keuangan
+	{
+		path: '/keuangan',
+		name: 'KEUANGAN',
+		meta:{
+			title: "KEUANGAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/keuangan/Keuangan.vue'),
+	},
+	{
+		path: '/keuangan/biayakomponen',
+		name: 'KeuanganBiayaKomponen',
+		meta:{
+			title: "KEUANGAN - BIAYA KOMPONEN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/keuangan/BiayaKomponen.vue'),
+	},
+	
 	//system
 	{
 		path: '/system-users',
@@ -192,7 +213,7 @@ const routes = [
 			title: "SYSTEM - USERS",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/SystemUsers.vue'),		
+		component: () => import('../views/pages/admin/system/SystemUsers.vue'),
 	},
 	{
 		path: '/system-setting/identitasdiri',
@@ -201,7 +222,7 @@ const routes = [
 			title: "SETTING - IDENTITAS DIRI",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/IdentitasDiri.vue'),		
+		component: () => import('../views/pages/admin/system/IdentitasDiri.vue'),
 	},
 	{
 		path: '/system-setting/permissions',
@@ -210,7 +231,7 @@ const routes = [
 			title: "SETTING - PERMISSIONS",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/Permissions.vue'),		
+		component: () => import('../views/pages/admin/system/Permissions.vue'),
 	},
 	{
 		path: '/system-setting/roles',
@@ -219,7 +240,7 @@ const routes = [
 			title: "SETTING - ROLES",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/Roles.vue'),		
+		component: () => import('../views/pages/admin/system/Roles.vue'),
 	},
 	{
 		path: '/system-setting/captcha',
@@ -228,7 +249,7 @@ const routes = [
 			title: "SETTING - CAPTCHA",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/Captcha.vue'),		
+		component: () => import('../views/pages/admin/system/Captcha.vue'),
 	},
 	{
 		path: '/system-users/pmb',
@@ -237,7 +258,7 @@ const routes = [
 			title: "USERS - PMB",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/UsersPMB.vue'),		
+		component: () => import('../views/pages/admin/system/UsersPMB.vue'),
 	},
 	{
 		path: '/system-users/keuangan',
@@ -246,7 +267,7 @@ const routes = [
 			title: "USERS - KEUANGAN",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/UsersKeuangan.vue'),		
+		component: () => import('../views/pages/admin/system/UsersKeuangan.vue'),
 	},
 	{
 		path: '/system-users/profil',
@@ -255,7 +276,7 @@ const routes = [
 			title: "USERS - PROFILE",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/UsersProfile.vue'),		
+		component: () => import('../views/pages/admin/system/UsersProfile.vue'),
 	},
 	{
 		path: '/system-users/profil',
@@ -264,7 +285,7 @@ const routes = [
 			title: "USERS - PROFILE",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/system/UsersProfile.vue'),		
+		component: () => import('../views/pages/admin/system/UsersProfile.vue'),
 	},
 	{
 		path: '/404',
@@ -274,9 +295,9 @@ const routes = [
         },
 		component: NotFoundComponent
 	},
-	{ 
-		path: '*', 
-		redirect: '/404' 
+	{
+		path: '*',
+		redirect: '/404'
 	},
 ]
 
@@ -287,8 +308,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	document.title = to.meta.title;	
-	if (to.matched.some(record => record.meta.requiresAuth))	
+	document.title = to.meta.title;
+	if (to.matched.some(record => record.meta.requiresAuth))
 	{
 		if (store.getters['auth/Authenticated'])
 		{
