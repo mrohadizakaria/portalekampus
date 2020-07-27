@@ -6,28 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\ProgramStudiModel;
 
-class DashboardController extends Controller 
-{  
+class DashboardController extends Controller
+{
     /**
      * index pmb
      *
      * @return \Illuminate\Http\Response
      */
     public function pmbindex(Request $request)
-    {   
+    {
         $this->hasPermissionTo('SPMB-PMB_BROWSE');
 
-        $this->validate($request, [           
+        $this->validate($request, [
             'TA'=>'required',
         ]);
 
         $ta=$request->input('TA');
-        
+
         $subquery = \DB::table('pe3_formulir_pendaftaran')
                         ->select(\DB::raw('kjur1,COUNT(user_id) AS jumlah'))
                         ->groupBy('kjur1')
                         ->where('ta',$ta);
-        
+
         if ($this->hasRole('superadmin'))
         {
             $daftar_prodi=ProgramStudiModel::select(\DB::raw('id AS prodi_id,nama_prodi,nama_prodi_alias,nama_jenjang,COALESCE(jumlah,0) AS jumlah'))
@@ -49,11 +49,18 @@ class DashboardController extends Controller
 
         return Response()->json([
                                 'status'=>1,
-                                'pid'=>'fetchdata',                                                                                          
+                                'pid'=>'fetchdata',
                                 'daftar_prodi'=>$daftar_prodi,
-                                'total_mb'=>$daftar_prodi->sum('jumlah'),                              
+                                'total_mb'=>$daftar_prodi->sum('jumlah'),
                                 'message'=>'Fetch data dashboard pmb berhasil diperoleh'
-                            ],200);    
-        
+                            ],200);
+
+    }
+    /**
+     * index keuangan
+     */
+    public function keuanganindex ()
+    {
+        $this->hasPermissionTo('KEUANGAN-RINGKASAN_BROWSE');
     }
 }

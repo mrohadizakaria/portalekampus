@@ -123,6 +123,8 @@ class RolesTableSeeder extends Seeder
         $records=[
             'DASHBOARD_SHOW',
             'KEUANGAN-GROUP',
+            'KEUANGAN-RINGKASAN_BROWSE',
+
             'KEUANGAN-KOMPONEN-BIAYA_BROWSE',
 
             'KEUANGAN-BIAYA-KOMPONEN-PERIODE_BROWSE',

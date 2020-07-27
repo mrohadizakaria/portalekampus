@@ -38,12 +38,18 @@ class PermissionsTableSeeder extends Seeder
             'updated_at'=>Carbon::now()
         ]);
         \DB::table('permissions')->insert([
+            'name'=>"KEUANGAN-RINGKASAN_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        \DB::table('permissions')->insert([
             'name'=>"KEUANGAN-KOMPONEN-BIAYA_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         //spmb
         \DB::table('permissions')->insert([
             'name'=>"SPMB-GROUP",

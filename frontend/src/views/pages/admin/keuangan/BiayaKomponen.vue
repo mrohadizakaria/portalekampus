@@ -2,13 +2,13 @@
     <KeuanganLayout>
         <ModuleHeader>
             <template v-slot:icon>
-                mdi-monitor-dashboard
+                mdi-video-input-component
             </template>
             <template v-slot:name>
-                KEUANGAN
+                BIAYA KOMPONEN
             </template>
             <template v-slot:subtitle>
-                TAHUN PENDAFTARAN {{tahun_pendaftaran}}
+
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -24,94 +24,112 @@
                     colored-border
                     type="info"
                     >
-                    dashboard untuk memperoleh ringkasan informasi keuangan perguruan tinggi.
+                        Halaman ini berisi informasi komponen biaya. ID dan Nama Komponen melekat ke sistem sehingga tidak bisa diubah.
                     </v-alert>
             </template>
         </ModuleHeader>
-        <template v-slot:filtersidebar>
-            <Filter9 v-on:changeTahunPendaftaran="changeTahunPendaftaran" ref="filter9" />
-        </template>
         <v-container>
-
+            <v-row class="mb-4" no-gutters>
+                <v-col cols="12">
+                    <v-data-table
+                        :headers="headers"
+                        :items="datatable"
+                        item-key="id"
+                        sort-by="id"
+                        show-expand
+                        :disable-pagination="true"
+                        :hide-default-footer="true"
+                        :expanded.sync="expanded"
+                        :single-expand="true"
+                        @click:row="dataTableRowClicked"
+                        class="elevation-1"
+                        :loading="datatableLoading"
+                        loading-text="Loading... Please wait">
+                        <template v-slot:expanded-item="{ headers, item }">
+                            <td :colspan="headers.length" class="text-center">
+                                <v-col cols="12">
+                                    <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
+                                    <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }}
+                                </v-col>
+                            </td>
+                        </template>
+                        <template v-slot:no-data>
+                            Data belum tersedia
+                        </template>
+                    </v-data-table>
+                </v-col>
+            </v-row>
         </v-container>
     </KeuanganLayout>
 </template>
 <script>
 import KeuanganLayout from '@/views/layouts/KeuanganLayout';
 import ModuleHeader from '@/components/ModuleHeader';
-import Filter9 from '@/components/sidebar/FilterMode9';
 export default {
-    name: 'Keuangan',
-    created ()
-	{
-		this.breadcrumbs = [
-			{
-				text:'HOME',
-				disabled:false,
-				href:'/dashboard/'+this.$store.getters['auth/AccessToken']
-			},
-			{
-				text:'KEUANGAN',
-				disabled:true,
-				href:'#'
-			}
-        ];
-        this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran'];
-    },
-    mounted()
+    name:'BiayaKomponen',
+    created()
     {
+        this.breadcrumbs = [
+            {
+                text:'HOME',
+                disabled:false,
+                href:'/dashboard/'+this.$store.getters['auth/AccessToken']
+            },
+            {
+                text:'KEUANGAN',
+                disabled:false,
+                href:'/keuangan'
+            },
+            {
+                text:'KOMPONEN BIAYA',
+                disabled:true,
+                href:'#'
+            }
+        ];
         this.initialize();
     },
     data: () => ({
-        datatableLoading:false,
-        firstloading:true,
         breadcrumbs:[],
-        tahun_pendaftaran:0,
 
-        //statistik
-        daftar_prodi:[],
-        total_mb:0,
+        btnLoading:false,
+        datatableLoading:false,
+        expanded:[],
+        datatable:[],
+        headers: [
+            { text: 'ID', value: 'id',width:10,sortable:false },
+            { text: 'NAMA KOMPONEN', value: 'nama',sortable:false},
+            { text: 'PERIODE', value: 'periode',width:150,sortable:false },
+        ],
     }),
     methods : {
-        changeTahunPendaftaran (tahun)
-        {
-            this.tahun_pendaftaran=tahun;
-        },
-		initialize:async function()
+        initialize:async function()
 		{
             this.datatableLoading=true;
-            await this.$ajax.post('/dashboard/keuangan',
-            {
-                TA:this.tahun_pendaftaran,
-            },
+            await this.$ajax.get('/keuangan/komponenbiaya',
             {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
             }).then(({data})=>{
-                this.daftar_prodi = data.daftar_prodi;
-                this.total_mb = data.total_mb;
-                this.datatableLoading=false;
-            }).catch(()=>{
+                this.datatable = data.kombi;
                 this.datatableLoading=false;
             });
-            this.firstloading=false;
-            this.$refs.filter9.setFirstTimeLoading(this.firstloading);
-        }
-    },
-    watch:{
-        tahun_pendaftaran()
+        },
+        dataTableRowClicked(item)
         {
-            if (!this.firstloading)
+            if ( item === this.expanded[0])
             {
-                this.initialize();
+                this.expanded=[];
+            }
+            else
+            {
+                this.expanded=[item];
             }
         },
     },
     components:{
         KeuanganLayout,
         ModuleHeader,
-        Filter9,
     },
 }
 </script>
