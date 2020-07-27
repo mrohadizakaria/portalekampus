@@ -1,6 +1,6 @@
 <%@ Title="Kemahasiswaan - Calon Wisuda"%>
 <com:TContent ID="moduleheader">
-    <i class="fa fa-location-arrow"></i> Calon Wisudawan / Wati
+    <i class="fa fa-location-arrow"></i> Calon Wisudawan / Wati <br/><small><com:TActiveLabel ID="lblModulHeader" /></small>
 </com:TContent>
 <com:TContent ID="modulebreadcrumb">    
     <li><a href="#">KEMAHASISWAAN</a></li>    
@@ -106,40 +106,7 @@
                 </div>
             </div>
         </div>
-    </div>	
-    <div class="row">
-        <div class="col-md-12">
-            <div class="main-box">
-                <header class="main-box-header clearfix">
-                    <h2>Isi NIM :</h2>
-                </header>
-                <div class="main-box-body clearfix">
-                    <div class="form-inline">                        
-                        <div class="form-group">
-                            <label class="sr-only">NIM :</label>
-                            <com:TTextBox CssClass="form-control" ID="txtNIM" Attributes.PlaceHolder="NIM" Width="150px" />                                                                                                        
-                        </div>
-                        <com:TActiveCustomButton ID="btnGo" CssClass="btn btn-primary" OnClick="Go" ValidationGroup="dulangNIMMhsLulus">
-                            <prop:Text><i class="fa fa-location-arrow"></i> Go</prop:Text>
-                            <prop:ClientSide.OnPreDispatch>                                                                   
-                                $('loading').show(); 
-                                $('<%=$this->btnGo->ClientId%>').disabled='disabled';						
-                            </prop:ClientSide.OnPreDispatch>
-                            <prop:ClientSide.OnLoading>
-                                $('<%=$this->btnGo->ClientId%>').disabled='disabled';						
-                            </prop:ClientSide.OnLoading>
-                            <prop:ClientSide.OnComplete>																	                                    						                                                                            
-                                $('<%=$this->btnGo->ClientId%>').disabled='';
-                                $('loading').hide(); 
-                            </prop:ClientSide.OnComplete>
-                        </com:TActiveCustomButton>
-                        <com:TRequiredFieldValidator ValidationGroup="dulangNIMMhsLulus" Display="Dynamic" ControlToValidate="txtNIM" ErrorMessage="Isi NIM Calon Wisuda" FocusOnError="true" CssClass="has-error help-block" />
-                        <com:TActiveCustomValidator ControlToValidate="txtNIM" Display="Dynamic" OnServerValidate="cekNIM" ValidationGroup="dulangNIMMhsLulus" ErrorMessage="NIM tidak terdaftar di Database, silahkan ganti dengan yang lain" CssClass="has-error help-block" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div>	    
     <div class="row">
         <div class="col-lg-12">
             <div class="main-box clearfix">
@@ -175,8 +142,7 @@
                                     <th scope="col">NAMA MHS</th>																		
                                     <th scope="col">DOSEN WALI</th>
                                     <th scope="col">TANGGAL <br/>DAFTAR ULANG</th>	
-                                    <th scope="col">T.A dan SMT <br/>DAFTAR ULANG</th>
-                                    <th scope="col" width="80">AKSI</th>					
+                                    <th scope="col">T.A dan SMT <br/>DAFTAR ULANG</th>                                    			
                                 </tr>			
                                 </thead>
                                 <tbody>
@@ -190,17 +156,7 @@
                                     <td><%#$this->DataItem['nama_mhs']%></td>											
                                     <td><%#$this->Page->DMaster->getNamaDosenWaliByID($this->DataItem['iddosen_wali'])%></td>                                    
                                     <td><%#$this->Page->TGL->tanggal('d/m/Y',$this->DataItem['tanggal'])%></td>
-                                    <td><%#$this->DataItem['tahun'].$this->DataItem['idsmt']%></td>
-                                    <td>
-                                        <com:TLinkButton ID="btnDelete" CssClass="table-link danger" OnClick="Page.viewRecord" Attributes.Title="Hapus Kemahasiswaan" Attributes.OnClick="if(!confirm('Anda ingin menghapus daftar ulang mahasiswa ini ?')) return false;">
-                                            <prop:Text>
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </prop:Text>                                            
-                                        </com:TLinkButton>
-                                    </td>
+                                    <td><%#$this->DataItem['tahun'].$this->DataItem['idsmt']%></td>                                   
                                 </tr>	
                             </prop:ItemTemplate>	       
                             <prop:FooterTemplate>

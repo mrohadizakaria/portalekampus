@@ -8,12 +8,46 @@ class CCalonWisuda Extends MainPageM {
         $this->createObj('Akademik');
 		if (!$this->IsPostBack&&!$this->IsCallBack) {
             if (!isset($_SESSION['currentPageCalonWisuda'])||$_SESSION['currentPageCalonWisuda']['page_name']!='m.kemahasiswaan.CalonWisuda') {
-				$_SESSION['currentPageCalonWisuda']=array('page_name'=>'m.kemahasiswaan.CalonWisuda','page_num'=>0,'search'=>false);												
+				$_SESSION['currentPageCalonWisuda']=array('page_name'=>'m.kemahasiswaan.CalonWisuda','page_num'=>0,'search'=>false,'tahun_masuk'=>$_SESSION['tahun_masuk']);												
 			}
             $_SESSION['currentPageCalonWisuda']['search']=false;
+            $this->tbCmbPs->DataSource=$this->DMaster->removeIdFromArray($_SESSION['daftar_jurusan'],'none');
+            $this->tbCmbPs->Text=$_SESSION['kjur'];			
+            $this->tbCmbPs->dataBind();	
+
+            $this->tbCmbTA->DataSource=$this->DMaster->removeIdFromArray($this->DMaster->getListTA($this->Pengguna->getDataUser('tahun_masuk')),'none');
+            $this->tbCmbTA->Text=$_SESSION['ta'];
+            $this->tbCmbTA->dataBind();
             
+            $tahun_masuk=$this->getAngkatan ();			            
+            $this->tbCmbTahunMasuk->DataSource=$tahun_masuk	;					
+            $this->tbCmbTahunMasuk->Text=$_SESSION['currentPageKRS']['tahun_masuk'];						
+            $this->tbCmbTahunMasuk->dataBind();
+
+            $semester=$this->DMaster->removeIdFromArray($this->setup->getSemester(),'none');  				
+            $this->tbCmbSemester->DataSource=$semester;
+            $this->tbCmbSemester->Text=$_SESSION['semester'];
+            $this->tbCmbSemester->dataBind();
+
+            $this->tbCmbOutputReport->DataSource=$this->setup->getOutputFileType();
+            $this->tbCmbOutputReport->Text= $_SESSION['outputreport'];
+            $this->tbCmbOutputReport->DataBind();
+
+            $this->tbCmbOutputCompress->DataSource=$this->setup->getOutputCompressType();
+            $this->tbCmbOutputCompress->Text= $_SESSION['outputcompress'];
+            $this->tbCmbOutputCompress->DataBind();
+
             $this->populateData();
+            $this->setInfoToolbar();
 		}	
+    }
+    public function setInfoToolbar() {        
+        $kjur=$_SESSION['kjur'];        
+		$ps=$_SESSION['daftar_jurusan'][$kjur];
+        $ta=$this->DMaster->getNamaTA($_SESSION['ta']);		
+        $semester = $this->setup->getSemester($_SESSION['semester']);
+		$tahunmasuk=$_SESSION['currentPageCalonWisuda']['tahun_masuk'] == 'none'?'':'Tahun Masuk '.$this->DMaster->getNamaTA($_SESSION['currentPageCalonWisuda']['tahun_masuk']);		        
+		$this->lblModulHeader->Text="Program Studi $ps T.A $ta Semester $semester $tahunmasuk";        
 	}
     public function Page_Changed ($sender,$param) {
 		$_SESSION['currentPageCalonWisuda']['page_num']=$param->NewPageIndex;
@@ -26,7 +60,35 @@ class CCalonWisuda Extends MainPageM {
         $_SESSION['currentPageCalonWisuda']['search']=true;
         $this->populateData($_SESSION['currentPageCalonWisuda']['search']);
     }
-    public function populateData($search=false) {        
+    public function changeTbTA ($sender,$param) {				
+		$_SESSION['ta']=$this->tbCmbTA->Text;		        
+		$_SESSION['currentPageCalonWisuda']['tahun_masuk']=$_SESSION['ta'];
+		$this->tbCmbTahunMasuk->DataSource=$this->getAngkatan();
+		$this->tbCmbTahunMasuk->Text=$_SESSION['currentPageCalonWisuda']['tahun_masuk'];
+		$this->tbCmbTahunMasuk->dataBind();		
+        $this->setInfoToolbar();
+		$this->populateData();
+	}
+	public function changeTbTahunMasuk($sender,$param) {				
+		$_SESSION['currentPageCalonWisuda']['tahun_masuk']=$this->tbCmbTahunMasuk->Text;
+        $this->setInfoToolbar();
+		$this->populateData();
+	}
+	public function changeTbPs ($sender,$param) {		
+		$_SESSION['kjur']=$this->tbCmbPs->Text;
+        $this->setInfoToolbar();
+		$this->populateData();
+	}	
+	public function changeTbSemester ($sender,$param) {		
+		$_SESSION['semester']=$this->tbCmbSemester->Text;        
+        $this->setInfoToolbar();
+		$this->populateData();
+	}
+    public function populateData($search=false) { 
+        $ta=$_SESSION['ta'];
+		$idsmt=$_SESSION['semester'];
+		$kjur=$_SESSION['kjur'];
+		$tahun_masuk=$_SESSION['currentPageCalonWisuda']['tahun_masuk'];      
         if ($search) {
             $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt,d.idkelas FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.k_status='L'";
             $txtsearch=addslashes($this->txtKriteria->Text);
@@ -53,8 +115,8 @@ class CCalonWisuda Extends MainPageM {
                 break;
             }
         }else{                            
-            $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt,d.idkelas FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='L' $str_dw $str_tahun_masuk";
-            $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status='L' $str_dw $str_tahun_masuk",'vdm.nim');
+            $str = "SELECT d.iddulang,vdm.no_formulir,vdm.nim,vdm.nirm,vdm.nama_mhs,vdm.iddosen_wali,d.tanggal,d.tahun,d.idsmt,d.idkelas FROM v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status!='L' $str_dw $str_tahun_masuk";
+            $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs vdm,dulang d WHERE vdm.nim=d.nim AND d.tahun=$ta AND d.idsmt=$idsmt AND vdm.kjur='$kjur' AND d.k_status!='L' $str_dw $str_tahun_masuk",'vdm.nim');
         }
 		
 		$this->RepeaterS->CurrentPageIndex=$_SESSION['currentPageCalonWisuda']['page_num'];
