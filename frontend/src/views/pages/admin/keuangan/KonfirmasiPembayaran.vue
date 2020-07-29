@@ -1,5 +1,5 @@
 <template>
-    <SPMBLayout>
+    <KeuanganLayout>
         <ModuleHeader>
             <template v-slot:icon>
                 mdi-account-cash
@@ -8,7 +8,7 @@
                 KONFIRMASI PEMBAYARAN
             </template>
             <template v-slot:subtitle>
-                
+
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -18,17 +18,17 @@
                 </v-breadcrumbs>
             </template>
             <template v-slot:desc>
-                <v-alert                                        
+                <v-alert
                     color="cyan"
-                    border="left"                    
+                    border="left"
                     colored-border
                     type="info"
                     >
                         Halaman ini berisi informasi konfirmasi pembayaran mahasiswa.
                     </v-alert>
             </template>
-        </ModuleHeader> 
-        <v-container>    
+        </ModuleHeader>
+        <v-container>
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-card>
@@ -69,8 +69,8 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-btn 
-                                    color="primary" 
+                                <v-btn
+                                    color="primary"
                                     class="mb-2"
                                     @click.stop="addItem">
                                         TAMBAH
@@ -81,14 +81,14 @@
                 </v-col>
             </v-row>
         </v-container>
-    </SPMBLayout>
+    </KeuanganLayout>
 </template>
 <script>
 import {mapGetters} from 'vuex';
-import SPMBLayout from '@/views/layouts/SPMBLayout';
+import KeuanganLayout from '@/views/layouts/KeuanganLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name: 'KonfirmasiPembayaran', 
+    name: 'KonfirmasiPembayaran',
     created () {
         this.breadcrumbs = [
             {
@@ -108,20 +108,20 @@ export default {
             }
         ];
         this.initialize()
-    },   
-    data: () => ({ 
-        breadcrumbs:[],        
+    },
+    data: () => ({
+        breadcrumbs:[],
         dashboard:null,
-        
+
         datatableLoading:false,
-        btnLoading:false,              
+        btnLoading:false,
         //tables
-        headers: [                                                
+        headers: [
             { text: 'NAMA MAHASISWA', value: 'name',width:350,sortable:true },
-            { text: 'TANGGAL TRANSFER', value: 'email',sortable:true },     
-            { text: 'BANK TUJUAN', value: 'nomor_hp',sortable:true },     
-            { text: 'JUMLAH', value: 'created_at',sortable:true,width:150 },     
-            { text: 'NAMA PENGIRIM/PEMILIK REKENING', value: 'created_at',sortable:true,width:150 },     
+            { text: 'TANGGAL TRANSFER', value: 'email',sortable:true },
+            { text: 'BANK TUJUAN', value: 'nomor_hp',sortable:true },
+            { text: 'JUMLAH', value: 'created_at',sortable:true,width:150 },
+            { text: 'NAMA PENGIRIM/PEMILIK REKENING', value: 'created_at',sortable:true,width:150 },
             { text: 'AKSI', value: 'actions', sortable: false,width:100 },
         ],
         expanded:[],
@@ -129,7 +129,7 @@ export default {
         datatable:[],
     }),
     methods: {
-        initialize:async function () 
+        initialize:async function ()
         {
 
         },
@@ -137,31 +137,31 @@ export default {
         {
             if ( item === this.expanded[0])
             {
-                this.expanded=[];                
+                this.expanded=[];
             }
             else
             {
                 this.expanded=[item];
-            }               
+            }
         },
         addItem ()
         {
-            
+
         }
     },
     computed: {
-        ...mapGetters('auth',{            
-            ACCESS_TOKEN:'AccessToken',          
-            TOKEN:'Token',                                  
-        }), 
+        ...mapGetters('auth',{
+            ACCESS_TOKEN:'AccessToken',
+            TOKEN:'Token',
+        }),
         TahunPendaftaran()
         {
             return this.$store.getters['uiadmin/getTahunPendaftaran'];
         }
     },
     components:{
-        SPMBLayout,
-        ModuleHeader,        
+        KeuanganLayout,
+        ModuleHeader,
     },
 }
 </script>

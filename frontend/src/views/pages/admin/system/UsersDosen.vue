@@ -5,7 +5,7 @@
                 mdi-account
             </template>
             <template v-slot:name>
-                USERS KEUANGAN
+                USERS DOSEN
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -21,7 +21,7 @@
                     colored-border
                     type="info"
                     >
-                     User dengan role Keuangan bertanggungjawab terhadap proses keuangan.
+                     User dengan role DOSEN bertanggungjawab terhadap proses pembelajaran mahasiswa.
                 </v-alert>
             </template>
         </ModuleHeader>
@@ -59,26 +59,18 @@
                     >
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-toolbar-title>DAFTAR USERS KEUANGAN</v-toolbar-title>
+                                <v-toolbar-title>DAFTAR USERS DOSEN</v-toolbar-title>
                                 <v-divider
                                     class="mx-4"
                                     inset
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-btn color="warning"
-                                    :loading="btnLoading"
-                                    :disabled="btnLoading"
-                                    class="mb-2 mr-2"
-                                    @click.stop="syncPermission"
-                                    v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')">
-                                    SYNC PERMISSION
-                                </v-btn>
                                 <v-btn color="primary"
                                     class="mb-2"
                                     :loading="btnLoading"
                                     :disabled="btnLoading"
-                                    @click.stop="showDialogTambahUserKeuangan">
+                                    @click.stop="showDialogTambahUserDosen">
                                     TAMBAH
                                 </v-btn>
                                 <v-dialog v-model="dialog" max-width="500px" persistent>
@@ -87,9 +79,6 @@
                                             <v-card-title>
                                                 <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
-                                            <v-card-subtitle>
-                                                Bila program studi, tidak dipilih artinya user ini dapat mengakses seluruh data keuangan mahasiswa
-                                            </v-card-subtitle>
                                             <v-card-text>
                                                 <v-text-field
                                                     v-model="editedItem.name"
@@ -122,15 +111,6 @@
                                                     filled
                                                     :rules="rule_user_password">
                                                 </v-text-field>
-                                                <v-autocomplete
-                                                    :items="daftar_prodi"
-                                                    v-model="editedItem.prodi_id"
-                                                    label="PROGRAM STUDI"
-                                                    item-text="text"
-                                                    item-value="id"
-                                                    multiple
-                                                    small-chips>
-                                                </v-autocomplete>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -153,9 +133,6 @@
                                             <v-card-title>
                                                 <span class="headline">{{ formTitle }}</span>
                                             </v-card-title>
-                                            <v-card-subtitle>
-                                                Bila program studi, tidak dipilih artinya user ini dapat mengakses seluruh data keuangan mahasiswa
-                                            </v-card-subtitle>
                                             <v-card-text>
                                                 <v-text-field
                                                     v-model="editedItem.name"
@@ -188,15 +165,6 @@
                                                     filled
                                                     :rules="rule_user_passwordEdit">
                                                 </v-text-field>
-                                                <v-autocomplete
-                                                    :items="daftar_prodi"
-                                                    v-model="editedItem.prodi_id"
-                                                    label="PROGRAM STUDI"
-                                                    item-text="text"
-                                                    item-value="id"
-                                                    multiple
-                                                    small-chips>
-                                                </v-autocomplete>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
@@ -211,21 +179,9 @@
                                         </v-card>
                                     </v-form>
                                 </v-dialog>
-                                <v-dialog v-model="dialogUserPermission" max-width="800px" persistent>
-                                    <UserPermissions :user="editedItem" :daftarpermissions="daftar_permissions" :permissionsselected="permissions_selected" v-on:closeUserPermissions="closeUserPermissions" />
-                                </v-dialog>
                             </v-toolbar>
                         </template>
                         <template v-slot:item.actions="{ item }">
-                            <v-icon
-                                small
-                                class="mr-2"
-                                :loading="btnLoading"
-                                :disabled="btnLoading"
-                                @click.stop="setPermission(item)"
-                            >
-                                mdi-axis-arrow-lock
-                            </v-icon>
                             <v-icon
                                 small
                                 class="mr-2"
@@ -271,9 +227,8 @@
 import {mapGetters} from 'vuex';
 import SystemUserLayout from '@/views/layouts/SystemUserLayout';
 import ModuleHeader from '@/components/ModuleHeader';
-import UserPermissions from '@/views/pages/admin/system/UserPermissions';
 export default {
-    name: 'UsersKeuangan',
+    name: 'UsersDosen',
     created () {
         this.breadcrumbs = [
             {
@@ -287,7 +242,7 @@ export default {
                 href:'system-users'
             },
             {
-                text:'USERS KEUANGAN',
+                text:'USERS DOSEN',
                 disabled:true,
                 href:'#'
             }
@@ -311,16 +266,12 @@ export default {
         expanded:[],
         search:'',
         daftar_users: [],
-        daftar_permissions: [],
-        permissions_selected: [],
 
         //form
         form_valid:true,
         dialog: false,
         dialogEdit: false,
-        dialogUserPermission: false,
         editedIndex: -1,
-        daftar_prodi:[],
         editedItem: {
             id:0,
             username: '',
@@ -328,7 +279,6 @@ export default {
             name: '',
             email: '',
             nomor_hp:'',
-            prodi_id:[],
             created_at: '',
             updated_at: '',
         },
@@ -339,7 +289,6 @@ export default {
             name: '',
             email: '',
             nomor_hp: '',
-            prodi_id:[],
             created_at: '',
             updated_at: '',
         },
@@ -366,7 +315,7 @@ export default {
         ],
         rule_user_passwordEdit:[
             value => {
-                if (value.length > 0){
+                if (typeof value !== 'undefined' && value.length > 0){
                     return value.length >= 8 || 'Minimial Password 8 karaketer';
                 }
                 else
@@ -380,7 +329,7 @@ export default {
         initialize:async function ()
         {
             this.datatableLoading=true;
-            await this.$ajax.get('/system/userskeuangan',{
+            await this.$ajax.get('/system/usersdosen',{
                 headers: {
                     Authorization:this.TOKEN
                 }
@@ -402,76 +351,15 @@ export default {
                 this.expanded=[item];
             }
         },
-        syncPermission:async function ()
+        showDialogTambahUserDosen:async function ()
         {
-            this.btnLoading=true;
-            await this.$ajax.post('/system/users/syncallpermissions',
-                {
-                    role_name:'keuangan',
-                },
-                {
-                    headers:{
-                        Authorization:this.$store.getters['auth/Token']
-                    }
-                }
-            ).then(()=>{
-                this.btnLoading=false;
-            }).catch(()=>{
-                this.btnLoading=false;
-            });
-        },
-        showDialogTambahUserKeuangan:async function ()
-        {
-            this.daftar_prodi=this.$store.getters['uiadmin/getDaftarProdi'];
             this.dialog = true;
         },
         editItem:async function (item) {
             this.editedIndex = this.daftar_users.indexOf(item)
             item.password='';
             this.editedItem = Object.assign({}, item);
-            this.daftar_prodi=this.$store.getters['uiadmin/getDaftarProdi'];
-            await this.$ajax.get('/system/users/'+item.id+'/prodi',
-                {
-                    headers:{
-                        Authorization:this.TOKEN
-                    }
-                }
-            ).then(({data})=>{
-                let daftar_prodi = data.daftar_prodi;
-                var prodi=[];
-                daftar_prodi.forEach(element => {
-                    prodi.push(element.id);
-                });
-                this.editedItem.prodi_id=prodi;
-            });
             this.dialogEdit = true;
-        },
-        setPermission: async function (item) {
-            this.btnLoading=true;
-            this.$ajax.get('/system/setting/roles/'+this.role_id+'/permission',{
-                headers: {
-                    Authorization:this.TOKEN
-                }
-            }).then(({data})=>{
-                this.daftar_permissions = data.permissions;
-            }).catch(()=>{
-                this.btnLoading=false;
-            });
-
-            await this.$ajax.get('/system/users/'+item.id+'/permission',{
-                headers: {
-                    Authorization:this.TOKEN
-                }
-            }).then(({data})=>{
-                this.permissions_selected = data.permissions;
-                this.btnLoading=false;
-
-            }).catch(()=>{
-                this.btnLoading=false;
-            });
-            this.dialogUserPermission = true;
-            this.editedItem=item;
-
         },
         close () {
             this.btnLoading=false;
@@ -484,18 +372,13 @@ export default {
                 }, 300
             );
         },
-        closeUserPermissions () {
-            this.btnLoading=false;
-            this.permissions_selected=[];
-            this.dialogUserPermission = false;
-        },
         save () {
             if (this.$refs.frmdata.validate())
             {
                 this.btnLoading=true;
                 if (this.editedIndex > -1)
                 {
-                    this.$ajax.post('/system/userskeuangan/'+this.editedItem.id,
+                    this.$ajax.post('/system/usersdosen/'+this.editedItem.id,
                         {
                             '_method':'PUT',
                             name:this.editedItem.name,
@@ -503,7 +386,6 @@ export default {
                             nomor_hp:this.editedItem.nomor_hp,
                             username:this.editedItem.username,
                             password:this.editedItem.password,
-                            prodi_id:JSON.stringify(Object.assign({},this.editedItem.prodi_id)),
                         },
                         {
                             headers:{
@@ -518,14 +400,13 @@ export default {
                     });
 
                 } else {
-                    this.$ajax.post('/system/userskeuangan/store',
+                    this.$ajax.post('/system/usersdosen/store',
                         {
                             name:this.editedItem.name,
                             email:this.editedItem.email,
                             nomor_hp:this.editedItem.nomor_hp,
                             username:this.editedItem.username,
                             password:this.editedItem.password,
-                            prodi_id:JSON.stringify(Object.assign({},this.editedItem.prodi_id)),
                         },
                         {
                             headers:{
@@ -546,7 +427,7 @@ export default {
                 if (confirm)
                 {
                     this.btnLoading=true;
-                    this.$ajax.post('/system/userskeuangan/'+item.id,
+                    this.$ajax.post('/system/usersdosen/'+item.id,
                         {
                             '_method':'DELETE',
                         },
@@ -568,7 +449,7 @@ export default {
     },
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? 'TAMBAH USER KEUANGAN' : 'EDIT USER KEUANGAN'
+            return this.editedIndex === -1 ? 'TAMBAH USER DOSEN' : 'EDIT USER DOSEN'
         },
         ...mapGetters('auth',{
             ACCESS_TOKEN:'AccessToken',
@@ -587,7 +468,6 @@ export default {
     components:{
         SystemUserLayout,
         ModuleHeader,
-        UserPermissions
     },
 }
 </script>

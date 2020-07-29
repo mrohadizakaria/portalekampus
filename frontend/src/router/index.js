@@ -213,17 +213,8 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/keuangan/BiayaKomponenPeriode.vue'),
 	},
-	
+
 	//system
-	{
-		path: '/system-users',
-		name: 'SystemUsers',
-		meta:{
-			title: "SYSTEM - USERS",
-			requiresAuth:true,
-        },
-		component: () => import('../views/pages/admin/system/SystemUsers.vue'),
-	},
 	{
 		path: '/system-setting/identitasdiri',
 		name: 'IdentitasDiri',
@@ -261,6 +252,24 @@ const routes = [
 		component: () => import('../views/pages/admin/system/Captcha.vue'),
 	},
 	{
+		path: '/system-users',
+		name: 'SystemUsers',
+		meta:{
+			title: "SYSTEM - USERS",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/SystemUsers.vue'),
+	},
+	{
+		path: '/system-users/superadmin',
+		name: 'UsersSuperadmin',
+		meta:{
+			title: "USERS - SUPER ADMIN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/UsersSuperadmin.vue'),
+	},
+	{
 		path: '/system-users/pmb',
 		name: 'UsersPMB',
 		meta:{
@@ -270,6 +279,24 @@ const routes = [
 		component: () => import('../views/pages/admin/system/UsersPMB.vue'),
 	},
 	{
+		path: '/system-users/akademik',
+		name: 'UsersAkademik',
+		meta:{
+			title: "USERS - AKADEMIK",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/UsersAkademik.vue'),
+	},
+	{
+		path: '/system-users/dosen',
+		name: 'UsersDosen',
+		meta:{
+			title: "USERS - DOSEN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/system/UsersDosen.vue'),
+	},
+	{
 		path: '/system-users/keuangan',
 		name: 'UsersKeuangan',
 		meta:{
@@ -277,15 +304,6 @@ const routes = [
 			requiresAuth:true,
         },
 		component: () => import('../views/pages/admin/system/UsersKeuangan.vue'),
-	},
-	{
-		path: '/system-users/profil',
-		name: 'UsersProfil',
-		meta:{
-			title: "USERS - PROFILE",
-			requiresAuth:true,
-        },
-		component: () => import('../views/pages/admin/system/UsersProfile.vue'),
 	},
 	{
 		path: '/system-users/profil',
