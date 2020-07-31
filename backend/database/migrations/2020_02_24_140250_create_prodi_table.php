@@ -12,32 +12,32 @@ class CreateProdiTable extends Migration
      * @return void
      */
     public function up()
-    {   
+    {
         Schema::defaultStringLength(191);
         Schema::create('pe3_prodi', function (Blueprint $table) {
-            $table->increments('id');                        
-            $table->string('kode_prodi',5);                        
-            $table->string('kode_fakultas',10)->nullable();                        
+            $table->increments('id');
+            $table->string('kode_prodi',5)->unique();                                                
+            $table->string('kode_fakultas',10)->nullable();
             $table->string('nama_prodi',50);
             $table->string('nama_prodi_alias',50);
             $table->string('kode_jenjang',1);
             $table->string('nama_jenjang',15);
             $table->string('config')->nullable();
-            
-            $table->index('kode_fakultas'); 
-            $table->index('kode_jenjang'); 
-            
+
+            $table->index('kode_fakultas');
+            $table->index('kode_jenjang');
+
             $table->foreign('kode_fakultas')
                 ->references('kode_fakultas')
                 ->on('pe3_fakultas')
-                ->onDelete('cascade') 
-                ->onUpdate('cascade');  
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('kode_jenjang')
                 ->references('kode_jenjang')
                 ->on('pe3_jenjang_studi')
-                ->onDelete('cascade') 
-                ->onUpdate('cascade');  
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
         });
     }
