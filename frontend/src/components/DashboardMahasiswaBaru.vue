@@ -53,7 +53,7 @@
                     <v-card color="red lighten-2" dark>
                         <v-card-title class="title">Konfirmasi Pembayaran</v-card-title>
                         <v-card-text class="white text--primary">
-                            <p>Konfirmasi Pembayaran Biaya Pendaftaran. Dapatkan kode billing dengan mengisi formulir pendaftaran. Bila sudah mengisi tapi belum ada kode billing dibawah ini, silahkan tekan Tombol Simpan kembali di Formulir Pendaftaran.  </p>
+                            <p>Konfirmasi Pembayaran Biaya Pendaftaran.</p>
                             <v-btn
                                 color="red lighten-2"
                                 class="mx-0"
@@ -61,7 +61,7 @@
                                 to="/keuangan/konfirmasipembayaran">
                                 Konfirmasi
                             </v-btn>
-                        </v-card-text>                    
+                        </v-card-text>
                     </v-card>
                 </v-timeline-item>
                 <v-timeline-item color="indigo" icon="mdi-head-question-outline" fill-dot v-if="status_ujian">
