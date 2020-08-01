@@ -111,17 +111,18 @@ class PermissionsTableSeeder extends Seeder
             'SYSTEM-SETTING-VARIABLES',
             'SYSTEM-USERS-SUPERADMIN',
             'SYSTEM-USERS-AKADEMIK',
+            'SYSTEM-USERS-PROGRAM-STUDI',
             'SYSTEM-USERS-PMB',
             'SYSTEM-USERS-KEUANGAN',
             'SYSTEM-USERS-PERPUSTAKAAN',
             'SYSTEM-USERS-LPPM',
             'SYSTEM-USERS-PUSLAHTA',
             'SYSTEM-USERS-DOSEN',
-            'SYSTEM-USERS-DOSEN WALI',
+            'SYSTEM-USERS-DOSEN-WALI',
             'SYSTEM-USERS-MAHASISWA',
-            'SYSTEM-USERS-MAHASISWA BARU',
+            'SYSTEM-USERS-MAHASISWA-BARU',
             'SYSTEM-USERS-ALUMNI',
-            'SYSTEM-USERS-ORANG TUA WALI',
+            'SYSTEM-USERS-ORANG-TUA-WALI',            
         ];
         $records=[];
         foreach($modules as $v)

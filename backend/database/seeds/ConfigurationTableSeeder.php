@@ -14,7 +14,7 @@ class ConfigurationTableSeeder extends Seeder
     public function run()
     {
         \DB::statement('DELETE FROM pe3_configuration');
-        
+
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"101",
             'config_group'=>'identitas',
@@ -22,7 +22,7 @@ class ConfigurationTableSeeder extends Seeder
             'config_value'=>'NAMA PT',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
-        ]);        
+        ]);
 
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"102",
@@ -43,6 +43,15 @@ class ConfigurationTableSeeder extends Seeder
         ]);
 
         \DB::table('pe3_configuration')->insert([
+            'config_id'=>"104",
+            'config_group'=>'identitas',
+            'config_key'=>'kode_pt',
+            'config_value'=>'0',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('pe3_configuration')->insert([
             'config_id'=>"201",
             'config_group'=>'basic',
             'config_key'=>'DEFAULT_TA',
@@ -50,7 +59,7 @@ class ConfigurationTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"202",
             'config_group'=>'basic',
@@ -77,7 +86,7 @@ class ConfigurationTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"205",
             'config_group'=>'basic',
@@ -95,7 +104,7 @@ class ConfigurationTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         \DB::table('pe3_configuration')->insert([
             'config_id'=>"901",
             'config_group'=>'identitas',
@@ -113,7 +122,7 @@ class ConfigurationTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         ConfigurationModel::toCache();
     }
 }

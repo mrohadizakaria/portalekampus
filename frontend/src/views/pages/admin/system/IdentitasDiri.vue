@@ -15,17 +15,17 @@
                 </v-breadcrumbs>
             </template>
             <template v-slot:desc>
-                <v-alert                                        
+                <v-alert
                     color="cyan"
-                    border="left"                    
+                    border="left"
                     colored-border
                     type="info"
                     >
                     Mengatur halaman informasi dan bentuk perguruan tinggi. Perubahan berlaku pada Login selanjutnya.
                     </v-alert>
             </template>
-        </ModuleHeader> 
-        <v-container>  
+        </ModuleHeader>
+        <v-container>
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -34,30 +34,36 @@
                                 PERGURUAN TINGGI
                             </v-card-title>
                             <v-card-text>
-                                <v-text-field 
-                                    v-model="formdata.nama_pt" 
+                                <v-text-field
+                                    v-model="formdata.nama_pt"
                                     label="NAMA PERGURUAN TINGGI"
                                     filled
                                     :rules="rule_nama_pt">
-                                </v-text-field>                                                                                               
-                                <v-text-field 
-                                    v-model="formdata.nama_alias_pt" 
+                                </v-text-field>
+                                <v-text-field
+                                    v-model="formdata.nama_alias_pt"
                                     label="NAMA SINGKATAN PERGURUAN TINGGI"
                                     filled
                                     :rules="rule_nama_singkatan_pt">
                                 </v-text-field>
                                 <v-radio-group v-model="formdata.bentuk_pt" row>
-                                    BENTUK PERGURUAN TINGGI : 
+                                    BENTUK PERGURUAN TINGGI :
                                     <v-radio label="SEKOLAH TINGGI" value="sekolahtinggi"></v-radio>
                                     <v-radio label="UNIVERSITAS" value="universitas"></v-radio>
                                 </v-radio-group>
+                                <v-text-field
+                                    v-model="formdata.kode_pt"
+                                    label="KODE PERGURUAN TINGGI"
+                                    filled
+                                    :rules="rule_kode_pt">
+                                </v-text-field>  
                             </v-card-text>
                             <v-card-actions>
-                                <v-spacer></v-spacer>                                
-                                <v-btn 
-                                    color="blue darken-1" 
-                                    text 
-                                    @click.stop="save" 
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click.stop="save"
                                     :loading="btnLoading"
                                     :disabled="!form_valid||btnLoading">SIMPAN</v-btn>
                             </v-card-actions>
@@ -108,24 +114,25 @@ export default {
     data: () => ({
         breadcrumbs:[],
         datatableLoading:false,
-        btnLoading:false,   
+        btnLoading:false,
         //form
-        form_valid:true,   
+        form_valid:true,
         formdata: {
             nama_pt:'',
             nama_alias_pt:'',
-            bentuk_pt:''
+            bentuk_pt:'',
+            kode_pt:0,
         },
-        //form rules        
+        //form rules
         rule_nama_pt:[
-            value => !!value||"Mohon untuk di isi Nama Perguruan Tinggi !!!",             
-        ], 
+            value => !!value||"Mohon untuk di isi Nama Perguruan Tinggi !!!",
+        ],
         rule_nama_singkatan_pt:[
-            value => !!value||"Mohon untuk di isi Nama Alias Perguruan Tinggi !!!",             
+            value => !!value||"Mohon untuk di isi Nama Alias Perguruan Tinggi !!!",
         ],
     }),
     methods: {
-        initialize:async function () 
+        initialize:async function ()
         {
             this.datatableLoading=true;
             await this.$ajax.get('/system/setting/variables',
@@ -133,50 +140,52 @@ export default {
                 headers: {
                     Authorization:this.TOKEN
                 }
-            }).then(({data})=>{  
-                let setting = data.setting;                           
+            }).then(({data})=>{
+                let setting = data.setting;
                 this.formdata.nama_pt=setting.NAMA_PT;
                 this.formdata.nama_alias_pt=setting.NAMA_PT_ALIAS;
                 this.formdata.bentuk_pt=setting.BENTUK_PT;
-            });          
-            
+                this.formdata.kode_pt=setting.kode_pt;
+            });
+
         },
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;                
+                this.btnLoading=true;
                 this.$ajax.post('/system/setting/variables',
                     {
-                        '_method':'PUT', 
+                        '_method':'PUT',
                         'pid':'Identitas Perguruan Tinggi',
                         setting:JSON.stringify({
                             101:this.formdata.nama_pt,
                             102:this.formdata.nama_alias_pt,
                             103:this.formdata.bentuk_pt,
-                        }),                                                                                                                            
+                            104:this.formdata.kode_pt,
+                        }),
                     },
                     {
                         headers:{
                             Authorization:this.TOKEN
                         }
                     }
-                ).then(()=>{                       
+                ).then(()=>{
                     this.btnLoading=false;
                 }).catch(()=>{
                     this.btnLoading=false;
-                });        
+                });
             }
         }
     },
-    computed:{ 
-        ...mapGetters('auth',{            
-            ACCESS_TOKEN:'AccessToken',          
-            TOKEN:'Token',                                  
+    computed:{
+        ...mapGetters('auth',{
+            ACCESS_TOKEN:'AccessToken',
+            TOKEN:'Token',
         }),
     },
     components:{
 		SystemUserLayout,
-        ModuleHeader,        
+        ModuleHeader,
 	}
 }
 </script>
