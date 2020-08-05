@@ -89,8 +89,7 @@ class CCalonWisuda Extends MainPageM {
                     $clausa="AND A.no_formulir='$txtsearch'";
                     $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs A 
                                                             JOIN v_calon_wisudawan B ON (A.nim=B.nim)
-                                                            WHERE 
-                                                                A.tahun_masuk=$tahun_masuk AND
+                                                            WHERE
                                                                 A.k_status != 'L' AND
                                                                 A.kjur='$kjur' $clausa",'A.nim');
                     $str = "$str $clausa";
@@ -99,8 +98,7 @@ class CCalonWisuda Extends MainPageM {
                     $clausa="AND A.nim='$txtsearch'";
                     $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs A 
                                                             JOIN v_calon_wisudawan B ON (A.nim=B.nim)
-                                                            WHERE 
-                                                                A.tahun_masuk=$tahun_masuk AND
+                                                            WHERE                                                                 
                                                                 A.k_status != 'L' AND
                                                                 A.kjur='$kjur' $clausa",'A.nim');
                     $str = "$str $clausa";
@@ -109,8 +107,7 @@ class CCalonWisuda Extends MainPageM {
                     $clausa="AND A.nirm='$txtsearch'";
                     $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs A 
                                                             JOIN v_calon_wisudawan B ON (A.nim=B.nim)
-                                                            WHERE 
-                                                                A.tahun_masuk=$tahun_masuk AND
+                                                            WHERE                                                                 
                                                                 A.k_status != 'L' AND
                                                                 A.kjur='$kjur' $clausa",'A.nim');
                     $str = "$str $clausa";
@@ -119,8 +116,7 @@ class CCalonWisuda Extends MainPageM {
                     $clausa="AND A.nama_mhs LIKE '%$txtsearch%'";
                     $jumlah_baris=$this->DB->getCountRowsOfTable ("v_datamhs A 
                                                             JOIN v_calon_wisudawan B ON (A.nim=B.nim)
-                                                            WHERE 
-                                                                A.tahun_masuk=$tahun_masuk AND
+                                                            WHERE                                                                
                                                                 A.k_status != 'L' AND
                                                                 A.kjur='$kjur' $clausa",'A.nim');
                     $str = "$str $clausa";
