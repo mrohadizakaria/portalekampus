@@ -7,7 +7,7 @@
     <li class="active"><span>CALON WISUDA</span></li>
 </com:TContent>
 <com:TContent ID="configtools">    
-    <%include Application.layouts.cube.FilterMode8%>
+    <%include Application.layouts.cube.FilterMode7%>
 </com:TContent>
 <com:TContent ID="csscontent">
 <link rel="stylesheet" type="text/css" href="<%=$this->Theme->baseUrl%>/css/libs/nifty-component.css"/>
@@ -130,33 +130,31 @@
                 </header>
                 <div class="main-box-body clearfix">       
                     <div class="table-responsive">
-                        <com:TActiveRepeater ID="RepeaterS" AllowPaging="true" AllowCustomPaging="true" DataKeyField="iddulang" PageSize="10">
+                        <com:TActiveRepeater ID="RepeaterS" AllowPaging="true" AllowCustomPaging="true" DataKeyField="nim" PageSize="10">
                             <prop:HeaderTemplate>			
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th scope="col" width="50">NO</th>
-                                    <th scope="col">NO. FORMULIR</th>
+                                    <th scope="col" width="50">NO</th>                                    
                                     <th scope="col">NIM</th>
                                     <th scope="col">NIRM</th>
                                     <th scope="col">NAMA MHS</th>																		
                                     <th scope="col">DOSEN WALI</th>
-                                    <th scope="col">TANGGAL <br/>DAFTAR ULANG</th>	
-                                    <th scope="col">T.A dan SMT <br/>DAFTAR ULANG</th>                                    			
+                                    <th scope="col">STATUS</th>	
+                                    <th scope="col" width="70">JUMLAH SKS</th>                                    			
                                 </tr>			
                                 </thead>
                                 <tbody>
                             </prop:HeaderTemplate>
                             <prop:ItemTemplate>	
                                 <tr>
-                                    <td><%#$this->DataItem['no']%></td>                                    
-                                    <td><%#$this->DataItem['no_formulir']%></td>
+                                    <td><%#$this->DataItem['no']%></td>                                                                        
                                     <td><a href="<%#$this->Page->constructUrl('kemahasiswaan.ProfilMahasiswa',true,array('id'=>$this->DataItem['nim']))%>"><%#$this->DataItem['nim']%></a></td>
                                     <td><%#$this->DataItem['nirm']%></td>												
                                     <td><%#$this->DataItem['nama_mhs']%></td>											
-                                    <td><%#$this->Page->DMaster->getNamaDosenWaliByID($this->DataItem['iddosen_wali'])%></td>                                    
-                                    <td><%#$this->Page->TGL->tanggal('d/m/Y',$this->DataItem['tanggal'])%></td>
-                                    <td><%#$this->DataItem['tahun'].$this->DataItem['idsmt']%></td>                                   
+                                    <td><%#$this->Page->DMaster->getNamaDosenWaliByID($this->DataItem['iddosen_wali'])%></td>                                                                        
+                                    <td><%#$this->Page->DMaster->getNamaStatusMHSByID($this->DataItem['k_status'])%></td>											
+                                    <td><%#$this->DataItem['jumlah_sks']%></td>                                   
                                 </tr>	
                             </prop:ItemTemplate>	       
                             <prop:FooterTemplate>
