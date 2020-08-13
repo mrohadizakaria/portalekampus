@@ -18,7 +18,7 @@ class DetailPembayaranSemesterGanjil Extends CDetailPembayaranSemesterGanjil {
 			$datamhs['idkelas']=$idkelas===false?$datamhs['idkelas']:$idkelas;            
 			if ($idkelas!='C') {				
 				$this->Finance->setDataMHS(array('no_formulir'=>$datamhs['no_formulir'],'nim'=>$datamhs['nim'],'idkelas'=>$datamhs['idkelas'],'tahun_masuk'=>$tahun_masuk,'idsmt'=>2,'perpanjang'=>$datamhs['perpanjang']));
-			 	$totalbiaya=($tahun_masuk==$ta&&$semester_masuk==1)?$this->Finance->getTotalBiayaMhsPeriodePembayaran ():$this->Finance->getTotalBiayaMhsPeriodePembayaran ('lama');				
+			 	$totalbiaya=($tahun_masuk==$ta&&$semester_masuk==2)?$this->Finance->getTotalBiayaMhsPeriodePembayaran ():$this->Finance->getTotalBiayaMhsPeriodePembayaran ('lama');				
 				$this->Finance->setDataMHS($datamhs);
 				$totalbayar=$this->Finance->getTotalBayarMhs($ta,2);				
                 $sisa=$totalbiaya-$totalbayar;                
