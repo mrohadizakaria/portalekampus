@@ -4,13 +4,13 @@ namespace App\Models\Keuangan;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KomponenBiayaModel extends Model {    
+class TransferBankModel extends Model {    
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'pe3_kombi';
+    protected $table = 'pe3_transfer_bank';
     /**
      * primary key tabel ini.
      *
@@ -24,8 +24,10 @@ class KomponenBiayaModel extends Model {
      */
     protected $fillable = [        
         'id',                      
-        'nama',    
-        'periode',
+        'nama_bank',    
+        'nama_cabang',
+        'nomor_rekening',
+        'pemilik_rekening',
     ];
     /**
      * enable auto_increment.

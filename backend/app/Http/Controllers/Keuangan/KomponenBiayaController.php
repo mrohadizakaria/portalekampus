@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Keuangan\KomponenBiayaModel;
 
-class KomponenBiayaController extends Controller {
+class KomponenBiayaController extends Controller {  
     /**
      * daftar komponen biaya
      */
@@ -19,9 +19,9 @@ class KomponenBiayaController extends Controller {
 
         return Response()->json([
                                     'status'=>1,
-                                    'pid'=>'fetchdata',
-                                    'kombi'=>$kombi,
+                                    'pid'=>'fetchdata',  
+                                    'kombi'=>$kombi,                                                                                                                                   
                                     'message'=>'Fetch data komponen biaya berhasil.'
-                                ],200);
-    }
+                                ],200);     
+    }  
 }

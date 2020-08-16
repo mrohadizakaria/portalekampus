@@ -4,28 +4,28 @@ namespace App\Models\Keuangan;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KomponenBiayaModel extends Model {    
+class StatusTransaksiModel extends Model {    
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'pe3_kombi';
+    protected $table = 'pe3_status_transaksi';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_status';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [        
-        'id',                      
-        'nama',    
-        'periode',
+        'id_status',                      
+        'nama_status',    
+        'style',
     ];
     /**
      * enable auto_increment.

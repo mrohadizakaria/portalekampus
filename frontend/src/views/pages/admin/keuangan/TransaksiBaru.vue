@@ -8,7 +8,7 @@
                 TAMBAH TRANSAKSI BARU
             </template>
             <template v-slot:subtitle>
-
+                
             </template>
             <template v-slot:breadcrumbs>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -18,9 +18,9 @@
                 </v-breadcrumbs>
             </template>
             <template v-slot:desc>
-                <v-alert
+                <v-alert                                        
                     color="cyan"
-                    border="left"
+                    border="left"                    
                     colored-border
                     type="info"
                     >
@@ -28,7 +28,7 @@
                     </v-alert>
             </template>
         </ModuleHeader>
-        <v-container>
+        <v-container fluid>
             <v-row>
                 <v-col cols="7">
                     <v-card>
@@ -39,7 +39,7 @@
                                 outlined
                                 clearable
                                 return-object
-                                no-filter
+                                no-filter                                
                                 :search-input.sync="search">
                             </v-autocomplete>
                         </v-card-text>
@@ -79,20 +79,20 @@ export default {
                 disabled:true,
                 href:'#'
             }
-        ];
+        ];        
     },
     data: () => ({
-        breadcrumbs:[],
+        breadcrumbs:[],  
         search: null,
 
         //form data
         data_mhs:{}
     }),
     methods : {
-
-    },
+        
+    }, 
     watch:{
-
+        
         search (val)
         {
             console.log('saerch',val);
@@ -100,7 +100,7 @@ export default {
     },
     components:{
         KeuanganLayout,
-        ModuleHeader,
+        ModuleHeader,        
     },
 }
 </script>

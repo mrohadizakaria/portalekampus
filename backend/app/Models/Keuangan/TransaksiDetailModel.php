@@ -4,7 +4,7 @@ namespace App\Models\Keuangan;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TransaksiDetailModel extends Model {
+class TransaksiDetailModel extends Model {    
      /**
      * nama tabel model ini.
      *
@@ -22,11 +22,11 @@ class TransaksiDetailModel extends Model {
      *
      * @var array
      */
-    protected $fillable = [
-        'id',
-        'user_id',
-        'transaksi_id',
-        'no_transaksi',
+    protected $fillable = [        
+        'id',                      
+        'user_id',    
+        'transaksi_id',    
+        'no_transaksi',    
         'kombi_id',
         'nama_kombi',
         'biaya',
@@ -34,7 +34,9 @@ class TransaksiDetailModel extends Model {
         'promotype',
         'promovalue',
         'jumlah',
-        'sub_total',
+        // dimanfaatkan untuk pembayaran per bulan
+        'bulan',
+        'sub_total',        
     ];
     /**
      * enable auto_increment.

@@ -4,7 +4,7 @@ namespace App\Models\Keuangan;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BiayaKomponenPeriodeModel extends Model {
+class BiayaKomponenPeriodeModel extends Model {    
      /**
      * nama tabel model ini.
      *
@@ -22,10 +22,10 @@ class BiayaKomponenPeriodeModel extends Model {
      *
      * @var array
      */
-    protected $fillable = [
-        'id',
-        'kombi_id',
-        'nama_kombi',
+    protected $fillable = [        
+        'id',                      
+        'kombi_id',    
+        'nama_kombi',    
         'idkelas',
         'tahun',
         'biaya',

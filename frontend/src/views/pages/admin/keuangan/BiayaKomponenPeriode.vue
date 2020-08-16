@@ -18,9 +18,9 @@
                 </v-breadcrumbs>
             </template>
             <template v-slot:desc>
-                <v-alert
+                <v-alert                                        
                     color="cyan"
-                    border="left"
+                    border="left"                    
                     colored-border
                     type="info"
                     >
@@ -31,12 +31,12 @@
         <template v-slot:filtersidebar>
             <Filter10 v-on:changeTahunPendaftaran="changeTahunPendaftaran" v-on:changeIDKelas="changeIDKelas" ref="filter10" />
         </template>
-        <v-container>
+        <v-container fluid>
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-data-table
                         :headers="headers"
-                        :items="datatable"
+                        :items="datatable"                        
                         item-key="id"
                         sort-by="id"
                         show-expand
@@ -47,7 +47,7 @@
                         @click:row="dataTableRowClicked"
                         class="elevation-1"
                         :loading="datatableLoading"
-                        loading-text="Loading... Please wait">
+                        loading-text="Loading... Please wait">     
                         <template v-slot:top>
                             <v-toolbar flat color="white">
                                 <v-toolbar-title>DAFTAR BIAYA KOMPONEN PER PERIODE</v-toolbar-title>
@@ -57,9 +57,9 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
-                                <v-btn
-                                    color="primary"
-                                    class="mb-2"
+                                <v-btn 
+                                    color="primary" 
+                                    class="mb-2" 
                                     :loading="btnLoading"
                                     :disabled="btnLoading"
                                     @click.stop="loadkombiperiode">
@@ -70,33 +70,32 @@
                         <template v-slot:item.biaya="props">
                             <v-edit-dialog
                                 :return-value.sync="props.item.biaya"
-                                large
+                                large                                
                                 @save="saveItem({id:props.item.id,biaya:props.item.biaya})"
                                 @cancel="cancelItem"
                                 @open="openItem"
-                                @close="closeItem">
-                                    {{ props.item.biaya|formatUang }}
+                                @close="closeItem"> 
+                                    {{ props.item.biaya|formatUang }}                                    
                                     <template v-slot:input>
-                                        <div class="mt-4 title">Update Biaya</div>
-                                        <v-currency-field
-                                            label="BIAYA KOMPONEN"
+                                        <div class="mt-4 title">Update Biaya</div>                                        
+                                        <v-currency-field 
+                                            label="BIAYA KOMPONEN" 
                                             :min="null"
-                                            :max="null"
+                                            :max="null"                                            
                                             outlined
                                             autofocus
-                                            v-model="props.item.biaya">
-                                        >
+                                            v-model="props.item.biaya">                                        
                                         </v-currency-field>
                                     </template>
                             </v-edit-dialog>
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
-                                <v-col cols="12">
-                                    <strong>ID:</strong>{{ item.id }}
+                                <v-col cols="12">                          
+                                    <strong>ID:</strong>{{ item.id }}          
                                     <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
                                     <strong>updated_at:</strong>{{ $date(item.updated_at).format('DD/MM/YYYY HH:mm') }}
-                                </v-col>
+                                </v-col>                                
                             </td>
                         </template>
                         <template v-slot:no-data>
@@ -133,29 +132,29 @@ export default {
                 href:'#'
             }
         ];
-        this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran'];
+        this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran'];         
         this.idkelas=this.$store.getters['uiadmin/getIDKelas']
         this.nama_kelas=this.$store.getters['uiadmin/getNamaKelas'](this.idkelas);
         this.initialize();
-    },
+    },  
     data: () => ({
         firstloading:true,
-        breadcrumbs:[],
+        breadcrumbs:[],  
         tahun_pendaftaran:0,
         idkelas:null,
         nama_kelas:null,
-
+        
         btnLoading:false,
         datatableLoading:false,
         expanded:[],
         datatable:[],
-        headers: [
-            { text: 'ID KOMPONEN', value: 'kombi_id',width:10,sortable:false },
+        headers: [            
+            { text: 'ID KOMPONEN', value: 'kombi_id',width:10,sortable:false },                                           
             { text: 'NAMA KOMPONEN', value: 'nama_kombi',sortable:false},
-            { text: 'PERIODE', value: 'periode',width:150,sortable:false },
-            { text: 'BIAYA', value: 'biaya',width:150,sortable:false },
-        ],
-
+            { text: 'PERIODE', value: 'periode',width:150,sortable:false },            
+            { text: 'BIAYA', value: 'biaya',width:150,sortable:false },            
+        ],      
+        
     }),
     methods : {
         changeTahunPendaftaran (tahun)
@@ -169,8 +168,8 @@ export default {
         },
         initialize:async function()
 		{
-            this.datatableLoading=true;
-            await this.$ajax.post('/keuangan/biayakomponenperiode',
+            this.datatableLoading=true;            
+            await this.$ajax.post('/keuangan/biayakomponenperiode',            
             {
                 TA:this.tahun_pendaftaran,
                 idkelas:this.idkelas
@@ -179,28 +178,28 @@ export default {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{
-                this.datatable = data.kombi;
+            }).then(({data})=>{               
+                this.datatable = data.kombi;                
                 this.datatableLoading=false;
-            });
-            this.firstloading=false;
-            this.$refs.filter10.setFirstTimeLoading(this.firstloading);
+            });                     
+            this.firstloading=false;            
+            this.$refs.filter10.setFirstTimeLoading(this.firstloading); 
         },
         dataTableRowClicked(item)
         {
             if ( item === this.expanded[0])
             {
-                this.expanded=[];
+                this.expanded=[];                
             }
             else
             {
                 this.expanded=[item];
-            }
+            }               
         },
         loadkombiperiode:async function ()
         {
-            this.btnLoading=true;
-            await this.$ajax.post('/keuangan/biayakomponenperiode/loadkombiperiode',
+            this.btnLoading=true;            
+            await this.$ajax.post('/keuangan/biayakomponenperiode/loadkombiperiode',            
             {
                 TA:this.tahun_pendaftaran,
                 idkelas:this.idkelas
@@ -209,14 +208,14 @@ export default {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{
-                this.datatable = data.kombi;
+            }).then(({data})=>{               
+                this.datatable = data.kombi;                
                 this.btnLoading=false;
-            });
+            });   
         },
         saveItem:async function ({id,biaya})
         {
-            await this.$ajax.post('/keuangan/biayakomponenperiode/updatebiaya',
+            await this.$ajax.post('/keuangan/biayakomponenperiode/updatebiaya',            
             {
                 id:id,
                 biaya:biaya
@@ -225,9 +224,9 @@ export default {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(()=>{
-                this.initialize();
-            });
+            }).then(()=>{               
+                this.initialize();                        
+            });  
         },
         cancelItem()
         {
@@ -248,20 +247,20 @@ export default {
             if (!this.firstloading)
             {
                 this.initialize();
-            }
+            }            
         },
         idkelas()
         {
             if (!this.firstloading)
             {
                 this.initialize();
-            }
+            }            
         },
     },
     components:{
         KeuanganLayout,
-        ModuleHeader,
-        Filter10,
+        ModuleHeader,    
+        Filter10,       
     },
 }
 </script>

@@ -5,7 +5,7 @@
                 mdi-monitor-dashboard
             </template>
             <template v-slot:name>
-                KEUANGAN
+                KEUANGAN 
             </template>
             <template v-slot:subtitle>
                 TAHUN PENDAFTARAN {{tahun_pendaftaran}}
@@ -18,9 +18,9 @@
                 </v-breadcrumbs>
             </template>
             <template v-slot:desc>
-                <v-alert
+                <v-alert                                        
                     color="cyan"
-                    border="left"
+                    border="left"                    
                     colored-border
                     type="info"
                     >
@@ -31,8 +31,8 @@
         <template v-slot:filtersidebar>
             <Filter9 v-on:changeTahunPendaftaran="changeTahunPendaftaran" ref="filter9" />
         </template>
-        <v-container>
-
+        <v-container fluid>
+            
         </v-container>
     </KeuanganLayout>
 </template>
@@ -55,8 +55,8 @@ export default {
 				disabled:true,
 				href:'#'
 			}
-        ];
-        this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran'];
+        ];				
+        this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran'];         
     },
     mounted()
     {
@@ -65,9 +65,9 @@ export default {
     data: () => ({
         datatableLoading:false,
         firstloading:true,
-        breadcrumbs:[],
+        breadcrumbs:[],        
         tahun_pendaftaran:0,
-
+        
         //statistik
         daftar_prodi:[],
         total_mb:0,
@@ -78,25 +78,25 @@ export default {
             this.tahun_pendaftaran=tahun;
         },
 		initialize:async function()
-		{
-            this.datatableLoading=true;
+		{	
+            this.datatableLoading=true;            
             await this.$ajax.post('/dashboard/keuangan',
             {
-                TA:this.tahun_pendaftaran,
+                TA:this.tahun_pendaftaran,                
             },
             {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{
+            }).then(({data})=>{                            
                 this.daftar_prodi = data.daftar_prodi;
                 this.total_mb = data.total_mb;
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
             });
-            this.firstloading=false;
-            this.$refs.filter9.setFirstTimeLoading(this.firstloading);
+            this.firstloading=false;            
+            this.$refs.filter9.setFirstTimeLoading(this.firstloading); 
         }
     },
     watch:{
@@ -105,13 +105,13 @@ export default {
             if (!this.firstloading)
             {
                 this.initialize();
-            }
+            }            
         },
     },
     components:{
         KeuanganLayout,
-        ModuleHeader,
-        Filter9,
+        ModuleHeader,           
+        Filter9,        
     },
 }
 </script>

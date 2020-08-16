@@ -4,7 +4,7 @@ namespace App\Models\Keuangan;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TransaksiModel extends Model {
+class TransaksiModel extends Model {    
      /**
      * nama tabel model ini.
      *
@@ -22,9 +22,9 @@ class TransaksiModel extends Model {
      *
      * @var array
      */
-    protected $fillable = [
-        'id',
-        'user_id',
+    protected $fillable = [        
+        'id',                      
+        'user_id',    
         'no_transaksi',
         'no_faktur',
         'kjur',
@@ -33,7 +33,7 @@ class TransaksiModel extends Model {
         'idkelas',
         'no_formulir',
         'nim',
-        'commited',
+        'status',
         'total',
         'tanggal',
     ];
