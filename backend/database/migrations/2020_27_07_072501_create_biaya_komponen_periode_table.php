@@ -12,25 +12,25 @@ class CreateBiayaKomponenPeriodeTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   
         Schema::defaultStringLength(191);
         Schema::create('pe3_kombi_periode', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->smallInteger('kombi_id');
-            $table->string('nama_kombi');
-            $table->enum('periode',['insidental','persemester','sekali']);
-            $table->char('idkelas',1);
-            $table->year('tahun');
-            $table->decimal('biaya',15,2);
-            $table->timestamps();
-
+            $table->uuid('id')->primary();    
+            $table->smallInteger('kombi_id'); 
+            $table->string('nama_kombi');  
+            $table->enum('periode',['insidental','persemester','perbulan','sekali']);                                                            
+            $table->char('idkelas',1);                                                       
+            $table->year('tahun');                                                            
+            $table->decimal('biaya',15,2);                                                            
+            $table->timestamps();       
+            
             $table->index('kombi_id');
 
             $table->foreign('kombi_id')
                 ->references('id')
                 ->on('pe3_kombi')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('cascade') 
+                ->onUpdate('cascade');  
         });
     }
 

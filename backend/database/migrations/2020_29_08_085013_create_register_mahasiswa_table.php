@@ -12,25 +12,25 @@ class CreateRegisterMahasiswaTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   
         Schema::defaultStringLength(191);
         Schema::create('pe3_regiter_mahasiswa', function (Blueprint $table) {
-            $table->uuid('user_id')->primary();
-            $table->string('nim')->unique();
-            $table->string('nirm')->unique();
-
+            $table->uuid('user_id')->primary();            
+            $table->string('nim')->unique();              
+            $table->string('nirm')->unique();            
+            
             $table->char('idkelas',1)->nullable();
             $table->year('ta');
             $table->tinyInteger('idsmt');
-
-
-
+           
+            
+         
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('cascade') 
+                ->onUpdate('cascade'); 
         });
     }
 

@@ -101,7 +101,7 @@
                                     <v-text-field 
                                         v-model="formkonfirmasi.code" 
                                         label="CODE"
-                                        filled
+                                        outlined
                                         :rules="rule_code">
                                     </v-text-field>                                            
                                 </v-card-text>
@@ -224,6 +224,7 @@ export default {
                     captcha_response:this.formdata.captcha_response,
                 }).then(({data})=>{
                     this.formkonfirmasi.email=data.email;
+                    this.formkonfirmasi.code=data.code;
                     this.btnLoading=false;    
                     this.dialogkonfirmasiemail=true;  
                     

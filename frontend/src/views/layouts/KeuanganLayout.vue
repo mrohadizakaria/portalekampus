@@ -1,40 +1,40 @@
 <template>
     <div>
         <v-system-bar app dark class="brown darken-2 white--text">
-
-		</v-system-bar>
+            
+		</v-system-bar>	
         <v-app-bar app>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="grey--text"></v-app-bar-nav-icon>
             <v-toolbar-title class="headline clickable" @click.stop="$router.push('/dashboard/'+$store.getters['auth/AccessToken']).catch(err => {})">
 				<span class="hidden-sm-and-down">{{APP_NAME}}</span>
 			</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-menu
+            <v-menu 
                 :close-on-content-click="true"
                 origin="center center"
                 transition="scale-transition"
                 :offset-y="true"
-                bottom
+                bottom 
                 left>
                 <template v-slot:activator="{on}">
                     <v-avatar size="30">
                         <v-img :src="photoUser" v-on="on" />
-                    </v-avatar>
+                    </v-avatar>                    
                 </template>
                 <v-list>
                     <v-list-item>
                         <v-list-item-avatar>
                             <v-img :src="photoUser"></v-img>
                         </v-list-item-avatar>
-                        <v-list-item-content>
+                        <v-list-item-content>					
                             <v-list-item-title class="title">
                                 {{ATTRIBUTE_USER('username')}}
                             </v-list-item-title>
-                            <v-list-item-subtitle>
+                            <v-list-item-subtitle>                                
                                 {{ROLE}}
                             </v-list-item-subtitle>
                         </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item>                    
                     <v-divider/>
                     <v-list-item to="/system-users/profil">
                         <v-list-item-icon class="mr-2">
@@ -58,14 +58,14 @@
             ></v-divider>
 			<v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
                 <v-icon>mdi-menu-open</v-icon>
-			</v-app-bar-nav-icon>
-        </v-app-bar>
+			</v-app-bar-nav-icon>            
+        </v-app-bar>    
         <v-navigation-drawer v-model="drawer" width="300" dark class="brown darken-4" :temporary="isReportPage" app>
 			<v-list-item>
 				<v-list-item-avatar>
 					<v-img :src="photoUser" @click.stop="toProfile"></v-img>
 				</v-list-item-avatar>
-				<v-list-item-content>
+				<v-list-item-content>					
 					<v-list-item-title class="title">
 						{{ATTRIBUTE_USER('username')}}
 					</v-list-item-title>
@@ -83,7 +83,28 @@
                     <v-list-item-content>
                         <v-list-item-title>MODULE KEUANGAN</v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>   
+                <v-subheader>KOMPONEN</v-subheader>
+                <v-list-item link to="/keuangan/channelpembayaran">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-triforce</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            CHANNEL PEMBAYARAN
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>                        
+                <v-list-item link v-if="CAN_ACCESS('KEUANGAN-STATUS-TRANSAKSI_BROWSE')" to="/keuangan/statustransaksi">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-triforce</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            STATUS TRANSAKSI
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>                        
                 <v-list-item link v-if="CAN_ACCESS('KEUANGAN-KOMPONEN-BIAYA_BROWSE')" to="/keuangan/biayakomponen">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-video-input-component</v-icon>
@@ -93,7 +114,7 @@
                             BIAYA KOMPONEN
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>                        
                 <v-list-item link v-if="CAN_ACCESS('KEUANGAN-BIAYA-KOMPONEN-PERIODE_BROWSE')" to="/keuangan/biayakomponenperiode">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-triforce</v-icon>
@@ -103,7 +124,18 @@
                             BIAYA KOMPONEN PERIODE
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>                        
+                <v-subheader v-if="dashboard!='mahasiswabaru' && dashboard!='mahasiswa'">METODE PEMBAYARAN</v-subheader>
+                <v-list-item link v-if="CAN_ACCESS('KEUANGAN-METODE-TRANSFER-BANK_BROWSE')" to="/keuangan/transferbank">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-account-cash</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            TRANSFER BANK
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item> 
                 <v-subheader>TRANSAKSI</v-subheader>
                 <v-list-item link v-if="CAN_ACCESS('KEUANGAN-TRANSAKSI_BROWSE')" to="/keuangan/transaksi">
                     <v-list-item-icon class="mr-2">
@@ -114,7 +146,7 @@
                             DAFTAR TRANSAKSI
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item> 
                 <v-list-item link v-if="CAN_ACCESS('KEUANGAN-TRANSAKSI_STORE')" to="/keuangan/transaksi-baru">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account-cash</v-icon>
@@ -124,7 +156,7 @@
                             TRANSAKSI BARU
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item> 
                 <v-list-item link v-if="CAN_ACCESS('KEUANGAN-KONFIRMASI-PEMBAYARAN_BROWSE')" to="/keuangan/konfirmasipembayaran">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account-cash</v-icon>
@@ -139,11 +171,11 @@
         </v-navigation-drawer>
         <v-navigation-drawer v-model="drawerRight" width="300" app fixed right temporary>
             <v-list dense>
-                <v-list-item>
+                <v-list-item>		
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-menu-open</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
+                    </v-list-item-icon>			
+                    <v-list-item-content>									
                         <v-list-item-title class="title">
                             OPTIONS
                         </v-list-item-title>
@@ -154,34 +186,34 @@
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-filter</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-content>
+                    <v-list-item-content>								
                         <v-list-item-title>FILTER</v-list-item-title>
-                    </v-list-item-content>
+                    </v-list-item-content>		
                 </v-list-item>
-                <slot name="filtersidebar"/>
+                <slot name="filtersidebar"/>		                	
             </v-list>
 		</v-navigation-drawer>
-        <v-main class="mx-4 mb-4">
+        <v-main class="mx-4 mb-4">			
 			<slot />
 		</v-main>
-    </div>
+    </div>    
 </template>
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    name:'KeuanganLayout',
+    name:'KeuanganLayout',     
     created()
     {
-        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];
+        this.dashboard = this.$store.getters['uiadmin/getDefaultDashboard'];        
     },
     data:()=>({
         loginTime:0,
         drawer:null,
-        drawerRight:null,
-
+        drawerRight:null, 
+        
         dashboard:null,
-    }),
-    methods: {
+    }),       
+    methods: {        
         logout ()
         {
             this.loginTime=0;
@@ -192,16 +224,16 @@ export default {
                         'Authorization': this.TOKEN,
                     }
                 }
-            ).then(()=> {
-                this.$store.dispatch('auth/logout');
-                this.$store.dispatch('uifront/reinit');
-                this.$store.dispatch('uiadmin/reinit');
+            ).then(()=> {     
+                this.$store.dispatch('auth/logout');	
+                this.$store.dispatch('uifront/reinit');	
+                this.$store.dispatch('uiadmin/reinit');	
                 this.$router.push('/');
             })
             .catch(() => {
-                this.$store.dispatch('auth/logout');
-                this.$store.dispatch('uifront/reinit');
-                this.$store.dispatch('uiadmin/reinit');
+                this.$store.dispatch('auth/logout');	
+                this.$store.dispatch('uifront/reinit');	
+                this.$store.dispatch('uiadmin/reinit');	
                 this.$router.push('/');
             });
         },
@@ -212,12 +244,12 @@ export default {
 	},
     computed:{
         ...mapGetters('auth',{
-            AUTHENTICATED:'Authenticated',
-            ACCESS_TOKEN:'AccessToken',
-            TOKEN:'Token',
+            AUTHENTICATED:'Authenticated',  
+            ACCESS_TOKEN:'AccessToken',          
+            TOKEN:'Token',          
             ROLE:'Role',
-            CAN_ACCESS:'can',
-            ATTRIBUTE_USER:'AttributeUser',
+            CAN_ACCESS:'can',         
+            ATTRIBUTE_USER:'AttributeUser',               
         }),
         APP_NAME ()
         {
@@ -229,11 +261,11 @@ export default {
 			var photo;
 			if (img == '')
 			{
-				photo = this.$api.url+'/storage/images/users/no_photo.png';
+				photo = this.$api.url+'/storage/images/users/no_photo.png';	
 			}
 			else
 			{
-				photo = this.$api.url+'/'+img;
+				photo = this.$api.url+'/'+img;	
 			}
 			return photo;
         },
@@ -247,17 +279,17 @@ export default {
 			{
 				return false;
 			}
-        },
+        },        
     },
     watch: {
         loginTime:{
             handler(value)
             {
-
+                
                 if (value >= 0)
                 {
-                    setTimeout(() => {
-                        this.loginTime=this.AUTHENTICATED==true?this.loginTime+1:-1;
+                    setTimeout(() => { 
+                        this.loginTime=this.AUTHENTICATED==true?this.loginTime+1:-1;                                                                     
 					}, 1000);
                 }
                 else
@@ -267,7 +299,7 @@ export default {
                 }
             },
             immediate:true
-        },
+        },        
     }
 }
 </script>

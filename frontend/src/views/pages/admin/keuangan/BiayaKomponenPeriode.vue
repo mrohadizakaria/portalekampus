@@ -82,7 +82,7 @@
                                             label="BIAYA KOMPONEN"
                                             :min="null"
                                             :max="null"
-                                            filled
+                                            outlined
                                             autofocus
                                             v-model="props.item.biaya">
                                         >

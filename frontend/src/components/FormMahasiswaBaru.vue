@@ -11,13 +11,13 @@
                             label="NAMA LENGKAP"
                             v-model="formdata.nama_mhs"
                             :rules="rule_nama_mhs"
-                            filled
+                            outlined
                         />
                         <v-text-field
                             label="TEMPAT LAHIR"
                             v-model="formdata.tempat_lahir"
                             :rules="rule_tempat_lahir"
-                            filled
+                            outlined
                         />
                         <v-menu
                             ref="menuTanggalLahir"
@@ -34,7 +34,7 @@
                                     v-model="formdata.tanggal_lahir"
                                     label="TANGGAL LAHIR"
                                     readonly
-                                    filled
+                                    outlined
                                     v-on="on"
                                     :rules="rule_tanggal_lahir"
                                 ></v-text-field>
@@ -57,20 +57,20 @@
                         <v-text-field
                             label="NOMOR HP"
                             v-model="formdata.nomor_hp"
-                            filled
+                            outlined
                             :rules="rule_nomorhp"
                         />
                         <v-text-field
                             label="EMAIL"
                             v-model="formdata.email"
                             :rules="rule_email"
-                            filled
+                            outlined
                         />
                         <v-text-field
                             label="NAMA IBU KANDUNG"
                             v-model="formdata.nama_ibu_kandung"
                             :rules="rule_nama_ibu_kandung"
-                            filled
+                            outlined
                         />
                     </v-card-text>
                 </v-card>
@@ -87,7 +87,7 @@
                             item-value="id"
                             return-object
                             :loading="btnLoadingProv"
-                            filled
+                            outlined
                         />
                         <v-select
                             label="KABUPATEN/KOTA"
@@ -97,7 +97,7 @@
                             item-value="id"
                             return-object
                             :loading="btnLoadingKab"
-                            filled
+                            outlined
                         />
                         <v-select
                             label="KECAMATAN"
@@ -106,7 +106,7 @@
                             item-text="nama"
                             item-value="id"
                             return-object
-                            filled
+                            outlined
                         />
                         <v-select
                             label="DESA/KELURAHAN"
@@ -116,13 +116,13 @@
                             item-value="id"
                             return-object
                             :rules="rule_desa"
-                            filled
+                            outlined
                         />
                         <v-text-field
                             v-model="formdata.alamat_rumah"
                             label="ALAMAT RUMAH"
                             :rules="rule_alamat_rumah"
-                            filled
+                            outlined
                         />
                     </v-card-text>
                 </v-card>
@@ -134,7 +134,7 @@
                         <v-select
                             v-model="kode_fakultas"
                             label="FAKULTAS"
-                            filled
+                            outlined
                             :rules="rule_fakultas"
                             :items="daftar_fakultas"
                             item-text="nama_fakultas"
@@ -149,7 +149,7 @@
                             item-text="nama_prodi2"
                             item-value="id"
                             :rules="rule_prodi"
-                            filled
+                            outlined
                         />
                         <v-select
                             label="KELAS"
@@ -158,7 +158,7 @@
                             item-text="nkelas"
                             item-value="idkelas"
                             :rules="rule_kelas"
-                            filled
+                            outlined
                         />
                     </v-card-text>
                 </v-card>

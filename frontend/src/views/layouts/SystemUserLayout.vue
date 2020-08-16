@@ -1,20 +1,20 @@
 <template>
     <div>
         <v-system-bar app dark class="brown darken-2 white--text">
-
-		</v-system-bar>
+            
+		</v-system-bar>	
         <v-app-bar app>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="grey--text"></v-app-bar-nav-icon>
             <v-toolbar-title class="headline clickable" @click.stop="$router.push('/dashboard/'+$store.getters['auth/AccessToken']).catch(err => {})">
 				<span class="hidden-sm-and-down">{{APP_NAME}}</span>
 			</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-menu
+            <v-menu 
                 :close-on-content-click="false"
                 origin="center center"
                 transition="scale-transition"
                 :offset-y="true"
-                bottom
+                bottom 
                 left
                 v-if="CAN_ACCESS('SYSTEM-SETTING-GROUP')">
                 <template v-slot:activator="{on}">
@@ -41,9 +41,9 @@
                         <v-list-item-icon class="mr-2">
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-content>
+                        <v-list-item-content>								
                             <v-list-item-title>PERGURUAN TINGGI</v-list-item-title>
-                        </v-list-item-content>
+                        </v-list-item-content>		
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-IDENTITAS-DIRI')" to="/system-setting/identitasdiri">
                         <v-list-item-icon class="mr-2">
@@ -54,14 +54,14 @@
                                 IDENTITAS DIRI
                             </v-list-item-title>
                         </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item>                    
                     <v-list-item class="teal lighten-5">
                         <v-list-item-icon class="mr-2">
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-content>
+                        <v-list-item-content>								
                             <v-list-item-title>USER</v-list-item-title>
-                        </v-list-item-content>
+                        </v-list-item-content>		
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-PERMISSIONS')" to="/system-setting/permissions">
                         <v-list-item-icon class="mr-2">
@@ -72,7 +72,7 @@
                                 PERMISSIONS
                             </v-list-item-title>
                         </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item>                    
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')" to="/system-setting/roles">
                         <v-list-item-icon class="mr-2">
                             <v-icon>mdi-chevron-right</v-icon>
@@ -82,14 +82,14 @@
                                 ROLES
                             </v-list-item-title>
                         </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item>          
                     <v-list-item class="teal lighten-5">
                         <v-list-item-icon class="mr-2">
                             <v-icon>mdi-server-network</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-content>
+                        <v-list-item-content>								
                             <v-list-item-title>SERVER</v-list-item-title>
-                        </v-list-item-content>
+                        </v-list-item-content>		
                     </v-list-item>
                     <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-VARIABLES')" to="/system-setting/captcha">
                         <v-list-item-icon class="mr-2">
@@ -100,7 +100,17 @@
                                 CAPTCHA
                             </v-list-item-title>
                         </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item>  
+                    <v-list-item link v-if="CAN_ACCESS('SYSTEM-SETTING-VARIABLES')" to="/system-setting/email">
+                        <v-list-item-icon class="mr-2">
+                            <v-icon>mdi-chevron-right</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                EMAIL
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>  
                 </v-list>
             </v-menu>
             <v-divider
@@ -108,32 +118,32 @@
                 inset
                 vertical
             ></v-divider>
-            <v-menu
+            <v-menu 
                 :close-on-content-click="true"
                 origin="center center"
                 transition="scale-transition"
                 :offset-y="true"
-                bottom
+                bottom 
                 left>
                 <template v-slot:activator="{on}">
                     <v-avatar size="30">
                         <v-img :src="photoUser" v-on="on" />
-                    </v-avatar>
+                    </v-avatar>                    
                 </template>
                 <v-list>
                     <v-list-item>
                         <v-list-item-avatar>
                             <v-img :src="photoUser"></v-img>
                         </v-list-item-avatar>
-                        <v-list-item-content>
+                        <v-list-item-content>					
                             <v-list-item-title class="title">
                                 {{ATTRIBUTE_USER('username')}}
                             </v-list-item-title>
-                            <v-list-item-subtitle>
+                            <v-list-item-subtitle>                                
                                 {{ROLE}}
                             </v-list-item-subtitle>
                         </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item>                    
                     <v-divider/>
                     <v-list-item to="/system-users/profil">
                         <v-list-item-icon class="mr-2">
@@ -149,14 +159,14 @@
                         <v-list-item-title>Logout</v-list-item-title>
                     </v-list-item>
                 </v-list>
-            </v-menu>
-        </v-app-bar>
+            </v-menu>			
+        </v-app-bar>    
         <v-navigation-drawer v-model="drawer" width="300" dark class="brown darken-4" :temporary="isReportPage" app>
 			<v-list-item>
 				<v-list-item-avatar>
 					<v-img :src="photoUser" @click.stop="toProfile"></v-img>
 				</v-list-item-avatar>
-				<v-list-item-content>
+				<v-list-item-content>					
 					<v-list-item-title class="title">
 						{{ATTRIBUTE_USER('username')}}
 					</v-list-item-title>
@@ -184,7 +194,7 @@
                             SUPERADMIN
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>    
                 <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-KEUANGAN')" to="/system-users/keuangan">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account</v-icon>
@@ -194,7 +204,7 @@
                             KEUANGAN
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>    
                 <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-PMB')" to="/system-users/pmb">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account</v-icon>
@@ -204,7 +214,7 @@
                             TIM PMB
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>    
                 <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-AKADEMIK')" to="/system-users/akademik">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account</v-icon>
@@ -214,7 +224,7 @@
                             AKADEMIK
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>    
                 <v-list-item link v-if="CAN_ACCESS('SYSTEM-USERS-PROGRAM-STUDI')" to="/system-users/prodi">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account</v-icon>
@@ -234,23 +244,23 @@
                             DOSEN
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item>    
             </v-list>
-        </v-navigation-drawer>
-        <v-main class="mx-4 mb-4">
+        </v-navigation-drawer>        
+        <v-main class="mx-4 mb-4">			
 			<slot />
 		</v-main>
-    </div>
+    </div>    
 </template>
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    name:'DataMasterLayout',
+    name:'DataMasterLayout',        
     data:()=>({
         loginTime:0,
-        drawer:null,
-    }),
-    methods: {
+        drawer:null,        
+    }),       
+    methods: {        
         logout ()
         {
             this.loginTime=0;
@@ -261,16 +271,16 @@ export default {
                         'Authorization': this.TOKEN,
                     }
                 }
-            ).then(()=> {
-                this.$store.dispatch('auth/logout');
-                this.$store.dispatch('uifront/reinit');
-                this.$store.dispatch('uiadmin/reinit');
+            ).then(()=> {     
+                this.$store.dispatch('auth/logout');	
+                this.$store.dispatch('uifront/reinit');	
+                this.$store.dispatch('uiadmin/reinit');	
                 this.$router.push('/');
             })
             .catch(() => {
-                this.$store.dispatch('auth/logout');
-                this.$store.dispatch('uifront/reinit');
-                this.$store.dispatch('uiadmin/reinit');
+                this.$store.dispatch('auth/logout');	
+                this.$store.dispatch('uifront/reinit');	
+                this.$store.dispatch('uiadmin/reinit');	
                 this.$router.push('/');
             });
         },
@@ -281,12 +291,12 @@ export default {
 	},
     computed:{
         ...mapGetters('auth',{
-            AUTHENTICATED:'Authenticated',
-            ACCESS_TOKEN:'AccessToken',
-            TOKEN:'Token',
+            AUTHENTICATED:'Authenticated',  
+            ACCESS_TOKEN:'AccessToken',          
+            TOKEN:'Token',          
             ROLE:'Role',
-            CAN_ACCESS:'can',
-            ATTRIBUTE_USER:'AttributeUser',
+            CAN_ACCESS:'can',         
+            ATTRIBUTE_USER:'AttributeUser',               
         }),
         APP_NAME ()
         {
@@ -298,11 +308,11 @@ export default {
 			var photo;
 			if (img == '')
 			{
-				photo = this.$api.url+'/storage/images/users/no_photo.png';
+				photo = this.$api.url+'/storage/images/users/no_photo.png';	
 			}
 			else
 			{
-				photo = this.$api.url+'/'+img;
+				photo = this.$api.url+'/'+img;	
 			}
 			return photo;
         },
@@ -316,17 +326,17 @@ export default {
 			{
 				return false;
 			}
-        },
+        },        
     },
     watch: {
         loginTime:{
             handler(value)
             {
-
+                
                 if (value >= 0)
                 {
-                    setTimeout(() => {
-                        this.loginTime=this.AUTHENTICATED==true?this.loginTime+1:-1;
+                    setTimeout(() => { 
+                        this.loginTime=this.AUTHENTICATED==true?this.loginTime+1:-1;                                                                     
 					}, 1000);
                 }
                 else
@@ -336,7 +346,7 @@ export default {
                 }
             },
             immediate:true
-        },
+        },        
     }
 }
 </script>
