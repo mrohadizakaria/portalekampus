@@ -5,7 +5,7 @@
                 mdi-monitor-dashboard
             </template>
             <template v-slot:name>
-                SPMB 
+                SPMB
             </template>
             <template v-slot:subtitle>
                 TAHUN PENDAFTARAN {{tahun_pendaftaran}}
@@ -18,9 +18,9 @@
                 </v-breadcrumbs>
             </template>
             <template v-slot:desc>
-                <v-alert                                        
+                <v-alert
                     color="cyan"
-                    border="left"                    
+                    border="left"
                     colored-border
                     type="info"
                     >
@@ -32,31 +32,60 @@
             <Filter9 v-on:changeTahunPendaftaran="changeTahunPendaftaran" ref="filter9" />
         </template>
         <v-container fluid>
-            <v-col cols="12">
-                <v-card>
-                    <v-card-title class="headline">
-                        TOTAL MAHASISWA BARU : {{total_mb}}
-                    </v-card-title>
-                    <v-card-text>
-                        <v-row dense>                
-                            <v-col xs="12" sm="6" md="3" v-for="item in daftar_prodi" v-bind:key="item.id">
-                                <v-card color="#385F73" dark>
-                                    <v-card-title class="headline">
-                                        {{item.nama_prodi_alias}}
-                                    </v-card-title>
-                                    <v-card-subtitle>
-                                        Jenjang : {{item.nama_jenjang}}
-                                    </v-card-subtitle>
-                                    <v-card-text>
-                                        {{item.jumlah}}
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
-                            <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>            
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-col>
+            <v-row dense>
+                <v-col xs="12" sm="4" md="3">
+                    <v-card
+                        class="clickable"
+                        color="#385F73"
+                        @click.native="$router.push('/spmb/pendaftaranbaru')"
+                        dark>
+                        <v-card-title class="headline">
+                            JUMLAH MHS. BARU
+                        </v-card-title>
+                        <v-card-text>
+                            {{total_mb}}
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+            </v-row>
+            <v-row>
+                <v-col xs="12" sm="12" md="6">
+                    <v-card class="mb-3">
+                        <v-card-title>
+                            Pendaftaran Mahasiswa Baru
+                        </v-card-title>
+                        <v-card-subtitle>
+                            per program studi
+                        </v-card-subtitle>
+                        <v-card-text>
+                            <v-data-table
+                                :loading="datatableLoading"
+                                loading-text="Loading... Please wait"
+                                :dense="true"
+                                :disable-pagination="true"
+                                :hide-default-footer="true"
+                                :headers="headers"
+                                :items="daftar_prodi">
+                                <template v-slot:body.append v-if="daftar_prodi.length > 0">
+                                    <tr class="grey lighten-4 font-weight-black">
+                                        <td class="text-right" colspan="2">TOTAL</td>
+                                        <td class="text-right">{{total_mb}}</td>
+                                    </tr>
+                                </template>
+                                <template v-slot:no-data>
+                                    belum ada data pendaftaran mahasiswa baru.
+                                </template>
+                            </v-data-table>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+                <v-col xs="12" sm="12" md="6">
+
+                </v-col>
+                <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+            </v-row>
         </v-container>
     </SPMBLayout>
 </template>
@@ -79,8 +108,8 @@ export default {
 				disabled:true,
 				href:'#'
 			}
-        ];				
-        this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran']; 
+        ];
+        this.tahun_pendaftaran = this.$store.getters['uiadmin/getTahunPendaftaran'];
     },
     mounted()
     {
@@ -89,12 +118,17 @@ export default {
     data: () => ({
         datatableLoading:false,
         firstloading:true,
-        breadcrumbs:[],        
+        breadcrumbs:[],
         tahun_pendaftaran:0,
-        
+
         //statistik
-        daftar_prodi:[],
         total_mb:0,
+        daftar_prodi:[],
+        headers: [
+            { text: 'NAMA PRODI', value: 'nama_prodi', sortable:false},
+            { text: 'JENJANG', value: 'nama_jenjang', sortable:false},
+            { text: 'JUMLAH', align:'end',value: 'jumlah', sortable:false},
+        ],
     }),
     methods : {
         changeTahunPendaftaran (tahun)
@@ -102,25 +136,25 @@ export default {
             this.tahun_pendaftaran=tahun;
         },
 		initialize:async function()
-		{	
-            this.datatableLoading=true;            
+		{
+            this.datatableLoading=true;
             await this.$ajax.post('/dashboard/pmb',
             {
-                TA:this.tahun_pendaftaran,                
+                TA:this.tahun_pendaftaran,
             },
             {
                 headers: {
                     Authorization:this.$store.getters['auth/Token']
                 }
-            }).then(({data})=>{                            
+            }).then(({data})=>{
                 this.daftar_prodi = data.daftar_prodi;
                 this.total_mb = data.total_mb;
                 this.datatableLoading=false;
             }).catch(()=>{
                 this.datatableLoading=false;
             });
-            this.firstloading=false;            
-            this.$refs.filter9.setFirstTimeLoading(this.firstloading); 
+            this.firstloading=false;
+            this.$refs.filter9.setFirstTimeLoading(this.firstloading);
         }
     },
     watch:{
@@ -129,13 +163,13 @@ export default {
             if (!this.firstloading)
             {
                 this.initialize();
-            }            
+            }
         },
     },
     components:{
         SPMBLayout,
-        ModuleHeader,           
-        Filter9,        
+        ModuleHeader,
+        Filter9,
     },
 }
 </script>
