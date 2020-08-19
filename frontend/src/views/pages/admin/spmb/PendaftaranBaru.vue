@@ -491,6 +491,7 @@ export default {
                             username:this.formdata.username,
                             prodi_id:this.prodi_id,
                             password:this.formdata.password,
+                            tahun_pendaftaran:this.tahun_pendaftaran  
                         },
                         {
                             headers:{
