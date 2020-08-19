@@ -238,8 +238,7 @@ export default {
             value => value.length == 1 || 'Kode kelas hanya boleh 1 karakter'
         ],
         rule_nama_kelas:[
-            value => !!value||"Mohon untuk di isi name !!!",
-            value => /^[A-Za-z\s]*$/.test(value) || 'Name hanya boleh string dan spasi',
+            value => !!value||"Mohon untuk di isi nama kelas !!!",            
         ],
     }),
     methods: {
