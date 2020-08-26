@@ -238,16 +238,25 @@ class UserManager extends TAuthManager {
                 $data_user=isset($result[1])?$result[1]:array('page'=>'','userpassword'=>'','active'=>1);
 			break;
 			case 'DosenWali' :
-                $str = "SELECT u.username,u.userpassword,u.salt,u.page,u.active AS active FROM user u WHERE username='$username' AND active=1 AND page='d'";
+                $str = "SELECT 
+								dw.iddosen_wali,
+								u.username,
+								u.userpassword,
+								u.salt,
+								u.page,
+								u.active 
+							FROM user u 
+							JOIN dosen d ON u.username=d.username 
+							JOIN dosen_wali dw ON d.iddosen=dw.iddosen 
+							WHERE u.username='$username' AND 
+								active=1 AND 
+								page='d'";
+
                 $this->db->setFieldTable (array('username','userpassword','salt','page','active'));							
-                $r = $this->db->getRecord($str);
+				$r = $this->db->getRecord($str);
+				
                 if (isset($r[1])) {
                     $data_user=$r[1];
-                }else{
-                    $str = "SELECT dw.iddosen_wali,d.userpassword,d.status AS active FROM dosen_wali dw,dosen d WHERE d.iddosen=dw.iddosen AND d.username='$username'";
-                    $this->db->setFieldTable (array('iddosen_wali','userpassword','active'));							
-                    $result = $this->db->getRecord($str);
-                    $data_user=isset($result[1])?$result[1]:array('page'=>'','userpassword'=>'','active'=>1);
                 }
 			break;
 			case 'Mahasiswa' :
