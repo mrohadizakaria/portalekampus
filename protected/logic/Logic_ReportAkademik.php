@@ -321,15 +321,15 @@ class Logic_ReportAkademik extends Logic_Report {
         switch ($this->getDriver()) {
             case 'excel2003' :               
             case 'excel2007' :    
-                $this->setHeaderPT('S');                
+                $this->setHeaderPT('V');                
                 $sheet=$this->rpt->getActiveSheet();
                 $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
                 $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
                 
-                $sheet->mergeCells("A7:S7");
+                $sheet->mergeCells("A7:V7");
                 $sheet->getRowDimension(7)->setRowHeight(20);
                 $sheet->setCellValue("A7","DAFTAR MAHASISWA");
-                $sheet->mergeCells("A8:S8");
+                $sheet->mergeCells("A8:V8");
                 $sheet->getRowDimension(8)->setRowHeight(20);
                 $sheet->setCellValue("A8","PROGRAM STUDI $nama_ps TAHUN MASUK $nama_tahun");   
                 
@@ -339,7 +339,7 @@ class Logic_ReportAkademik extends Logic_Report {
 								'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 							);
-                $sheet->getStyle("A7:S9")->applyFromArray($styleArray);
+                $sheet->getStyle("A7:V9")->applyFromArray($styleArray);
                 
                 $sheet->getRowDimension(11)->setRowHeight(25); 
                 $sheet->getColumnDimension('C')->setWidth(3);
@@ -357,7 +357,11 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->getColumnDimension('O')->setWidth(40);
                 $sheet->getColumnDimension('P')->setWidth(25);
                 $sheet->getColumnDimension('Q')->setWidth(25);
-                $sheet->getColumnDimension('R')->setWidth(15);
+                $sheet->getColumnDimension('R')->setWidth(30);
+                $sheet->getColumnDimension('S')->setWidth(25);
+                $sheet->getColumnDimension('T')->setWidth(25);
+                $sheet->getColumnDimension('U')->setWidth(25);
+                $sheet->getColumnDimension('V')->setWidth(15);
                 
                 $sheet->setCellValue('A11','NO');
                 $sheet->mergeCells("B11:C11");
@@ -374,10 +378,13 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue('M11','AGAMA');
                 $sheet->setCellValue('N11','NO. NIK');
                 $sheet->setCellValue('O11','ALAMAT');
-                $sheet->setCellValue('P11','KELURAHAN');
-                $sheet->setCellValue('Q11','KECAMATAN');
-                $sheet->setCellValue('R11','KELAS');
-                $sheet->setCellValue('S11','KET.');
+                $sheet->setCellValue('P11','NOMOR TELEPON');
+                $sheet->setCellValue('Q11','NOMOR HP');
+                $sheet->setCellValue('R11','EMAIL');
+                $sheet->setCellValue('S11','KELURAHAN');
+                $sheet->setCellValue('T11','KECAMATAN');
+                $sheet->setCellValue('U11','KELAS');
+                $sheet->setCellValue('V11','KET.');
                
                 $styleArray=array(
 								'font' => array('bold' => true),
@@ -385,11 +392,58 @@ class Logic_ReportAkademik extends Logic_Report {
 												   'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
 								'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
 							);
-                $sheet->getStyle("A11:S11")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:S11")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:V11")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:V11")->getAlignment()->setWrapText(true);
                 
-                $str = "SELECT fp.no_formulir,rm.nim,rm.nirm,rm.no_formulir,fp.nama_mhs,fp.jk,rm.k_status,rm.iddosen_wali,fp.tempat_lahir,fp.tanggal_lahir,fp.nama_ibu_kandung,a.nama_agama,fp.nik,fp.alamat_rumah,fp.kelurahan,fp.kecamatan,rm.idkelas FROM formulir_pendaftaran fp JOIN register_mahasiswa rm ON (fp.no_formulir=rm.no_formulir) LEFT JOIN agama a ON (a.idagama=fp.idagama) WHERE rm.kjur='$kjur' AND fp.ta=$tahun_masuk ORDER BY fp.nama_mhs ASC,rm.idkelas ASC";
-                $this->db->setFieldTable(array('no_formulir','nim','nirm','no_formulir','nama_mhs','jk','k_status','iddosen_wali','tempat_lahir','tanggal_lahir','nama_ibu_kandung','nama_agama','nik','alamat_rumah','kelurahan','kecamatan','idkelas'));	
+                $str = "SELECT fp.no_formulir,
+                                rm.nim,
+                                rm.nirm,
+                                rm.no_formulir,
+                                fp.nama_mhs,
+                                fp.jk,
+                                rm.k_status,
+                                rm.iddosen_wali,
+                                fp.tempat_lahir,
+                                fp.tanggal_lahir,
+                                fp.nama_ibu_kandung,
+                                a.nama_agama,
+                                fp.nik,
+                                fp.alamat_rumah,
+                                fp.kelurahan,
+                                fp.kecamatan,
+                                fp.telp_rumah,
+                                fp.telp_hp,
+                                c.email,
+                                rm.idkelas 
+                            FROM formulir_pendaftaran fp 
+                            JOIN register_mahasiswa rm ON (fp.no_formulir=rm.no_formulir) 
+                            LEFT JOIN agama a ON (a.idagama=fp.idagama) 
+                            LEFT JOIN profiles_mahasiswa c ON (fp.no_formulir=a.no_formulir)
+                            WHERE rm.kjur='$kjur' AND 
+                                fp.ta=$tahun_masuk 
+                            ORDER BY fp.nama_mhs ASC,rm.idkelas ASC";
+                            
+                $this->db->setFieldTable(array('no_formulir',
+                                                'nim',
+                                                'nirm',
+                                                'no_formulir',
+                                                'nama_mhs',
+                                                'jk',
+                                                'k_status',
+                                                'iddosen_wali',
+                                                'tempat_lahir',
+                                                'tanggal_lahir',
+                                                'nama_ibu_kandung',
+                                                'nama_agama',
+                                                'nik',
+                                                'alamat_rumah',
+                                                'kelurahan',
+                                                'kecamatan',
+                                                'telp_rumah',
+                                                'telp_hp',
+                                                'email',
+                                                'idkelas'
+                                        ));	
                 $r = $this->db->getRecord($str);
                 $row=12;
                 while (list($k,$v)=each ($r)) {            
@@ -408,10 +462,13 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValue("M$row",$v['nama_agama']);
                     $sheet->setCellValueExplicit("N$row",$v['nik'],PHPExcel_Cell_DataType::TYPE_STRING);                    
                     $sheet->setCellValue("O$row",$v['alamat_rumah']);
-                    $sheet->setCellValue("P$row",$v['kelurahan']);
-                    $sheet->setCellValue("Q$row",$v['kecamatan']);
-                    $sheet->setCellValue("R$row",$objDMaster->getNamaKelasByID($v['idkelas']));
-                    $sheet->setCellValue("S$row",$v['keterangan']);
+                    $sheet->setCellValue("P$row",$v['telp_rumah']);
+                    $sheet->setCellValue("Q$row",$v['telp_hp']);
+                    $sheet->setCellValue("R$row",$v['email']);
+                    $sheet->setCellValue("S$row",$v['kelurahan']);
+                    $sheet->setCellValue("T$row",$v['kecamatan']);
+                    $sheet->setCellValue("U$row",$objDMaster->getNamaKelasByID($v['idkelas']));
+                    $sheet->setCellValue("V$row",$v['keterangan']);
                     $row+=1;
                 } 
                 $row-=1;
