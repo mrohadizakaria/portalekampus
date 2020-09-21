@@ -1,9 +1,9 @@
-SET FOREIGN_KEY_CHECKS=0;
+
 --
--- Dumping data for table `wilayah_kecamatan`
+-- Dumping data for table wilayah_kecamatan
 --
 
-INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
+INSERT INTO wilayah_kecamatan (id, kabupaten_id, nama) VALUES
 ('1101010', '1101', ' Teupah Selatan'),
 ('1101020', '1101', ' Simeulue Timur'),
 ('1101021', '1101', ' Teupah Barat'),
@@ -1421,7 +1421,7 @@ INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
 ('1674032', '1674', ' Lubuk Linggau Timur Ii'),
 ('1674041', '1674', ' Lubuk Linggau Utara I');
 
-INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
+INSERT INTO wilayah_kecamatan (id, kabupaten_id, nama) VALUES
 ('1674042', '1674', ' Lubuk Linggau Utara Ii'),
 ('1701040', '1701', ' Manna'),
 ('1701041', '1701', ' Kota Manna'),
@@ -2915,7 +2915,7 @@ INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
 ('3319020', '3319', ' Kota Kudus'),
 ('3319030', '3319', ' Jati'),
 ('3319040', '3319', ' Undaan');
-INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
+INSERT INTO wilayah_kecamatan (id, kabupaten_id, nama) VALUES
 ('3319050', '3319', ' Mejobo'),
 ('3319060', '3319', ' Jekulo'),
 ('3319070', '3319', ' Bae'),
@@ -4466,7 +4466,7 @@ INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
 ('5316020', '5316', ' Umbu Ratu Nggay Barat'),
 ('5316030', '5316', ' Umbu Ratu Nggay'),
 ('5316040', '5316', ' Mamboro');
-INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
+INSERT INTO wilayah_kecamatan (id, kabupaten_id, nama) VALUES
 ('5317010', '5317', ' Kodi Bangedo'),
 ('5317011', '5317', ' Kodi Balaghar'),
 ('5317020', '5317', ' Kodi'),
@@ -5931,7 +5931,7 @@ INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
 ('7408041', '7408', ' Watunohu'),
 ('7408050', '7408', ' Pakue'),
 ('7408051', '7408', ' Pakue Utara');
-INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
+INSERT INTO wilayah_kecamatan (id, kabupaten_id, nama) VALUES
 ('7408052', '7408', ' Pakue Tengah'),
 ('7408060', '7408', ' Batu Putih'),
 ('7408061', '7408', ' Porehu'),
@@ -6888,5 +6888,5 @@ INSERT INTO `wilayah_kecamatan` (`id`, `kabupaten_id`, `nama`) VALUES
 ('9471030', '9471', ' Jayapura Selatan'),
 ('9471040', '9471', ' Jayapura Utara');
 -- --------------------------------------------------------
-SET FOREIGN_KEY_CHECKS=1;
+
 

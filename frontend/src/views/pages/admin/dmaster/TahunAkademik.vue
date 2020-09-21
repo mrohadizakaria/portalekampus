@@ -238,7 +238,7 @@ export default {
             value => value.length == 4 || 'Kode kelas hanya boleh 4 karakter'                
         ], 
         rule_tahun_akademik:[
-            value => !!value||"Mohon untuk di isi name !!!",                      
+            value => !!value||"Mohon untuk di isi nama tahun akademik !!!",                      
         ], 
     }),
     methods: {

@@ -1,10 +1,6 @@
-SET FOREIGN_KEY_CHECKS=0;
 
---
--- Dumping data for table `wilayah_kabupaten`
---
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1101', '11', 'Kab. Simeulue'),
 ('1102', '11', 'Kab. Aceh Singkil'),
 ('1103', '11', 'Kab. Aceh Selatan'),
@@ -29,7 +25,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1174', '11', 'Kota Lhokseumawe'),
 ('1175', '11', 'Kota Subulussalam');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1201', '12', 'Kab. Nias'),
 ('1202', '12', 'Kab. Mandailing Natal'),
 ('1203', '12', 'Kab. Tapanuli Selatan'),
@@ -64,7 +60,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1277', '12', 'Kota Padangsidimpuan'),
 ('1278', '12', 'Kota Gunungsitoli');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1301', '13', 'Kab. Kepulauan Mentawai'),
 ('1302', '13', 'Kab. Pesisir Selatan'),
 ('1303', '13', 'Kab. Solok'),
@@ -85,7 +81,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1376', '13', 'Kota Payakumbuh'),
 ('1377', '13', 'Kota Pariaman');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1401', '14', 'Kab. Kuantan Singingi'),
 ('1402', '14', 'Kab. Indragiri Hulu'),
 ('1403', '14', 'Kab. Indragiri Hilir'),
@@ -99,7 +95,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1471', '14', 'Kota Pekanbaru'),
 ('1473', '14', 'Kota Dumai');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1501', '15', 'Kab. Kerinci'),
 ('1502', '15', 'Kab. Merangin'),
 ('1503', '15', 'Kab. Sarolangun'),
@@ -112,7 +108,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1571', '15', 'Kota Jambi'),
 ('1572', '15', 'Kota Sungai Penuh');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1601', '16', 'Kab. Ogan Komering Ulu'),
 ('1602', '16', 'Kab. Ogan Komering Ilir'),
 ('1603', '16', 'Kab. Muara Enim'),
@@ -129,7 +125,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1673', '16', 'Kota Pagar Alam'),
 ('1674', '16', 'Kota Lubuklinggau');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1701', '17', 'Kab. Bengkulu Selatan'),
 ('1702', '17', 'Kab. Rejang Lebong'),
 ('1703', '17', 'Kab. Bengkulu Utara'),
@@ -141,7 +137,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1709', '17', 'Kab. Bengkulu Tengah'),
 ('1771', '17', 'Kota Bengkulu');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('1801', '18', 'Kab. Lampung Barat'),
 ('1802', '18', 'Kab. Tanggamus'),
 ('1803', '18', 'Kab. Lampung Selatan'),
@@ -165,7 +161,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('1906', '19', 'Kab. Belitung Timur'),
 ('1971', '19', 'Kota Pangkal Pinang');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('2101', '21', 'Kab. Karimun'),
 ('2102', '21', 'Kab. Bintan'),
 ('2103', '21', 'Kab. Natuna'),
@@ -174,7 +170,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('2171', '21', 'Kota Batam'),
 ('2172', '21', 'Kota Tanjung Pinang');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('3101', '31', 'Kab. Kepulauan Seribu'),
 ('3171', '31', 'Kota Jakarta Selatan'),
 ('3172', '31', 'Kota Jakarta Timur'),
@@ -182,7 +178,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('3174', '31', 'Kota Jakarta Barat'),
 ('3175', '31', 'Kota Jakarta Utara');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('3201', '32', 'Kab. Bogor'),
 ('3202', '32', 'Kab. Sukabumi'),
 ('3203', '32', 'Kab. Cianjur'),
@@ -211,7 +207,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('3278', '32', 'Kota Tasikmalaya'),
 ('3279', '32', 'Kota Banjar');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('3301', '33', 'Kab. Cilacap'),
 ('3302', '33', 'Kab. Banyumas'),
 ('3303', '33', 'Kab. Purbalingga'),
@@ -248,7 +244,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('3375', '33', 'Kota Pekalongan'),
 ('3376', '33', 'Kota Tegal');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('3401', '34', 'Kab. Kulon Progo'),
 ('3402', '34', 'Kab. Bantul'),
 ('3403', '34', 'Kab. Gunung Kidul'),
@@ -301,7 +297,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('3673', '36', 'Kota Serang'),
 ('3674', '36', 'Kota Tangerang Selatan');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('5101', '51', 'Kab. Jembrana'),
 ('5102', '51', 'Kab. Tabanan'),
 ('5103', '51', 'Kab. Badung'),
@@ -312,7 +308,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('5108', '51', 'Kab. Buleleng'),
 ('5171', '51', 'Kota Denpasar');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('5201', '52', 'Kab. Lombok Barat'),
 ('5202', '52', 'Kab. Lombok Tengah'),
 ('5203', '52', 'Kab. Lombok Timur'),
@@ -324,7 +320,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('5271', '52', 'Kota Mataram'),
 ('5272', '52', 'Kota Bima');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('5301', '53', 'Kab. Sumba Barat'),
 ('5302', '53', 'Kab. Sumba Timur'),
 ('5303', '53', 'Kab. Kupang'),
@@ -347,7 +343,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('5320', '53', 'Kab. Sabu Raijua'),
 ('5371', '53', 'Kota Kupang');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('6101', '61', 'Kab. Sambas'),
 ('6102', '61', 'Kab. Bengkayang'),
 ('6103', '61', 'Kab. Landak'),
@@ -363,7 +359,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('6171', '61', 'Kota Pontianak'),
 ('6172', '61', 'Kota Singkawang');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('6201', '62', 'Kab. Kotawaringin Barat'),
 ('6202', '62', 'Kab. Kotawaringin Timur'),
 ('6203', '62', 'Kab. Kapuas'),
@@ -379,7 +375,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('6213', '62', 'Kab. Murung Raya'),
 ('6271', '62', 'Kota Palangka Raya');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('6301', '63', 'Kab. Tanah Laut'),
 ('6302', '63', 'Kab. Kota Baru'),
 ('6303', '63', 'Kab. Banjar'),
@@ -394,7 +390,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('6371', '63', 'Kota Banjarmasin'),
 ('6372', '63', 'Kota Banjar Baru');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('6401', '64', 'Kab. Paser'),
 ('6402', '64', 'Kab. Kutai Barat'),
 ('6403', '64', 'Kab. Kutai Kartanegara'),
@@ -405,14 +401,14 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('6472', '64', 'Kota Samarinda'),
 ('6474', '64', 'Kota Bontang');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('6501', '65', 'Kab. Malinau'),
 ('6502', '65', 'Kab. Bulungan'),
 ('6503', '65', 'Kab. Tana Tidung'),
 ('6504', '65', 'Kab. Nunukan'),
 ('6571', '65', 'Kota Tarakan');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('7101', '71', 'Kab. Bolaang Mongondow'),
 ('7102', '71', 'Kab. Minahasa'),
 ('7103', '71', 'Kab. Kepulauan Sangihe'),
@@ -429,7 +425,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('7173', '71', 'Kota Tomohon'),
 ('7174', '71', 'Kota Kotamobagu');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('7201', '72', 'Kab. Banggai Kepulauan'),
 ('7202', '72', 'Kab. Banggai'),
 ('7203', '72', 'Kab. Morowali'),
@@ -442,7 +438,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('7210', '72', 'Kab. Sigi'),
 ('7271', '72', 'Kota Palu');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('7301', '73', 'Kab. Kepulauan Selayar'),
 ('7302', '73', 'Kab. Bulukumba'),
 ('7303', '73', 'Kab. Bantaeng'),
@@ -468,7 +464,7 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('7372', '73', 'Kota Parepare'),
 ('7373', '73', 'Kota Palopo');
 
-INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
+INSERT INTO wilayah_kabupaten (id, provinsi_id, nama) VALUES
 ('7401', '74', 'Kab. Buton'),
 ('7402', '74', 'Kab. Muna'),
 ('7403', '74', 'Kab. Konawe'),
@@ -552,5 +548,3 @@ INSERT INTO `wilayah_kabupaten` (`id`, `provinsi_id`, `nama`) VALUES
 ('9435', '94', 'Kab. Intan Jaya'),
 ('9436', '94', 'Kab. Deiyai'),
 ('9471', '94', 'Kota Jayapura');
-
-SET FOREIGN_KEY_CHECKS=1;
