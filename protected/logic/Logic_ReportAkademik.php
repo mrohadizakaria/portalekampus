@@ -418,7 +418,7 @@ class Logic_ReportAkademik extends Logic_Report {
                             FROM formulir_pendaftaran fp 
                             JOIN register_mahasiswa rm ON (fp.no_formulir=rm.no_formulir) 
                             LEFT JOIN agama a ON (a.idagama=fp.idagama) 
-                            LEFT JOIN profiles_mahasiswa c ON (fp.no_formulir=a.no_formulir)
+                            LEFT JOIN profiles_mahasiswa c ON (fp.no_formulir=c.no_formulir)
                             WHERE rm.kjur='$kjur' AND 
                                 fp.ta=$tahun_masuk 
                             ORDER BY fp.nama_mhs ASC,rm.idkelas ASC";
@@ -477,15 +477,15 @@ class Logic_ReportAkademik extends Logic_Report {
                                                        'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
                                     'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
                                 );																					 
-                $sheet->getStyle("A12:S$row")->applyFromArray($styleArray);
-                $sheet->getStyle("A12:S$row")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A12:V$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A12:V$row")->getAlignment()->setWrapText(true);
                 
                 $styleArray=array(								
                                     'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
                                 );																					 
                 $sheet->getStyle("F12:F$row")->applyFromArray($styleArray);
                 $sheet->getStyle("I12:M$row")->applyFromArray($styleArray);
-                $sheet->getStyle("O12:R$row")->applyFromArray($styleArray);
+                $sheet->getStyle("O12:T$row")->applyFromArray($styleArray);
                 $this->printOut("daftarmahasiswa$kjur");
             break;
         }
