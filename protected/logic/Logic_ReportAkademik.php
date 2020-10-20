@@ -1835,8 +1835,8 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->getStyle("A11:V11")->getAlignment()->setWrapText(true);
 
                 $str = "SELECT km.idkelas_mhs,km.idkelas,km.nama_kelas,km.hari,km.jam_masuk,km.jam_keluar,vpp.kmatkul,vpp.nmatkul,vpp.nama_dosen,vpp.nidn,rk.namaruang,rk.kapasitas FROM kelas_mhs km JOIN v_pengampu_penyelenggaraan vpp ON (km.idpengampu_penyelenggaraan=vpp.idpengampu_penyelenggaraan) LEFT JOIN ruangkelas rk ON (rk.idruangkelas=km.idruangkelas) WHERE idsmt='$idsmt' AND tahun='$tahun' AND kjur='$kjur' ORDER BY idkelas ASC,hari ASC,nmatkul ASC";
-                $this->DB->setFieldTable(array('idkelas_mhs','kmatkul','nmatkul','nama_dosen','idkelas','nidn','nama_kelas','hari','jam_masuk','jam_keluar','namaruang','kapasitas'));
-                $r = $this->DB->getRecord($str);
+                $this->db->setFieldTable(array('idkelas_mhs','kmatkul','nmatkul','nama_dosen','idkelas','nidn','nama_kelas','hari','jam_masuk','jam_keluar','namaruang','kapasitas'));
+                $r = $this->db->getRecord($str);
                 
                 $row=12;
                 while (list($k,$v)=each($r)) {  
@@ -1848,7 +1848,7 @@ class Logic_ReportAkademik extends Logic_Report {
                     $sheet->setCellValue("F$row",$this->tgl->getNamaHari($v['hari']));                    
                     $sheet->setCellValue("G$row",$v['jam_masuk'].'-'.$v['jam_keluar']);                    
                     $sheet->setCellValue("H$row",$v['namaruang']);   
-                    $jumlah_peserta_kelas=$this->DB->getCountRowsOfTable('kelas_mhs_detail WHERE idkelas_mhs='.$v['idkelas_mhs'],'idkelas_mhs');
+                    $jumlah_peserta_kelas=$this->db->getCountRowsOfTable('kelas_mhs_detail WHERE idkelas_mhs='.$v['idkelas_mhs'],'idkelas_mhs');
                     $sheet->setCellValue("I$row",$jumlah_peserta_kelas);                    
                     $row+=1;
                 }
