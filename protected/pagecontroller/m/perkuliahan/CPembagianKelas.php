@@ -202,5 +202,43 @@ class CPembagianKelas extends MainPageM {
         $this->lblMessagePrintout->Text=$messageprintout;
         $this->lblPrintout->Text='Daftar Hadir Mahasiswa';
         $this->modalPrintOut->show();
-	}
+    }
+    public function printOutJadwal ($sender,$param)
+    {
+        $this->createObj('reportakademik');
+        $this->linkOutput->Text='';
+        $this->linkOutput->NavigateUrl='#';
+
+        switch ($_SESSION['outputreport']) {
+            case  'summarypdf' :
+                $messageprintout="Mohon maaf Print out pada mode summary pdf tidak kami support.";                
+            break;
+            case  'summaryexcel' :
+                $messageprintout="Mohon maaf Print out pada mode summary excel tidak kami support.";                
+            break;
+            case  'excel2007' :                    
+                
+                $dataReport['kjur']=$_SESSION['kjur'];          
+                $dataReport['tahun']=$_SESSION['ta'];          
+                $dataReport['idsmt']=$_SESSION['semester'];          
+
+                $dataReport['nama_prodi']=$_SESSION['daftar_jurusan'][$dataReport['kjur']];
+                $dataReport['nama_tahun'] = $this->DMaster->getNamaTA($dataReport['tahun']);
+                $dataReport['nama_semester'] = $this->setup->getSemester($dataReport['idsmt']);               
+                
+                $dataReport['linkoutput']=$this->linkOutput; 
+                $this->report->setDataReport($dataReport); 
+                $this->report->setMode($_SESSION['outputreport']);  
+                
+                $messageprintout="Daftar Jadwal Perkuliahan T.A dan Semester Saat ini  : <br/>";
+                $this->report->printJadwalKuliah($this->DMaster,$this->Demik);
+            break;
+            case  'pdf' :
+                $messageprintout="Mohon maaf Print out pada mode pdf belum kami support.";
+            break;
+        }                
+        $this->lblMessagePrintout->Text=$messageprintout;
+        $this->lblPrintout->Text='Daftar Hadir Mahasiswa';
+        $this->modalPrintOut->show();
+    }
 }
