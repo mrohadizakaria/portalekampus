@@ -1794,7 +1794,7 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->setCellValue("A7","JADWAL KULIAH");
                 $sheet->mergeCells("A8:I8");
                 $sheet->getRowDimension(8)->setRowHeight(20);
-                $sheet->setCellValue("A8","PROGRAM STUDI $nama_ps TAHUN MASUK $nama_tahun SEMESTER $nama_semester");   
+                $sheet->setCellValue("A8","PROGRAM STUDI $nama_ps TAHUN AKADEMIK $nama_tahun SEMESTER $nama_semester");   
                 
                 $styleArray=array(
                     'font' => array('bold' => true,
@@ -1807,11 +1807,11 @@ class Logic_ReportAkademik extends Logic_Report {
                 $sheet->getRowDimension(11)->setRowHeight(25);                 
                 $sheet->getColumnDimension('A')->setWidth(10);
                 $sheet->getColumnDimension('B')->setWidth(15);
-                $sheet->getColumnDimension('C')->setWidth(35);
-                $sheet->getColumnDimension('D')->setWidth(40);
-                $sheet->getColumnDimension('E')->setWidth(30);
+                $sheet->getColumnDimension('C')->setWidth(40);
+                $sheet->getColumnDimension('D')->setWidth(50);
+                $sheet->getColumnDimension('E')->setWidth(20);
                 $sheet->getColumnDimension('F')->setWidth(10);
-                $sheet->getColumnDimension('G')->setWidth(10);
+                $sheet->getColumnDimension('G')->setWidth(20);
                 $sheet->getColumnDimension('H')->setWidth(15);
                 $sheet->getColumnDimension('I')->setWidth(15);                
                 
@@ -1831,10 +1831,10 @@ class Logic_ReportAkademik extends Logic_Report {
                                        'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
                     'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
                 );
-                $sheet->getStyle("A11:V11")->applyFromArray($styleArray);
-                $sheet->getStyle("A11:V11")->getAlignment()->setWrapText(true);
+                $sheet->getStyle("A11:I11")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:I11")->getAlignment()->setWrapText(true);
 
-                $str = "SELECT km.idkelas_mhs,km.idkelas,km.nama_kelas,km.hari,km.jam_masuk,km.jam_keluar,vpp.kmatkul,vpp.nmatkul,vpp.nama_dosen,vpp.nidn,rk.namaruang,rk.kapasitas FROM kelas_mhs km JOIN v_pengampu_penyelenggaraan vpp ON (km.idpengampu_penyelenggaraan=vpp.idpengampu_penyelenggaraan) LEFT JOIN ruangkelas rk ON (rk.idruangkelas=km.idruangkelas) WHERE idsmt='$idsmt' AND tahun='$tahun' AND kjur='$kjur' ORDER BY idkelas ASC,hari ASC,nmatkul ASC";
+                $str = "SELECT km.idkelas_mhs,km.idkelas,km.nama_kelas,km.hari,km.jam_masuk,km.jam_keluar,vpp.kmatkul,vpp.nmatkul,vpp.nama_dosen,vpp.nidn,rk.namaruang,rk.kapasitas FROM kelas_mhs km JOIN v_pengampu_penyelenggaraan vpp ON (km.idpengampu_penyelenggaraan=vpp.idpengampu_penyelenggaraan) LEFT JOIN ruangkelas rk ON (rk.idruangkelas=km.idruangkelas) WHERE idsmt='$idsmt' AND tahun='$tahun' AND kjur='$kjur' ORDER BY hari ASC, km.nama_kelas ASC,vpp.nama_dosen ASC,nmatkul ASC";
                 $this->db->setFieldTable(array('idkelas_mhs','kmatkul','nmatkul','nama_dosen','idkelas','nidn','nama_kelas','hari','jam_masuk','jam_keluar','namaruang','kapasitas'));
                 $r = $this->db->getRecord($str);
                 
@@ -1868,6 +1868,6 @@ class Logic_ReportAkademik extends Logic_Report {
                 $this->printOut("jadwalkuliah$kjur");
             break;
         }
-
+        $this->setLink($this->dataReport['linkoutput'],"Jadwal Kuliah Program Studi $nama_ps T.A $tahun Semester $nama_semester");
     }
 }
