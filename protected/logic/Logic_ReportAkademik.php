@@ -1715,4 +1715,105 @@ class Logic_ReportAkademik extends Logic_Report {
         }
         $this->setLink($this->dataReport['linkoutput'],"Daftar Mahasiswa Daftar Ulang KELUAR");
     }
+    public function printJadwalKuliah ($objDMaster,$objDemik)
+    {
+        $kjur=$this->dataReport['kjur'];
+        $nama_ps=$this->dataReport['nama_prodi'];
+        $tahun=$this->dataReport['tahun'];
+        $nama_tahun=$this->dataReport['nama_tahun'];
+        $idsmt=$this->dataReport['idsmt'];
+        $nama_semester=$this->dataReport['nama_semester'];
+        switch ($this->getDriver()) {
+            case 'excel2003' :               
+            case 'excel2007' :    
+                $this->setHeaderPT('J'); 
+                $sheet=$this->rpt->getActiveSheet();
+                $this->rpt->getDefaultStyle()->getFont()->setName('Arial');                
+                $this->rpt->getDefaultStyle()->getFont()->setSize('9');                                    
+                
+                $sheet->mergeCells("A7:J7");
+                $sheet->getRowDimension(7)->setRowHeight(20);
+                $sheet->setCellValue("A7","JADWAL KULIAH");
+                $sheet->mergeCells("A8:J8");
+                $sheet->getRowDimension(8)->setRowHeight(20);
+                $sheet->setCellValue("A8","PROGRAM STUDI $nama_ps TAHUN AKADEMIK $nama_tahun SEMESTER $nama_semester");   
+                
+                $styleArray=array(
+                    'font' => array('bold' => true,
+                                    'size' => 16),
+                    'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                                       'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
+                );
+                $sheet->getStyle("A7:J9")->applyFromArray($styleArray);
+
+                $sheet->getRowDimension(11)->setRowHeight(25);                 
+                $sheet->getColumnDimension('A')->setWidth(10);
+                $sheet->getColumnDimension('B')->setWidth(15);
+                $sheet->getColumnDimension('C')->setWidth(40);
+                $sheet->getColumnDimension('D')->setWidth(15);
+                $sheet->getColumnDimension('E')->setWidth(50);
+                $sheet->getColumnDimension('F')->setWidth(20);
+                $sheet->getColumnDimension('G')->setWidth(10);
+                $sheet->getColumnDimension('H')->setWidth(20);
+                $sheet->getColumnDimension('I')->setWidth(15);
+                $sheet->getColumnDimension('J')->setWidth(15);                
+                
+                $sheet->setCellValue('A11','NO');
+                $sheet->setCellValue('B11','KODE');
+                $sheet->setCellValue('C11','NAMA MATAKULIAH');
+                $sheet->setCellValue('D11','NIDN');
+                $sheet->setCellValue('E11','NAMA DOSEN');
+                $sheet->setCellValue('F11','NAMA KELAS');
+                $sheet->setCellValue('G11','HARI');
+                $sheet->setCellValue('H11','JAM');
+                $sheet->setCellValue('I11','RUANG');
+                $sheet->setCellValue('J11','JUMLAH PESERTA');                
+                
+                $styleArray=array(
+                    'font' => array('bold' => true),
+                    'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                                       'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+                    'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
+                );
+                $sheet->getStyle("A11:J11")->applyFromArray($styleArray);
+                $sheet->getStyle("A11:J11")->getAlignment()->setWrapText(true);
+
+                $str = "SELECT km.idkelas_mhs,km.idkelas,km.nama_kelas,km.hari,km.jam_masuk,km.jam_keluar,vpp.kmatkul,vpp.nmatkul,vpp.nama_dosen,vpp.nidn,rk.namaruang,rk.kapasitas FROM kelas_mhs km JOIN v_pengampu_penyelenggaraan vpp ON (km.idpengampu_penyelenggaraan=vpp.idpengampu_penyelenggaraan) LEFT JOIN ruangkelas rk ON (rk.idruangkelas=km.idruangkelas) WHERE idsmt='$idsmt' AND tahun='$tahun' AND kjur='$kjur' ORDER BY hari ASC, km.nama_kelas ASC,vpp.nama_dosen ASC,nmatkul ASC";
+                $this->db->setFieldTable(array('idkelas_mhs','kmatkul','nmatkul','nama_dosen','idkelas','nidn','nama_kelas','hari','jam_masuk','jam_keluar','namaruang','kapasitas'));
+                $r = $this->db->getRecord($str);
+                
+                $row=12;
+                while (list($k,$v)=each($r)) {  
+                    $sheet->setCellValue("A$row",$v['no']);                    
+                    $sheet->setCellValue("B$row",$objDemik->getKMatkul($v['kmatkul']));                    
+                    $sheet->setCellValue("C$row",$v['nmatkul']);
+                    $sheet->setCellValue("D$row",$v['nidn']);                    
+                    $sheet->setCellValue("E$row",$v['nama_dosen']);                    
+                    $sheet->setCellValue("F$row",$objDMaster->getNamaKelasByID($v['idkelas']));
+                    $sheet->setCellValue("G$row",$this->tgl->getNamaHari($v['hari']));                    
+                    $sheet->setCellValue("H$row",$v['jam_masuk'].'-'.$v['jam_keluar']);                    
+                    $sheet->setCellValue("I$row",$v['namaruang']);   
+                    $jumlah_peserta_kelas=$this->db->getCountRowsOfTable('kelas_mhs_detail WHERE idkelas_mhs='.$v['idkelas_mhs'],'idkelas_mhs');
+                    $sheet->setCellValue("J$row",$jumlah_peserta_kelas);                    
+                    $row+=1;
+                }
+                $row-=1;
+                $styleArray=array(								
+                                    'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                                                       'vertical'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+                                    'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))
+                                );																					 
+                $sheet->getStyle("A12:J$row")->applyFromArray($styleArray);
+                $sheet->getStyle("A12:J$row")->getAlignment()->setWrapText(true);
+
+                $styleArray=array(								
+                    'alignment' => array('horizontal'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
+                );		
+                $sheet->getStyle("C12:C$row")->applyFromArray($styleArray);																			 
+                $sheet->getStyle("E12:E$row")->applyFromArray($styleArray);																			 
+                $this->printOut("jadwalkuliah$kjur");
+            break;
+        }
+        $this->setLink($this->dataReport['linkoutput'],"Jadwal Kuliah Program Studi $nama_ps T.A $tahun Semester $nama_semester");
+    }
 }

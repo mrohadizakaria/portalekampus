@@ -124,6 +124,19 @@
                 <header class="main-box-header clearfix">
                     <h2 class="pull-left"><i class="fa fa-sitemap"></i> Daftar Kelas yang Terbentuk</h2> 
                     <div class="filter-block pull-right">
+                        <com:TActiveLinkButton ID="btnPrintOut" OnClick="printOutJadwal" ClientSide.PostState="false" CssClass="btn btn-primary pull-left" Attributes.Title="Print Out Jadwal">
+                            <prop:Text><i class="fa fa-print fa-lg"></i></prop:Text>
+                            <prop:ClientSide.OnPreDispatch>
+                                $('loading').show();
+                            </prop:ClientSide.OnPreDispatch>
+                            <prop:ClientSide.OnLoading>
+                                $('<%=$this->btnPrintOut->ClientId%>').disabled='disabled';				
+                            </prop:ClientSide.OnLoading>
+                            <prop:ClientSide.OnComplete>
+                                $('<%=$this->btnPrintOut->ClientId%>').disabled='';				
+                                $('loading').hide();
+                            </prop:ClientSide.OnComplete>
+                        </com:TActiveLinkButton> 		
                         <a href="<%=$this->constructURl ('perkuliahan.DetailPembagianKelas',true)%>" class="btn btn-primary pull-right" title="Tambah Kelas">
                             <i class='fa  fa-plus-circle fa-lg'></i>
                         </a>                                                           
