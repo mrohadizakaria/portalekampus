@@ -21,11 +21,19 @@ class Logic_Mahasiswa extends Logic_Global {
     * @var $idx 
 	*/
 	public function getDataMHS ($idx=null) {
-        if ($idx === null) {
+        if ($idx === null) 
+        {
             return $this->DataMHS;
-        }else{
+        }
+        elseif(isset($this->DataMHS[$idx]))
+        {
             return $this->DataMHS[$idx];
-        }							
+        }
+        else
+        {
+            return 'N.A';
+        }
+        							
 	}
     /**
 	* apakah mahasiswa telah lulus SPMB
